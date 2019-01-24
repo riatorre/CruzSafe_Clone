@@ -1,13 +1,83 @@
+<!--
+    Arthur's foray into trying to make a text adventure site using pure HTML. 
+    Wish him luck.
+-->
+
 <!doctype html>
 <html lang = "eng">
     <head>
         <meta charset = "utf-8">
     </head>
     <body>
+
+        <div id='introduction'>
+            <p>Welcome to Arthur's Coding Challenge!<p><br />Let's 
+                see just how good you are at coding JavaScript, shall we?
+                The following is a very, very hard question that will prickle
+                the brains of the most elite level 100 senior software designer. 
+                I wish you luck.<br /><br /> <em>You'll need it.</em><br /><br />
+
+        <button id='ready'>Bring it!</button><br />
+        <button id='notReady'>No thanks.</button><br /><br />
+
+        <div id='emptyText'>
+
     <script>
-        
-        document.write("Hello, ", "W", "o","r","l","d","!", "<br />")
+        //document.write("Hello, ", "W", "o","r","l","d","!", "<br />")
+        // Typical hello world nonsense right here. 
+
+        // Modify text to bolden text.
+        var pElements = document.getElementsByTagName('p');
+        pElements[0].style.backgroundColor = '#FAEBD7';
+
+        // When notReady is clicked
+        document.getElementById('notReady').onclick = function(event){
+            alert('Goodbye!')
+            window.location.href = 'http://google.com'
+        }
+
+        // When ready is clicked
+        document.getElementById('ready').onclick = function(event){
+
+            // Prompt object.
+            var prompt = document.createElement('p');
+            var node = document.createTextNode("Fill in the blanks to print out hello world.\n"
+                + "(Don't be smart. Just give me the simplest answer.)\n");
+            prompt.appendChild(node)
+
+            // Prefix text.
+            var prefix = document.createElement('p');
+            var br = document.createElement('br');
+            prefix.append(document.createTextNode("\<!doctype html\>"));
+            prefix.append(br);
+            prefix.append(document.createTextNode('\<html lang = \'eng\'\>'));
+            prefix.append(br);
+            prefix.append(document.createTextNode('    \<head\>'));
+            prefix.append(br);
+            prefix.append(document.createTextNode('        \<meta charset = \'utf-8\'\>'));
+            prefix.append(br);
+            prefix.append(document.createTextNode('    \</head\>'));
+            prefix.append(br);
+            prefix.append(document.createTextNode('    \<body\>'));
+            prefix.append(br);
+            prefix.append(document.createTextNode('    \<script\>'));
+            prefix.append(br);
+            // Suffix text.
+            var suffix = document.createElement('p');
+            var suffixNode = document.createTextNode("    \</script\> \n    \</body\> \n\<html\>");
+            suffix.appendChild(suffixNode);
+
+            // Append the prompt.
+            var element = document.getElementById('emptyText')
+            element.appendChild(prompt)
+            // Append the prefix.
+            element.appendChild(prefix)
+
+            // Create a text field that the user can enter
+
+            // Append the Suffix
+        }
 
     </script>
     </body>
-</html>>
+</html>
