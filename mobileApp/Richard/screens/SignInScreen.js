@@ -1,32 +1,34 @@
 // SignInScreen.js
 
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, TextInput, View, Button, AsyncStorage, SafeAreaView } from 'react-native'
 
 export default class Login extends React.Component {
-	state = { name: '', errorMessage: null}
+	state = { username: '', errorMessage: null}
     static navigationOptions = {
 		title: 'Sign In',
 	};
 
-  render() {
-	const isDisabled = this.state.name.length === 0;
-    return (
-      <View style={styles.container}>
-		<TextInput
-			style={styles.textInput}
-			autoCapitalize='none'
-			placeholder='Name'
-			onChangeText={name=>this.setState({name})}
-			value={this.state.name}
-		/>
-        <Button title="Sign in!" disabled={isDisabled} onPress={this._signInAsync} />
-      </View>
-    );
-  }
+	render() {
+		const isDisabled = this.state.username.length === 0;
+		return (
+			<SafeAreaView style={{flex:1}}>
+				<View style={styles.container}>
+					<TextInput
+						style={styles.textInput}
+						autoCapitalize='none'
+						placeholder='Name'
+						onChangeText={username=>this.setState({username})}
+						value={this.state.username}
+					/>
+					<Button title="Sign in!" disabled={isDisabled} onPress={this._signInAsync} />
+				</View>
+			</SafeAreaView>
+		);
+	}
 
   _signInAsync = async () => {
-	await AsyncStorage.setItem('userToken', this.state.name);
+	await AsyncStorage.setItem('userToken', this.state.username);
 	this.props.navigation.navigate('App');
   };
 }

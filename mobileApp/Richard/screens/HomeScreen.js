@@ -4,6 +4,7 @@ import {Container, Header, Content, Footer, Left, Right, Body, Icon} from 'nativ
 
 class HomeScreen extends Component{
 	static navigationOptions = {
+		drawerLabel: 'Home',
 		drawerIcon : ({ tintColor}) => (
 			<Icon name="home" style={{fontSize:24, color:tintColor}}/>
 		)
@@ -22,9 +23,6 @@ class HomeScreen extends Component{
 						<Right />
 					</Header>
 					<Content contentContainerStyle={styles.container}>
-						<Text style={{fontSize:36}}>Welcome to</Text>
-						<Image source={require('../assets/images/SCPD_Logo.png')} />
-						<Text style={{fontSize:36}}>CruzSafe</Text>
 					</Content>
 					<Footer style={styles.footer}>
 						<Left style={{flex:1, alignItems: 'center', justifyContent: 'center'}}/>
