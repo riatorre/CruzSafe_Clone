@@ -1,0 +1,52 @@
+/* 
+    Arthur's attempt at making things "pretty" via CSS 
+    Note the quotes around the word pretty.
+*/
+
+h3 {
+    border-bottom: 1px solid rgb(0,0,0);
+    text-align: center;
+}
+
+.column{
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#name{
+    text-align: center;
+    color: blueviolet;
+}
+
+#name:hover{
+    color: red;
+}
+
+#addressBox{
+    text-align: center;
+}
+
+#skills{
+    text-align: center;
+}
+
+button{
+    float: left;
+    width: 25%;
+}
+
+#hire:hover{
+    color: green;
+    cursor:pointer;
+}
+
+#nohire:hover{
+    color: red;
+    cursor:pointer;
+}

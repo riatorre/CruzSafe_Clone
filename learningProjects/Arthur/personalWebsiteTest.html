@@ -14,27 +14,28 @@
 
         <!--Link to an external Style Sheet To prettify the website-->
         <link rel="stylesheet" type="text/css" href="stylemain.css">
+        
     </head>
 
     <body>
         <!--Heading-->
         <div class="row">
-            <div class = "column">
+            <div class = "column" id = "name">
                 <h1>Arthurlot Li</h1>
             </div>
-            <div class = "column">
+            <div class = "column" id = "addressBox">
                 <p>ali64@ucsc.edu - (555) 555-555</br>555 Western Drive</br>Santa Cruz, CA 95060</p>
             </div>
         </div>
 
         <!--First Column Pair-->
         <div class="row">
-            <div class = "column">
+            <div class = "column" id = "education">
                 <!--Education-->
                 <h3>Education</h3>
                 <p>Went to pre-school.<br>Went to elementary school.<br>Went to Hogwarts<br>Went to high school<br>Went to UCSC.</p>
             </div>
-            <div class = "column">
+            <div class = "column" id = "projectHistory">
                 <!--Project History-->
                 <h3>Project History</h3>
                 <p>Worked on a few apps<br>Worked on a few webapps<br>Tried to draw a dog once. It didn't go well.</p>
@@ -43,7 +44,7 @@
 
         <!--Single Line-->
         <div class = "row">
-            <div class = "column">
+            <div id = "skills">
                 <!--Skills-->
                 <h3>Skills</h3>
                 <p>Spent most of childhood with head in video games<br>(Is that a skill? I mean, I was pretty good at Maplestory back in the day...)<br>Can code something.<br>(I think.)</p>
@@ -52,7 +53,7 @@
 
         <!--Second Column Pair-->
         <div class = "row">
-            <div class = "column">
+            <div class = "column" id = "communityAndContacts">
                 <!--Community-->
                 <h3>Community</h3>
                 <p>I mean theoretically, if you're on the emailing list of a club, aren't you joined? Technically?</p>
@@ -60,12 +61,32 @@
                 <h3>Contacts</h3>
                 <p>I hate contacts. I have the idea of 'em, I hate the feel of 'em, I hate everything about 'em. (-Says a person who's never tried contacts)</p>
             </div>
-            <div class = "column">
+            <div class = "column" id = "workExperience">
                 <!--Work Experience-->
                 <h3>Work Experience</h3>
                 <p>Laughs in unemployment.</p>
             </div>
         </div>
+
+        
+        <div id = "buttons">
+            <button id='hire'>Hire!</button>
+            <button id='nohire'>Dont Hire...</button><br>
+        </div>
+
+        <script>
+            // Code for when a user hires me!
+            document.getElementById('hire').onclick = function(event){
+                alert('You\'ve hired Arthur! Congrats!')
+                window.location.href = 'https://www.businessnewsdaily.com/images/i/000/001/858/original/profit.jpg?1331832703'
+            }
+
+            // Code for when a user decides not to hire me.
+            document.getElementById('nohire').onclick = function(event){
+                alert('Come on, really? But my resume was perfect!')
+                window.location.href = 'https://i.pinimg.com/236x/0b/ed/68/0bed682f924ca21ae56a0b704c357ffb--programming-memes.jpg'
+            }
+        </script>
         
     </body>
 </html>
