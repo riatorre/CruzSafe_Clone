@@ -1,0 +1,280 @@
+<!--
+	Implementation of Basic Profile System.
+	Does not Authenticate; simply provides a means to determine if current user is 'signed in'
+	Utilizes sessionStorage to store signed in user's username; should be deleted when user closes browser or logs out.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<link href="../stylesheets/CruzSafe_StyleSheet_Main.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<a id='loginBtn' onclick="document.getElementById('loginModal').style.display='block'" style="width:auto;">Login</a>
+<a id='signupBtn' onclick="document.getElementById('signupModal').style.display='block'" style="width:auto;">Sign Up</a>
+
+<div id="loginModal" class="modal">
+  
+  <form class="modal-content animate" method='POST'>
+	<center>
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('loginModal').style.display='none'" class="close" title="Close Modal"><i class="fa fa-times"></i></span>
+    </div>
+
+    <div class="container">
+      <label for="username"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="username" id="username"></input>
+
+      <label for="password"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="password" id="password"></input>
+        
+      <button type='button' class="btn blue rounded" onClick="login()">Login</button>
+      <label>
+        <input type="checkbox" name="remember" id="remember"></input> Remember me
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('loginModal').style.display='none'" class="btn red rounded">Cancel</button>
+    </div>
+	</center>
+  </form>
+</div>
+<div id="signupModal" class="modal">
+	<form class="modal-content animate" method='POST'>
+	<center>
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('signupModal').style.display='none'" class="close" title="Close Modal"><i class="fa fa-times"></i></span>
+    </div>
+
+    <div class="container">
+      <label for="signupusername"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="signupusername" id="signupusername"></input>
+
+      <label for="signuppassword"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="signuppassword" id="signuppassword"></input>
+	  
+	  <label for="C_password"><b>Confirm Password</b></label>
+      <input type="password" placeholder="Confirm Password" name="C_password" id="C_password"></input>
+        
+      <button type='button' class="btn blue rounded" onClick="signup()">Sign up</button>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('signupModal').style.display='none'" class="btn red rounded">Cancel</button>
+    </div>
+	</center>
+  </form>
+</div>
+<script>
+var username_min_length = 4;
+var password_min_length = 6;
+
+var loginModal = document.getElementById('loginModal');
+var loginBtn = document.getElementById('loginBtn');
+var signupModal = document.getElementById('signupModal');
+var signupBtn = document.getElementById('signupBtn');
+var usernameInput = document.getElementById('username');
+var remCheck = document.getElementById('remember');
+
+// Grabs library containing functions related to cookies
+// Updates form to include remembered username, if a cookie for it exists.
+// Throws an error if somehow unable to grab the file
+$.getScript('./libs/CookieLib.js')
+	.done(function() {
+		usernameInput.setAttribute('value', getCookie('username'));
+		if(getCookie('username') !== '') remCheck.setAttribute('checked', 'true');
+	})
+	.fail(function() {
+		alert("An error has occurred. Please try to reload the page. If problem persists, please contact Technical Support");
+	});
+
+// manages login and logout buttons to appear/disappear depending on the login state the user is in when they arrive
+if(typeof sessionStorage.username !== 'undefined'){
+	loginBtn.setAttribute('onClick', 'logout()');
+	loginBtn.innerHTML = 'Logout';
+	signupBtn.style.display = "none";
+}	
+	
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+	if (event.target == loginModal) {
+		loginModal.style.display = "none";
+	}
+	if (event.target == signupModal) {
+		signupModal.style.display = "none";
+	}
+}
+
+// For now, logs user in by storing username in sessionStorage
+function login(){
+	var username = document.getElementById('username').value;
+	sessionStorage.setItem('username', username);
+	if(remCheck.checked){
+		setCookie('username', username, 365);
+	}else{
+		deleteCookie('username');
+	}
+	loginModal.style.display = "none";
+	loginBtn.setAttribute('onClick', 'logout()');
+	loginBtn.innerHTML = 'Logout';
+	signupBtn.style.display = "none";
+}
+
+function signup(){
+	var username = document.getElementById('signupusername').value;
+	var password = document.getElementById('signuppassword').value;
+	var C_password = document.getElementById('C_password').value;
+	if(username == ''){
+		// Temporary Handler
+		alert('Please enter a Username');
+	}else{
+		if(username.length < username_min_length){
+			// Temporary Handler
+			alert('Username must be at least '+username_min_length+' characters long');
+		}else{
+			var username_RE = /^\w+$/;
+			if(!username_RE.test(username)){
+				// Temporary Handler
+				alert('Username must contain only numbers, letters, and underscores');
+			}else{
+				if(password===C_password){
+					if(password.length < password_min_length){
+						// Temporary Handler
+						alert('Password must be of at least '+password_min_length+' characters long');
+					}else{
+						var formData ={
+							username : $("#signupusername").val(),
+							password : $("#signuppassword").val()
+						}
+						// AJAX request to submit to database
+						$.ajax({
+							type: 'POST',
+							contentType : 'application/json',
+							data: JSON.stringify(formData),
+							success: function(response){
+								sessionStorage.setItem('username', username);
+								signupModal.style.display = "none";
+								loginBtn.setAttribute('onClick', 'logout()');
+								loginBtn.innerHTML = 'Logout';
+								signupBtn.style.display = "none";
+							},
+							error: function(){
+								// Implement Error Handling Here
+							}
+						});
+					}
+				}else{
+					//Temporary Handler
+					alert('passwords do not match');
+				}
+			}
+		}
+	}
+}
+
+// For now, logout clears the session and reloads page to clear input cached into login form
+function logout(){
+	sessionStorage.clear();
+	location.reload();
+}
+</script>
+
+</body>
+</html>
