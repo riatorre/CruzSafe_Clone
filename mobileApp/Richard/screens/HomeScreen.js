@@ -1,8 +1,21 @@
 import React, {Component} from 'react';
-import {StatusBar, View, Text, StyleSheet, AsyncStorage, SafeAreaView, Image, TouchableOpacity, Linking, Platform} from 'react-native';
+import {StatusBar, View, Text, StyleSheet, AsyncStorage, SafeAreaView, Image, TouchableOpacity, Linking, Platform, Modal, Button} from 'react-native';
 import {Container, Header, Content, Footer, Left, Right, Body, Icon} from 'native-base';
 
 class HomeScreen extends Component{
+	state = {
+		reportModalVisible: false,
+		cameraModalVisible: false,
+	};
+	
+	setReportModalVisible(visible) {
+		this.setState({reportModalVisible: visible});
+	}
+	
+	setCameraModalVisible(visible) {
+		this.setState({cameraModalVisible: visible});
+	}
+	
 	static navigationOptions = {
 		drawerLabel: 'Home',
 		drawerIcon : ({ tintColor}) => (
@@ -38,12 +51,13 @@ class HomeScreen extends Component{
 								margin:5
 							}}
 							onPress={()=>{
-								var url = Platform.OS === 'ios' ? 'telprompt:' : 'tel:'+"911";
+								var url = (Platform.OS === 'ios' ? 'telprompt:' : 'tel:')+"911";
+								console.log(url);
 								return Linking.canOpenURL(url).then(canOpen => {
 									if(canOpen){
 										return Linking.openURL(url).catch((err) => Promise.reject(err))
 									}else{
-										Promise.reject(new Error('invalid URL provided ${url}'));
+										Promise.reject(new Error('invalid URL provided '+url));
 									}
 								});
 							}}>
@@ -62,12 +76,12 @@ class HomeScreen extends Component{
 								margin:5
 							}}
 							onPress={()=>{
-								var url = Platform.OS === 'ios' ? 'telprompt:' : 'tel:'+"8314592231";
+								var url = (Platform.OS === 'ios' ? 'telprompt:' : 'tel:')+"8314592231";
 								return Linking.canOpenURL(url).then(canOpen => {
 									if(canOpen){
 										return Linking.openURL(url).catch((err) => Promise.reject(err))
 									}else{
-										Promise.reject(new Error('invalid URL provided ${url}'));
+										Promise.reject(new Error('invalid URL provided '+url));
 									}
 								});
 							}}>
@@ -85,7 +99,9 @@ class HomeScreen extends Component{
 								borderRadius:100,
 								margin:5
 							}}
-							onPress={() =>{console.log('Report has been selected')}}>
+							onPress={() =>{
+								this.setReportModalVisible(true);
+							}}>
 							<Text>Report</Text>
 						</TouchableOpacity>
 						</View>
@@ -98,12 +114,71 @@ class HomeScreen extends Component{
 						<Right style={{flex:1, alignItems: 'center', justifyContent: 'center'}}/>
 					</Footer>
 				</Container>
+				<Modal
+					animationType="slide"
+					transparent={false}
+					visible={this.state.reportModalVisible}
+					onRequestClose={() => {
+						this.setReportModalVisible(!this.state.reportModalVisible);
+					}}>
+					<Container>
+						<Header style={styles.header_modal}>
+							<Left />
+							<Body />
+							<Right />
+						</Header>
+						<Content contentContainerStyle={styles.container}>
+							<Button title="Open Camera" onPress={()=>{
+								this.setCameraModalVisible(true);
+							}}/>
+							<Button title="Close" onPress={()=>{
+								this.setReportModalVisible(!this.state.reportModalVisible);
+							}}/>
+						</Content>
+						<Footer style={styles.footer}>
+							<Left style={{flex:1, alignItems: 'center', justifyContent: 'center'}}/>
+							<Body style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+								<Text style={styles.footer_text}>CruzSafe</Text>
+							</Body>
+							<Right style={{flex:1, alignItems: 'center', justifyContent: 'center'}}/>
+						</Footer>
+						<Modal
+							animationType="slide"
+							transparent={false}
+							visible={this.state.cameraModalVisible}
+							onRequestClose={() => {
+								this.setCameraModalVisible(!this.state.cameraModalVisible);
+							}}>
+							<Container>
+								<Header style={styles.header_modal}>
+									<Left />
+									<Body />
+									<Right />
+								</Header>
+								<Content contentContainerStyle={styles.container}>
+									<Text>Camera</Text>
+									<Button title="Close" onPress={()=>{
+										this.setCameraModalVisible(!this.state.cameraModalVisible);
+									}}/>
+								</Content>
+								<Footer style={styles.footer}>
+									<Left style={{flex:1, alignItems: 'center', justifyContent: 'center'}}/>
+									<Body style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+										<Text style={styles.footer_text}>CruzSafe</Text>
+									</Body>
+									<Right style={{flex:1, alignItems: 'center', justifyContent: 'center'}}/>
+								</Footer>
+							</Container>
+						</Modal>
+					</Container>
+				</Modal>
 			</SafeAreaView>
 		);
 	}
 	
 	// Did not work for unknown reasons.
 	// Left for revision later
+	// Modal does not appear to be working either...
 	
 	openLink = (url) =>{
 		return Linking.canOpenURL(url).then(canOpen => {
@@ -138,6 +213,9 @@ const styles = StyleSheet.create({
   },
   header: {
 	height: 75,
+	backgroundColor: '#336'
+  },
+  header_modal: {
 	backgroundColor: '#336'
   },
   footer: {
