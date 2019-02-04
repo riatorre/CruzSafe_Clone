@@ -52,7 +52,6 @@ class HomeScreen extends Component{
 							}}
 							onPress={()=>{
 								var url = (Platform.OS === 'ios' ? 'telprompt:' : 'tel:')+"911";
-								console.log(url);
 								return Linking.canOpenURL(url).then(canOpen => {
 									if(canOpen){
 										return Linking.openURL(url).catch((err) => Promise.reject(err))
