@@ -5,11 +5,6 @@ class Counter extends Component {
     value: this.props.value
   };
 
-  // constructor() {
-  //  super();
-  //  this.handleIncrement = this.handleIncrement.bind(this);
-  // }
-
   handleIncrement = () => {
     this.setState({ value: this.state.value + 1 });
   };
@@ -25,6 +20,12 @@ class Counter extends Component {
           className="btn btn-secondary btn-sm"
         >
           Increment
+        </button>
+        <button
+          onClick={() => this.props.onDelete(this.props.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Delete
         </button>
       </div>
     );
