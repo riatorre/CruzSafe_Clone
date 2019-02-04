@@ -1,0 +1,85 @@
+<!DOCTYPE html> <!-- Comment here -->
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="js.js"></script>
+    <meta charset="UTF-8">
+    <title>CMPS116</title>
+</head>
+<body style="text-align:center;background-color: darkseagreen">
+<ul>
+    <li><a href="https://www.google.com">G</a></li>
+    <li><a href="https://www.google.com">O</a></li>
+    <li><a href="https://www.google.com">O</a></li>
+    <li><a href="https://www.google.com">L</a></li>
+    <li><a href="https://www.google.com">E</a></li>
+</ul>
+
+<p><a href="#format">Jump to text format</a></p>
+<hr>
+
+<h1 style="font-size:60px;font-family: 'Birch Std',cursive" title="This heading's font size is 60px">Learning HTML5</h1>
+<hr>
+
+<h3 id="bing">Search</h3>
+<iframe height="500px" width="50%" src="knight.jpg" name="iframe_a"></iframe>
+<p style="font-size: 40px"><a style="color: gold" href="https://www.bing.com" target="iframe_a">Click to change the above image</a></p>
+<hr>
+
+<div align="center">
+    <div id="googleMap" style="width:60%;height:700px;"></div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPjBpJNZc-V0AC-7Wz3rIuAyH_3HFibW0&callback=myMap"></script>
+<hr>
+
+<h3>Button</h3>
+<button type="button" onclick="myFunction()">Click me to change the following text</button>
+<p id="button">This will be changed by JavaScript</p>
+<hr>
+
+<button onclick="getLocation()">Get location</button>
+<p id="location"></p>
+<hr>
+
+<h3 id="format">Different <ins>text</ins> Format</h3>
+<p id="for">
+    <b>bold</b><br>
+    <em>emphasize</em><br>
+    <i>italic</i><br>
+    <small>small</small><br>
+    <strong>strong</strong><br>
+    <sub>subscripted</sub><br>
+    <sup>superscripted</sup><br>
+    <ins>inserted</ins><br>
+    <del>deleted</del><br>
+    <mark>marked</mark>
+</p>
+<hr>
+
+<h3 title="Link">Open link in different ways</h3>
+<a href="https://www.google.com" title="Click to direct to google" target="_parent">parent</a>
+<br>
+<a href="https://www.google.com" title="Click to direct to google" target="_blank">blank</a>
+<br>
+<a href="https://www.google.com" title="Click to direct to google" target="_self">self</a>
+<br>
+<a href="https://www.google.com" title="Click to direct to google" target="_top">top</a>
+<br>
+<a href="https://www.google.com">
+    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" alt="Google.com" style="width:120px;height:42px;border:0">
+</a>
+<hr>
+
+<h3>Image Maps</h3>
+<p>Click on the computer, the phone, or the cup of coffee to go to a new page and read more about the topic:</p>
+
+<img src="https://www.w3schools.com/html/workplace.jpg" alt="Workplace" usemap="#workmap" style="width:400px;height: 379px">
+
+<map name="workmap">
+    <area shape="rect" coords="34,44,270,350" alt="Computer" href="https://www.w3schools.com/html/computer.htm">
+    <area shape="rect" coords="290,172,333,250" alt="Phone" href="https://www.w3schools.com/html/phone.htm">
+    <area shape="circle" coords="337,300,44" alt="Cup of coffee" href="https://www.w3schools.com/html/coffee.htm">
+</map>
+
+</body>
+</html>
