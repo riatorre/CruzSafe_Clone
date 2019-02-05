@@ -17,7 +17,7 @@ class WelcomeScreen extends Component{
 						<Content contentContainerStyle={styles.container}>
 							<Text style={{fontSize:36}}>Welcome to</Text>
 							<Image source={require('../assets/images/SCPD_Logo.png')} style={{width:200, height:200}}/>
-							<Text style={{fontSize:36}}>CruzSafe</Text>
+							<Text style={{fontSize:36}}>CruzSafe!</Text>
 						</Content>
 						<Footer style={styles.footer}></Footer>
 					</Container>

@@ -21,8 +21,8 @@ const CustomDrawerComponent = (props) => (
 export default createDrawerNavigator({
 	Home:HomeScreen,
 	Links:LinksScreen,
-	Settings:SettingsScreen,
-	AdditionalInfo: AdditionalInfoScreen
+	AdditionalInfo: AdditionalInfoScreen,
+	Settings:SettingsScreen
 },{
 	contentComponent: CustomDrawerComponent,
 	contentOptions:{
