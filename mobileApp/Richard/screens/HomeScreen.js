@@ -1,3 +1,12 @@
+/*
+	Primary screen of the application. 
+	Primary components include calling 911, calling non-emergency, and sending a report.
+
+	Secondary components include buttons to lead to supplemental UCSC police info. 
+
+	Also includes navigation to AdditionalInfoScreen, etc.
+*/
+
 import React, {Component} from 'react';
 import {StatusBar, View, Text, StyleSheet, AsyncStorage, SafeAreaView, Image, TouchableOpacity, Linking, Platform, Modal, Button} from 'react-native';
 import {Container, Header, Content, Footer, Left, Right, Body, Icon} from 'native-base';
