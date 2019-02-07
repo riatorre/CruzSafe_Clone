@@ -1,0 +1,40 @@
+/*
+    Stylesheet for Analytics.html
+*/
+.row {
+    display: flex;
+}
+
+#column1 {
+    flex: 35%;
+}
+#column2 {
+    flex: 65%;
+}
+
+#analyticsGraph {
+    width: 90%;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 20px;
+    margin-bottom: 5%;
+    height: auto;
+}
+
+#analyticsOptions {
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-bottom: 5%;
+    flex: 15%;
+    margin-right: 40px;
+    height: 80%;
+    border: 3px solid black;
+}
+
+#analyticsOptions > p {
+    color: white;
+}
+
+#analyticsOptions > h1 {
+    color: white;
+}

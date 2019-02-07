@@ -63,6 +63,10 @@
     color: red;
 }
 
+#reportStatusGood {
+    color: greenyellow;
+}
+
 #responseButtons > button {
     font-size: 20px;
     margin-left: 50px;
