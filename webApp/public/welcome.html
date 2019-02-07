@@ -21,6 +21,11 @@
         <meta charset="utf-8" />
         <title>CruzSafe - Welcome</title>
 
+        <link
+            href="./stylesheets/cruzSafe_StyleSheet_Main.css"
+            type="text/css"
+            rel="stylesheet"
+        />
         <!--Connect document to CSS Stylesheet-->
         <link
             href="./stylesheets/welcome.css"
@@ -85,45 +90,48 @@
                 <h1>UCSC 211</h1>
             </div>
         </center>
-        <!--Login Button-->
+        <!--Login Process-->
         <center>
             <!--The actual button-->
-            <button id="loginButton">Login</button>
+            <button id="loginButton" onclick="displayLogin()">Login</button>
             <!--Pop-up Modal for login conditions-->
             <div id="loginTerms" class="modal">
-                <div class="loginTermsContent">
+                <div id="loginTermsContent" class="modal-content">
                     <p>
                         Please confirm that you are authorized to use this
-                        application. This site is an interface for police users
-                        only. If you wish to make your own report, please
-                        download the CruzSafe mobile application. Thank you.
+                        application.<br /><br />
+                        This site is an interface designed for police users
+                        only. If you are a civillan, and wish to make
+                        non-emergency reports to the UC Santa Cruz Police
+                        Department, please download the CruzSafe mobile
+                        application, available in the Google Play Store or the
+                        iOS App Store.<br />
+                        <br />
+                        Thank you for your cooperation.
                     </p>
                     <br />
-                    <button id="denyLogin">Deny</button>
+                    <button id="denyLogin" onclick="hideLogin()">Deny</button>
                     <button id="confirmLogin">Confirm</button>
                 </div>
             </div>
         </center>
+        <!--Login Process Code-->
         <script>
-            const loginModal = document.getElementById("loginTerms");
-            const loginButton = document.getElementById("loginButton");
-            const denyButton = document.getElementById("denyLogin");
-            const confirmButton = document.getElementById("confirmLogin");
-
-            loginButton.onClick = function() {
-                loginModal.style.display = "block";
-            };
-
-            denyButton.onClick = function() {
-                loginModal.style.display = "none";
-            };
-
-            // If user clicks anywehre outside of modal, close it if opened
+            var modal = document.getElementById("loginTerms");
+            function displayLogin() {
+                modal.style.display = "block";
+            }
+            function hideLogin() {
+                modal.style.display = "none";
+            }
             window.onclick = function(event) {
-                if (event.target == loginModal) {
+                if (event.target == modal) {
                     modal.style.display = "none";
                 }
             };
+            /*function startLogin() {
+
+            }*/
         </script>
     </body>
 </html>
