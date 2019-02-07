@@ -1,10 +1,8 @@
 import React from "react";
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StyleSheet,
-  View
-} from "react-native";
+import { ActivityIndicator, AsyncStorage, View } from "react-native";
+
+import styles from "../components/styles.js";
+
 export default class AuthLoadingScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -24,11 +22,3 @@ export default class AuthLoadingScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: "#fff"
-  }
-});

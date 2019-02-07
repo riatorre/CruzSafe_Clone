@@ -31,6 +31,8 @@ import {
   Icon
 } from "native-base";
 
+import styles from "../components/styles.js";
+
 class AdditionalInfoScreen extends Component {
   static navigationOptions = {
     drawerLabel: "Additional Info",
@@ -87,33 +89,3 @@ class AdditionalInfoScreen extends Component {
   }
 }
 export default AdditionalInfoScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#CCC",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  header: {
-    height: 75,
-    backgroundColor: "#336"
-  },
-  footer: {
-    backgroundColor: "#336"
-  },
-  icon: {
-    color: "silver",
-    marginLeft: 10,
-    marginTop: StatusBar.currentHeight
-  },
-  header_text: {
-    marginTop: StatusBar.currentHeight,
-    color: "white",
-    fontSize: 20
-  },
-  footer_text: {
-    color: "white",
-    fontSize: 20
-  }
-});
