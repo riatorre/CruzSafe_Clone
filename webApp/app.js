@@ -5,17 +5,22 @@
 
 "use strict";
 
-// Custom Console that automatically provides a timestamp to all messages.
-var myConsole = require("./customConsole");
+// Importing express.js to handle web server(s)
+var express = require("express");
+
 var bodyParser = require("body-parser");
+
+// Custom Console that automatically provides a timestamp to all messages.
+var myConsole = require("./backend/customConsole");
+
+// Importing Database Connection
+var connection = require("./backend/config");
 
 // Variables for HTTP and HTTPS servers
 var hostname = "127.0.0.1";
 var HTTP_port = 8080; // Testing Port, traditionally '80'
 var HTTPS_port = 8443; // Testing Port, traditionally '443'
 
-// Importing express.js to handle web server(s)
-var express = require("express");
 var app = express();
 
 // Importing HTTP and HTTPS
@@ -23,8 +28,6 @@ var http = require("http");
 var https = require("https");
 // Importing Local File System
 var fs = require("fs");
-// Importing Database Connection
-var connection = require("./config");
 
 // Importing certificates for HTTPS to function. Certificates are self-signed with OpenSSL.
 // Certificates will need to be updated before release, as current are self-signed
