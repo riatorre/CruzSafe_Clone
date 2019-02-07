@@ -1,3 +1,8 @@
+/*
+ * LinksScreen.js
+ * A Screen for displaying useful links to the user
+ */
+
 import React, { Component } from "react";
 import { Text, SafeAreaView, Platform } from "react-native";
 import {
@@ -28,6 +33,7 @@ class LinksScreen extends Component {
                 <Container>
                     <Header style={styles.header}>
                         <Left>
+                            {/* Icon used to open Side Drawer */}
                             <Icon
                                 name={`${
                                     Platform.OS === "ios" ? "ios" : "md"
@@ -39,10 +45,12 @@ class LinksScreen extends Component {
                             />
                         </Left>
                         <Body>
+                            {/* Center of Header */}
                             <Text style={styles.header_text}>Links</Text>
                         </Body>
                         <Right />
                     </Header>
+                    {/* Main Body */}
                     <Content contentContainerStyle={styles.container}>
                         <Text>Links</Text>
                     </Content>
@@ -61,6 +69,7 @@ class LinksScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
+                            {/* Center of Footer */}
                             <Text style={styles.footer_text}>CruzSafe</Text>
                         </Body>
                         <Right

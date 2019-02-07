@@ -34,6 +34,7 @@ class SettingsScreen extends Component {
                 <Container>
                     <Header style={styles.header}>
                         <Left>
+                            {/* Icon used to open Side Drawer */}
                             <Icon
                                 name={`${
                                     Platform.OS === "ios" ? "ios" : "md"
@@ -82,6 +83,7 @@ class SettingsScreen extends Component {
         );
     }
 
+    // Function used to 'sign out' user. Clears AsyncStorage of all values
     _signOutAsync = async () => {
         await AsyncStorage.clear();
         this.props.navigation.navigate("Auth");

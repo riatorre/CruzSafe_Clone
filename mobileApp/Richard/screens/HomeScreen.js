@@ -34,6 +34,8 @@ import {
 import styles from "../components/styles.js";
 
 class HomeScreen extends Component {
+    // State that should be used to record Report details & handle Modal Visibility.
+    // Add, Update, or Remove entries as needed
     state = {
         reportModalVisible: false,
         cameraModalVisible: false
@@ -63,6 +65,7 @@ class HomeScreen extends Component {
                 <Container>
                     <Header style={styles.header}>
                         <Left>
+                            {/* Icon used to open Side Drawer */}
                             <Icon
                                 name={`${
                                     Platform.OS === "ios" ? "ios" : "md"
@@ -79,7 +82,9 @@ class HomeScreen extends Component {
                         <Right />
                     </Header>
                     <Content contentContainerStyle={styles.container}>
+                        {/* Traffic Light */}
                         <View style={styles.traffic_light}>
+                            {/* Emergency Light */}
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 1,
@@ -119,6 +124,7 @@ class HomeScreen extends Component {
                             >
                                 <Text>Emergency</Text>
                             </TouchableOpacity>
+                            {/* Urgent Light */}
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 1,
@@ -158,6 +164,7 @@ class HomeScreen extends Component {
                             >
                                 <Text>Urgent</Text>
                             </TouchableOpacity>
+                            {/* Report Light */}
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 1,
@@ -204,6 +211,7 @@ class HomeScreen extends Component {
                         />
                     </Footer>
                 </Container>
+                {/* Report Modal */}
                 <Modal
                     animationType="slide"
                     transparent={false}
@@ -221,6 +229,9 @@ class HomeScreen extends Component {
                             <Right />
                         </Header>
                         <Content contentContainerStyle={styles.container}>
+                            {/* Report Body goes here. Currently has
+                                a dropdown menu & a text field
+                            */}
                             <Text style={{ fontSize: 24 }}>Incident Type</Text>
                             <View style={styles.picker_view}>
                                 <Picker
@@ -261,12 +272,14 @@ class HomeScreen extends Component {
                                 }
                                 value={this.state.incidentDesc}
                             />
+                            {/* Button that allows Camera (Modal) to be opened */}
                             <Button
                                 title="Open Camera"
                                 onPress={() => {
                                     this.setCameraModalVisible(true);
                                 }}
                             />
+                            {/* Button that allows Modal to be closed */}
                             <Button
                                 title="Close"
                                 onPress={() => {
@@ -301,6 +314,7 @@ class HomeScreen extends Component {
                                 }}
                             />
                         </Footer>
+                        {/* Camera Modal. May be replaced with direct connection to camera */}
                         <Modal
                             animationType="slide"
                             transparent={false}

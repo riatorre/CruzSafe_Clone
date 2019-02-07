@@ -13,6 +13,7 @@ import Swiper from "react-native-swiper";
 import styles from "../components/styles.js";
 
 class WelcomeScreen extends Component {
+    // State of the screen; maintained as long as app is not fully closed.
     state = { username: "", errorMessage: null };
 
     render() {
@@ -24,6 +25,7 @@ class WelcomeScreen extends Component {
                     loop={false}
                     showsPagination={false}
                 >
+                    {/* First Screen; Welcome Logo */}
                     <Container>
                         <Header style={styles.header} />
                         <Content contentContainerStyle={styles.container}>
@@ -36,6 +38,7 @@ class WelcomeScreen extends Component {
                         </Content>
                         <Footer style={styles.footer} />
                     </Container>
+                    {/* Second Screen; Login */}
                     <Container>
                         <Header style={styles.header} />
                         <Content contentContainerStyle={styles.container}>
@@ -64,6 +67,7 @@ class WelcomeScreen extends Component {
         );
     }
 
+    // Function used to 'sign' user in. Stores name into AsyncStorage
     _signInAsync = async () => {
         await AsyncStorage.setItem("userToken", this.state.username);
         this.props.navigation.navigate("App");

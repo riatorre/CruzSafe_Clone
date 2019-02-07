@@ -4,11 +4,16 @@ import {
     createStackNavigator
 } from "react-navigation";
 
+//Main App
 import MainTabNavigator from "./MainTabNavigator";
+// Screen for Authentication
 import WelcomeScreen from "../screens/WelcomeScreen";
+// Screen for determining if (Re-)Authentication is needed
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 
+// The Main App. Edit MainTabNavigator if you wish to add more screens to Main App
 const AppStack = MainTabNavigator;
+// The Authentication Portion of the App.
 const AuthStack = createStackNavigator(
     { Welcome: WelcomeScreen },
     { headerMode: "none" }

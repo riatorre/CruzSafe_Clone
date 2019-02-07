@@ -26,8 +26,11 @@ import {
 import styles from "../components/styles.js";
 
 class AdditionalInfoScreen extends Component {
+    // Defining how the Drawer Button appears
     static navigationOptions = {
+        // Drawer Name
         drawerLabel: "Additional Info",
+        // Drawer Icon
         drawerIcon: ({ tintColor }) => (
             <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-contact`}
@@ -41,6 +44,7 @@ class AdditionalInfoScreen extends Component {
                 <Container>
                     <Header style={styles.header}>
                         <Left>
+                            {/* Icon used to open Side Drawer */}
                             <Icon
                                 name={`${
                                     Platform.OS === "ios" ? "ios" : "md"
@@ -52,13 +56,16 @@ class AdditionalInfoScreen extends Component {
                             />
                         </Left>
                         <Body>
+                            {/* Center of Header */}
                             <Text style={styles.header_text}>
                                 Additional Info
                             </Text>
                         </Body>
                         <Right />
                     </Header>
-                    <Content contentContainerStyle={styles.container} />
+                    <Content contentContainerStyle={styles.container}>
+                        {/* Body of Screen */}
+                    </Content>
                     <Footer style={styles.footer}>
                         <Left
                             style={{
@@ -74,6 +81,7 @@ class AdditionalInfoScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
+                            {/* Center of Footer */}
                             <Text style={styles.footer_text}>CruzSafe</Text>
                         </Body>
                         <Right
