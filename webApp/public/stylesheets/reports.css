@@ -21,6 +21,11 @@
 
 #filterOptions > p {
     display: inline;
+    color: white;
+}
+
+#filterOptions > h1 {
+    color: white;
 }
 
 #reportColumn {
