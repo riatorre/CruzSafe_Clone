@@ -23,7 +23,7 @@
 
         <!--Connect document to CSS Stylesheet-->
         <link
-            href="./stylesheets/cruzSafe_StyleSheet_Main.css"
+            href="./stylesheets/welcome.css"
             type="text/css"
             rel="stylesheet"
         />
@@ -87,7 +87,43 @@
         </center>
         <!--Login Button-->
         <center>
-            <button id="login">Login</button>
+            <!--The actual button-->
+            <button id="loginButton">Login</button>
+            <!--Pop-up Modal for login conditions-->
+            <div id="loginTerms" class="modal">
+                <div class="loginTermsContent">
+                    <p>
+                        Please confirm that you are authorized to use this
+                        application. This site is an interface for police users
+                        only. If you wish to make your own report, please
+                        download the CruzSafe mobile application. Thank you.
+                    </p>
+                    <br />
+                    <button id="denyLogin">Deny</button>
+                    <button id="confirmLogin">Confirm</button>
+                </div>
+            </div>
         </center>
+        <script>
+            const loginModal = document.getElementById("loginTerms");
+            const loginButton = document.getElementById("loginButton");
+            const denyButton = document.getElementById("denyLogin");
+            const confirmButton = document.getElementById("confirmLogin");
+
+            loginButton.onClick = function() {
+                loginModal.style.display = "block";
+            };
+
+            denyButton.onClick = function() {
+                loginModal.style.display = "none";
+            };
+
+            // If user clicks anywehre outside of modal, close it if opened
+            window.onclick = function(event) {
+                if (event.target == loginModal) {
+                    modal.style.display = "none";
+                }
+            };
+        </script>
     </body>
 </html>

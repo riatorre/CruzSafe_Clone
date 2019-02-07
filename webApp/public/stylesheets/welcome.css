@@ -1,0 +1,55 @@
+/*
+    Stylesheet for welcome.html
+*/
+
+/* Pop-up Modal background */
+#loginTerms {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1; /* Sits on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: radial-gradient(aquamarine, blue, navy) no-repeat center
+        center;
+}
+
+/* Pop-up Modal content */
+#loginTermsContent {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* Deny button */
+#denyLogin {
+    color: red;
+    float: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+#denyLogin:hover,
+#denyLogin:focus {
+    color: darkred;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Confirm button*/
+/* Deny button */
+#denyLogin {
+    color: blue;
+    float: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+#denyLogin:hover,
+#denyLogin:focus {
+    color: darkblue;
+    text-decoration: none;
+    cursor: pointer;
+}
