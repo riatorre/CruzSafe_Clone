@@ -2,7 +2,7 @@
     "name": "cruzsafe-webapp",
     "version": "1.0.0",
     "description": "Web Application for CruzSafe",
-    "main": "CruzSafeHost.js",
+    "main": "app.js",
     "dependencies": {
         "cryptr": "^4.0.2",
         "express": "^4.14.1",
@@ -10,7 +10,7 @@
         "mysql": "^2.16.0"
     },
     "scripts": {
-        "start": "node CruzSafeHost.js",
+        "start": "node app.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "CruzSafe",
