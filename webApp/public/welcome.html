@@ -1,0 +1,93 @@
+<!--
+    All traffic is routed to this page. Contains an appealing initial interface and logo.
+    Users entering the site must affirm that they have clearance to do so. 
+    
+    Routes all traffic to Shibboleth handling.
+
+    Contents:
+    - UCSC Police Department Logo + CruzSafe logo/text
+    - UCSC Logo + Text
+    - Login Button
+
+    - Upon button hit, a pop-up modal
+        - Legal text; terms of service.
+        - Accept/ Reject button. 
+
+    - [Standardized] Bottom border
+-->
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>CruzSafe - Welcome</title>
+
+        <!--Connect document to CSS Stylesheet-->
+        <link
+            href="./stylesheets/cruzSafe_StyleSheet_Main.css"
+            type="text/css"
+            rel="stylesheet"
+        />
+        <!--Imports fonts and jqueries from external sources-->
+        <!--TODO: Import these files and use locally-->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <!--
+        <script>
+            $(function() {
+                $("#ProfileSystem").load("./components/ProfileSystem.html");
+            });
+        </script>
+        -->
+
+        <!--Style for transbox-->
+        <style>
+            div.transbox {
+                margin-top: 50px;
+                margin-bottom: 50px;
+                background-image: radial-gradient(
+                    rgba(255, 255, 255, 1),
+                    rgba(255, 255, 255, 0.6),
+                    rgba(255, 255, 255, 0.2)
+                );
+                opacity: 0.75;
+                filter: alpha(opacity=60);
+            }
+
+            div.transbox h1 {
+                font-weight: bold;
+                color: black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--UCSC Logo-->
+        <div id="logo">
+            <img
+                src="https://www.ucsc.edu/annual-report/images/logo.png"
+                alt="UCSC logo"
+                style="width: 15%;height:15%;"
+            />
+        </div>
+        <!--Logo + text-->
+        <center>
+            <div class="transbox">
+                <h1>CruzSafe</h1>
+                <img
+                    src="./assets/images/UCSCPD_Badge_Logo.png"
+                    alt="Santa Cruz Police Department"
+                    style="width:25%; height: auto;"
+                />
+                <h1>UCSC 211</h1>
+            </div>
+        </center>
+        <!--Login Button-->
+        <center>
+            <button id="login">Login</button>
+        </center>
+    </body>
+</html>
