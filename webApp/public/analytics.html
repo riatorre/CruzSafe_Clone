@@ -17,6 +17,11 @@
             type="text/css"
             rel="stylesheet"
         />
+        <link
+            href="./stylesheets/analytics.css"
+            type="text/css"
+            rel="stylesheet"
+        />
         <!--Imports External Icon Font Library-->
         <!--TODO: Install all needed Icons & remove external dependency-->
         <link
@@ -45,11 +50,27 @@
             </a>
         </div>
         <!--Body-->
-        <div class="transbox">
-            <div style="padding:20">
-                <h2>Analytics</h2>
+        <div class="row">
+            <div id="column1" class="column">
+                <div id="analyticsOptions" class="transbox">
+                    <h1>Parameters:</h1>
+                    <br />
+                    <div id="analyticsButtons">
+                        <button>Graph</button>
+                        <button>Chart</button>
+                        <button>Map</button><br />
+                    </div>
+                </div>
+            </div>
+            <div id="column2" class="column">
+                <img
+                    id="analyticsGraph"
+                    src="./assets/images/analytics_graph.png"
+                    alt="placeholder graph"
+                />
             </div>
         </div>
+
         <!--Footer-->
         <div class="footer">
             <div style="margin-top:5; margin-bottom:5">
