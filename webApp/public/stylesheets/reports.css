@@ -1,0 +1,95 @@
+/*
+    Stylesheet for reports.html
+*/
+
+.row {
+    display: flex;
+}
+
+#column1 {
+    flex: 35%;
+}
+#column2 {
+    flex: 65%;
+}
+
+#filterOptions {
+    margin-top: 50px;
+    margin-left: 40px;
+    flex: 20%;
+}
+
+#filterOptions > p {
+    display: inline;
+}
+
+#reportColumn {
+    flex: 80%;
+}
+
+#reportList {
+    margin-top: 20px;
+    margin-right: 40px;
+    margin-left: 0px;
+    height: 70%;
+    border: 5px solid black;
+    background: rgb(123, 123, 123, 0.9);
+    overflow-y: auto;
+}
+
+#navigationButtons {
+    margin-top: 20px;
+}
+
+#navigationButtons > button {
+    font-size: 10px;
+    margin-left: 90px;
+    float: center;
+}
+
+#reportStatus {
+    color: red;
+}
+
+#responseButtons > button {
+    font-size: 20px;
+    margin-left: 50px;
+    margin-top: 50px;
+    padding: 10px 20px;
+    top: 50%;
+    size: large;
+}
+
+#launchReport {
+    width: 100%;
+    font-size: 15px;
+    background: darkblue;
+    white-space: pre;
+    text-align: left;
+}
+
+#launchReport:hover {
+    background: turquoise;
+}
+
+#reportResolve {
+    background: green;
+}
+#reportResolve:hover {
+    background: limegreen;
+}
+
+#reportMap {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}
+#reportPhoto {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}

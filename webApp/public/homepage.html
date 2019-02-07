@@ -1,10 +1,28 @@
+<!--
+    Primary page of the application. Displayed 24/7 in operation. 
+    Designed to provide users with instant data coming from mobile application users. 
+    Contents:
+    - Map of UCSC + Costal Sciences Campus
+        - Pop-up icons of unopened/unsolved/solved reports
+    - List of tags showing color code
+    - Pie Chart displaying average response times/completion times
+    - Counter of unopened & counter of unsolved
+    - [Standardized] Bottom border
+    - [Standardized] Navagation bar - set to Dashboard
+-->
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>CruzSafe: Home</title>
         <!--Imports Stylesheet-->
         <link
-            href="./stylesheets/CruzSafe_StyleSheet_Main.css"
+            href="./stylesheets/cruzSafe_StyleSheet_Main.css"
+            type="text/css"
+            rel="stylesheet"
+        />
+        <link
+            href="./stylesheets/homepage.css"
             type="text/css"
             rel="stylesheet"
         />
@@ -43,15 +61,35 @@
                 </a>
             </div>
             <!--Body-->
-            <div class="transbox">
-                <h1>Welcome to</h1>
-                <img
-                    src="./assets/images/UCSCPD_Badge_Logo.png"
-                    alt="Santa Cruz Police Department"
-                    style="width:25%; height: auto; min-width: 200; min-height: auto"
-                    aria-hidden="true"
-                />
-                <h1>CruzSafe!</h1>
+            <div class="row">
+                <div id="column1" class="column">
+                    <img
+                        id="responseChart"
+                        src="./assets/images/response_chart.png"
+                        alt="mock resonse time chart"
+                    />
+                    <br />
+                    <img
+                        id="costalCampus"
+                        src="./assets/images/UCSC_Costal_Campus.png"
+                        alt="UCSC costal sciences campus map"
+                    />
+                </div>
+                <div id="column2" class="column">
+                    <img
+                        id="mainCampus"
+                        src="./assets/images/UCSC_Main_Campus.png"
+                        alt="UCSC main campus map"
+                    />
+                </div>
+                <div id="column3" class="column">
+                    <h1>
+                        ----Information such as tags will go here----
+                    </h1>
+                    <h1>
+                        ----Counter of unopened/unresolved reports here----
+                    </h1>
+                </div>
             </div>
         </center>
         <!--Footer-->

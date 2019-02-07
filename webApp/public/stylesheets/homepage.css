@@ -1,0 +1,55 @@
+/*
+    stylesheet for homepage.html
+*/
+
+.column {
+    float: left;
+    width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/*
+#column1 {
+    width: 30%;
+}
+#column2 {
+    width: 30%;
+}
+#column3 {
+    width: 40%;
+}
+*/
+#column3 > h1 {
+    color: white;
+    font-size: smaller;
+    text-align: center;
+    margin: 50;
+    height: 50%;
+    width: auto;
+}
+
+#responseChart {
+    height: 35%;
+    width: auto;
+    margin: 5;
+}
+
+#mainCampus {
+    margin: 5;
+    height: 90%;
+    width: auto;
+    box-shadow: 0 10px 10px black;
+}
+
+#costalCampus {
+    height: 50%;
+    margin: 5;
+    width: auto;
+    box-shadow: 0 10px 10px black;
+}
