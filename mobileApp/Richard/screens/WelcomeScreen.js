@@ -1,3 +1,8 @@
+/*
+ *  WelcomeScreen.js
+ * Main welcome screen & login if user is not already authenticated
+ */
+
 import React, { Component } from "react";
 import {
     Text,
