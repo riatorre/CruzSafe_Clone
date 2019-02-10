@@ -69,5 +69,5 @@ app.use(express.static(__dirname + "/public"));
 
 // Sets default page to test.txt for now
 app.get("/", function(req, res) {
-    res.sendFile("test.txt", { root: __dirname + "/public/" });
+    res.sendFile("homepage.html", { root: __dirname + "/public/" });
 });
