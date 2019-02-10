@@ -3,31 +3,24 @@
  *	Server Host file for CruzSafe
  */
 
-"use strict";
-
-// Importing express.js to handle web server(s)
+var http = require("http");
+var https = require("https");
 var express = require("express");
-
 var bodyParser = require("body-parser");
+var cors = require("cors");
+var fs = require("fs");
 
-// Custom Console that automatically provides a timestamp to all messages.
-var myConsole = require("./backend/customConsole");
+// Imports of our files
+var myConsole = require("./backend/utilities/customConsole");
+var users = require("./backend/routes/users");
+var reports = require("./backend/routes/reports");
 
-// Importing Database Connection
-var connection = require("./backend/config");
+var app = express();
 
 // Variables for HTTP and HTTPS servers
 var hostname = "127.0.0.1";
 var HTTP_port = 8080; // Testing Port, traditionally '80'
 var HTTPS_port = 8443; // Testing Port, traditionally '443'
-
-var app = express();
-
-// Importing HTTP and HTTPS
-var http = require("http");
-var https = require("https");
-// Importing Local File System
-var fs = require("fs");
 
 // Importing certificates for HTTPS to function. Certificates are self-signed with OpenSSL.
 // Certificates will need to be updated before release, as current are self-signed
@@ -47,11 +40,11 @@ httpServer.listen(HTTP_port, () => {
 });
 httpsServer.listen(HTTPS_port, () => {
     myConsole.log(
-        "HTTPS Server running at http://" + hostname + ":" + HTTPS_port + "/"
+        "HTTPS Server running at https://" + hostname + ":" + HTTPS_port + "/"
     );
 });
 
-// This Portion may need changing
+app.use(cors());
 
 // Redirects all HTTP requests to HTTPS requests
 app.use(function(req, res, next) {
@@ -62,23 +55,19 @@ app.use(function(req, res, next) {
     next();
 });
 
-// Restricts Webs Server File Access to "public"'s contents
+// Sets up app to allow for JSON parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//Use the Router on the sub route /movies
+// Replace this once our API is functional
+//app.use("/api/users", users);
+app.use("/api/reports", reports);
+
+// Sets Default to public folder
 app.use(express.static(__dirname + "/public"));
 
-// Allows app to parse JSON, and as a result, accept AJAX requests
-app.use(bodyParser.json());
-
-// Sets up default page
+// Sets default page to test.txt for now
 app.get("/", function(req, res) {
-    res.sendFile("welcome.html", { root: __dirname + "/public/" });
-});
-
-// Post route that accepts any page
-// May be replaced, although could pass an action along with data needed to be processed
-// Handler should see action and parse data based on that action if it exists as a possible action
-// I.E. action = addUser, adds user with given params
-app.post("/*", function(req, res) {
-    myConsole.log("Request Received");
-    //myConsole.log(JSON.stringify(req.body));
-    res.send("");
+    res.sendFile("test.txt", { root: __dirname + "/public/" });
 });
