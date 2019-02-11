@@ -33,6 +33,40 @@ import {
 
 import styles from "../components/styles.js";
 
+function createIncidentTypePicker(props) {
+  if (Platform.OS === "ios") {
+    return (
+      //<Text> This is an ios test!</Text>
+      <Button
+        title="Select Incident Type"
+        onPress={() => {
+          props.homeScreen.createIOSPicker(true);
+        }}
+      />
+    );
+  }
+  if (Platform.OS == "android") {
+    return (
+      <View style={styles.picker_view}>
+        <Picker
+          selectedValue={props.homeScreen.state.incidentCategory}
+          mode="dropdown"
+          style={styles.picker}
+          onValueChange={itemValue =>
+            props.homeScreen.setState({
+              incidentCategory: itemValue
+            })
+          }
+        >
+          <Picker.Item label="Placeholder 1" value="1" />
+          <Picker.Item label="Placeholder 2" value="2" />
+          <Picker.Item label="Placeholder 3" value="3" />
+        </Picker>
+      </View>
+    );
+  }
+}
+
 class HomeScreen extends Component {
   // State that should be used to record Report details & handle Modal Visibility.
   // Add, Update, or Remove entries as needed
@@ -53,40 +87,6 @@ class HomeScreen extends Component {
     this.setState({ cameraModalVisible: visible });
   }
 
-  createIncidentTypePicker(props) {
-    if (Platform.OS === "ios") {
-      return (
-        //<Text> This is an ios test!</Text>
-        <Button
-          title="Select Incident Type"
-          onPress={() => {
-            props.homeScreen.createIOSPicker(true);
-          }}
-        />
-      );
-    }
-    if (Platform.OS == "android") {
-      return (
-        <View style={styles.picker_view}>
-          <Picker
-            selectedValue={this.state.incidentCategory}
-            mode="dropdown"
-            style={styles.picker}
-            onValueChange={itemValue =>
-              this.setState({
-                incidentCategory: itemValue
-              })
-            }
-          >
-            <Picker.Item label="Placeholder 1" value="1" />
-            <Picker.Item label="Placeholder 2" value="2" />
-            <Picker.Item label="Placeholder 3" value="3" />
-          </Picker>
-        </View>
-      );
-    }
-  }
-
   static navigationOptions = {
     drawerLabel: "Home",
     drawerIcon: ({ tintColor }) => (
@@ -98,7 +98,7 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const IncidentTypePicker = this.createIncidentTypePicker;
+    const IncidentTypePicker = createIncidentTypePicker;
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Container>
