@@ -5,12 +5,12 @@
 
 "use strict";
 
-var http = require("http");
-var https = require("https");
+//var http = require("http");
+//var https = require("https");
 var express = require("express");
-var bodyParser = require("body-parser");
-var cors = require("cors");
-var fs = require("fs");
+//var bodyParser = require("body-parser");
+//var cors = require("cors");
+//var fs = require("fs");
 
 // Imports of our files
 var myConsole = require("./backend/utilities/customConsole");
@@ -19,6 +19,7 @@ var reports = require("./backend/routes/reports");
 
 var app = express();
 
+/*
 // Variables for HTTP and HTTPS servers
 var hostname = "127.0.0.1";
 var HTTP_port = 8080; // Testing Port, traditionally '80'
@@ -65,6 +66,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Replace this once our API is functional
 //app.use("/api/users", users);
 app.use("/api/reports", reports);
+*/
 
 // Sets Default to public folder
 app.use(express.static(__dirname + "/public"));
