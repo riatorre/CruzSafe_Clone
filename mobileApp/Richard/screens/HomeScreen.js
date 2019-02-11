@@ -49,6 +49,44 @@ class HomeScreen extends Component {
     this.setState({ cameraModalVisible: visible });
   }
 
+  createIOSPicker(visible) {
+    this.setState({ cameraModalVisible: visible });
+  }
+
+  createIncidentTypePicker(props) {
+    if (Platform.OS === "ios") {
+      return (
+        //<Text> This is an ios test!</Text>
+        <Button
+          title="Select Incident Type"
+          onPress={() => {
+            props.homeScreen.createIOSPicker(true);
+          }}
+        />
+      );
+    }
+    if (Platform.OS == "android") {
+      return (
+        <View style={styles.picker_view}>
+          <Picker
+            selectedValue={this.state.incidentCategory}
+            mode="dropdown"
+            style={styles.picker}
+            onValueChange={itemValue =>
+              this.setState({
+                incidentCategory: itemValue
+              })
+            }
+          >
+            <Picker.Item label="Placeholder 1" value="1" />
+            <Picker.Item label="Placeholder 2" value="2" />
+            <Picker.Item label="Placeholder 3" value="3" />
+          </Picker>
+        </View>
+      );
+    }
+  }
+
   static navigationOptions = {
     drawerLabel: "Home",
     drawerIcon: ({ tintColor }) => (
@@ -60,6 +98,7 @@ class HomeScreen extends Component {
   };
 
   render() {
+    const IncidentTypePicker = this.createIncidentTypePicker;
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Container>
@@ -214,26 +253,11 @@ class HomeScreen extends Component {
               <Right />
             </Header>
             <Content contentContainerStyle={styles.container}>
+              <Text style={{ fontSize: 24 }}>Incident Type</Text>
+              <IncidentTypePicker homeScreen={this} />
               {/* Report Body goes here. Currently has
                                 a dropdown menu & a text field
                             */}
-              <Text style={{ fontSize: 24 }}>Incident Type</Text>
-              <View style={styles.picker_view}>
-                <Picker
-                  selectedValue={this.state.incidentCategory}
-                  mode="dropdown"
-                  style={styles.picker}
-                  onValueChange={itemValue =>
-                    this.setState({
-                      incidentCategory: itemValue
-                    })
-                  }
-                >
-                  <Picker.Item label="Placeholder 1" value="1" />
-                  <Picker.Item label="Placeholder 2" value="2" />
-                  <Picker.Item label="Placeholder 3" value="3" />
-                </Picker>
-              </View>
               <Text style={{ fontSize: 24 }}>Incident Description</Text>
 
               <TextInput
