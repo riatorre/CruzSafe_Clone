@@ -29,7 +29,7 @@ class AdditionalInfoScreen extends Component {
   // Defining how the Drawer Button appears
   static navigationOptions = {
     // Drawer Name
-    drawerLabel: "More Info",
+    drawerLabel: "Account",
     // Drawer Icon
     drawerIcon: ({ tintColor }) => (
       <Icon

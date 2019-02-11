@@ -20,10 +20,14 @@ import styles from "../components/styles.js";
 
 class AboutUs extends Component {
   static navigationOptions = {
+    // Drawer Name
+    drawerLabel: "About Us",
     //Drawer Icon
     drawerIcon: ({ tintColor }) => (
       <Icon
-        name={`${Platform.OS === "ios" ? "ios" : "md"}-contact`}
+        name={`${
+          Platform.OS === "ios" ? "ios" : "md"
+        }-information-circle-outline`}
         style={{ fontSize: 24, color: tintColor }}
       />
     )

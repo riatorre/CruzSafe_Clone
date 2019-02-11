@@ -23,7 +23,7 @@ class History extends Component {
     //Drawer Icon
     drawerIcon: ({ tintColor }) => (
       <Icon
-        name={`${Platform.OS === "ios" ? "ios" : "md"}-contact`}
+        name={`${Platform.OS === "ios" ? "ios" : "md"}-journal`}
         style={{ fontSize: 24, color: tintColor }}
       />
     )
