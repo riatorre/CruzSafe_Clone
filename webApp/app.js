@@ -3,6 +3,8 @@
  *	Server Host file for CruzSafe
  */
 
+"use strict";
+
 var http = require("http");
 var https = require("https");
 var express = require("express");
@@ -67,7 +69,16 @@ app.use("/api/reports", reports);
 // Sets Default to public folder
 app.use(express.static(__dirname + "/public"));
 
-// Sets default page to test.txt for now
+// Sets default page to homepage.txt for now
 app.get("/", function(req, res) {
     res.sendFile("homepage.html", { root: __dirname + "/public/" });
 });
+
+// Arthur's attempt at making gae work
+if (module == require.main) {
+    // Start the server1
+    const server = app.listen(process.env.PORT || 8080, () => {
+        const port = server.address().port;
+        console.log("App listening on port ${port}");
+    });
+}
