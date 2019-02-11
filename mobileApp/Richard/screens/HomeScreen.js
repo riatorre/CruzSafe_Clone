@@ -18,7 +18,8 @@ import {
     Platform,
     Modal,
     Button,
-    Picker
+    Picker,
+    Alert
 } from "react-native";
 import {
     Container,
@@ -219,7 +220,51 @@ class HomeScreen extends Component {
                                     margin: 5
                                 }}
                                 onPress={() => {
-                                    this.setReportModalVisible(true);
+                                    Alert.alert(
+                                        "Confirmation",
+                                        "Please make sure this report is not emergency",
+                                        [
+                                            {
+                                                text:
+                                                    "Yes, this is not emergency",
+                                                onPress: () =>
+                                                    this.setReportModalVisible(
+                                                        true
+                                                    )
+                                            },
+                                            {
+                                                text: "No, this is emergency",
+                                                onPress: () => {
+                                                    var url =
+                                                        (Platform.OS === "ios"
+                                                            ? "telprompt:"
+                                                            : "tel:") + "911";
+                                                    return Linking.canOpenURL(
+                                                        url
+                                                    ).then(canOpen => {
+                                                        if (canOpen) {
+                                                            return Linking.openURL(
+                                                                url
+                                                            ).catch(err =>
+                                                                Promise.reject(
+                                                                    err
+                                                                )
+                                                            );
+                                                        } else {
+                                                            Promise.reject(
+                                                                new Error(
+                                                                    "invalid URL provided " +
+                                                                        url
+                                                                )
+                                                            );
+                                                        }
+                                                    });
+                                                },
+                                                style: "cancel"
+                                            }
+                                        ],
+                                        { cancelable: false }
+                                    );
                                 }}
                             >
                                 <Text>Report</Text>
