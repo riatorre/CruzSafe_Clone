@@ -5,11 +5,11 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation";
 // List of Screen Imports that should be in the Main Stack
 // Login related screens should NOT got here
 import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-import AdditionalInfoScreen from "../screens/AdditionalInfoScreen";
-import AboutUs from "../screens/AboutUs";
 import History from "../screens/History";
+import LinksScreen from "../screens/LinksScreen";
+import AdditionalInfoScreen from "../screens/AdditionalInfoScreen";
+import SettingsScreen from "../screens/SettingsScreen";
+import AboutUs from "../screens/AboutUs";
 
 const CustomDrawerComponent = props => (
   <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
@@ -40,11 +40,11 @@ export default createDrawerNavigator(
   {
     // Place all Screens. They will all appear in the Side Drawer
     Home: HomeScreen,
+    History: History,
     Links: LinksScreen,
     AdditionalInfo: AdditionalInfoScreen,
     Settings: SettingsScreen,
-    AboutUs: AboutUs,
-    History: History
+    AboutUs: AboutUs
   },
   {
     contentComponent: CustomDrawerComponent,
