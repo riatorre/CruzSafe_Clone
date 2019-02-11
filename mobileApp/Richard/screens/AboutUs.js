@@ -43,13 +43,19 @@ class AboutUs extends Component {
             </Left>
             <Body>
               {/* Center of Header */}
-              <Text style={styles.header_text}>About US!</Text>
+              <Text style={styles.header_text}>Our Team</Text>
             </Body>
             <Right />
           </Header>
           {/* Main Body */}
           <Content contentContainerStyle={styles.container}>
-            <Text>About US!</Text>
+            <Text>
+              Kalinda Fraser {"\n"}
+              Arthurlot Li {"\n"}
+              Zhiyue Li {"\n"}
+              Youmna Shafiq {"\n"}
+              Richard Torres {"\n"}
+            </Text>
           </Content>
           <Footer style={styles.footer}>
             <Left
