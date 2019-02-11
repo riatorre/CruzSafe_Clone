@@ -98,8 +98,9 @@
             <div id="column2" class="column">
                 <div class="transbox">
                     <p>Disable WebApp Features:</p>
-                    <button>Reports</button><button>Analytics</button
-                    ><button>Report Details</button>
+                    <button onClick="getReports()">Reports</button
+                    ><button>Analytics</button><button>Report Details</button>
+                    <div id="dest"></div>
                 </div>
                 <div class="transbox">
                     <p>Server Options:</p>
@@ -122,5 +123,18 @@
             </div>
         </div>
         <script src="./libs/NavLib.js"></script>
+        <script>
+            function getReports() {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("dest").innerHTML =
+                            request.responseText;
+                    }
+                };
+                request.open("GET", "http://localhost:8080/api/reports");
+                request.send();
+            }
+        </script>
     </body>
 </html>
