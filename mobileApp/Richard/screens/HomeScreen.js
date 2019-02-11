@@ -208,7 +208,7 @@ class HomeScreen extends Component {
                   justifyContent: "center"
                 }}
               >
-                <Text style={styles.header_text}>Report</Text>
+                <Text style={styles.header_text}>Report </Text>
               </Body>
 
               <Right />
@@ -235,6 +235,7 @@ class HomeScreen extends Component {
                 </Picker>
               </View>
               <Text style={{ fontSize: 24 }}>Incident Description</Text>
+
               <TextInput
                 style={styles.textInput}
                 autoCapitalize="none"
@@ -254,6 +255,13 @@ class HomeScreen extends Component {
               {/* Button that allows Modal to be closed */}
               <Button
                 title="Close"
+                onPress={() => {
+                  this.setReportModalVisible(!this.state.reportModalVisible);
+                }}
+              />
+              {/* Button that allows Modal to be closed */}
+              <Button
+                title="Send"
                 onPress={() => {
                   this.setReportModalVisible(!this.state.reportModalVisible);
                 }}
