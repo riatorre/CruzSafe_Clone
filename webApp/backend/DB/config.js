@@ -8,11 +8,11 @@ var mysql = require("mysql");
 var myConsole = require("../utilities/customConsole");
 
 var connection = mysql.createConnection({
-    host: "localhost",
+    host: "35.236.9.152",
     port: 3306,
-    user: "Compatibility_riatorre",
+    user: "riatorre",
     password: "SiD1475357",
-    database: "cruzsafe"
+    database: "cruzsafe_main"
 });
 
 /* Attempts to connect to Database with arguments presented above.
