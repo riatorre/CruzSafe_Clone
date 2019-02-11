@@ -26,21 +26,25 @@ router.get("/", function(req, res) {
 });
 
 // Get Report by internal ID #, should return either 0 or 1 entry
-router.get("/id=:id([0-9]+)", function(req, res) {
-    myConsole.log("Attempting to select report with ID=" + req.params.id);
+router.get("/reportID=:id([0-9]+)", function(req, res) {
+    myConsole.log(
+        "Attempting to select report with reportID = " + req.params.id
+    );
     connection.query(
-        "SELECT * FROM reports WHERE id = ?",
+        "SELECT * FROM reports WHERE reportID = ?",
         req.params.id,
         function(err, rows, fields) {
             if (err) {
                 myConsole.err(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("SELECT BY ID Query Successful");
+                myConsole.log("SELECT BY reportID Query Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {
-                    res.json({ message: "No report with given ID found" });
+                    res.json({
+                        message: "No report with given reportID found"
+                    });
                 }
             }
         }
@@ -48,24 +52,24 @@ router.get("/id=:id([0-9]+)", function(req, res) {
 });
 
 // Get Report By Incident ID #, may return 0+ entries
-router.get("/incidentId=:id([0-9]+)", function(req, res) {
+router.get("/incidentID=:id([0-9]+)", function(req, res) {
     myConsole.log(
-        "Attempting to select report with IncidentID=" + req.params.id
+        "Attempting to select report with incidentID = " + req.params.id
     );
     connection.query(
-        "SELECT * FROM reports WHERE incidentId = ?",
+        "SELECT * FROM reports WHERE incidentID = ?",
         req.params.id,
         function(err, rows, fields) {
             if (err) {
                 myConsole.err(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("SELECT BY IncidentID Query Successful");
+                myConsole.log("SELECT BY incidentID Query Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {
                     res.json({
-                        message: "No report with given IncidentID found"
+                        message: "No report with given incidentID found"
                     });
                 }
             }
