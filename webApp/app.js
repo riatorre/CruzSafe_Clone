@@ -73,7 +73,7 @@ app.use(express.static(__dirname + "/public"));
 
 // Sets default page to homepage.txt for now
 app.get("/", function(req, res) {
-    res.sendFile("homepage.html", { root: __dirname + "/public/" });
+    res.sendFile("welcome.html", { root: __dirname + "/public/" });
 });
 
 // Arthur's attempt at making gae work

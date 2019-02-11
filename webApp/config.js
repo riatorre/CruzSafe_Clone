@@ -17,8 +17,9 @@ var connection = mysql.createConnection({
 
 connection.connect(err => {
     if (err) {
-        myConsole.error(err);
-        myConsole.log("Closing Program");
+        myConsole.log("Note: Databse is not connected!");
+        //myConsole.error(err);
+        //myConsole.log("Closing Program");
         //process.exit(1);
     } else {
         myConsole.log("Database Connection Established");
