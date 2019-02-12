@@ -16,7 +16,7 @@ router.get("/", function(req, res) {
     myConsole.log("Attempting to select all reports");
     connection.query("SELECT * FROM reports", function(err, rows, fields) {
         if (err) {
-            myConsole.err(err);
+            myConsole.error(err);
             res.json({ message: "An Error has occured" });
         } else {
             myConsole.log("SELECT Query Successful");
@@ -35,7 +35,7 @@ router.get("/reportID=:id([0-9]+)", function(req, res) {
         req.params.id,
         function(err, rows, fields) {
             if (err) {
-                myConsole.err(err);
+                myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
                 myConsole.log("SELECT BY reportID Query Successful");
@@ -61,7 +61,7 @@ router.get("/incidentID=:id([0-9]+)", function(req, res) {
         req.params.id,
         function(err, rows, fields) {
             if (err) {
-                myConsole.err(err);
+                myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
                 myConsole.log("SELECT BY incidentID Query Successful");
