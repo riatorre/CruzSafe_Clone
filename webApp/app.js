@@ -9,7 +9,7 @@
 //var https = require("https");
 var express = require("express");
 var bodyParser = require("body-parser");
-//var cors = require("cors");
+var cors = require("cors");
 //var fs = require("fs");
 
 // Imports of our files
@@ -45,10 +45,10 @@ httpsServer.listen(HTTPS_port, () => {
     myConsole.log(
         "HTTPS Server running at https://" + hostname + ":" + HTTPS_port + "/"
     );
-});
+});*/
 
 app.use(cors());
-
+/*
 // Redirects all HTTP requests to HTTPS requests
 app.use(function(req, res, next) {
     if (!req.secure) {
