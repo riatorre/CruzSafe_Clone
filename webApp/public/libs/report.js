@@ -30,6 +30,23 @@ function generateSingleReport(reportID, document) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+            tags = JSON.parse(request.response);
+            // Gotten array of IDs.
+            tagDict = {};
+            tags.forEach(function(tag) {
+                tagDict[tag["tagID"]] = tag["tagName"];
+            });
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            generateSingleReportHelper(reportID, document, tagDict);
+        }
+    };
+    request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.send();
+}
+function generateSingleReportHelper(reportID, document, tags) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
             var productInfo = [];
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
 
@@ -54,8 +71,8 @@ function generateSingleReport(reportID, document) {
             }
             productInfo["actualPinned"] = actualPinned;
             // tag
-            tagValue = report["tag"];
-            productInfo["tag"] = reportInfo["tag"];
+            tagValue = reportInfo["tag"];
+            productInfo["tag"] = tags[tagValue];
             // fullName
             fullName = reportInfo["lastName"] + " " + reportInfo["firstName"];
             productInfo["fullName"] = fullName;
@@ -123,13 +140,6 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
                 productInfo["reportTS"] = report["reportTS"];
                 // location
                 productInfo["location"] = report["location"];
-                // actual/pinned
-                if (report["unchangedLocation"]) {
-                    var actualPinned = "(Actual)";
-                } else {
-                    var actualPinned = "(Pinned)";
-                }
-                productInfo["actualPinned"] = actualPinned;
                 // tag
                 tagValue = report["tag"];
                 productInfo["tag"] = tags[tagValue];
@@ -137,12 +147,6 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
                 fullName = report["lastName"] + " " + report["firstName"];
                 productInfo["fullName"] = fullName;
                 // mobileID
-                productInfo["mobileID"] = report["mobileID"];
-                // phone
-                productInfo["phone"] = report["phone"];
-                // email
-                productInfo["email"] = report["email"];
-                // body
                 productInfo["body"] = report["body"];
 
                 // All data has now been added into reportData
@@ -199,7 +203,6 @@ function setupReports(document) {
     request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-
 function gatherReportPage(document, tags) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
