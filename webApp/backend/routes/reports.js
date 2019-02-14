@@ -37,24 +37,24 @@ router.get("/reportIDs", function(req, res) {
                 res.json({ message: "API reportIDs failed." });
             }
             myConsole.log("[Database] Found reportIDs!");
-            res.send(rows);
+            res.json(rows);
         };
 });
 
 // Get Report by internal ID #, should return either 0 or 1 entry
 router.get("/reportID=:id([0-9]+)", function(req, res) {
-    myConsole.log(
-        "Attempting to select report with reportID = " + req.params.id
+    console.log(
+        "[Databse] Attempting to select report with reportID = " + req.params.id
     );
     connection.query(
-        "SELECT * FROM reports WHERE reportID = ?",
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ?",
         req.params.id,
         function(err, rows, fields) {
             if (err) {
-                myConsole.error(err);
+                console.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("Select by reportID Successful");
+                console.log("Select by reportID Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {

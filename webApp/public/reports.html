@@ -585,7 +585,8 @@
                 reportFields = ["incidentID","resolvedUnresolved","reportTS","location","actualPinned","tag","fullName","mobileID","phone","email","body"];
 
                 const id = 1913198; // Get the reportID. (TODO)
-                const reportData = generateSingleReport(1913198); // generates report Data. 
+                const reportData = generateSingleReport(1); // generates report Data. 
+                console.log(reportData);
 
                 if (reportData["resolvedUnresolved"].includes("Unresolved")){// For resolvedUnresolved, gets status. If resolved, green. else, red.
                     document.getElementById('resolvedUnresolved').style.color = "red";
@@ -605,7 +606,6 @@
                 document.getElementById("report").style.display = "none";
             }
 
-/*
             function displayReportOne() {
                 document.getElementById("reportOne").style.display = "block";
             }
@@ -636,7 +636,6 @@
             function hideReportFive() {
                 document.getElementById("reportFive").style.display = "none";
             }
-            */
         </script>
 
         <!--Code for getting report info to display on buttons.-->
