@@ -581,26 +581,9 @@
             */
             function displayReport(){
                 const modal = document.getElementById("report");
-                // Array of dictionary entries + tag ids. 
-                reportFields = ["incidentID","resolvedUnresolved","reportTS","location","actualPinned","tag","fullName","mobileID","phone","email","body"];
 
                 const id = 1913198; // Get the reportID. (TODO)
-                const reportData = generateSingleReport(1); // generates report Data. 
-                console.log(reportData);
-
-                if (reportData["resolvedUnresolved"].includes("Unresolved")){// For resolvedUnresolved, gets status. If resolved, green. else, red.
-                    document.getElementById('resolvedUnresolved').style.color = "red";
-                }
-                else{
-                    document.getElementById('resolvedUnresolved').style.color = "yellowgreen"
-                }
-
-                for (i=0; i < reportFields.length; i++){ // For all entries in reportFields
-                    const field = reportFields[i];
-                    const targetTag = document.getElementById(field);
-                    targetTag.innerHTML = reportData[field];
-                }
-                modal.style.display = "block" // Display the modal
+                generateSingleReport(1, document); // Intializes report display
             }
             function hideReport(){
                 document.getElementById("report").style.display = "none";

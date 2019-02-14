@@ -4,11 +4,28 @@
 */
 
 const local = true; // DEBUGGING VARIABLE: Local vs cloud
+// Array of dictionary entries + tag ids.
+reportFields = [
+    "incidentID",
+    "resolvedUnresolved",
+    "reportTS",
+    "location",
+    "actualPinned",
+    "tag",
+    "fullName",
+    "mobileID",
+    "phone",
+    "email",
+    "body"
+];
 
 /*
     Grabs data from both reports and mobileUsers tables from the database. 
     Formats all data appropriately and returns shippable string array.
-    Takes in a reportID and returns an array indexed as follows:
+    Takes in a reportID as well as the document itself
+    NOTICE: Assumes document has a modal structured in standard manner.
+    
+    Returns an array indexed as follows:
     {
         0 incidentID, 
         1 resolved/unresolved, 
@@ -23,81 +40,65 @@ const local = true; // DEBUGGING VARIABLE: Local vs cloud
         10 body
     }
 */
-function generateSingleReport(reportID) {
+function generateSingleReport(reportID, document) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var productInfo = [];
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
-            console.log(reportInfo);
+
             // incidentID
-            productInfo.push({
-                key: "incidentID",
-                value: reportInfo["incidentID"]
-            });
+            productInfo["incidentID"] = reportInfo["incidentID"];
             // resolved/unresolved
             if (!!reportInfo["completeTS"]) {
                 var resolvedUnresolved = "[Resolved]"; // Not null
             } else {
                 var resolvedUnresolved = "[Unresolved]"; // Null
             }
-            productInfo.push({
-                key: "resolvedUnresolved",
-                value: resolvedUnresolved
-            });
+            productInfo["resolvedUnresolved"] = resolvedUnresolved;
             // reportTS
-            productInfo.push({
-                key: "reportTS",
-                value: reportInfo["reportTS"]
-            });
+            productInfo["reportTS"] = reportInfo["reportTS"];
             // location
-            productInfo.push({
-                key: "location",
-                value: reportInfo["location"]
-            });
+            productInfo["location"] = reportInfo["location"];
             // actual/pinned
             if (reportInfo["unchangedLocation"]) {
                 var actualPinned = "(Actual)";
             } else {
                 var actualPinned = "(Pinned)";
             }
-            productInfo.push({
-                key: "actualPinned",
-                value: actualPinned
-            });
+            productInfo["actualPinned"] = actualPinned;
             // tag
-            productInfo.push({
-                key: "tag",
-                value: reportInfo["tag"]
-            });
+            productInfo["tag"] = reportInfo["tag"];
             // fullName
             fullName = reportInfo["lastName"] + " " + reportInfo["firstName"];
-            productInfo.push({
-                key: "fullName",
-                value: fullName
-            });
+            productInfo["fullName"] = fullName;
             // mobileID
-            productInfo.push({
-                key: "mobileID",
-                value: reportInfo["mobileID"]
-            });
+            productInfo["mobileID"] = reportInfo["mobileID"];
             // phone
-            productInfo.push({
-                key: "phone",
-                value: reportInfo["phone"]
-            });
+            productInfo["phone"] = reportInfo["phone"];
             // email
-            productInfo.push({
-                key: "email",
-                value: reportInfo["email"]
-            });
+            productInfo["email"] = reportInfo["email"];
             // body
-            productInfo.push({
-                key: "body",
-                value: reportInfo["body"]
-            });
-            console.log(productInfo);
-            return productInfo;
+            productInfo["body"] = reportInfo["body"];
+
+            // All data has now been added into reportData
+            const modal = document.getElementById("report");
+            if (productInfo["resolvedUnresolved"].includes("Unresolved")) {
+                // For resolvedUnresolved, gets status. If resolved, green. else, red.
+                document.getElementById("resolvedUnresolved").style.color =
+                    "red";
+            } else {
+                document.getElementById("resolvedUnresolved").style.color =
+                    "yellowgreen";
+            }
+
+            for (i = 0; i < reportFields.length; i++) {
+                // For all entries in reportFields
+                const field = reportFields[i];
+                const targetTag = document.getElementById(field);
+                targetTag.innerHTML = productInfo[field];
+            }
+            modal.style.display = "block"; // Display the modal
         }
     };
     request.open(
