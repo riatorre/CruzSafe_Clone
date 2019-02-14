@@ -13,6 +13,9 @@
     flex: 65%;
 }
 
+/*
+    BEGIN REPORT MODAL STYLING
+*/
 .reportRow {
     display: flex;
 }
@@ -45,6 +48,9 @@
     margin: 5%;
     margin-top: 0%;
 }
+/*
+    END REPORT MODAL STYLING
+*/
 
 #filterOptions {
     margin-top: 20px;

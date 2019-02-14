@@ -1,9 +1,12 @@
 /*
     Standardized code to display all details of a given report number and 
     of the mobile user who sent it in.
+    
+    Two primary functions: 
+        generateSingleReport(reportID, document)
+        setupReports(document)
 */
 
-const local = true; // DEBUGGING VARIABLE: Local vs cloud
 // Array of dictionary entries + tag ids.
 reportFields = [
     "incidentID",
@@ -20,13 +23,11 @@ reportFields = [
 ];
 
 /*
-    Grabs data from both reports and mobileUsers tables from the database. 
-    Formats all data appropriately and returns shippable string array.
-    Takes in a reportID as well as the document itself
-    NOTICE: Assumes document has a modal structured in standard manner.
-    Fills values and shows the modal once ready.
+    generateSingleReport: takes in a specific reportID and the document itself. 
+    Assuming the report modal is in the document, makes two requests to the APIs. 
 
-    Initial function grabs tags, helper grabs everything else. 
+    First request is for tags. Passes it to helper function.
+    Helper function requests for all information and adds to modal, then makes modal visible.
 */
 function generateSingleReport(reportID, document) {
     const request = new XMLHttpRequest();
@@ -115,9 +116,46 @@ function generateSingleReportHelper(reportID, document, tags) {
 }
 
 /*
-    Input: array of reportIDs and indexes to go from and document. 
-    Once data has been retrieved, generates list of buttons to populate the div in document. 
+    setupReports; has two helper functions. 
+    Meant to set up the Reports page by first getting all tags from database,
+    then calls gatherReportPage to get all of the reportIDs and to section off some IDs for a page.
+    Then calls generateMultipleReports to get information for that page and populate the list with buttons. 
 */
+function setupReports(document) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            tags = JSON.parse(request.response);
+            // Gotten array of IDs.
+            tagDict = {};
+            tags.forEach(function(tag) {
+                tagDict[tag["tagID"]] = tag["tagName"];
+            });
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            gatherReportPage(document, tagDict);
+        }
+    };
+    request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.send();
+}
+// TODO: Implement page segregation with this helper function.
+function gatherReportPage(document, tags) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            reportIDsArray = JSON.parse(request.response);
+            // Gotten array of IDs.
+            reportIDs = [];
+            reportIDsArray.forEach(function(reportID) {
+                reportIDs.push(reportID["reportID"]);
+            });
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            generateMultipleReports(reportIDs, 0, 0, document, tags);
+        }
+    };
+    request.open("GET", "https://cruzsafe.appspot.com/api/reports/reportIDs");
+    request.send();
+}
 function generateMultipleReports(reportIDs, start, end, document, tags) {
     // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
     const request = new XMLHttpRequest();
@@ -133,9 +171,9 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
                 productInfo["incidentID"] = report["incidentID"];
                 // resolved/unresolved
                 if (!!report["completeTS"]) {
-                    var resolvedUnresolved = "[Resolved]"; // Not null
+                    var resolvedUnresolved = "[R]"; // Not null
                 } else {
-                    var resolvedUnresolved = "[Unresolved]"; // Null
+                    var resolvedUnresolved = "[UR]"; // Null
                 }
                 productInfo["resolvedUnresolved"] = resolvedUnresolved;
                 // reportTS
@@ -163,7 +201,9 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
                     "displayReport(" + report["reportID"] + ")"
                 );
                 var buttonText = document.createTextNode(
-                    report["incidentID"] +
+                    report["resolvedUnresolved"] +
+                        " | " +
+                        report["incidentID"] +
                         " | " +
                         report["reportTS"] +
                         " | " +
@@ -181,44 +221,5 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
         }
     };
     request.open("GET", "https://cruzsafe.appspot.com/api/reports/");
-    request.send();
-}
-
-/*
-    Ges tags that then calls generateMultipleReports
-    TODO: only call 25 reports at a time.(right now indexes don't do anything)
-*/
-function setupReports(document) {
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            tags = JSON.parse(request.response);
-            // Gotten array of IDs.
-            tagDict = {};
-            tags.forEach(function(tag) {
-                tagDict[tag["tagID"]] = tag["tagName"];
-            });
-            // gotten list of all IDs. Calls generateMultipleReports for given index.
-            gatherReportPage(document, tagDict);
-        }
-    };
-    request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
-    request.send();
-}
-function gatherReportPage(document, tags) {
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            reportIDsArray = JSON.parse(request.response);
-            // Gotten array of IDs.
-            reportIDs = [];
-            reportIDsArray.forEach(function(reportID) {
-                reportIDs.push(reportID["reportID"]);
-            });
-            // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateMultipleReports(reportIDs, 0, 0, document, tags);
-        }
-    };
-    request.open("GET", "https://cruzsafe.appspot.com/api/reports/reportIDs");
     request.send();
 }
