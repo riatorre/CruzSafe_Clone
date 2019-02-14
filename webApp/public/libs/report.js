@@ -30,13 +30,11 @@ function generateSingleReport(reportID) {
             var productInfo = [];
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
             console.log(reportInfo);
-
             // incidentID
             productInfo.push({
                 key: "incidentID",
                 value: reportInfo["incidentID"]
             });
-
             // resolved/unresolved
             if (!!reportInfo["completeTS"]) {
                 var resolvedUnresolved = "[Resolved]"; // Not null
@@ -47,19 +45,16 @@ function generateSingleReport(reportID) {
                 key: "resolvedUnresolved",
                 value: resolvedUnresolved
             });
-
             // reportTS
             productInfo.push({
                 key: "reportTS",
                 value: reportInfo["reportTS"]
             });
-
             // location
             productInfo.push({
                 key: "location",
                 value: reportInfo["location"]
             });
-
             // actual/pinned
             if (reportInfo["unchangedLocation"]) {
                 var actualPinned = "(Actual)";
@@ -70,44 +65,37 @@ function generateSingleReport(reportID) {
                 key: "actualPinned",
                 value: actualPinned
             });
-
             // tag
             productInfo.push({
                 key: "tag",
                 value: reportInfo["tag"]
             });
-
             // fullName
             fullName = reportInfo["lastName"] + " " + reportInfo["firstName"];
             productInfo.push({
                 key: "fullName",
                 value: fullName
             });
-
             // mobileID
             productInfo.push({
                 key: "mobileID",
                 value: reportInfo["mobileID"]
             });
-
             // phone
             productInfo.push({
                 key: "phone",
                 value: reportInfo["phone"]
             });
-
             // email
             productInfo.push({
                 key: "email",
                 value: reportInfo["email"]
             });
-
             // body
             productInfo.push({
                 key: "body",
                 value: reportInfo["body"]
             });
-
             console.log(productInfo);
             return productInfo;
         }
