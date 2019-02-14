@@ -53,3 +53,25 @@
     width: auto;
     box-shadow: 0 10px 10px black;
 }
+
+#reportResolve {
+    background: green;
+}
+#reportResolve:hover {
+    background: limegreen;
+}
+
+#reportMap {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}
+#reportPhoto {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}

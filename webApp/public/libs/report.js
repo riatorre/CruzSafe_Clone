@@ -25,6 +25,8 @@ reportFields = [
     Takes in a reportID as well as the document itself
     NOTICE: Assumes document has a modal structured in standard manner.
     Fills values and shows the modal once ready.
+
+    Initial function grabs tags, helper grabs everything else. 
 */
 function generateSingleReport(reportID, document) {
     const request = new XMLHttpRequest();

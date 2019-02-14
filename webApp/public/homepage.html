@@ -82,10 +82,130 @@
                     <h1>
                         ----Information such as tags will go here----
                     </h1>
+                    <button onclick="displayReport(1)">SELECT REPORT</button>
+                    <!--Code for launching report modal-->
+                    <script>
+                        function displayReport(id) {
+                            generateSingleReport(id, document); // Intializes report display
+                        }
+                        function hideReport() {
+                            document.getElementById("report").style.display =
+                                "none";
+                        }
+                    </script>
+                    <script src="./libs/report.js"></script>
                     <h1>
                         ----Counter of unopened/unresolved reports here----
                     </h1>
                 </div>
+            </div>
+        </center>
+        <!--Report Div-->
+        <center>
+            <div id="report" class="modal">
+                <form class="modal-content animate" method="POST">
+                    <div class="imgcontainer">
+                        <!--Close Button; closes Modal-->
+                        <span
+                            onclick="hideReport()"
+                            class="close"
+                            title="Close Modal"
+                            ><i class="fa fa-times"></i
+                        ></span>
+                        <!--Report Content-->
+                        <div id="reportContent" class="container">
+                            <div class="row">
+                                <div id="column1" class="column">
+                                    <p>
+                                        <b>Report:</b> #<span id="incidentID"
+                                            >1913198</span
+                                        >
+                                        <b id="resolvedUnresolved"
+                                            >[Unresolved]</b
+                                        >
+                                    </p>
+                                    <p>
+                                        <b>Time:</b>
+                                        <span id="reportTS"
+                                            >20:23:12 - 2/7/19</span
+                                        >
+                                    </p>
+                                    <p>
+                                        <b>Location:</b>
+                                        <span id="location"
+                                            >McHenry Library</span
+                                        >
+                                        <span id="actualPinned">(Actual)</span>
+                                    </p>
+                                    <p>
+                                        <b>Tag:</b>
+                                        <span id="tag"
+                                            >Broken Infrastructure</span
+                                        >
+                                    </p>
+                                    <br />
+                                    <img
+                                        id="reportMap"
+                                        src="./assets/images/report_map.png"
+                                        alt="report map"
+                                    />
+                                    <br />
+                                    <img
+                                        id="reportPhoto"
+                                        src="./assets/images/report_photo.png"
+                                        alt="report photo"
+                                    />
+                                </div>
+                                <div id="column2" class="column">
+                                    <br />
+                                    <p>
+                                        <b>Name:</b>
+                                        <span id="fullName">Arthurlot Li</span>
+                                        - #<span id="mobileID">013405</span>
+                                    </p>
+                                    <p>
+                                        <b>Phone:</b>
+                                        <span id="phone">858 231 3906</span>
+                                    </p>
+                                    <p>
+                                        <b>Email:</b>
+                                        <span id="email">ali64@ucsc.edu</span>
+                                    </p>
+                                    <br /><b>Report Body:</b> <br /><br />
+                                    <p id="body">
+                                        I was on my way back home when I heard a
+                                        funny sound coming from around the
+                                        corner near McHenry. When I went to
+                                        investigate, I found a pipe on the
+                                        outside of the concrete wall on the
+                                        ground floor that was leaking quite
+                                        rapidly. I didn't have anything on me at
+                                        the moment to plug the leak, and it was
+                                        so late that there was nobody around, so
+                                        make sure you guys send someone over
+                                        there to patch it ASAP!<br /><br />This
+                                        is my first time using this app, so I
+                                        hope it gets through to you all. Fingers
+                                        crossed!
+                                    </p>
+                                    <br />
+                                    <div id="responseButtons">
+                                        <button id="reportRespond">
+                                            Respond
+                                        </button>
+                                        <button id="reportOther">
+                                            Other Options
+                                        </button>
+                                        <button id="reportResolve">
+                                            Resolved
+                                        </button>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </center>
         <!--Footer-->
