@@ -25,6 +25,22 @@ router.get("/", function(req, res) {
     });
 });
 
+/*
+    Get all of the reportIDs in the database.
+*/
+router.get("/reportIDs", function(req, res) {
+    myConsole.log("[Database] Attempting to select reportIDs from all reports");
+    connection.query("SELECT reportID FROM reports"),
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "API reportIDs failed." });
+            }
+            myConsole.log("[Database] Found reportIDs!");
+            res.send(rows);
+        };
+});
+
 // Get Report by internal ID #, should return either 0 or 1 entry
 router.get("/reportID=:id([0-9]+)", function(req, res) {
     myConsole.log(
