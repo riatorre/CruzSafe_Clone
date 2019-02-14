@@ -19,7 +19,9 @@ import {
     Modal,
     Button,
     Picker,
-    Alert
+    Alert,
+    AppRegistry,
+    StyleSheet
 } from "react-native";
 import {
     Container,
@@ -31,6 +33,9 @@ import {
     Body,
     Icon
 } from "native-base";
+
+//import { Router, Scene } from "react-native-router-flux";
+//import SelectableListScene from "SelectableListScene";
 
 import styles from "../components/styles.js";
 
@@ -83,6 +88,10 @@ class HomeScreen extends Component {
 
     setCameraModalVisible(visible) {
         this.setState({ cameraModalVisible: visible });
+    }
+
+    setLocationModalVisible(visible) {
+        this.setState({ locationModalVisible: visible });
     }
 
     setIOSPickerVisible(visible) {
@@ -363,6 +372,13 @@ class HomeScreen extends Component {
                                     this.setCameraModalVisible(true);
                                 }}
                             />
+                            {/* Button that allows Location (Modal) to be opened */}
+                            <Button
+                                title="Open Location"
+                                onPress={() => {
+                                    this.setLocationModalVisible(true);
+                                }}
+                            />
                             {/* Button that allows Modal to be closed */}
                             <Button
                                 title="Close"
@@ -437,6 +453,7 @@ class HomeScreen extends Component {
                                     contentContainerStyle={styles.container}
                                 >
                                     <Text>Dropdown</Text>
+
                                     <Button
                                         title="Select"
                                         onPress={() => {
@@ -501,6 +518,65 @@ class HomeScreen extends Component {
                                         onPress={() => {
                                             this.setCameraModalVisible(
                                                 !this.state.cameraModalVisible
+                                            );
+                                        }}
+                                    />
+                                </Content>
+                                <Footer style={styles.footer}>
+                                    <Left
+                                        style={{
+                                            flex: 1,
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        }}
+                                    />
+                                    <Body
+                                        style={{
+                                            flex: 1,
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        }}
+                                    >
+                                        <Text style={styles.footer_text}>
+                                            CruzSafe
+                                        </Text>
+                                    </Body>
+                                    <Right
+                                        style={{
+                                            flex: 1,
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        }}
+                                    />
+                                </Footer>
+                            </Container>
+                        </Modal>
+                        {/* Location Modal. TODO: Replace with actual location.*/}
+                        <Modal
+                            animationType="slide"
+                            transparent={false}
+                            visible={this.state.locationModalVisible}
+                            onRequestClose={() => {
+                                this.setLocationModalVisible(
+                                    !this.state.locationModalVisible
+                                );
+                            }}
+                        >
+                            <Container>
+                                <Header style={styles.header_modal}>
+                                    <Left />
+                                    <Body />
+                                    <Right />
+                                </Header>
+                                <Content
+                                    contentContainerStyle={styles.container}
+                                >
+                                    <Text>Location</Text>
+                                    <Button
+                                        title="Close"
+                                        onPress={() => {
+                                            this.setLocationModalVisible(
+                                                !this.state.locationModalVisible
                                             );
                                         }}
                                     />
