@@ -19,7 +19,7 @@ router.get("/", function(req, res) {
             myConsole.error(err);
             res.json({ message: "An Error has occured" });
         } else {
-            myConsole.log("SELECT Query Successful");
+            myConsole.log("Select all reports Successful");
             res.json(rows);
         }
     });
@@ -38,7 +38,7 @@ router.get("/reportID=:id([0-9]+)", function(req, res) {
                 myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("SELECT BY reportID Query Successful");
+                myConsole.log("Select by reportID Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {
@@ -64,7 +64,7 @@ router.get("/incidentID=:id([0-9]+)", function(req, res) {
                 myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("SELECT BY incidentID Query Successful");
+                myConsole.log("Select by incidentID Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {

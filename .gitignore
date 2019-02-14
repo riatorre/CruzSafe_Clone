@@ -1,3 +1,4 @@
 **/node_modules
 **/.expo
 **/backup
+**/cloud_sql_proxy.exe

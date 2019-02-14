@@ -5,11 +5,23 @@
  */
 
 var mysql = require("mysql");
-var myConsole = require("../utilities/customConsole");
+//var myConsole = require("../utilities/customConsole");
 
+var config = {
+    user: process.env.DB_USER,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASS
+};
+
+if (process.env.DB_INSTANCE_NAME && process.env.NODE_ENV === "production") {
+    config.socketPath = "/cloudsql/" + process.env.DB_INSTANCE_NAME;
+}
+
+var connection = mysql.createConnection(config);
+
+/*
 var connection = mysql.createConnection({
     host: "35.236.9.152",
-    port: 3306,
     user: "riatorre",
     password: "SiD1475357",
     database: "cruzsafe_main"
@@ -18,7 +30,7 @@ var connection = mysql.createConnection({
 /* Attempts to connect to Database with arguments presented above.
  * If unable to, should log the error into the console and close the program.
  * Otherwise, It reports its success & continues.
- */
+ *
 connection.connect(err => {
     if (err) {
         myConsole.error(err);
@@ -28,5 +40,5 @@ connection.connect(err => {
         myConsole.log("Database Connection Established");
     }
 });
-
+*/
 module.exports = connection;
