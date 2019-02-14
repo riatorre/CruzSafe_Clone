@@ -14,31 +14,38 @@ var myConsole = require("../utilities/customConsole");
 // Get all reports, Default request
 router.get("/", function(req, res) {
     myConsole.log("Attempting to select all reports");
-    connection.query("SELECT * FROM reports", function(err, rows, fields) {
-        if (err) {
-            myConsole.error(err);
-            res.json({ message: "An Error has occured" });
-        } else {
-            myConsole.log("Select all reports Successful");
-            res.json(rows);
+    connection.query(
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID",
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has occured" });
+            } else {
+                myConsole.log("Select all reports Successful");
+                res.json(rows);
+            }
         }
-    });
+    );
 });
 
 /*
     Get all of the reportIDs in the database.
 */
 router.get("/reportIDs", function(req, res) {
-    myConsole.log("[Database] Attempting to select reportIDs from all reports");
-    connection.query("SELECT reportID FROM reports"),
-        function(err, rows, fields) {
-            if (err) {
-                myConsole.error(err);
-                res.json({ message: "API reportIDs failed." });
-            }
-            myConsole.log("[Database] Found reportIDs!");
+    myConsole.log("[Database] Attempting to select all reportIDs");
+    connection.query("SELECT reportID FROM reports", function(
+        err,
+        rows,
+        fields
+    ) {
+        if (err) {
+            myConsole.error(err);
+            res.json({ message: "An Error has occured" });
+        } else {
+            myConsole.log("[Database] Select all reportIDs Successful");
             res.json(rows);
-        };
+        }
+    });
 });
 
 // Get Report by internal ID #, should return either 0 or 1 entry

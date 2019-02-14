@@ -123,50 +123,106 @@ function generateSingleReport(reportID, document) {
 }
 
 /*
-    Input: array of reportIDs and indexes to go from. 
-    Output: an array of dictionaries of all specified reports. 
+    Input: array of reportIDs and indexes to go from and document. 
+    Once data has been retrieved, generates list of buttons to populate the div in document. 
 */
-function generateMultipleReports(reportIDs, start, end) {
-    var outputReports = [];
+function generateMultipleReports(reportIDs, start, end, document) {
+    // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            reportInfo = JSON.parse(request.response); // Returns an array
+            var allInfo = [];
 
-    // TODO: Remove me!
-    for (i = start; i <= end; i++) {
-        outputReports.push(generateSingleReport(reportIDs[i]));
-    }
+            reportInfo.forEach(function(report) {
+                var productInfo = [];
+                productInfo["reportID"] = report["reportID"];
+                // incidentID
+                productInfo["incidentID"] = report["incidentID"];
+                // resolved/unresolved
+                if (!!report["completeTS"]) {
+                    var resolvedUnresolved = "[Resolved]"; // Not null
+                } else {
+                    var resolvedUnresolved = "[Unresolved]"; // Null
+                }
+                productInfo["resolvedUnresolved"] = resolvedUnresolved;
+                // reportTS
+                productInfo["reportTS"] = report["reportTS"];
+                // location
+                productInfo["location"] = report["location"];
+                // actual/pinned
+                if (report["unchangedLocation"]) {
+                    var actualPinned = "(Actual)";
+                } else {
+                    var actualPinned = "(Pinned)";
+                }
+                productInfo["actualPinned"] = actualPinned;
+                // tag
+                productInfo["tag"] = report["tag"];
+                // fullName
+                fullName = report["lastName"] + " " + report["firstName"];
+                productInfo["fullName"] = fullName;
+                // mobileID
+                productInfo["mobileID"] = report["mobileID"];
+                // phone
+                productInfo["phone"] = report["phone"];
+                // email
+                productInfo["email"] = report["email"];
+                // body
+                productInfo["body"] = report["body"];
 
-    // Query the database for all info needed for all reports.
+                // All data has now been added into reportData
+                allInfo.push(productInfo);
+            });
 
-    // TODO: Implement a single-query implementation so you don't query the database 25 times for each call of generateMultipleReports.
-    /*
-    var query =
-        "SELECT * " +
-        "FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID" +
-        "WHERE reportID = ";
-    for (i = start; i <= end; i++) {
-        var reportID = reportIDs[i]; // reportID variable.
-        if (i == start) {
-            // Beginning of loop; given 'reportID = ' prefix.
-            query.push(reportID);
-        } else {
-            query.push(" OR reportID = " + reportID);
+            console.log(allInfo);
+            // All info for all reports have been read and formatted. Create buttons.
+            allInfo.forEach(function(report) {
+                var button = document.createElement("BUTTON");
+                button.setAttribute("id", "launchReport");
+                button.setAttribute(
+                    "onclick",
+                    "displayReport(" + report["reportID"] + ")"
+                );
+                var buttonText = document.createTextNode(
+                    report["incidentID"] +
+                        " | " +
+                        report["TS"] +
+                        " | " +
+                        report["tag"] +
+                        " | " +
+                        report["location"] +
+                        " | " +
+                        report["fullName"] +
+                        " | " +
+                        "Insert Body Here."
+                );
+                button.appendChild(buttonText);
+                document.getElementById("reportList").appendChild(button);
+            });
         }
-    }
-    */
-    return outputReports;
+    };
+    request.open("GET", "https://cruzsafe.appspot.com/api/reports/");
+    request.send();
 }
 
 /*
     Returns an array of ALL reportIDs in the database.
 */
-function getReportIDs() {
-    reportIDs = [];
+function getReportIDs(document) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            reportIDs = request.responseText;
+            reportIDsArray = JSON.parse(request.response);
+            // Gotten array of IDs.
+            reportIDs = [];
+            for (reportID in reportIDsArray) {
+                reportIDs.push(reportID["reportID"]);
+            }
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            generateMultipleReports(reportIDs, 0, 0, document);
         }
     };
-    console.log(reportIDs);
     request.open("GET", "https://cruzsafe.appspot.com/api/reports/reportIDs");
     request.send();
 }

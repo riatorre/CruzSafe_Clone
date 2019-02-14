@@ -35,7 +35,14 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
     </head>
-    <body onload="getReportIDs">
+    <body>
+        <script src="./libs/NavLib.js"></script>
+        <script src="./libs/report.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                getReportIDs(document);
+            });
+        </script>
         <!--Header-->
         <div class="topnav" id="topNav">
             <a href="./homepage.html"
@@ -72,6 +79,7 @@
             </div>
             <div id="reportColumn" class="column">
                 <div id= "reportList">
+                    <!--
                     <button id="launchReport" onclick="displayReportTwo()">[O] | 2312242 | 02:42:32 - 2/8/19 | Lighting | Rachel Carso. | Cloud Strife | "This place need better lights"             </button>
                     <button id="launchReport" onclick="displayReport()">[O] | 1913198 | 20:23:12 - 2/7/19 | Broken Infrastructure | McHenry Libr. | Arthurlot Li | "I was on my way back home when I heard..." </button>
                     <button id="launchReport" onclick="displayReportThree()">[O] | 9832128 | 08:32:56 - 2/7/19 | Hazardous Condition | Oakes College | Jon Snow | "There's a lot of snow around this part..." </button>
@@ -107,7 +115,7 @@
                     <button id="launchReport" onclick="displayReportThree()">[O] | 9832128 | 08:32:56 - 2/7/19 | Hazardous Condition | Oakes College | Jon Snow | "There's a lot of snow around this part..." </button>
                     <button id="launchReport" onclick="displayReportFour()">[O] | 0023140 | 17:42:02 - 2/6/19 | Hazardous Condition | McHenry Libr. | Sammy Slug | "Door jammed; fire harzard. Please find..." </button>
                     <button id="launchReport" onclick="displayReportFive()">[O] | 7238531 | 15:33:53 - 2/5/19 | Uncleanliness | Porter Colle. | Eragon Brom. | "This dumpster is way, way too full. Co..." </button>
-                    
+                    -->
                 </div>
                 <center>
                     <div id= "navigationButtons" class= "transbox">
@@ -579,11 +587,8 @@
 
                 Note: expects reportFields to be same in passed dictionary and tags.
             */
-            function displayReport(){
-                const modal = document.getElementById("report");
-
-                const id = 1913198; // Get the reportID. (TODO)
-                generateSingleReport(1, document); // Intializes report display
+            function displayReport(id){
+                generateSingleReport(id, document); // Intializes report display
             }
             function hideReport(){
                 document.getElementById("report").style.display = "none";
@@ -632,7 +637,5 @@
                 <p style="text-align: center">CruzSafe</p>
             </div>
         </div>
-        <script src="./libs/NavLib.js"></script>
-        <script src="./libs/report.js"></script>
     </body>
 </html>
