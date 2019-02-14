@@ -28,6 +28,20 @@ router.get("/", function(req, res) {
     );
 });
 
+// Get all tags
+router.get("/tags", function(req, res) {
+    myConsole.log("[Database] Attempting to select all tags");
+    connection.query("SELECT * FROM tags", function(err, rows, fields) {
+        if (err) {
+            myConsole.error(err);
+            res.json({ message: "An Error has occured" });
+        } else {
+            myConsole.log("[Database] Select all tags Successful");
+            res.json(rows);
+        }
+    });
+});
+
 /*
     Get all of the reportIDs in the database.
 */

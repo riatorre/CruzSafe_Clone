@@ -24,21 +24,7 @@ reportFields = [
     Formats all data appropriately and returns shippable string array.
     Takes in a reportID as well as the document itself
     NOTICE: Assumes document has a modal structured in standard manner.
-    
-    Returns an array indexed as follows:
-    {
-        0 incidentID, 
-        1 resolved/unresolved, 
-        2 reportTS, 
-        3 location, 
-        4 actual/pinned, 
-        5 tag, 
-        6 fullName, 
-        7 mobileID, 
-        8 phone, 
-        9 email, 
-        10 body
-    }
+    Fills values and shows the modal once ready.
 */
 function generateSingleReport(reportID, document) {
     const request = new XMLHttpRequest();
@@ -68,6 +54,7 @@ function generateSingleReport(reportID, document) {
             }
             productInfo["actualPinned"] = actualPinned;
             // tag
+            tagValue = report["tag"];
             productInfo["tag"] = reportInfo["tag"];
             // fullName
             fullName = reportInfo["lastName"] + " " + reportInfo["firstName"];
@@ -106,27 +93,13 @@ function generateSingleReport(reportID, document) {
         "https://cruzsafe.appspot.com/api/reports/reportID=" + reportID
     );
     request.send();
-    /*{
-        incidentID: "1913198", // incidentID
-        resolvedUnresolved: "[Unresolved]", // resolved/unresolved
-        reportTS: "20:23:12 - 2/7/19", // reportTS
-        location: "McHenry Library", // location
-        actualPinned: "(Actual)", // actual/pinned
-        tag: "Broken Infrastructure", // tag
-        fullName: "Arthurlot Li", // fullName
-        mobileID: "013405", // mobileID
-        phone: "858 231 3906", //phone
-        email: "ali64@ucsc.edu", // email
-        body:
-            "I was on my way back home when I heard a funny sound coming from around the corner near McHenry. When I went to investigate, I found a pipe on the outside of hte concrete wall on the ground floor that was leaking quite rapidly. I didn't have anything on me at the moment to plug the leak, and it was late so there was nobody around, so make sure you guys send someone over there to patch it ASAP! This is my first time using this app, so I hope it gets through to you all. Fingers crossed!" // body
-    };*/
 }
 
 /*
     Input: array of reportIDs and indexes to go from and document. 
     Once data has been retrieved, generates list of buttons to populate the div in document. 
 */
-function generateMultipleReports(reportIDs, start, end, document) {
+function generateMultipleReports(reportIDs, start, end, document, tags) {
     // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -158,7 +131,8 @@ function generateMultipleReports(reportIDs, start, end, document) {
                 }
                 productInfo["actualPinned"] = actualPinned;
                 // tag
-                productInfo["tag"] = report["tag"];
+                tagValue = report["tag"];
+                productInfo["tag"] = tags[tagValue];
                 // fullName
                 fullName = report["lastName"] + " " + report["firstName"];
                 productInfo["fullName"] = fullName;
@@ -174,8 +148,6 @@ function generateMultipleReports(reportIDs, start, end, document) {
                 // All data has now been added into reportData
                 allInfo.push(productInfo);
             });
-
-            console.log(allInfo);
             // All info for all reports have been read and formatted. Create buttons.
             allInfo.forEach(function(report) {
                 var button = document.createElement("BUTTON");
@@ -187,7 +159,7 @@ function generateMultipleReports(reportIDs, start, end, document) {
                 var buttonText = document.createTextNode(
                     report["incidentID"] +
                         " | " +
-                        report["TS"] +
+                        report["reportTS"] +
                         " | " +
                         report["tag"] +
                         " | " +
@@ -207,20 +179,39 @@ function generateMultipleReports(reportIDs, start, end, document) {
 }
 
 /*
-    Returns an array of ALL reportIDs in the database.
+    Ges tags that then calls generateMultipleReports
+    TODO: only call 25 reports at a time.(right now indexes don't do anything)
 */
-function getReportIDs(document) {
+function setupReports(document) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            tags = JSON.parse(request.response);
+            // Gotten array of IDs.
+            tagDict = {};
+            tags.forEach(function(tag) {
+                tagDict[tag["tagID"]] = tag["tagName"];
+            });
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            gatherReportPage(document, tagDict);
+        }
+    };
+    request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.send();
+}
+
+function gatherReportPage(document, tags) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             reportIDsArray = JSON.parse(request.response);
             // Gotten array of IDs.
             reportIDs = [];
-            for (reportID in reportIDsArray) {
+            reportIDsArray.forEach(function(reportID) {
                 reportIDs.push(reportID["reportID"]);
-            }
+            });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateMultipleReports(reportIDs, 0, 0, document);
+            generateMultipleReports(reportIDs, 0, 0, document, tags);
         }
     };
     request.open("GET", "https://cruzsafe.appspot.com/api/reports/reportIDs");
