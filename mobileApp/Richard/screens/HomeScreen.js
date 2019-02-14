@@ -44,7 +44,10 @@ function createIncidentTypePicker(props) {
         return (
             //<Text> This is an ios test!</Text>
             <Button
-                title="Select Incident Type"
+                title={
+                    props.homeScreen.state.incidentCategory ||
+                    "Select Incident Type"
+                }
                 onPress={() => {
                     props.homeScreen.setIOSPickerVisible(true);
                 }}
