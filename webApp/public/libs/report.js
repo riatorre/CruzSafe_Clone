@@ -43,7 +43,7 @@ function generateSingleReport(reportID, document) {
             generateSingleReportHelper(reportID, document, tagDict);
         }
     };
-    request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 function generateSingleReportHelper(reportID, document, tags) {
@@ -108,11 +108,9 @@ function generateSingleReportHelper(reportID, document, tags) {
             modal.style.display = "block"; // Display the modal
         }
     };
-    request.open(
-        "GET",
-        "https://cruzsafe.appspot.com/api/reports/reportID=" + reportID
-    );
-    request.send();
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ id: reportID }));
 }
 
 /*
@@ -135,7 +133,7 @@ function setupReports(document) {
             gatherReportPage(document, tagDict);
         }
     };
-    request.open("GET", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 // TODO: Implement page segregation with this helper function.
@@ -153,7 +151,7 @@ function gatherReportPage(document, tags) {
             generateMultipleReports(reportIDs, 0, 0, document, tags);
         }
     };
-    request.open("GET", "https://cruzsafe.appspot.com/api/reports/reportIDs");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportIDs");
     request.send();
 }
 function generateMultipleReports(reportIDs, start, end, document, tags) {
@@ -220,6 +218,6 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
             });
         }
     };
-    request.open("GET", "https://cruzsafe.appspot.com/api/reports/");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/");
     request.send();
 }

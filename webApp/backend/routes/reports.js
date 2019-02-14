@@ -12,8 +12,8 @@ var connection = require("../DB/config");
 var myConsole = require("../utilities/customConsole");
 
 // Get all reports, Default request
-router.get("/", function(req, res) {
-    myConsole.log("Attempting to select all reports");
+router.post("/", function(req, res) {
+    myConsole.log("[Database] Attempting to select all reports");
     connection.query(
         "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID",
         function(err, rows, fields) {
@@ -21,7 +21,7 @@ router.get("/", function(req, res) {
                 myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("Select all reports Successful");
+                myConsole.log("[Database] Select all reports Successful");
                 res.json(rows);
             }
         }
@@ -29,7 +29,7 @@ router.get("/", function(req, res) {
 });
 
 // Get all tags
-router.get("/tags", function(req, res) {
+router.post("/tags", function(req, res) {
     myConsole.log("[Database] Attempting to select all tags");
     connection.query("SELECT * FROM tags", function(err, rows, fields) {
         if (err) {
@@ -45,7 +45,7 @@ router.get("/tags", function(req, res) {
 /*
     Get all of the reportIDs in the database.
 */
-router.get("/reportIDs", function(req, res) {
+router.post("/reportIDs", function(req, res) {
     myConsole.log("[Database] Attempting to select all reportIDs");
     connection.query("SELECT reportID FROM reports", function(
         err,
@@ -63,19 +63,19 @@ router.get("/reportIDs", function(req, res) {
 });
 
 // Get Report by internal ID #, should return either 0 or 1 entry
-router.get("/reportID=:id([0-9]+)", function(req, res) {
-    console.log(
-        "[Databse] Attempting to select report with reportID = " + req.params.id
+router.post("/reportID", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to select report with reportID = " + req.body.id
     );
     connection.query(
         "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ?",
-        req.params.id,
+        req.body.id,
         function(err, rows, fields) {
             if (err) {
-                console.error(err);
+                myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                console.log("Select by reportID Successful");
+                myConsole.log("[Database] Select by reportID Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {
@@ -89,19 +89,20 @@ router.get("/reportID=:id([0-9]+)", function(req, res) {
 });
 
 // Get Report By Incident ID #, may return 0+ entries
-router.get("/incidentID=:id([0-9]+)", function(req, res) {
+router.post("/incidentID", function(req, res) {
     myConsole.log(
-        "Attempting to select report with incidentID = " + req.params.id
+        "[Database] Attempting to select report with incidentID = " +
+            req.body.id
     );
     connection.query(
         "SELECT * FROM reports WHERE incidentID = ?",
-        req.params.id,
+        req.body.id,
         function(err, rows, fields) {
             if (err) {
                 myConsole.error(err);
                 res.json({ message: "An Error has occured" });
             } else {
-                myConsole.log("Select by incidentID Successful");
+                myConsole.log("[Database] Select by incidentID Successful");
                 if (rows.length > 0) {
                     res.json(rows);
                 } else {
