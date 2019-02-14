@@ -35,7 +35,7 @@ import {
 } from "native-base";
 
 //import { Router, Scene } from "react-native-router-flux";
-//import SelectableListScene from "SelectableListScene";
+import SelectableListScene from "./SelectableListScene";
 
 import styles from "../components/styles.js";
 
@@ -79,7 +79,8 @@ class HomeScreen extends Component {
     state = {
         reportModalVisible: false,
         cameraModalVisible: false,
-        iOSPickerVisible: false
+        iOSPickerVisible: false,
+        locationModalVisible: false
     };
 
     setReportModalVisible(visible) {
@@ -452,11 +453,16 @@ class HomeScreen extends Component {
                                 <Content
                                     contentContainerStyle={styles.container}
                                 >
-                                    <Text>Dropdown</Text>
-
-                                    <Button
-                                        title="Select"
-                                        onPress={() => {
+                                    <SelectableListScene
+                                        list={[
+                                            "Placeholder 1",
+                                            "Placeholder 2",
+                                            "Placeholder 3"
+                                        ]}
+                                        onPressAction={selectedItem => {
+                                            this.setState({
+                                                incidentCategory: selectedItem
+                                            });
                                             this.setIOSPickerVisible(
                                                 !this.state.iOSPickerVisible
                                             );
