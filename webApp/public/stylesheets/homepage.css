@@ -14,6 +14,39 @@
     clear: both;
 }
 
+.reportRow {
+    display: flex;
+}
+
+.reportColumn1 {
+    flex: 35%;
+}
+.reportColumn2 {
+    flex: 65%;
+}
+
+#reportResolve {
+    background: green;
+}
+#reportResolve:hover {
+    background: limegreen;
+}
+
+#reportMap {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}
+#reportPhoto {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}
+
 /*
 #column1 {
     width: 30%;
@@ -52,26 +85,4 @@
     margin: 5;
     width: auto;
     box-shadow: 0 10px 10px black;
-}
-
-#reportResolve {
-    background: green;
-}
-#reportResolve:hover {
-    background: limegreen;
-}
-
-#reportMap {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
-}
-#reportPhoto {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
 }

@@ -13,6 +13,39 @@
     flex: 65%;
 }
 
+.reportRow {
+    display: flex;
+}
+
+.reportColumn1 {
+    flex: 35%;
+}
+.reportColumn2 {
+    flex: 65%;
+}
+
+#reportResolve {
+    background: green;
+}
+#reportResolve:hover {
+    background: limegreen;
+}
+
+#reportMap {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}
+#reportPhoto {
+    float: left;
+    height: auto;
+    width: 90%;
+    margin: 5%;
+    margin-top: 0%;
+}
+
 #filterOptions {
     margin-top: 20px;
     margin-left: 40px;
@@ -78,26 +111,4 @@
 
 #launchReport:hover {
     background: turquoise;
-}
-
-#reportResolve {
-    background: green;
-}
-#reportResolve:hover {
-    background: limegreen;
-}
-
-#reportMap {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
-}
-#reportPhoto {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
 }
