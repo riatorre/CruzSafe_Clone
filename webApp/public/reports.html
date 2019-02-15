@@ -66,15 +66,53 @@
             <div id="filterOptions" class="transbox">
                 <h1>Filters:</h1>
                 <br />
-                <p>Report Number(s):</p><br/><input></input> <br/>
-                <p>Tag:</p><br/><input></input><br/>
-                <p>User ID:</p><br/><input></input><br/>
-                <p>User Name:</p><br/><input></input><br/>
-                <p>User Phone:</p><br/><input></input><br/>
-                <p>User Email:</p><br/><input></input><br/>
-                <p>Date Range:</p><br/><input></input><br/>
-                <p>Time Range:</p><br/><input></input><br/>
-                <p>Location:</p><br/><input></input><br/>
+                <p>Tag:</p><br/><input id = "filterTag"></input><br/>
+                <p>Incident id(s):</p><br/><input id = "filterIncidentID"></input> <br/>
+                <p>Report date:</p><br/><input id = "filterDate"></input><br/>
+                <p>Report time:</p><br/><input id = "filterTime"></input><br/>
+                <p>Status:
+                    <div class="dropdown">
+                        <button id = "filterStatus" class = "dropbtn">(Not chosen)</button>
+                        <div class = "dropdown-content">
+                            <button>New</button>
+                            <button>Incomplete</button>
+                            <button>Complete</button>
+                        </div>
+                    </div>
+                </p>
+                <br/>
+                <p>Body contains:</p><br/><input id = "filterBody"></input><br/>
+                <p>Location:</p><br/><input id = "filterLocation"></input><br/>
+                <p>Coordinates:</p><br/><input id = "filterCoords"></input><br/>
+                <p>Location method:
+                    <div class="dropdown">
+                            <button  id = "filterUnchangedLocation" class = "dropbtn">(Not chosen)</button>
+                            <div class = "dropdown-content">
+                                <button>Device reported</button>
+                                <button>Pinned location</button>
+                            </div>
+                        </div>
+                    <br/>
+                </p>
+                <p>Attachments:
+                    <div class="dropdown">
+                            <button  id = "filterAttachments" class = "dropbtn">(Not chosen)</button>
+                            <div class = "dropdown-content">
+                                <button>Photos</button>
+                                <button>Video</button>
+                            </div>
+                        </div>
+                    <br/>
+                </p>
+                <p>Mobile user id(s):</p><br/><input id = "filterMobileID"></input><br/>
+                <p>First name:</p><br/><input  id = "filterFirstName"></input><br/>
+                <p>Last name:</p><br/><input></input  id = "filterLastName"><br/>
+                <p>Email (Enter xxx@ucsc.edu):</p><br/><input  id = "filterEmail"></input><br/>
+                <p>Phone (Enter 555555555):</p><br/><input  id = "filterPhone"></input><br/>
+                <p>Expiring within <input id = "filterExpire" ></input> days</p><br/>
+                <br/>
+                <br/>
+                <button>Apply Filters</button>
             </div>
             <div id="reportColumn" class="column">
                 <div id= "reportList"></div> <!--Div to be filled by setupReports()-->
