@@ -197,6 +197,10 @@ function generateMultipleReports(reportIDs, document, tags) {
                 // All data has now been added into reportData
                 allInfo.push(productInfo);
             });
+            reportList = document.getElementById("reportList"); // Remove all items in list if any
+            while (reportList.firstChild) {
+                reportList.removeChild(reportList.firstChild);
+            }
             // All info for all reports have been read and formatted. Create buttons.
             allInfo.forEach(function(report) {
                 var button = document.createElement("BUTTON");
@@ -221,7 +225,7 @@ function generateMultipleReports(reportIDs, document, tags) {
                         "Insert Body Here."
                 );
                 button.appendChild(buttonText);
-                document.getElementById("reportList").appendChild(button);
+                reportList.appendChild(button);
             });
         }
     };
@@ -286,10 +290,10 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                     break;
                 }
                 case "filterStatus": {
-                    if (value == "Complete") {
+                    if (value === "Complete") {
                         columnTitle = "completeTS";
                         value = "IS NOT NULL"; // If it exists.
-                    } else if (value == "Incomplete") {
+                    } else if (value === "Incomplete") {
                         columnTitle = "initialOpenTS";
                         value = "IS NOT NULL"; /// If it exists.
                     } else {
@@ -301,22 +305,25 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                 case "filterBody": {
                     columnTitle = "body";
                     value = " LIKE '%{$" + value + "}%'";
+                    break;
                 }
                 case "filterUnchangedLocation": {
                     columnTitle = "unchangedLocation";
-                    if (value == "Device reported") {
+                    if (value === "Device reported") {
                         value = 1;
                     } else {
                         value = 0;
                     }
+                    break;
                 }
                 case "filterAttachments": {
                     columnTitle = "attachments";
-                    if (value == "Yes") {
+                    if (value === "Yes") {
                         value = 1;
                     } else {
                         value = 0;
                     }
+                    break;
                 }
                 default: {
                     // Else simply remove filter prefix and change first letter to lowercase; this should be the column title.
