@@ -169,6 +169,10 @@ function generateMultipleReports(reportIDs, document, tags) {
             reportInfo = JSON.parse(request.response); // Returns an array
             var allInfo = [];
 
+            reportList = document.getElementById("reportList"); // Remove all items in list if any
+            while (reportList.firstChild) {
+                reportList.removeChild(reportList.firstChild);
+            }
             reportInfo.forEach(function(report) {
                 var productInfo = [];
                 productInfo["reportID"] = report["reportID"];
@@ -197,10 +201,6 @@ function generateMultipleReports(reportIDs, document, tags) {
                 // All data has now been added into reportData
                 allInfo.push(productInfo);
             });
-            reportList = document.getElementById("reportList"); // Remove all items in list if any
-            while (reportList.firstChild) {
-                reportList.removeChild(reportList.firstChild);
-            }
             // All info for all reports have been read and formatted. Create buttons.
             allInfo.forEach(function(report) {
                 var button = document.createElement("BUTTON");
@@ -256,7 +256,7 @@ function filterReports(filterDict, document) {
             reverseTagDict = {};
             tags.forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
-                reverseTagDict[tag["tagName"]] = tag["tagID"];
+                reverseTagDict[tag["tagName"].toLowerCase()] = tag["tagID"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             filterReportsHelper(filterDict, document, tagDict, reverseTagDict);
@@ -274,7 +274,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
             switch (key) {
                 case "filterTag": {
                     columnTitle = "tag";
-                    value = reverseTags[value]; // Given the value, find the key. Use reversed dictionary.
+                    value = reverseTags[value.toLowerCase()]; // Given the value, find the key. Use reversed dictionary.
                     break;
                 }
                 case "filterDate": {
@@ -309,7 +309,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                 }
                 case "filterUnchangedLocation": {
                     columnTitle = "unchangedLocation";
-                    if (value === "Device reported") {
+                    if (value === "device reported") {
                         value = 1;
                     } else {
                         value = 0;
@@ -318,7 +318,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                 }
                 case "filterAttachments": {
                     columnTitle = "attachments";
-                    if (value === "Yes") {
+                    if (value === "yes") {
                         value = 1;
                     } else {
                         value = 0;
@@ -333,6 +333,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                         columnTitle.slice(1);
                 }
             }
+            console.log(value);
             apiDict[columnTitle] = value;
         }
     }

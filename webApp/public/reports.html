@@ -112,7 +112,7 @@
                 <p>Expiring within <input id = "filterExpire" ></input> days</p><br/>
                 <br/>
                 <br/>
-                <button onclick = "applyFilters()" id = "applyFilters">Apply Filters</button>
+                <button onclick = "applyFilters()" id = "applyFilters">Apply Filters</button> <button onclick = "location.reload()" id = "resetPage">Reset</button>
             </div>
             <!--Filter Code-->
             <script>
@@ -135,7 +135,11 @@
                     const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoordinates","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
                     var filterDict = {};  // Create the dictionary. 
                     for(i = 0; i < filterElements.length;i++) {// fill the dictionary
-                        var text = document.getElementById(filterElements[i]).innerHTML
+                        element = document.getElementById(filterElements[i]);
+                        var text = element.innerHTML;
+                        if(text === ""){ // An input field has been found
+                            text = element.value;
+                        }
                         if(text != "(Not chosen)" && text != ""){  // If not empty/not chosen for dropdown
                             filterDict[filterElements[i]] = text; // filterElement:value
                         }
@@ -145,8 +149,8 @@
                     }
                     console.log(filterDict)
                     // Error checking area! Add more modules in the future. 
-                    if(typeof filterDict["filterIncidentID"] === 'string'){
-                        alert('Tag entry must be text!');
+                    if((!Number.isInteger(filterDict["filterIncidentID"]) && filterDict["filterIncidentID"] != null)){
+                        alert('Incident ID entry must be a number!');
                     }
                     // elif(){}
                     else{
