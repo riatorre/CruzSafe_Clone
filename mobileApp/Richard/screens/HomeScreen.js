@@ -392,7 +392,7 @@ class HomeScreen extends Component {
                                     );
                                 }}
                             />
-                            {/* Button that allows Modal to be closed */}
+                            {/* Button that allows report to be sent */}
                             <Button
                                 title="Send"
                                 onPress={() => {
@@ -402,11 +402,18 @@ class HomeScreen extends Component {
                                         [
                                             {
                                                 text: "OK",
-                                                onPress: () =>
-                                                    console.log("OK Pressed")
+                                                onPress: () => {
+                                                    this.setReportModalVisible(
+                                                        !this.state
+                                                            .reportModalVisible
+                                                    );
+                                                }
                                             }
                                         ],
                                         { cancelable: true }
+                                    );
+                                    this.setReportModalVisible(
+                                        !this.reportModalVisible
                                     );
                                 }}
                             />
