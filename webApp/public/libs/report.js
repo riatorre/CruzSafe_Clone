@@ -233,9 +233,30 @@ function generateMultipleReports(reportIDs, document, tags) {
 /*
     filterReports; A modified version of setupReports. Activated from reports.html when filter button is clicked.
 
-    Grabs a dictionary of key:value = columnTitle:value taken from 
-    filter fields. Calls api/reports/specifyReportIDs with said dictionary. Gets an array of reportIDs matching the
+    Grabs a dictionary of key:value = filterOption:value taken from filter fields. 
+    Converts said dictionary into key:value = columnName:value (i.e. TagValue -> TagKey)
+    Calls api/reports/specifyReportIDs with said dictionary. Gets an array of reportIDs matching the
     dictionary. Then removes all buttons in the reportList and leaves it fresh.
-
     Then calls generateMultipleReports with that array of reportIDs.
+
+    filterReports gets tags.
+    filterReportsHelper does the rest.
 */
+function filterReports(filterDict, document) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            tags = JSON.parse(request.response);
+            // Gotten array of IDs.
+            tagDict = {};
+            tags.forEach(function(tag) {
+                tagDict[tag["tagID"]] = tag["tagName"];
+            });
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            filterReportsHelper(filterDict, document, tagDict);
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.send();
+}
+function filterReportsHelper(filterDict, document, tagDict) {}

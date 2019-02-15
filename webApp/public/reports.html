@@ -106,15 +106,15 @@
                 </p>
                 <p>Mobile user id(s):</p><br/><input id = "filterMobileID"></input><br/>
                 <p>First name:</p><br/><input  id = "filterFirstName"></input><br/>
-                <p>Last name:</p><br/><input></input  id = "filterLastName"><br/>
+                <p>Last name:</p><br/><input id = "filterLastName"></input><br/>
                 <p>Email (Enter xxx@ucsc.edu):</p><br/><input  id = "filterEmail"></input><br/>
                 <p>Phone (Enter 555555555):</p><br/><input  id = "filterPhone"></input><br/>
                 <p>Expiring within <input id = "filterExpire" ></input> days</p><br/>
                 <br/>
                 <br/>
-                <button>Apply Filters</button>
+                <button onclick = "applyFilters()" id = "applyFilters">Apply Filters</button>
             </div>
-            <!--Code for applying selected text to dropdown menu text-->
+            <!--Filter Code-->
             <script>
                 /*
                     Takes in button ID that initiates the dropdown; this button will have its text replaced by given text.
@@ -124,6 +124,34 @@
                 function applySelected(dropbtnID, btn){
                     dropbtn = document.getElementById(dropbtnID);
                     dropbtn.innerHTML = btn.innerHTML;
+                }
+
+                /*
+                    Grabs all of the text in filter fields and converts into a dictionary 
+                    which then sends to reports.js which calls API and modifies the list of reports.
+                */
+                function applyFilters(){
+                    // List of all ids of elements to grab text from. 
+                    const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoords","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
+                    var filterDict = {};  // Create the dictionary. 
+                    for(i = 0; i < filterElements.length;i++) {// fill the dictionary
+                        var text = document.getElementById(filterElements[i]).innerHTML
+                        if(text != "(Not chosen)" && text != ""){  // If not empty/not chosen for dropdown
+                            filterDict[filterElements[i]] = text; // filterElement:value
+                        }
+                        else{
+                            filterDict[filterElements[i]] = null;
+                        }
+                    }
+                    // Error checking area! Add more modules in the future. 
+                    if(!Number.isInteger(filterDict["filterIncidentID"])){
+                        alert('Tag must be a number!');
+                    }
+                    // elif(){}
+                    // Else all items are good. Send to filterReports.
+                    else{
+                        filterReports(filterDict, document)
+                    }
                 }
             </script>
             <div id="reportColumn" class="column">
