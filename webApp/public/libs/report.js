@@ -148,13 +148,20 @@ function gatherReportPage(document, tags) {
                 reportIDs.push(reportID["reportID"]);
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateMultipleReports(reportIDs, 0, 0, document, tags);
+            generateMultipleReports(reportIDs, document, tags);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportIDs");
     request.send();
 }
-function generateMultipleReports(reportIDs, start, end, document, tags) {
+/*
+    Populates the list of reports
+
+    Given document, tags. Also given reportIDs; an array of reportIDs to display! 
+    This array is JSONified and  passed to the API using POST. 
+    API returns array of dictionaries for each report etc. 
+*/
+function generateMultipleReports(reportIDs, document, tags) {
     // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -219,5 +226,6 @@ function generateMultipleReports(reportIDs, start, end, document, tags) {
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/");
-    request.send();
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ id: JSON.stringify(reportIDs) }));
 }

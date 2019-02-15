@@ -13,19 +13,31 @@ var myConsole = require("../utilities/customConsole");
 
 // Get all reports, Default request
 router.post("/", function(req, res) {
-    myConsole.log("[Database] Attempting to select all reports");
-    connection.query(
-        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID",
-        function(err, rows, fields) {
-            if (err) {
-                myConsole.error(err);
-                res.json({ message: "An Error has occured" });
-            } else {
-                myConsole.log("[Database] Select all reports Successful");
-                res.json(rows);
-            }
-        }
+    myConsole.log(
+        "[Database] Attempting to select reports with ids = " + req.body.id
     );
+
+    // Convert string of reportIDs into an array and complete query.
+    var reportIDs = JSON.parse(req.body.id);
+    var query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ";
+    for (i = 0; i < reportIDs.length; i++) {
+        if (i == 0) {
+            query = query + reportIDs[i];
+        } else {
+            query = query + " OR reportID = " + reportIDs[i];
+        }
+    }
+
+    connection.query(query, function(err, rows, fields) {
+        if (err) {
+            myConsole.error(err);
+            res.json({ message: "An Error has occured" });
+        } else {
+            myConsole.log("[Database] Select all reports Successful");
+            res.json(rows);
+        }
+    });
 });
 
 // Get all tags
