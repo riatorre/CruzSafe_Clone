@@ -83,7 +83,7 @@
                 <br/>
                 <p>Body contains:</p><br/><input id = "filterBody"></input><br/>
                 <p>Location:</p><br/><input id = "filterLocation"></input><br/>
-                <p>Coordinates:</p><br/><input id = "filterCoords"></input><br/>
+                <p>Coordinates:</p><br/><input id = "filterCoordinates"></input><br/>
                 <p>Location method:
                     <div class="dropdown">
                             <button id = "filterUnchangedLocation" class = "dropbtn">(Not chosen)</button>
@@ -98,8 +98,8 @@
                     <div class="dropdown">
                             <button  id = "filterAttachments" class = "dropbtn">(Not chosen)</button>
                             <div class = "dropdown-content">
-                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments1">Photos</button>
-                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments2">Video</button>
+                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments1">Yes</button>
+                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments2">No</button>
                             </div>
                         </div>
                     <br/>
@@ -132,7 +132,7 @@
                 */
                 function applyFilters(){
                     // List of all ids of elements to grab text from. 
-                    const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoords","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
+                    const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoordinates","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
                     var filterDict = {};  // Create the dictionary. 
                     for(i = 0; i < filterElements.length;i++) {// fill the dictionary
                         var text = document.getElementById(filterElements[i]).innerHTML
@@ -144,13 +144,12 @@
                         }
                     }
                     // Error checking area! Add more modules in the future. 
-                    if(!Number.isInteger(filterDict["filterIncidentID"])){
-                        alert('Tag must be a number!');
+                    if(typeof filterDict["filterIncidentID"] === 'string'){
+                        alert('Tag entry must be text!');
                     }
                     // elif(){}
-                    // Else all items are good. Send to filterReports.
                     else{
-                        filterReports(filterDict, document)
+                        filterReports(filterDict, document)// Else all items are good. Send to filterReports.
                     }
                 }
             </script>

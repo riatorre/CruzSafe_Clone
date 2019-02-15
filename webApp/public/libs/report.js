@@ -249,14 +249,138 @@ function filterReports(filterDict, document) {
             tags = JSON.parse(request.response);
             // Gotten array of IDs.
             tagDict = {};
+            reverseTagDict = {};
             tags.forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
+                reverseTagDict[tag["tagName"]] = tag["tagID"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            filterReportsHelper(filterDict, document, tagDict);
+            filterReportsHelper(filterDict, document, tagDict, reverseTagDict);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function filterReportsHelper(filterDict, document, tagDict) {}
+function filterReportsHelper(filterDict, document, tags, reverseTags) {
+    var apiDict = {};
+    for (key in filterDict) {
+        if (filterDict[key] != null) {
+            var value = filterDict[key];
+            // Special cases wherin something must be done.
+            switch (key) {
+                case "filterTag": {
+                    columnTitle = "tag";
+                    value = reverseTags[value]; // Given the value, find the key. Use reversed dictionary.
+                    break;
+                }
+                case "filterDate": {
+                    columnTitle = "reportTS"; // Expect XX-XX-XX
+                    var date = new Date().toMysqlFormat(); // Get current date.
+                    // TODO: Worry about this crap
+                    break;
+                }
+                case "filterTime": {
+                    columnTitle = "reportTS"; // Expect XX-XX-XX
+                    var date = new Date().toMysqlFormat(); // Get current date.
+                    // TODO: Worry about this crap
+                    break;
+                }
+                case "filterStatus": {
+                    if (value == "Complete") {
+                        columnTitle = "completeTS";
+                        value = "IS NOT NULL"; // If it exists.
+                    } else if (value == "Incomplete") {
+                        columnTitle = "initialOpenTS";
+                        value = "IS NOT NULL"; /// If it exists.
+                    } else {
+                        columnTitle = "initialOpenTS";
+                        value = "IS NULL"; // If it DOESN'T exist.
+                    }
+                    break;
+                }
+                case "filterBody": {
+                    columnTitle = "body";
+                    value = " LIKE '%{$" + value + "}%'";
+                }
+                case "filterUnchangedLocation": {
+                    columnTitle = "unchangedLocation";
+                    if (value == "Device reported") {
+                        value = 1;
+                    } else {
+                        value = 0;
+                    }
+                }
+                case "filterAttachments": {
+                    columnTitle = "attachments";
+                    if (value == "Yes") {
+                        value = 1;
+                    } else {
+                        value = 0;
+                    }
+                }
+                default: {
+                    // Else simply remove filter prefix and change first letter to lowercase; this should be the column title.
+                    columnTitle = key.replace("filter", "");
+                    columnTitle =
+                        columnTitle.charAt(0).toLowerCase() +
+                        columnTitle.slice(1);
+                }
+            }
+            apiDict[columnTitle] = value;
+        }
+    }
+
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            reportIDsArray = JSON.parse(request.response);
+            // Gotten array of IDs.
+            reportIDs = [];
+            reportIDsArray.forEach(function(reportID) {
+                reportIDs.push(reportID["reportID"]);
+            });
+            // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
+            generateMultipleReports(reportIDs, document, tags);
+        }
+    };
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/specifyReportIDs"
+    );
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ dict: JSON.stringify(apiDict) }));
+}
+
+/*
+    The following is imported code to convert JS date to MySQL TS.
+*/
+/**
+ * You first need to create a formatting function to pad numbers to two digits…
+ **/
+function twoDigits(d) {
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+    return d.toString();
+}
+
+/**
+ * …and then create the method to output the date string as desired.
+ * Some people hate using prototypes this way, but if you are going
+ * to apply this to more than one Date object, having it as a prototype
+ * makes sense.
+ **/
+Date.prototype.toMysqlFormat = function() {
+    return (
+        this.getUTCFullYear() +
+        "-" +
+        twoDigits(1 + this.getUTCMonth()) +
+        "-" +
+        twoDigits(this.getUTCDate()) +
+        " " +
+        twoDigits(this.getUTCHours()) +
+        ":" +
+        twoDigits(this.getUTCMinutes()) +
+        ":" +
+        twoDigits(this.getUTCSeconds())
+    );
+};
