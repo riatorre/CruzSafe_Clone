@@ -74,9 +74,9 @@
                     <div class="dropdown">
                         <button id = "filterStatus" class = "dropbtn">(Not chosen)</button>
                         <div class = "dropdown-content">
-                            <button>New</button>
-                            <button>Incomplete</button>
-                            <button>Complete</button>
+                            <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus1">New</button>
+                            <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus2">Incomplete</button>
+                            <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus3">Complete</button>
                         </div>
                     </div>
                 </p>
@@ -86,10 +86,10 @@
                 <p>Coordinates:</p><br/><input id = "filterCoords"></input><br/>
                 <p>Location method:
                     <div class="dropdown">
-                            <button  id = "filterUnchangedLocation" class = "dropbtn">(Not chosen)</button>
+                            <button id = "filterUnchangedLocation" class = "dropbtn">(Not chosen)</button>
                             <div class = "dropdown-content">
-                                <button>Device reported</button>
-                                <button>Pinned location</button>
+                                <button onclick = "applySelected('filterUnchangedLocation',this)" id = "dropdownfilterUnchangedLocation1">Device reported</button>
+                                <button onclick = "applySelected('filterUnchangedLocation',this)" id = "dropdownfilterUnchangedLocation2">Pinned location</button>
                             </div>
                         </div>
                     <br/>
@@ -98,8 +98,8 @@
                     <div class="dropdown">
                             <button  id = "filterAttachments" class = "dropbtn">(Not chosen)</button>
                             <div class = "dropdown-content">
-                                <button>Photos</button>
-                                <button>Video</button>
+                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments1">Photos</button>
+                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments2">Video</button>
                             </div>
                         </div>
                     <br/>
@@ -114,6 +114,18 @@
                 <br/>
                 <button>Apply Filters</button>
             </div>
+            <!--Code for applying selected text to dropdown menu text-->
+            <script>
+                /*
+                    Takes in button ID that initiates the dropdown; this button will have its text replaced by given text.
+                    This text will be read by report.js upon selecting of apply filters; 
+                    if it is (Not chosen), nothing is added to dictionary.
+                */
+                function applySelected(dropbtnID, btn){
+                    dropbtn = document.getElementById(dropbtnID);
+                    dropbtn.innerHTML = btn.innerHTML;
+                }
+            </script>
             <div id="reportColumn" class="column">
                 <div id= "reportList"></div> <!--Div to be filled by setupReports()-->
                 <center>
