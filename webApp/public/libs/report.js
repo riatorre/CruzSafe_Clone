@@ -229,3 +229,13 @@ function generateMultipleReports(reportIDs, document, tags) {
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id: JSON.stringify(reportIDs) }));
 }
+
+/*
+    filterReports; A modified version of setupReports. Activated from reports.html when filter button is clicked.
+
+    Grabs a dictionary of key:value = columnTitle:value taken from 
+    filter fields. Calls api/reports/specifyReportIDs with said dictionary. Gets an array of reportIDs matching the
+    dictionary. Then removes all buttons in the reportList and leaves it fresh.
+
+    Then calls generateMultipleReports with that array of reportIDs.
+*/

@@ -40,6 +40,57 @@ router.post("/", function(req, res) {
     });
 });
 
+/*
+    Given a dictionary of key: value = columnTitle:value,
+    returns all reportIDs adhering to those constraints.
+
+    Requires dict to be passed in body.
+*/
+router.post("/specifyReportIDs", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to select reportIDs adhering to specific values"
+    );
+
+    // Interpret passed JSON string to dictionary
+    var filters = {};
+    var dictionary = JSON.parse(req.body.dict);
+    for (var key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+            var value = dictionary[key];
+            filters[key] = value;
+        }
+    }
+
+    // Dictionary populated, construct query.
+    var query = "SELECT reportID FROM reports";
+    if (Object.keys(filters).length != 0) {
+        // If anything in dictionary
+        query = query + " WHERE "; // Add an initial where clause
+        var firstItem = true;
+        for (var key in filters) {
+            // For each item in dictionary
+            if (firstItem) {
+                // if first item, no AND.
+                query = query + key + " = " + filters[key];
+                firstItem = false;
+            } else {
+                // else not first item, append AND in beginning.
+                query = query + " AND " + key + " = " + filters[key];
+            }
+        }
+    }
+
+    connection.query(query, function(err, rows) {
+        if (err) {
+            myConsole.error(err);
+            res.json({ message: "An Error has occured" });
+        } else {
+            myConsole.log("[Database] Select all reportIDs Successful");
+            res.json(rows);
+        }
+    });
+});
+
 // Get all tags
 router.post("/tags", function(req, res) {
     myConsole.log("[Database] Attempting to select all tags");
