@@ -45,7 +45,7 @@ export default class SelectableListScene extends Component {
         const { list } = this.state;
         return (
             <ListView
-                style={styles.container}
+                //style={styles.container}
                 dataSource={list}
                 renderRow={this.renderRow}
             />

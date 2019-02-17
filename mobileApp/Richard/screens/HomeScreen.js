@@ -18,10 +18,9 @@ import {
     Platform,
     Modal,
     Button,
-    Picker,
+    ScrollView,
     Alert,
-    AppRegistry,
-    StyleSheet
+    Picker
 } from "react-native";
 import {
     Container,
@@ -34,26 +33,32 @@ import {
     Icon
 } from "native-base";
 
-//import { Router, Scene } from "react-native-router-flux";
 import SelectableListScene from "./SelectableListScene";
 
 import styles from "../components/styles.js";
 
 function createIncidentTypePicker(props) {
-    if (Platform.OS === "ios") {
-        return (
-            //<Text> This is an ios test!</Text>
-            <Button
-                title={
-                    props.homeScreen.state.incidentCategory ||
-                    "Select Incident Type"
-                }
-                onPress={() => {
-                    props.homeScreen.setIOSPickerVisible(true);
-                }}
+    //if (Platform.OS === "ios") {
+    return (
+        //<Text> This is an ios test!</Text>
+        <TouchableOpacity
+            style={styles.dropdown_menu}
+            onPress={() => {
+                props.homeScreen.setIOSPickerVisible(true);
+            }}
+        >
+            <Text style={{ marginRight: 5, fontSize: 14 }}>
+                {props.homeScreen.state.incidentCategory
+                    ? props.homeScreen.state.incidentCategory
+                    : "Select Incident Type"}
+            </Text>
+            <Icon
+                name={`${Platform.OS === "ios" ? "ios" : "md"}-arrow-dropdown`}
+                style={{ fontSize: 14 }}
             />
-        );
-    }
+        </TouchableOpacity>
+    );
+    /*}
     if (Platform.OS == "android") {
         return (
             <View style={styles.picker_view}>
@@ -73,7 +78,7 @@ function createIncidentTypePicker(props) {
                 </Picker>
             </View>
         );
-    }
+    }*/
 }
 
 class HomeScreen extends Component {
@@ -83,7 +88,8 @@ class HomeScreen extends Component {
         reportModalVisible: false,
         cameraModalVisible: false,
         iOSPickerVisible: false,
-        locationModalVisible: false
+        locationModalVisible: false,
+        incidentCategory: ""
     };
 
     setReportModalVisible(visible) {
@@ -167,7 +173,7 @@ class HomeScreen extends Component {
                                             } else {
                                                 Promise.reject(
                                                     new Error(
-                                                        "invalid URL provided " +
+                                                        "invalid URL provided: " +
                                                             url
                                                     )
                                                 );
@@ -208,7 +214,7 @@ class HomeScreen extends Component {
                                             } else {
                                                 Promise.reject(
                                                     new Error(
-                                                        "invalid URL provided " +
+                                                        "invalid URL provided: " +
                                                             url
                                                     )
                                                 );
@@ -266,7 +272,7 @@ class HomeScreen extends Component {
                                                         } else {
                                                             Promise.reject(
                                                                 new Error(
-                                                                    "invalid URL provided " +
+                                                                    "invalid URL provided: " +
                                                                         url
                                                                 )
                                                             );
@@ -324,33 +330,31 @@ class HomeScreen extends Component {
                 >
                     <Container>
                         <Header style={styles.header_modal}>
-                            <Left
-                                style={{
-                                    flex: 1,
-                                    alignItems: "center",
-                                    justifyContent: "center"
-                                }}
-                            />
-                            <Body
-                                style={{
-                                    flex: 1,
-                                    alignItems: "center",
-                                    justifyContent: "center"
-                                }}
-                            >
+                            <Left>
+                                <Icon
+                                    name={`${
+                                        Platform.OS === "ios" ? "ios" : "md"
+                                    }-arrow-back`}
+                                    style={styles.icon}
+                                    onPress={() => {
+                                        this.setReportModalVisible(
+                                            !this.state.reportModalVisible
+                                        );
+                                    }}
+                                />
+                            </Left>
+                            <Body>
                                 <Text style={styles.footer_text}>Report</Text>
                             </Body>
-                            <Right
-                                style={{
-                                    flex: 1,
-                                    alignItems: "center",
-                                    justifyContent: "center"
-                                }}
-                            />
+                            <Right />
                         </Header>
                         <Content contentContainerStyle={styles.container}>
-                            <Text style={{ fontSize: 24 }}>Incident Type</Text>
-                            <IncidentTypePicker homeScreen={this} />
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={{ fontSize: 24 }}>
+                                    Incident Type:
+                                </Text>
+                                <IncidentTypePicker homeScreen={this} />
+                            </View>
                             {/* Report Body goes here. Currently has
                                 a dropdown menu & a text field
                             */}
@@ -369,54 +373,98 @@ class HomeScreen extends Component {
                                 }
                                 value={this.state.incidentDesc}
                             />
-                            {/* Button that allows Camera (Modal) to be opened */}
-                            <Button
-                                title="Open Camera"
-                                onPress={() => {
-                                    this.setCameraModalVisible(true);
-                                }}
-                            />
-                            {/* Button that allows Location (Modal) to be opened */}
-                            <Button
-                                title="Open Location"
-                                onPress={() => {
-                                    this.setLocationModalVisible(true);
-                                }}
-                            />
-                            {/* Button that allows Modal to be closed */}
-                            <Button
-                                title="Close"
-                                onPress={() => {
-                                    this.setReportModalVisible(
-                                        !this.state.reportModalVisible
-                                    );
-                                }}
-                            />
-                            {/* Button that allows report to be sent */}
-                            <Button
-                                title="Send"
-                                onPress={() => {
-                                    Alert.alert(
-                                        "Submitted",
-                                        "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
-                                        [
-                                            {
-                                                text: "OK",
-                                                onPress: () => {
-                                                    this.setReportModalVisible(
-                                                        !this.state
-                                                            .reportModalVisible
-                                                    );
+                            <View style={{ flexDirection: "row" }}>
+                                {/* Button that allows Camera (Modal) to be opened */}
+                                <TouchableOpacity
+                                    style={styles.btn}
+                                    onPress={() => {
+                                        this.setCameraModalVisible(true);
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-camera`}
+                                        style={{ color: "white" }}
+                                    />
+                                    <Text style={{ color: "white" }}>
+                                        Attach Media
+                                    </Text>
+                                </TouchableOpacity>
+                                {/* Button that allows Location (Modal) to be opened */}
+                                <TouchableOpacity
+                                    style={styles.btn}
+                                    onPress={() => {
+                                        this.setLocationModalVisible(true);
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-pin`}
+                                        style={{ color: "white" }}
+                                    />
+                                    <Text style={{ color: "white" }}>
+                                        Set Location
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ flexDirection: "row" }}>
+                                {/* Button that allows Modal to be closed */}
+                                <TouchableOpacity
+                                    style={styles.btn}
+                                    onPress={() => {
+                                        this.setReportModalVisible(
+                                            !this.state.reportModalVisible
+                                        );
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-close`}
+                                        style={{ color: "white" }}
+                                    />
+                                    <Text style={{ color: "white" }}>
+                                        Cancel
+                                    </Text>
+                                </TouchableOpacity>
+                                {/* Button that allows report to be sent */}
+                                <TouchableOpacity
+                                    style={styles.btn}
+                                    onPress={() => {
+                                        Alert.alert(
+                                            "Submitted",
+                                            "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
+                                            [
+                                                {
+                                                    text: "OK",
+                                                    onPress: () => {
+                                                        this.setReportModalVisible(
+                                                            !this.state
+                                                                .reportModalVisible
+                                                        );
+                                                    }
                                                 }
-                                            }
-                                        ],
-                                        { cancelable: true }
-                                    );
-                                    this.setReportModalVisible(
-                                        !this.reportModalVisible
-                                    );
-                                }}
-                            />
+                                            ],
+                                            { cancelable: false }
+                                        );
+                                        this.setReportModalVisible(
+                                            !this.reportModalVisible
+                                        );
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-send`}
+                                        style={{ color: "white" }}
+                                    />
+                                    <Text style={{ color: "white" }}>
+                                        Submit
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </Content>
                         <Footer style={styles.footer}>
                             <Left
@@ -445,8 +493,8 @@ class HomeScreen extends Component {
                         </Footer>
                         {/* iOS picker Modal*/}
                         <Modal
-                            animationType="slide"
-                            transparent={false}
+                            animationType="fade"
+                            transparent={true}
                             visible={this.state.iOSPickerVisible}
                             onRequestClose={() => {
                                 this.setIOSPickerVisible(
@@ -454,59 +502,44 @@ class HomeScreen extends Component {
                                 );
                             }}
                         >
-                            <Container>
-                                <Header style={styles.header_modal}>
-                                    <Left />
-                                    <Body />
-                                    <Right />
-                                </Header>
-                                <Content
-                                    contentContainerStyle={styles.container}
+                            <View
+                                style={{
+                                    flex: 1,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    backgroundColor: "#000000C0"
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        width: 300,
+                                        height: 200,
+                                        backgroundColor: "#CCC",
+                                        padding: 20
+                                    }}
                                 >
-                                    <SelectableListScene
-                                        list={[
-                                            "Placeholder 1",
-                                            "Placeholder 2",
-                                            "Placeholder 3"
-                                        ]}
-                                        onPressAction={selectedItem => {
-                                            this.setState({
-                                                incidentCategory: selectedItem
-                                            });
-                                            this.setIOSPickerVisible(
-                                                !this.state.iOSPickerVisible
-                                            );
-                                        }}
-                                    />
-                                </Content>
-                                <Footer style={styles.footer}>
-                                    <Left
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                    />
-                                    <Body
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                    >
-                                        <Text style={styles.footer_text}>
-                                            CruzSafe
-                                        </Text>
-                                    </Body>
-                                    <Right
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                    />
-                                </Footer>
-                            </Container>
+                                    <ScrollView>
+                                        <SelectableListScene
+                                            list={[
+                                                "Placeholder 1",
+                                                "Placeholder 2",
+                                                "Placeholder 3",
+                                                "Placeholder 4",
+                                                "ScrollView Test",
+                                                "ScrollView Test 2"
+                                            ]}
+                                            onPressAction={selectedItem => {
+                                                this.setState({
+                                                    incidentCategory: selectedItem
+                                                });
+                                                this.setIOSPickerVisible(
+                                                    !this.state.iOSPickerVisible
+                                                );
+                                            }}
+                                        />
+                                    </ScrollView>
+                                </View>
+                            </View>
                         </Modal>
                         {/* Camera Modal. TODO: Replace with actual camera.*/}
                         <Modal
@@ -521,7 +554,22 @@ class HomeScreen extends Component {
                         >
                             <Container>
                                 <Header style={styles.header_modal}>
-                                    <Left />
+                                    <Left>
+                                        <Icon
+                                            name={`${
+                                                Platform.OS === "ios"
+                                                    ? "ios"
+                                                    : "md"
+                                            }-arrow-back`}
+                                            style={styles.icon}
+                                            onPress={() => {
+                                                this.setCameraModalVisible(
+                                                    !this.state
+                                                        .cameraModalVisible
+                                                );
+                                            }}
+                                        />
+                                    </Left>
                                     <Body />
                                     <Right />
                                 </Header>
@@ -580,7 +628,22 @@ class HomeScreen extends Component {
                         >
                             <Container>
                                 <Header style={styles.header_modal}>
-                                    <Left />
+                                    <Left>
+                                        <Icon
+                                            name={`${
+                                                Platform.OS === "ios"
+                                                    ? "ios"
+                                                    : "md"
+                                            }-arrow-back`}
+                                            style={styles.icon}
+                                            onPress={() => {
+                                                this.setLocationModalVisible(
+                                                    !this.state
+                                                        .locationModalVisible
+                                                );
+                                            }}
+                                        />
+                                    </Left>
                                     <Body />
                                     <Right />
                                 </Header>
@@ -631,33 +694,5 @@ class HomeScreen extends Component {
             </SafeAreaView>
         );
     }
-
-    // Did not work for unknown reasons.
-    // Left for revision later
-    // Modal does not appear to be working either...
-
-    openLink = url => {
-        return Linking.canOpenURL(url).then(canOpen => {
-            if (canOpen) {
-                return Linking.openURL(url).catch(err => Promise.reject(err));
-            } else {
-                Promise.reject(new Error("invalid URL provided ${url}"));
-            }
-        });
-    };
-
-    _handleEmergency = () => {
-        this.openLink("${Platform.OS === 'ios' ? 'telprompt:' : 'tel:'}911");
-    };
-
-    _handleUrgent = () => {
-        this.openLink(
-            "${Platform.OS === 'ios' ? 'telprompt:' : 'tel:'}8314592231"
-        );
-    };
-
-    _handleReport = () => {
-        console.log("Report has been selected");
-    };
 }
 export default HomeScreen;
