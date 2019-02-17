@@ -148,8 +148,9 @@
                         }
                     }
                     console.log(filterDict)
-                    // Error checking area! Add more modules in the future. 
-                    if((!Number.isInteger(filterDict["filterIncidentID"]) && filterDict["filterIncidentID"] != null)){
+                    // Error checking area! Add more modules in the future.
+                    // NOte: this one is broken. 
+                    if((Number.isInteger(filterDict["filterIncidentID"] == false) && filterDict["filterIncidentID"] != null)){
                         alert('Incident ID entry must be a number!');
                     }
                     // elif(){}

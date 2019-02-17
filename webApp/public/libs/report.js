@@ -173,60 +173,62 @@ function generateMultipleReports(reportIDs, document, tags) {
             while (reportList.firstChild) {
                 reportList.removeChild(reportList.firstChild);
             }
-            reportInfo.forEach(function(report) {
-                var productInfo = [];
-                productInfo["reportID"] = report["reportID"];
-                // incidentID
-                productInfo["incidentID"] = report["incidentID"];
-                // resolved/unresolved
-                if (!!report["completeTS"]) {
-                    var resolvedUnresolved = "[R]"; // Not null
-                } else {
-                    var resolvedUnresolved = "[UR]"; // Null
-                }
-                productInfo["resolvedUnresolved"] = resolvedUnresolved;
-                // reportTS
-                productInfo["reportTS"] = report["reportTS"];
-                // location
-                productInfo["location"] = report["location"];
-                // tag
-                tagValue = report["tag"];
-                productInfo["tag"] = tags[tagValue];
-                // fullName
-                fullName = report["lastName"] + " " + report["firstName"];
-                productInfo["fullName"] = fullName;
-                // mobileID
-                productInfo["body"] = report["body"];
+            if (reportInfo != null) {
+                reportInfo.forEach(function(report) {
+                    var productInfo = [];
+                    productInfo["reportID"] = report["reportID"];
+                    // incidentID
+                    productInfo["incidentID"] = report["incidentID"];
+                    // resolved/unresolved
+                    if (!!report["completeTS"]) {
+                        var resolvedUnresolved = "[R]"; // Not null
+                    } else {
+                        var resolvedUnresolved = "[UR]"; // Null
+                    }
+                    productInfo["resolvedUnresolved"] = resolvedUnresolved;
+                    // reportTS
+                    productInfo["reportTS"] = report["reportTS"];
+                    // location
+                    productInfo["location"] = report["location"];
+                    // tag
+                    tagValue = report["tag"];
+                    productInfo["tag"] = tags[tagValue];
+                    // fullName
+                    fullName = report["lastName"] + " " + report["firstName"];
+                    productInfo["fullName"] = fullName;
+                    // mobileID
+                    productInfo["body"] = report["body"];
 
-                // All data has now been added into reportData
-                allInfo.push(productInfo);
-            });
-            // All info for all reports have been read and formatted. Create buttons.
-            allInfo.forEach(function(report) {
-                var button = document.createElement("BUTTON");
-                button.setAttribute("id", "launchReport");
-                button.setAttribute(
-                    "onclick",
-                    "displayReport(" + report["reportID"] + ")"
-                );
-                var buttonText = document.createTextNode(
-                    report["resolvedUnresolved"] +
-                        " | " +
-                        report["incidentID"] +
-                        " | " +
-                        report["reportTS"] +
-                        " | " +
-                        report["tag"] +
-                        " | " +
-                        report["location"] +
-                        " | " +
-                        report["fullName"] +
-                        " | " +
-                        "Insert Body Here."
-                );
-                button.appendChild(buttonText);
-                reportList.appendChild(button);
-            });
+                    // All data has now been added into reportData
+                    allInfo.push(productInfo);
+                });
+                // All info for all reports have been read and formatted. Create buttons.
+                allInfo.forEach(function(report) {
+                    var button = document.createElement("BUTTON");
+                    button.setAttribute("id", "launchReport");
+                    button.setAttribute(
+                        "onclick",
+                        "displayReport(" + report["reportID"] + ")"
+                    );
+                    var buttonText = document.createTextNode(
+                        report["resolvedUnresolved"] +
+                            " | " +
+                            report["incidentID"] +
+                            " | " +
+                            report["reportTS"] +
+                            " | " +
+                            report["tag"] +
+                            " | " +
+                            report["location"] +
+                            " | " +
+                            report["fullName"] +
+                            " | " +
+                            "Insert Body Here."
+                    );
+                    button.appendChild(buttonText);
+                    reportList.appendChild(button);
+                });
+            }
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/");
@@ -292,13 +294,13 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                 case "filterStatus": {
                     if (value === "Complete") {
                         columnTitle = "completeTS";
-                        value = "IS NOT NULL"; // If it exists.
+                        value = " IS NOT NULL"; // If it exists.
                     } else if (value === "Incomplete") {
                         columnTitle = "initialOpenTS";
-                        value = "IS NOT NULL"; /// If it exists.
+                        value = " IS NOT NULL"; /// If it exists.
                     } else {
                         columnTitle = "initialOpenTS";
-                        value = "IS NULL"; // If it DOESN'T exist.
+                        value = " IS NULL"; // If it DOESN'T exist.
                     }
                     break;
                 }
@@ -344,9 +346,11 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
             reportIDsArray = JSON.parse(request.response);
             // Gotten array of IDs.
             reportIDs = [];
-            reportIDsArray.forEach(function(reportID) {
-                reportIDs.push(reportID["reportID"]);
-            });
+            if (reportIDsArray != null) {
+                reportIDsArray.forEach(function(reportID) {
+                    reportIDs.push(reportID["reportID"]);
+                });
+            }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
             generateMultipleReports(reportIDs, document, tags);
         }

@@ -75,6 +75,8 @@ router.post("/specifyReportIDs", function(req, res) {
                 firstItem = false;
             } else if (filters[key].startsWith(" LIKE ")) {
                 query = query + key + filters[key]; // EX) SELECT reportID FROM reports WHERE column LIKE '${$needle}$'
+            } else if (filters[key].startsWith(" IS ")) {
+                query = query + key + filters[key]; // EX) SELECT reportID FROM reports WHERE column IS NOT NULL'
             } else {
                 // else not first item, append AND in beginning.
                 query = query + " AND " + key + " = " + filters[key];

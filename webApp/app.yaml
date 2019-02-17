@@ -1,5 +1,13 @@
 runtime: nodejs
 env: flex
+manual_scaling:
+    instances: 1
+
+# Option no longer possible at this time... boo.
+#resources:
+#  cpu: .5
+#  memory_gb: 0.18
+#  disk_size_gb: 10
 
 env_variables:
     DB_USER: riatorre
