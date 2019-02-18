@@ -87,12 +87,6 @@ class SettingsScreen extends Component {
     // Function used to 'sign out' user. Clears AsyncStorage of all values
     _signOutAsync = async () => {
         //await AsyncStorage.clear();
-        try {
-            console.log(this.props.navigation.state.text);
-            //await AsyncStorage.setItem("IncidentDesc", props.HomeScreen.Text);
-        } catch (error) {
-            console.log(error.message);
-        }
         this.props.navigation.navigate("Auth");
     };
 }
