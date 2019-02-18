@@ -1,7 +1,5 @@
-runtime: nodejs
-env: flex
-manual_scaling:
-    instances: 1
+runtime: nodejs10
+env: standard
 
 # Option no longer possible at this time... boo.
 #resources:
