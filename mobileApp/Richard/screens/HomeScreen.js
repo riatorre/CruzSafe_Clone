@@ -39,9 +39,7 @@ import SelectableListScene from "./SelectableListScene";
 import styles from "../components/styles.js";
 
 function createIncidentTypePicker(props) {
-    //if (Platform.OS === "ios") {
     return (
-        //<Text> This is an ios test!</Text>
         <TouchableOpacity
             style={styles.dropdown_menu}
             onPress={() => {
@@ -59,27 +57,6 @@ function createIncidentTypePicker(props) {
             />
         </TouchableOpacity>
     );
-    /*}
-    if (Platform.OS == "android") {
-        return (
-            <View style={styles.picker_view}>
-                <Picker
-                    selectedValue={props.homeScreen.state.incidentCategory}
-                    mode="dropdown"
-                    style={styles.picker}
-                    onValueChange={itemValue =>
-                        props.homeScreen.setState({
-                            incidentCategory: itemValue
-                        })
-                    }
-                >
-                    <Picker.Item label="Placeholder 1" value="1" />
-                    <Picker.Item label="Placeholder 2" value="2" />
-                    <Picker.Item label="Placeholder 3" value="3" />
-                </Picker>
-            </View>
-        );
-    }*/
 }
 
 class HomeScreen extends Component {
@@ -91,7 +68,8 @@ class HomeScreen extends Component {
         iOSPickerVisible: false,
         locationModalVisible: false,
         incidentCategory: "",
-        text: ""
+        incidentDesc: "",
+        incidentLocationDesc: ""
     };
 
     setReportModalVisible(visible) {
@@ -114,17 +92,19 @@ class HomeScreen extends Component {
         const pre = await AsyncStorage.getItem("incidentDesc");
         if (pre !== null) {
             Alert.alert(
-                "Continue>",
-                "Detect unsubmitted report, what do you want to do?",
+                "Continue?",
+                "Detected an unsubmitted report, what do you want to do?",
                 [
                     {
                         text: "Continue editting"
                         //onPress: () => this.retrieveItem("incidentDesc")
                     },
                     {
-                        text: "Strat a new one",
+                        text: "Start a new one",
                         onPress: () => {
-                            this.setState({ text: "" });
+                            this.setState({ incidentCategory: "" });
+                            this.setState({ incidentDesc: "" });
+                            this.setState({ incidentLocationDesc: "" });
                             this.storeItem("incidentDesc", "");
                         },
                         style: "cancel"
@@ -153,7 +133,7 @@ class HomeScreen extends Component {
         try {
             const item = await AsyncStorage.getItem(key);
             console.log("item retrieved is:" + item);
-            this.setState({ text: item });
+            this.setState({ incidentDesc: item });
             return item;
         } catch (error) {
             console.log(error.message);
@@ -378,7 +358,15 @@ class HomeScreen extends Component {
                         this.setReportModalVisible(
                             !this.state.reportModalVisible
                         );
-                        this.storeItem("incidentDesc", this.state.text);
+                        this.storeItem(
+                            "incidentCategory",
+                            this.state.incidentCategory
+                        );
+                        this.storeItem("incidentDesc", this.state.incidentDesc);
+                        this.storeItem(
+                            "incidentLocationDesc",
+                            this.state.incidentLocationDesc
+                        );
                     }}
                 >
                     <Container>
@@ -394,8 +382,16 @@ class HomeScreen extends Component {
                                             !this.state.reportModalVisible
                                         );
                                         this.storeItem(
+                                            "incidentCategory",
+                                            this.state.incidentCategory
+                                        );
+                                        this.storeItem(
                                             "incidentDesc",
-                                            this.state.text
+                                            this.state.incidentDesc
+                                        );
+                                        this.storeItem(
+                                            "incidentLocationDesc",
+                                            this.state.incidentLocationDesc
                                         );
                                     }}
                                 />
@@ -425,8 +421,26 @@ class HomeScreen extends Component {
                                 multiline={true}
                                 numberOfLines={6}
                                 placeholder="Please enter a description of the incident"
-                                onChangeText={text => this.setState({ text })}
-                                value={this.state.text}
+                                onChangeText={incidentDesc =>
+                                    this.setState({ incidentDesc })
+                                }
+                                value={this.state.incidentDesc}
+                            />
+
+                            <Text style={{ fontSize: 24 }}>
+                                Description of Location
+                            </Text>
+
+                            <TextInput
+                                style={styles.textInput}
+                                autoCapitalize="none"
+                                multiline={true}
+                                numberOfLines={4}
+                                placeholder="Please describe the location of the Incident. (Floor #, room #, etc)"
+                                onChangeText={incidentLocationDesc =>
+                                    this.setState({ incidentLocationDesc })
+                                }
+                                value={this.state.incidentLocationDesc}
                             />
                             <View style={{ flexDirection: "row" }}>
                                 {/* Button that allows Camera (Modal) to be opened */}
@@ -460,7 +474,7 @@ class HomeScreen extends Component {
                                         style={{ color: "white" }}
                                     />
                                     <Text style={{ color: "white" }}>
-                                        Set Location
+                                        Mark on Map
                                     </Text>
                                 </TouchableOpacity>
                             </View>
@@ -473,8 +487,16 @@ class HomeScreen extends Component {
                                             !this.state.reportModalVisible
                                         );
                                         this.storeItem(
+                                            "incidentCategory",
+                                            this.state.incidentCategory
+                                        );
+                                        this.storeItem(
                                             "incidentDesc",
-                                            this.state.text
+                                            this.state.incidentDesc
+                                        );
+                                        this.storeItem(
+                                            "incidentLocationDesc",
+                                            this.state.incidentLocationDesc
                                         );
                                     }}
                                 >
@@ -500,8 +522,19 @@ class HomeScreen extends Component {
                                                     text: "OK",
                                                     onPress: () => {
                                                         this.storeItem(
+                                                            "incidentCategory_sub",
+                                                            this.state
+                                                                .incidentCategory
+                                                        );
+                                                        this.storeItem(
                                                             "incidentDesc_sub",
-                                                            this.state.text
+                                                            this.state
+                                                                .incidentDesc
+                                                        );
+                                                        this.storeItem(
+                                                            "incidentLoactionDesc_sub",
+                                                            this.state
+                                                                .incidentLocationDesc
                                                         );
                                                         this.setReportModalVisible(
                                                             !this.state
@@ -513,8 +546,16 @@ class HomeScreen extends Component {
                                             { cancelable: false }
                                         );
                                         this.storeItem(
+                                            "incidentCategory_sub",
+                                            this.state.incidentCategory
+                                        );
+                                        this.storeItem(
                                             "incidentDesc_sub",
-                                            this.state.text
+                                            this.state.incidentDesc
+                                        );
+                                        this.storeItem(
+                                            "incidentLoactionDesc_sub",
+                                            this.state.incidentLocationDesc
                                         );
                                         this.setReportModalVisible(
                                             !this.reportModalVisible
