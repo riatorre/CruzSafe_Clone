@@ -18,6 +18,7 @@ import {
 } from "native-base";
 
 import styles from "../components/styles.js";
+import HomeScreen from "./HomeScreen.js";
 
 class SettingsScreen extends Component {
     static navigationOptions = {
@@ -85,7 +86,13 @@ class SettingsScreen extends Component {
 
     // Function used to 'sign out' user. Clears AsyncStorage of all values
     _signOutAsync = async () => {
-        await AsyncStorage.clear();
+        //await AsyncStorage.clear();
+        try {
+            console.log(this.props.navigation.state.text);
+            //await AsyncStorage.setItem("IncidentDesc", props.HomeScreen.Text);
+        } catch (error) {
+            console.log(error.message);
+        }
         this.props.navigation.navigate("Auth");
     };
 }

@@ -19,6 +19,7 @@ import {
     Modal,
     Button,
     ScrollView,
+    AsyncStorage,
     Alert,
     Picker
 } from "react-native";
@@ -89,7 +90,8 @@ class HomeScreen extends Component {
         cameraModalVisible: false,
         iOSPickerVisible: false,
         locationModalVisible: false,
-        incidentCategory: ""
+        incidentCategory: "",
+        text: ""
     };
 
     setReportModalVisible(visible) {
@@ -106,6 +108,57 @@ class HomeScreen extends Component {
 
     setIOSPickerVisible(visible) {
         this.setState({ iOSPickerVisible: visible });
+    }
+
+    async continue() {
+        const pre = await AsyncStorage.getItem("incidentDesc");
+        if (pre !== null) {
+            Alert.alert(
+                "Continue>",
+                "Detect unsubmitted report, what do you want to do?",
+                [
+                    {
+                        text: "Continue editting"
+                        //onPress: () => this.retrieveItem("incidentDesc")
+                    },
+                    {
+                        text: "Strat a new one",
+                        onPress: () => {
+                            this.setState({ text: "" });
+                            this.storeItem("incidentDesc", "");
+                        },
+                        style: "cancel"
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async handleNon(visible) {
+        this.setReportModalVisible(visible);
+        this.delay = setTimeout(() => {
+            this.continue();
+        }, 100);
+    }
+    async storeItem(key, item) {
+        try {
+            await AsyncStorage.setItem(key, item);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async retrieveItem(key) {
+        try {
+            const item = await AsyncStorage.getItem(key);
+            console.log("item retrieved is:" + item);
+            this.setState({ text: item });
+            return item;
+        } catch (error) {
+            console.log(error.message);
+        }
+        return;
     }
 
     static navigationOptions = {
@@ -247,9 +300,7 @@ class HomeScreen extends Component {
                                             {
                                                 text: "Non emergency",
                                                 onPress: () =>
-                                                    this.setReportModalVisible(
-                                                        true
-                                                    )
+                                                    this.handleNon(true)
                                             },
                                             {
                                                 text: "Emergency",
@@ -284,6 +335,7 @@ class HomeScreen extends Component {
                                         ],
                                         { cancelable: false }
                                     );
+                                    this.retrieveItem("incidentDesc");
                                 }}
                             >
                                 <Text>Report</Text>
@@ -326,6 +378,7 @@ class HomeScreen extends Component {
                         this.setReportModalVisible(
                             !this.state.reportModalVisible
                         );
+                        this.storeItem("incidentDesc", this.state.text);
                     }}
                 >
                     <Container>
@@ -339,6 +392,10 @@ class HomeScreen extends Component {
                                     onPress={() => {
                                         this.setReportModalVisible(
                                             !this.state.reportModalVisible
+                                        );
+                                        this.storeItem(
+                                            "incidentDesc",
+                                            this.state.text
                                         );
                                     }}
                                 />
@@ -368,10 +425,8 @@ class HomeScreen extends Component {
                                 multiline={true}
                                 numberOfLines={6}
                                 placeholder="Please enter a description of the incident"
-                                onChangeText={incidentDesc =>
-                                    this.setState({ incidentDesc })
-                                }
-                                value={this.state.incidentDesc}
+                                onChangeText={text => this.setState({ text })}
+                                value={this.state.text}
                             />
                             <View style={{ flexDirection: "row" }}>
                                 {/* Button that allows Camera (Modal) to be opened */}
@@ -417,6 +472,10 @@ class HomeScreen extends Component {
                                         this.setReportModalVisible(
                                             !this.state.reportModalVisible
                                         );
+                                        this.storeItem(
+                                            "incidentDesc",
+                                            this.state.text
+                                        );
                                     }}
                                 >
                                     <Icon
@@ -440,6 +499,10 @@ class HomeScreen extends Component {
                                                 {
                                                     text: "OK",
                                                     onPress: () => {
+                                                        this.storeItem(
+                                                            "incidentDesc_sub",
+                                                            this.state.text
+                                                        );
                                                         this.setReportModalVisible(
                                                             !this.state
                                                                 .reportModalVisible
@@ -448,6 +511,10 @@ class HomeScreen extends Component {
                                                 }
                                             ],
                                             { cancelable: false }
+                                        );
+                                        this.storeItem(
+                                            "incidentDesc_sub",
+                                            this.state.text
                                         );
                                         this.setReportModalVisible(
                                             !this.reportModalVisible

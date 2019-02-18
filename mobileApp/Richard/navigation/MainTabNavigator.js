@@ -12,46 +12,46 @@ import SettingsScreen from "../screens/SettingsScreen";
 import AboutUs from "../screens/AboutUs";
 
 const CustomDrawerComponent = props => (
-  <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-    <View
-      style={{
-        height: 150,
-        backgroundColor: "#CCC",
-        alignItems: "center",
-        justifyContent: "center"
-      }}
-    >
-      {/* Image that appears at the top of the Side Drawer */}
-      <Image
-        source={require("../assets/images/SCPD_Logo.png")}
-        style={{ width: 120, height: 120 }}
-      />
-    </View>
-    <ScrollView style={{ backgroundColor: "#CCC" }}>
-      {/* Where all of the screen navigation buttons appear (Inserted under comment below). Should be scrollable if
+    <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+        <View
+            style={{
+                height: 150,
+                backgroundColor: "#CCC",
+                alignItems: "center",
+                justifyContent: "center"
+            }}
+        >
+            {/* Image that appears at the top of the Side Drawer */}
+            <Image
+                source={require("../assets/images/SCPD_Logo.png")}
+                style={{ width: 120, height: 120 }}
+            />
+        </View>
+        <ScrollView style={{ backgroundColor: "#CCC" }}>
+            {/* Where all of the screen navigation buttons appear (Inserted under comment below). Should be scrollable if
                 enough screens exist
             */}
-      <DrawerItems {...props} />
-    </ScrollView>
-  </SafeAreaView>
+            <DrawerItems {...props} />
+        </ScrollView>
+    </SafeAreaView>
 );
 
 export default createDrawerNavigator(
-  {
-    // Place all Screens. They will all appear in the Side Drawer
-    Home: HomeScreen,
-    History: History,
-    Links: LinksScreen,
-    AdditionalInfo: AdditionalInfoScreen,
-    Settings: SettingsScreen,
-    AboutUs: AboutUs
-  },
-  {
-    contentComponent: CustomDrawerComponent,
-    contentOptions: {
-      activeTintColor: "white",
-      activeBackgroundColor: "#336",
-      backgroundColor: "#CCC"
+    {
+        // Place all Screens. They will all appear in the Side Drawer
+        Home: HomeScreen,
+        History: History,
+        Links: LinksScreen,
+        AdditionalInfo: AdditionalInfoScreen,
+        Settings: SettingsScreen,
+        AboutUs: AboutUs
+    },
+    {
+        contentComponent: CustomDrawerComponent,
+        contentOptions: {
+            activeTintColor: "white",
+            activeBackgroundColor: "#336",
+            backgroundColor: "#CCC"
+        }
     }
-  }
 );
