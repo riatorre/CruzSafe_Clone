@@ -123,7 +123,7 @@ class HomeScreen extends Component {
     }
     async storeItem(key, item) {
         try {
-            await AsyncStorage.setItem(key, item);
+            await AsyncStorage.setItem(key, JSON.stringify(item));
         } catch (error) {
             console.log(error.message);
         }
@@ -131,7 +131,7 @@ class HomeScreen extends Component {
 
     async retrieveItem(key) {
         try {
-            const item = await AsyncStorage.getItem(key);
+            const item = JSON.parse(await AsyncStorage.getItem(key));
             console.log("item retrieved is:" + item);
             this.setState({ incidentDesc: item });
             return item;
