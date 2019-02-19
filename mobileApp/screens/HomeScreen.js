@@ -542,11 +542,10 @@ class HomeScreen extends Component {
                     <SelectableListScene
                       list={[
                         "Trash",
-                        "Placeholder 2",
-                        "Placeholder 3",
-                        "Placeholder 4",
-                        "ScrollView Test",
-                        "ScrollView Test 2"
+                        "Water Leak",
+                        "Broken Light",
+                        "Broken Window",
+                        "Lighting deficiency"
                       ]}
                       onPressAction={selectedItem => {
                         this.setState({
