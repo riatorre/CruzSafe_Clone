@@ -509,6 +509,40 @@ class HomeScreen extends Component {
                               !this.state.reportModalVisible
                             );
                           }
+                        },
+                        {
+                          text: "Check the status of the report: ",
+                          onPress: () => {
+                            // Store submitted report in AsyncStorage
+                            // Store blank texts in AsyncStorage
+                            this.storeItem(
+                              "incidentCategory_sub",
+                              this.state.incidentCategory
+                            );
+                            this.setState({
+                              incidentCategory: ""
+                            });
+                            this.storeItem("incidentCategory", "");
+                            this.storeItem(
+                              "incidentDesc_sub",
+                              this.state.incidentDesc
+                            );
+                            this.setState({
+                              incidentDesc: ""
+                            });
+                            this.storeItem("incidentDesc", "");
+                            this.storeItem(
+                              "incidentLocationDesc_sub",
+                              this.state.incidentLocationDesc
+                            );
+                            this.setState({
+                              incidentLocationDesc: ""
+                            });
+                            this.storeItem("incidentLocationDesc", "");
+                            this.setReportModalVisible(
+                              !this.state.reportModalVisible
+                            );
+                          }
                         }
                       ],
                       { cancelable: false }
