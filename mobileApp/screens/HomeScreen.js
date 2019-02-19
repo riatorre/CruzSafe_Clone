@@ -442,7 +442,7 @@ class HomeScreen extends Component {
                   style={styles.btn}
                   onPress={() => {
                     Alert.alert(
-                      "Submitted",
+                      this.state.incidentCategory + "Submitted",
                       "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
                       [
                         {
