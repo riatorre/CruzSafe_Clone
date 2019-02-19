@@ -89,7 +89,7 @@ class HomeScreen extends Component {
     }
 
     async continue() {
-        const pre = await AsyncStorage.getItem("incidentDesc");
+        const pre = JSON.parse(await AsyncStorage.getItem("incidentDesc"));
         if (pre !== null) {
             Alert.alert(
                 "Continue?",
