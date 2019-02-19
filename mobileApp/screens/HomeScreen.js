@@ -511,7 +511,7 @@ class HomeScreen extends Component {
                           }
                         },
                         {
-                          text: "Check the status of the report: ",
+                          text: "Check the status of my report: ",
                           onPress: () => {
                             // Store submitted report in AsyncStorage
                             // Store blank texts in AsyncStorage
