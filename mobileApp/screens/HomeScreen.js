@@ -1,9 +1,7 @@
 /*
 	Primary screen of the application. 
 	Primary components include calling 911, calling non-emergency, and sending a report.
-
 	Secondary components include buttons to lead to supplemental UCSC police info. 
-
 	Also includes navigation to AdditionalInfoScreen, etc.
 */
 
@@ -98,14 +96,11 @@ class HomeScreen extends Component {
     // If dectects unsubmitted report (incidentDesc or incidentLocationDesc),
     // ask the user what to do
     async continue() {
-        const pre_Desc = JSON.parse(await AsyncStorage.getItem("incidentDesc"));
-        const pre_Location_Desc = JSON.parse(
-            await AsyncStorage.getItem("incidentLocationDesc")
+        const pre_report = JSON.parse(
+            await AsyncStorage.getItem("unsub_report")
         );
-        const pre_Category = JSON.parse(
-            await AsyncStorage.getItem("incidentCategory")
-        );
-        if (pre_Desc !== "" || pre_Location_Desc !== "") {
+        var item = pre_report.split("///");
+        if (item[1] !== "" || item[2] !== "") {
             Alert.alert(
                 "Continue?",
                 "Detected an unsubmitted report, what do you want to do?",
@@ -115,10 +110,10 @@ class HomeScreen extends Component {
                         onPress: () => {
                             // If the user choose to continue editting previous report,
                             // reset all text states to previous one
-                            this.setState({ incidentCategory: pre_Category });
-                            this.setState({ incidentDesc: pre_Desc });
+                            this.setState({ incidentCategory: item[0] });
+                            this.setState({ incidentDesc: item[1] });
                             this.setState({
-                                incidentLocationDesc: pre_Location_Desc
+                                incidentLocationDesc: item[2]
                             });
                         }
                     },
@@ -137,6 +132,7 @@ class HomeScreen extends Component {
                 { cancelable: false }
             );
         }
+        this.setState({ incidentCategory: "" });
     }
 
     // When the user create a report, start detecting previous unsubmitted report
@@ -148,9 +144,14 @@ class HomeScreen extends Component {
     }
 
     // store texts in AsyncStorage
-    async storeItem(key, item) {
+    async storeItem(key, category, incidentDesc, locationDesc) {
         try {
-            await AsyncStorage.setItem(key, JSON.stringify(item));
+            await AsyncStorage.setItem(
+                key,
+                JSON.stringify(
+                    category + "///" + incidentDesc + "///" + locationDesc
+                )
+            );
         } catch (error) {
             console.log(error.message);
         }
@@ -435,12 +436,9 @@ class HomeScreen extends Component {
                         );
                         // Save current texts in AsyncStorage when the window closes
                         this.storeItem(
-                            "incidentCategory",
-                            this.state.incidentCategory
-                        );
-                        this.storeItem("incidentDesc", this.state.incidentDesc);
-                        this.storeItem(
-                            "incidentLocationDesc",
+                            "unsub_report",
+                            this.state.incidentCategory,
+                            this.state.incidentDesc,
                             this.state.incidentLocationDesc
                         );
                     }}
@@ -459,15 +457,9 @@ class HomeScreen extends Component {
                                         );
                                         // Save current texts in AsyncStorage when the window closes
                                         this.storeItem(
-                                            "incidentCategory",
-                                            this.state.incidentCategory
-                                        );
-                                        this.storeItem(
-                                            "incidentDesc",
-                                            this.state.incidentDesc
-                                        );
-                                        this.storeItem(
-                                            "incidentLocationDesc",
+                                            "unsub_report",
+                                            this.state.incidentCategory,
+                                            this.state.incidentDesc,
                                             this.state.incidentLocationDesc
                                         );
                                     }}
@@ -565,15 +557,9 @@ class HomeScreen extends Component {
                                         );
                                         // Save current texts in AsyncStorage when the window closes
                                         this.storeItem(
-                                            "incidentCategory",
-                                            this.state.incidentCategory
-                                        );
-                                        this.storeItem(
-                                            "incidentDesc",
-                                            this.state.incidentDesc
-                                        );
-                                        this.storeItem(
-                                            "incidentLocationDesc",
+                                            "unsub_report",
+                                            this.state.incidentCategory,
+                                            this.state.incidentDesc,
                                             this.state.incidentLocationDesc
                                         );
                                     }}
@@ -613,42 +599,26 @@ class HomeScreen extends Component {
                                                                 this.storeItem(
                                                                     "incidentCategory_sub",
                                                                     this.state
-                                                                        .incidentCategory
-                                                                );
-                                                                this.setState({
-                                                                    incidentCategory:
-                                                                        ""
-                                                                });
-                                                                this.storeItem(
-                                                                    "incidentCategory",
-                                                                    ""
-                                                                );
-                                                                this.storeItem(
-                                                                    "incidentDesc_sub",
+                                                                        .incidentCategory,
                                                                     this.state
-                                                                        .incidentDesc
-                                                                );
-                                                                this.setState({
-                                                                    incidentDesc:
-                                                                        ""
-                                                                });
-                                                                this.storeItem(
-                                                                    "incidentDesc",
-                                                                    ""
-                                                                );
-                                                                this.storeItem(
-                                                                    "incidentLocationDesc_sub",
+                                                                        .incidentLocationDesc,
                                                                     this.state
                                                                         .incidentLocationDesc
                                                                 );
+                                                                this.storeItem(
+                                                                    "unsub_report",
+                                                                    "",
+                                                                    "",
+                                                                    ""
+                                                                );
                                                                 this.setState({
+                                                                    incidentCategory:
+                                                                        "",
+                                                                    incidentDesc:
+                                                                        "",
                                                                     incidentLocationDesc:
                                                                         ""
                                                                 });
-                                                                this.storeItem(
-                                                                    "incidentLocationDesc",
-                                                                    ""
-                                                                );
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
@@ -664,42 +634,26 @@ class HomeScreen extends Component {
                                                                 this.storeItem(
                                                                     "incidentCategory_sub",
                                                                     this.state
-                                                                        .incidentCategory
-                                                                );
-                                                                this.setState({
-                                                                    incidentCategory:
-                                                                        ""
-                                                                });
-                                                                this.storeItem(
-                                                                    "incidentCategory",
-                                                                    ""
-                                                                );
-                                                                this.storeItem(
-                                                                    "incidentDesc_sub",
+                                                                        .incidentCategory,
                                                                     this.state
-                                                                        .incidentDesc
-                                                                );
-                                                                this.setState({
-                                                                    incidentDesc:
-                                                                        ""
-                                                                });
-                                                                this.storeItem(
-                                                                    "incidentDesc",
-                                                                    ""
-                                                                );
-                                                                this.storeItem(
-                                                                    "incidentLocationDesc_sub",
+                                                                        .incidentLocationDesc,
                                                                     this.state
                                                                         .incidentLocationDesc
                                                                 );
+                                                                this.storeItem(
+                                                                    "unsub_report",
+                                                                    "",
+                                                                    "",
+                                                                    ""
+                                                                );
                                                                 this.setState({
+                                                                    incidentCategory:
+                                                                        "",
+                                                                    incidentDesc:
+                                                                        "",
                                                                     incidentLocationDesc:
                                                                         ""
                                                                 });
-                                                                this.storeItem(
-                                                                    "incidentLocationDesc",
-                                                                    ""
-                                                                );
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
