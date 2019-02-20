@@ -136,7 +136,7 @@ class HomeScreen extends Component {
     }
 
     // When the user create a report, start detecting previous unsubmitted report
-    async handleNon(visible) {
+    async handleReport(visible) {
         this.setReportModalVisible(visible);
         this.delay = setTimeout(() => {
             this.continue();
@@ -155,26 +155,6 @@ class HomeScreen extends Component {
         } catch (error) {
             console.log(error.message);
         }
-    }
-
-    // retrieve texts from AsyncStorage (incidentDesc or incidentLocationDesc)
-    async retrieveItem(key) {
-        try {
-            const item = JSON.parse(await AsyncStorage.getItem(key));
-            if (key === "incidentDesc") {
-                // set text to text stored in AsyncStorage
-                this.setState({ incidentDesc: item });
-                return item;
-            } else if (key === "incidentLocationDesc") {
-                // set text to text stored in AsyncStorage
-                this.setState({ incidentLocationDesc: item });
-                return item;
-            }
-            return;
-        } catch (error) {
-            console.log(error.message);
-        }
-        return;
     }
 
     // function used to handle submitting report to DB.
@@ -357,7 +337,7 @@ class HomeScreen extends Component {
                                                 text: "Non emergency",
                                                 // Run when it's not emergency
                                                 onPress: () =>
-                                                    this.handleNon(true)
+                                                    this.handleReport(true)
                                             },
                                             {
                                                 text: "Emergency",
@@ -676,6 +656,28 @@ class HomeScreen extends Component {
                                                     { cancelable: false }
                                                 );
                                             }
+                                        } else {
+                                            Alert.alert(
+                                                "Empty report",
+                                                "Report should not be empty",
+                                                [
+                                                    {
+                                                        text: "Back to edit",
+                                                        onPress: () => {}
+                                                    },
+                                                    {
+                                                        text:
+                                                            "Cancel the report",
+                                                        onPress: () => {
+                                                            this.setReportModalVisible(
+                                                                !this.state
+                                                                    .reportModalVisible
+                                                            );
+                                                        }
+                                                    }
+                                                ],
+                                                { cancelable: false }
+                                            );
                                         }
                                     }}
                                 >
