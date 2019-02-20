@@ -182,4 +182,72 @@ router.post("/incidentID", function(req, res) {
     );
 });
 
+/*
+ *  Function that submits a single Report by given user
+ */
+router.post("/submitReport", function(req, res) {
+    myConsole.log("[Database] Attempting to submit a new report");
+    // Sets up values to be inserted into the table
+    var values = [
+        [
+            req.body.mobileID,
+            req.body.incidentDesc,
+            req.body.incidentLocationDesc,
+            req.body.incidentCategory
+        ]
+    ];
+    connection.query(
+        "INSERT INTO reports (mobileID, body, location, tag) VALUES ?",
+        [values],
+        function(err, result) {
+            if (err) {
+                // An error has occured during insertion.
+                // Details are logged into console while user is given a generic message
+                myConsole.error(err);
+                res.json({ message: "An Error has Occurred" });
+            } else {
+                // This is used to set up incidentID to equal the reportID
+                // Should default the report as a unique incident
+                connection.query(
+                    "UPDATE reports SET incidentID = ? WHERE reportID = ?",
+                    [result.insertId, result.insertId]
+                );
+                // Logs Success & returns the "incident" ID
+                myConsole.log(
+                    "[Database] New report successfully submitted as ID = " +
+                        result.insertId
+                );
+                res.json({ incidentID: result.insertId });
+            }
+        }
+    );
+});
+
+/*
+ *  Function that grabs all reports made by given user
+ */
+router.post("/userReports", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to get all reports for mobileID = " +
+            req.body.mobileID
+    );
+    connection.query(
+        "SELECT * FROM reports WHERE mobileID=?",
+        req.body.mobileID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] All reports by mobileID = " +
+                        req.body.mobileID +
+                        " have been selected"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
 module.exports = router;

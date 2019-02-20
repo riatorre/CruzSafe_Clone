@@ -10,7 +10,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var cors = require("cors");
-var querystring = require("querystring");
 //var fs = require("fs");
 
 // Imports of our files
