@@ -12,6 +12,7 @@ reportFields = [
     "incidentID",
     "resolvedUnresolved",
     "reportTS",
+    "reportTS2",
     "location",
     "actualPinned",
     "tag",
@@ -65,7 +66,21 @@ function generateSingleReportHelper(reportID, document, tags) {
             }
             productInfo["resolvedUnresolved"] = resolvedUnresolved;
             // reportTS
-            productInfo["reportTS"] = reportInfo["reportTS"];
+            productInfo["reportTS"] = formatDate(reportInfo["reportTS"], {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                weekday: "long",
+                timezone: "PST",
+                hour12: false
+            });
+            productInfo["reportTS2"] = formatDate(reportInfo["reportTS"], {
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                timezone: "PST",
+                hour12: false
+            });
             // location
             productInfo["location"] = reportInfo["location"];
             // actual/pinned
@@ -196,7 +211,15 @@ function generateMultipleReports(reportIDs, document, tags) {
                     }
                     productInfo["resolvedUnresolved"] = resolvedUnresolved;
                     // reportTS
-                    productInfo["reportTS"] = report["reportTS"];
+                    productInfo["reportTS"] = formatDate(report["reportTS"], {
+                        hour: "numeric",
+                        minute: "numeric",
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        timezone: "PST",
+                        hour12: false
+                    });
                     // location
                     productInfo["location"] = report["location"];
                     // tag
@@ -241,22 +264,62 @@ function generateMultipleReports(reportIDs, document, tags) {
                     resolvedUnresolvedText.appendChild(
                         document.createTextNode(resolvedUnresolved)
                     );
-                    button.appendChild(resolvedUnresolvedText);
-                    var buttonText = document.createTextNode(
-                        " | " +
-                            report["incidentID"] +
-                            " | " +
-                            report["reportTS"] +
-                            " | " +
-                            report["tag"] +
-                            " | " +
-                            report["location"] +
-                            " | " +
-                            report["fullName"] +
-                            " | " +
-                            "Insert Body Here."
+                    const incidentIDText = addSpan(
+                        "buttonIncidentIDText",
+                        "#" + report["incidentID"],
+                        document
                     );
-                    button.appendChild(buttonText);
+                    const reportTSText = addSpan(
+                        "buttonReportTSText",
+                        report["reportTS"],
+                        document
+                    );
+                    const tagText = addSpan(
+                        "buttonTagText",
+                        report["tag"],
+                        document
+                    );
+                    const locationText = addSpan(
+                        "buttonLocationText",
+                        report["location"],
+                        document
+                    );
+                    const fullNameText = addSpan(
+                        "buttonFullNameText",
+                        report["fullName"],
+                        document
+                    );
+                    const bodyText = addSpan(
+                        "buttonBodyText",
+                        trimString(report["body"], 70),
+                        document
+                    );
+                    // Apply tag colors (In the future this dictionary will be replaced by SQL query!)
+                    const colorDict = {
+                        "Water Leak": "#1226D9", // Water leak
+                        "Broken Light": "#08B619", // Broken light
+                        "Broken Window": "#831AB0", // Broekn window
+                        "Lighting Deficiency": "#C8B71C", // Lighting deficiency
+                        "Excess Trash": "#0D0D0D" // Excess trash
+                    };
+                    tagText.setAttribute(
+                        "style",
+                        "color:" + colorDict[report["tag"]]
+                    );
+
+                    button.appendChild(resolvedUnresolvedText);
+                    addSpace(button);
+                    button.appendChild(incidentIDText);
+                    addSpace(button);
+                    button.appendChild(reportTSText);
+                    addSpace(button);
+                    button.appendChild(tagText);
+                    addSpace(button);
+                    button.appendChild(locationText);
+                    addSpace(button);
+                    button.appendChild(fullNameText);
+                    addSpace(button);
+                    button.appendChild(bodyText);
                     reportList.appendChild(button);
                 });
             }
@@ -311,15 +374,24 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                     break;
                 }
                 case "filterDate": {
-                    columnTitle = "reportTS"; // Expect XX-XX-XX
-                    var date = new Date().toMysqlFormat(); // Get current date.
-                    // TODO: Worry about this crap
+                    var date = value.split("/");
+                    columnTitle = "MONTH (reportTS)"; // Expect XX-XX-XXXX
+                    value = date[0]; // Month
+                    apiDict[columnTitle] = value; // Log this straight away
+                    columnTitle = "DAY (reportTS)"; // Expect XX-XX-XXXX
+                    value = date[1]; // Day
+                    apiDict[columnTitle] = value; // Log this straight away
+                    columnTitle = "YEAR(reportTS)"; // Expect XX-XX-XXXX
+                    value = date[2]; // Year
                     break;
                 }
                 case "filterTime": {
-                    columnTitle = "reportTS"; // Expect XX-XX-XX
-                    var date = new Date().toMysqlFormat(); // Get current date.
-                    // TODO: Worry about this crap
+                    var time = value.split(":");
+                    columnTitle = "HOUR (reportTS)"; // Expect XX:XX
+                    value = time[0];
+                    apiDict[columnTitle] = value; // Log this straight away
+                    columnTitle = "MINUTE (reportTS)";
+                    value = time[1];
                     break;
                 }
                 case "filterStatus": {
@@ -341,7 +413,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                 }
                 case "filterBody": {
                     columnTitle = "body";
-                    value = "LIKE '%{$\" + value + \"}%'";
+                    value = "LIKE '%{$" + value + "}%'";
                     break;
                 }
                 case "filterUnchangedLocation": {
@@ -413,10 +485,55 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
 }
 
 /*
+ * Helper function to add spacing divs to button
+ */
+function addSpace(button) {
+    button.appendChild(addSpan("buttonSplitText", "  |  ", document));
+}
+
+/*
+ * Helper function to append divs to button
+ */
+function addSpan(id, text, document) {
+    var span = document.createElement("span");
+    span.setAttribute("id", id);
+    span.appendChild(document.createTextNode(text));
+    return span;
+}
+
+/*
+ * Helper function that trims a length of a string and adds ... if longer.
+ */
+function trimString(string, length) {
+    return string.length > length
+        ? string.substring(0, length - 3).trim() + "..."
+        : string;
+}
+
+/*
  * Helper function that wraps a string in '' symbols for a SQL query.
  */
 function addQuotes(string) {
     return (string = '"' + string + '"');
+}
+
+/*
+    Helper function that converts a JS date into readable format (styling).
+    Options are set to include hours,
+    Returns a string.
+*/
+function formatDate(mySQLDate, options) {
+    console.log("mySQLDate = " + mySQLDate);
+    var jsDate = toDateFormat(mySQLDate);
+    console.log(jsDate);
+    return jsDate.toLocaleString("en-US", options);
+}
+
+/*
+    The following is imported code to convert MySQL TS to JS date.
+*/
+function toDateFormat(mySQLDate) {
+    return new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8));
 }
 
 /*

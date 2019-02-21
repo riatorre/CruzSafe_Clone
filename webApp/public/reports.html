@@ -68,8 +68,8 @@
                 <br />
                 <p>Tag:</p><br/><input id = "filterTag"></input><br/>
                 <p>Incident id(s):</p><br/><input id = "filterIncidentID"></input> <br/>
-                <p>Report date:</p><br/><input id = "filterDate"></input><br/>
-                <p>Report time:</p><br/><input id = "filterTime"></input><br/>
+                <p>Report date (MM-DD-YYYY) :</p><br/><input id = "filterDate"></input><br/>
+                <p>Report time (HH:MM):</p><br/><input id = "filterTime"></input><br/>
                 <p>Status:
                     <div class="dropdown">
                         <button id = "filterStatus" class = "dropbtn">(Not chosen)</button>
@@ -147,7 +147,6 @@
                             filterDict[filterElements[i]] = null;
                         }
                     }
-                    console.log(filterDict)
                     // Error checking area! Add more modules in the future.
                     // NOte: this one is broken. 
                     if((Number.isInteger(filterDict["filterIncidentID"] == false) && filterDict["filterIncidentID"] != null)){
@@ -197,7 +196,8 @@
                                     <p>
                                         <b>Report:</b> #<span id = "incidentID"></span> <b id="resolvedUnresolved"></b>
                                     </p>
-                                    <p><b>Time:</b> <span id="reportTS"></span></p>
+                                    <p><b>Date:</b> <span id="reportTS"></span></p>
+                                    <p><b>Time:</b> <span id="reportTS2"></span></p>
                                     <p><b>Location:</b> <span id="location"></span> <span id="actualPinned"></span></p>
                                     <p><b>Tag:</b> <span id="tag"></span></p>
                                     <br />
