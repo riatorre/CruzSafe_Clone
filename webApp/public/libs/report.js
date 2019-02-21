@@ -84,14 +84,12 @@ function generateSingleReportHelper(reportID, document, tags) {
                 month: "long",
                 day: "numeric",
                 weekday: "long",
-                timezone: "PST",
                 hour12: false
             });
             productInfo["reportTS2"] = formatDate(reportInfo["reportTS"], {
                 hour: "numeric",
                 minute: "numeric",
                 second: "numeric",
-                timezone: "PST",
                 hour12: false
             });
             // location
@@ -255,7 +253,6 @@ function generateMultipleReports(reportIDs, document, tags) {
                         year: "numeric",
                         month: "2-digit",
                         day: "2-digit",
-                        timezone: "PST",
                         hour12: false
                     });
                     // location
@@ -555,6 +552,7 @@ function addQuotes(string) {
 function formatDate(mySQLDate, options) {
     console.log("mySQLDate = " + mySQLDate);
     var jsDate = toDateFormat(mySQLDate);
+    jsDate.setHours(jsDate.getHours() - 8);
     console.log(jsDate);
     return jsDate.toLocaleString("en-US", options);
 }
