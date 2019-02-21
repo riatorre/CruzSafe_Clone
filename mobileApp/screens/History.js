@@ -138,12 +138,12 @@ class History extends Component {
                             JSON.stringify(result[i])
                         );
                     }
-                } /*
+                }
+
                 this.setState({
                     completeReports: cList,
                     incompleteReports: iList
                 });
-                */
             })
             .catch(err => {
                 console.log(err);
@@ -152,6 +152,7 @@ class History extends Component {
 
     async storeReports(key, report) {
         try {
+            await AsyncStorage.clear();
             await AsyncStorage.setItem(key, report);
         } catch (error) {
             console.log(error.message);
