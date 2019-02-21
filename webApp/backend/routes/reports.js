@@ -73,9 +73,9 @@ router.post("/specifyReportIDs", function(req, res) {
                 // if first item, no AND.
                 query = query + key + " = " + filters[key];
                 firstItem = false;
-            } else if (filters[key].startsWith(" LIKE ")) {
+            } else if (("" + filters[key]).startsWith(" LIKE ")) {
                 query = query + key + filters[key]; // EX) SELECT reportID FROM reports WHERE column LIKE '${$needle}$'
-            } else if (filters[key].startsWith(" IS ")) {
+            } else if (("" + filters[key]).startsWith(" IS ")) {
                 query = query + key + filters[key]; // EX) SELECT reportID FROM reports WHERE column IS NOT NULL'
             } else {
                 // else not first item, append AND in beginning.
