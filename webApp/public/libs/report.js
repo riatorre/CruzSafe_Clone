@@ -289,16 +289,19 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                             "style",
                             "color:red"
                         );
+                        // button.setAttribute("style", "background:#540909");
                     } else if (resolvedUnresolved.includes("Incomplete")) {
                         resolvedUnresolvedText.setAttribute(
                             "style",
                             "color:orange"
                         );
+                        //button.setAttribute("style", "background:#795307");
                     } else {
                         resolvedUnresolvedText.setAttribute(
                             "style",
                             "color:green"
                         );
+                        //button.setAttribute("style", "background:#00008b");
                     }
                     resolvedUnresolvedText.appendChild(
                         document.createTextNode(resolvedUnresolved)
