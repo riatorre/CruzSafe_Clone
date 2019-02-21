@@ -88,7 +88,7 @@
     margin-top: 20px;
     margin-right: 40px;
     margin-left: 0px;
-    height: 77%;
+    height: 74%;
     border: 5px solid black;
     background: rgb(123, 123, 123, 0.9);
     overflow-y: auto;
@@ -101,27 +101,23 @@
     margin-bottom: 20px;
 }
 
-#buttonFullNameText {
-    color: lightgrey;
-}
-
-#buttonLocationText {
-    font-style: italic;
-}
-
-#buttonSplitText {
-    color: grey;
-}
-
-#buttonBodyText {
-    color: grey;
-}
-
-#navigationButtons > button {
+/*
+    Styling for report buttons called launchReport
+*/
+#reportHeader {
+    margin-top: 20px;
+    margin-right: 40px;
+    margin-left: 0px;
+    height: 30px;
+    border: 5px solid black;
+    background: rgb(123, 123, 123, 0.9);
+    overflow-y: auto;
     font-size: 15px;
-    padding-right: 20px;
-    padding-left: 20px;
-    float: center;
+    white-space: pre;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
 }
 
 #launchReport {
@@ -130,10 +126,63 @@
     background: darkblue;
     white-space: pre;
     text-align: left;
+    display: flex;
+    justify-content: space-between;
 }
 
 #launchReport:hover {
     background: turquoise;
+}
+
+#launchReport > #buttonSplitText {
+    color: grey;
+}
+
+#buttonResolvedUnresolved {
+    flex: 7%;
+}
+
+#buttonIncidentIDText {
+    flex: 3%;
+}
+
+#buttonReportTSText {
+    flex: 10%;
+}
+
+#buttonTagText {
+    flex: 10%;
+}
+
+#buttonLocationText {
+    flex: 15%;
+}
+
+#launchReport > #buttonLocationText {
+    font-style: italic;
+}
+
+#launchReport > #buttonFullNameText {
+    color: lightgrey;
+}
+
+#buttonFullNameText {
+    flex: 12%;
+}
+
+#launchReport > #buttonBodyText {
+    color: grey;
+}
+
+#buttonBodyText {
+    flex: 40%;
+}
+
+#navigationButtons > button {
+    font-size: 15px;
+    padding-right: 20px;
+    padding-left: 20px;
+    float: center;
 }
 
 /*
