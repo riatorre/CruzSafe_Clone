@@ -105,7 +105,7 @@ router.post("/specifyReportIDs", function(req, res) {
             }
         });
     } else {
-        res.json({ message: "[Database] Nothing found!" });
+        res.json({ message: "[Database] Nothing found! Query = " + query });
     }
 });
 

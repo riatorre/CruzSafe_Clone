@@ -362,13 +362,17 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                     }
                     break;
                 }
+                case "filterMobileID": {
+                    columnTitle = "reports.mobileID";
+                    break;
+                }
                 // Cases of integers; no add quotes
-                case "filterMobileID":
                 case "filterIncidentID": {
                     columnTitle = key.replace("filter", "");
                     columnTitle =
                         columnTitle.charAt(0).toLowerCase() +
                         columnTitle.slice(1);
+                    break;
                 }
                 default: {
                     // Else simply remove filter prefix and change first letter to lowercase; this should be the column title.
@@ -377,8 +381,10 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                         columnTitle.charAt(0).toLowerCase() +
                         columnTitle.slice(1);
                     value = addQuotes(value); // Furthermore, assume the value is a VARCHAR in the database.
+                    break;
                 }
             }
+            console.log("columnTitle = " + columnTitle + ", value = " + value);
             apiDict[columnTitle] = value;
         }
     }
@@ -410,7 +416,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
  * Helper function that wraps a string in '' symbols for a SQL query.
  */
 function addQuotes(string) {
-    string = '"' + string + '"';
+    return (string = '"' + string + '"');
 }
 
 /*
