@@ -74,7 +74,8 @@ class HomeScreen extends Component {
         locationModalVisible: false,
         incidentCategory: "",
         incidentDesc: "",
-        incidentLocationDesc: ""
+        incidentLocationDesc: "",
+        location: null
     };
 
     setReportModalVisible(visible) {
@@ -85,33 +86,47 @@ class HomeScreen extends Component {
         this.setState({ cameraModalVisible: visible });
     }
 
-    setLocationModalVisible(visible) {
+    async setLocationModalVisible(visible) {
         this.setState({ locationModalVisible: visible });
+        if (visible === true) {
+            this.getLocationAsync();
+        }
     }
 
     setIOSPickerVisible(visible) {
         this.setState({ iOSPickerVisible: visible });
     }
 
+    async getLocationAsync() {
+        const { Location, Permissions } = Expo;
+        // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
+        const { status, permissions } = await Permissions.askAsync(
+            Permissions.LOCATION
+        );
+        if (status === "granted") {
+            const loc = await Location.getCurrentPositionAsync({
+                enableHighAccuracy: true
+            });
+            this.setState({ location: loc });
+            console.log(
+                "latitude:" +
+                    loc.coords.latitude +
+                    "\nlongitude:" +
+                    loc.coords.longitude
+            );
+        } else {
+            this.setLocationModalVisible(!this.state.locationModalVisible);
+        }
+    }
+
     // If dectects unsubmitted report (incidentDesc or incidentLocationDesc),
     // ask the user what to do
     async continue() {
-        var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        if (pre_report === null) {
-            this.storeItem(
-                "unsub_report",
-                JSON.stringify({
-                    incidentCategory: "",
-                    incidentDesc: "",
-                    incidentLocationDesc: ""
-                })
-            );
-            pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        }
-        if (
-            pre_report.incidentDesc !== "" ||
-            pre_report.incidentLocationDesc !== ""
-        ) {
+        const pre_report = JSON.parse(
+            await AsyncStorage.getItem("unsub_report")
+        );
+        var item = pre_report.split("///");
+        if (item[1] !== "" || item[2] !== "") {
             Alert.alert(
                 "Continue?",
                 "Detected an unsubmitted report, what do you want to do?",
@@ -121,15 +136,10 @@ class HomeScreen extends Component {
                         onPress: () => {
                             // If the user choose to continue editting previous report,
                             // reset all text states to previous one
+                            this.setState({ incidentCategory: item[0] });
+                            this.setState({ incidentDesc: item[1] });
                             this.setState({
-                                incidentCategory: pre_report.incidentCategory
-                            });
-                            this.setState({
-                                incidentDesc: pre_report.incidentDesc
-                            });
-                            this.setState({
-                                incidentLocationDesc:
-                                    pre_report.incidentLocationDesc
+                                incidentLocationDesc: item[2]
                             });
                         }
                     },
@@ -148,6 +158,7 @@ class HomeScreen extends Component {
                 { cancelable: false }
             );
         }
+        this.setState({ incidentCategory: "" });
     }
 
     // When the user create a report, start detecting previous unsubmitted report
@@ -159,9 +170,14 @@ class HomeScreen extends Component {
     }
 
     // store texts in AsyncStorage
-    async storeItem(key, json) {
+    async storeItem(key, category, incidentDesc, locationDesc) {
         try {
-            await AsyncStorage.setItem(key, json);
+            await AsyncStorage.setItem(
+                key,
+                JSON.stringify(
+                    category + "///" + incidentDesc + "///" + locationDesc
+                )
+            );
         } catch (error) {
             console.log(error.message);
         }
@@ -427,12 +443,9 @@ class HomeScreen extends Component {
                         // Save current texts in AsyncStorage when the window closes
                         this.storeItem(
                             "unsub_report",
-                            JSON.stringify({
-                                incidentCategory: this.state.incidentCategory,
-                                incidentDesc: this.state.incidentDesc,
-                                incidentLocationDesc: this.state
-                                    .incidentLocationDesc
-                            })
+                            this.state.incidentCategory,
+                            this.state.incidentDesc,
+                            this.state.incidentLocationDesc
                         );
                     }}
                 >
@@ -451,14 +464,9 @@ class HomeScreen extends Component {
                                         // Save current texts in AsyncStorage when the window closes
                                         this.storeItem(
                                             "unsub_report",
-                                            JSON.stringify({
-                                                incidentCategory: this.state
-                                                    .incidentCategory,
-                                                incidentDesc: this.state
-                                                    .incidentDesc,
-                                                incidentLocationDesc: this.state
-                                                    .incidentLocationDesc
-                                            })
+                                            this.state.incidentCategory,
+                                            this.state.incidentDesc,
+                                            this.state.incidentLocationDesc
                                         );
                                     }}
                                 />
@@ -556,14 +564,9 @@ class HomeScreen extends Component {
                                         // Save current texts in AsyncStorage when the window closes
                                         this.storeItem(
                                             "unsub_report",
-                                            JSON.stringify({
-                                                incidentCategory: this.state
-                                                    .incidentCategory,
-                                                incidentDesc: this.state
-                                                    .incidentDesc,
-                                                incidentLocationDesc: this.state
-                                                    .incidentLocationDesc
-                                            })
+                                            this.state.incidentCategory,
+                                            this.state.incidentDesc,
+                                            this.state.incidentLocationDesc
                                         );
                                     }}
                                 >
@@ -597,6 +600,24 @@ class HomeScreen extends Component {
                                                         {
                                                             text: "OK",
                                                             onPress: () => {
+                                                                /*
+                                                                // Store submitted report in AsyncStorage
+                                                                // Store blank texts in AsyncStorage
+                                                                this.storeItem(
+                                                                    "incidentCategory_sub",
+                                                                    this.state
+                                                                        .incidentCategory,
+                                                                    this.state
+                                                                        .incidentLocationDesc,
+                                                                    this.state
+                                                                        .incidentLocationDesc
+                                                                );
+                                                                this.storeItem(
+                                                                    "unsub_report",
+                                                                    "",
+                                                                    "",
+                                                                    ""
+                                                                );
                                                                 this.setState({
                                                                     incidentCategory:
                                                                         "",
@@ -605,22 +626,7 @@ class HomeScreen extends Component {
                                                                     incidentLocationDesc:
                                                                         ""
                                                                 });
-                                                                this.storeItem(
-                                                                    "unsub_report",
-                                                                    JSON.stringify(
-                                                                        {
-                                                                            incidentCategory: this
-                                                                                .state
-                                                                                .incidentCategory,
-                                                                            incidentDesc: this
-                                                                                .state
-                                                                                .incidentDesc,
-                                                                            incidentLocationDesc: this
-                                                                                .state
-                                                                                .incidentLocationDesc
-                                                                        }
-                                                                    )
-                                                                );
+                                                                */
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
@@ -631,6 +637,24 @@ class HomeScreen extends Component {
                                                             text:
                                                                 "Check the status of my report: ",
                                                             onPress: () => {
+                                                                /*
+                                                                // Store submitted report in AsyncStorage
+                                                                // Store blank texts in AsyncStorage
+                                                                this.storeItem(
+                                                                    "incidentCategory_sub",
+                                                                    this.state
+                                                                        .incidentCategory,
+                                                                    this.state
+                                                                        .incidentLocationDesc,
+                                                                    this.state
+                                                                        .incidentLocationDesc
+                                                                );
+                                                                this.storeItem(
+                                                                    "unsub_report",
+                                                                    "",
+                                                                    "",
+                                                                    ""
+                                                                );
                                                                 this.setState({
                                                                     incidentCategory:
                                                                         "",
@@ -638,23 +662,7 @@ class HomeScreen extends Component {
                                                                         "",
                                                                     incidentLocationDesc:
                                                                         ""
-                                                                });
-                                                                this.storeItem(
-                                                                    "unsub_report",
-                                                                    JSON.stringify(
-                                                                        {
-                                                                            incidentCategory: this
-                                                                                .state
-                                                                                .incidentCategory,
-                                                                            incidentDesc: this
-                                                                                .state
-                                                                                .incidentDesc,
-                                                                            incidentLocationDesc: this
-                                                                                .state
-                                                                                .incidentLocationDesc
-                                                                        }
-                                                                    )
-                                                                );
+                                                                });*/
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
