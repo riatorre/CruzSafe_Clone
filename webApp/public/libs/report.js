@@ -23,14 +23,6 @@ reportFields = [
     "body"
 ];
 
-// Apply tag colors (In the future this dictionary will be replaced by SQL query!)
-const colorDict = {
-    "Water Leak": "#1226D9", // Water leak
-    "Broken Light": "#08B619", // Broken light
-    "Broken Window": "#831AB0", // Broekn window
-    "Lighting Deficiency": "#C8B71C", // Lighting deficiency
-    "Excess Trash": "#0D0D0D" // Excess trash
-};
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
 const webID = 1;
 
@@ -51,14 +43,18 @@ function generateSingleReport(reportID, document) {
             Array.from(tags).forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
             });
+            tagColors = {};
+            Array.from(tags).forEach(function(tag) {
+                tagDict[tag["tagName"]] = tag["color"];
+            });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateSingleReportHelper(reportID, document, tagDict);
+            generateSingleReportHelper(reportID, document, tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function generateSingleReportHelper(reportID, document, tags) {
+function generateSingleReportHelper(reportID, document, tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -138,7 +134,7 @@ function generateSingleReportHelper(reportID, document, tags) {
                 const targetTag = document.getElementById(field);
                 targetTag.innerHTML = productInfo[field];
             }
-            tag.setAttribute("style", "color:" + colorDict[productInfo["tag"]]);
+            tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
             document
                 .getElementById("reportResolve")
                 .setAttribute("onclick", "markComplete(" + reportID + ")"); // Add onclick function to button
@@ -187,15 +183,19 @@ function setupReports(document) {
             Array.from(tags).forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
             });
+            tagColors = {};
+            Array.from(tags).forEach(function(tag) {
+                tagDict[tag["tagName"]] = tag["color"];
+            });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            gatherReportPage(document, tagDict);
+            gatherReportPage(document, tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 // TODO: Implement page segregation with this helper function.
-function gatherReportPage(document, tags) {
+function gatherReportPage(document, tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -206,7 +206,7 @@ function gatherReportPage(document, tags) {
                 reportIDs.push(reportID["reportID"]);
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateMultipleReports(reportIDs, document, tags);
+            generateMultipleReports(reportIDs, document, tags, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportIDs");
@@ -219,7 +219,7 @@ function gatherReportPage(document, tags) {
     This array is JSONified and  passed to the API using POST. 
     API returns array of dictionaries for each report etc. 
 */
-function generateMultipleReports(reportIDs, document, tags) {
+function generateMultipleReports(reportIDs, document, tags, tagColors) {
     // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -331,7 +331,7 @@ function generateMultipleReports(reportIDs, document, tags) {
                     );
                     tagText.setAttribute(
                         "style",
-                        "color:" + colorDict[report["tag"]]
+                        "color:" + tagColors[report["tag"]]
                     );
 
                     button.appendChild(resolvedUnresolvedText);
@@ -381,14 +381,30 @@ function filterReports(filterDict, document) {
                 tagDict[tag["tagID"]] = tag["tagName"];
                 reverseTagDict[tag["tagName"].toLowerCase()] = tag["tagID"];
             });
+            tagColors = {};
+            Array.from(tags).forEach(function(tag) {
+                tagDict[tag["tagName"]] = tag["color"];
+            });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            filterReportsHelper(filterDict, document, tagDict, reverseTagDict);
+            filterReportsHelper(
+                filterDict,
+                document,
+                tagDict,
+                reverseTagDict,
+                tagColors
+            );
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function filterReportsHelper(filterDict, document, tags, reverseTags) {
+function filterReportsHelper(
+    filterDict,
+    document,
+    tags,
+    reverseTags,
+    tagColors
+) {
     var apiDict = {};
     for (key in filterDict) {
         if (filterDict[key] != null) {
