@@ -45,7 +45,7 @@ function generateSingleReport(reportID, document) {
             });
             tagColors = {};
             Array.from(tags).forEach(function(tag) {
-                tagDict[tag["tagName"]] = tag["color"];
+                tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             generateSingleReportHelper(reportID, document, tagDict, tagColors);
@@ -185,7 +185,7 @@ function setupReports(document) {
             });
             tagColors = {};
             Array.from(tags).forEach(function(tag) {
-                tagDict[tag["tagName"]] = tag["color"];
+                tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             gatherReportPage(document, tagDict, tagColors);
@@ -383,7 +383,7 @@ function filterReports(filterDict, document) {
             });
             tagColors = {};
             Array.from(tags).forEach(function(tag) {
-                tagDict[tag["tagName"]] = tag["color"];
+                tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             filterReportsHelper(
