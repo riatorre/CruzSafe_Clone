@@ -434,10 +434,13 @@ function filterReportsHelper(
                 }
                 case "filterTime": {
                     var time = value.split(":");
-                    columnTitle = "HOUR (reportTS)"; // Expect XX:XX
+                    columnTitle = "HOUR(reportTS)"; // Expect XX:XX
                     value = time[0];
+                    console.log(
+                        "columnTitle = " + columnTitle + ", value = " + value
+                    );
                     apiDict[columnTitle] = value; // Log this straight away
-                    columnTitle = "MINUTE (reportTS)";
+                    columnTitle = "MINUTE(reportTS)";
                     value = time[1];
                     break;
                 }
@@ -572,7 +575,6 @@ function addQuotes(string) {
 function formatDate(mySQLDate, options) {
     console.log("mySQLDate = " + mySQLDate);
     var jsDate = toDateFormat(mySQLDate);
-    jsDate.setHours(jsDate.getHours() - 8);
     console.log(jsDate);
     return jsDate.toLocaleString("en-US", options);
 }
