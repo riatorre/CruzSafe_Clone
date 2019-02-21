@@ -88,5 +88,12 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#EEE",
         borderColor: "gray",
         borderWidth: 1
+    },
+    itemContainer: {
+        flex: 1,
+        padding: 10,
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        borderColor: "#4488A7"
     }
 }));

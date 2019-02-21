@@ -4,7 +4,14 @@
  */
 
 import React, { Component } from "react";
-import { Text, SafeAreaView, Platform } from "react-native";
+import {
+    View,
+    Text,
+    SafeAreaView,
+    Platform,
+    FlatList,
+    TouchableOpacity
+} from "react-native";
 import {
     Container,
     Header,
@@ -15,10 +22,27 @@ import {
     Body,
     Icon
 } from "native-base";
+import PropTypes from "prop-types";
 
 import styles from "../components/styles.js";
 
+// Temporary Definition of tagsList; should move to somewhere more global in scale
+var tagsList = [
+    "Trash",
+    "Water Leak",
+    "Broken Light",
+    "Broken Window",
+    "Lighting deficiency",
+    "UNDEFINED"
+];
+
 class History extends Component {
+    state = {
+        data: [],
+        completeReports: [],
+        incompleteReports: []
+    };
+
     static navigationOptions = {
         //Drawer Icon
         drawerIcon: ({ tintColor }) => (
@@ -29,7 +53,60 @@ class History extends Component {
         )
     };
 
-    componentDidMount() {
+    MyFlatList(list) {
+        if (list.length > 0) {
+            return (
+                <FlatList
+                    data={list} // All data goes here
+                    keyExtractor={(item, index) => index.toString()} // Defines how the items are identified
+                    renderItem={({ item }) => (
+                        //Defining how each element will appear in the list
+                        <TouchableOpacity
+                            style={styles.itemContainer}
+                            onPress={() => {
+                                console.log(item.reportID);
+                            }}
+                        >
+                            <View style={{ flexDirection: "row" }}>
+                                <Text>
+                                    Report #{item.reportID}
+                                    {/*Incident #{item.incidentID}*/}
+                                </Text>
+                                <Text
+                                    style={{
+                                        marginLeft: "auto"
+                                    }}
+                                >
+                                    {tagsList[item.tag]}
+                                </Text>
+                            </View>
+                            <View>
+                                <Text>Date Created: {item.reportTS}</Text>
+                                {item.completeTS !== null ? (
+                                    <Text>
+                                        Date Completed: {item.completeTS}
+                                    </Text>
+                                ) : (
+                                    <View />
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+            );
+        } else {
+            return (
+                <View style={styles.itemContainer}>
+                    <Text>
+                        No reports are available at this time. Please try again
+                        later
+                    </Text>
+                </View>
+            );
+        }
+    }
+
+    getReports() {
         fetch("https://cruzsafe.appspot.com/api/reports/userReports", {
             method: "POST",
             headers: {
@@ -41,14 +118,30 @@ class History extends Component {
             })
         })
             .then(res => res.json())
-            .then(
-                result => {
-                    console.log(result); // Logs data for now until we can determine where to place the data; seems to only occur once, and does not do so again until next login
-                },
-                error => {
-                    console.log(error);
+            .then(result => {
+                var cList = [];
+                var iList = [];
+                this.setState({ data: result }); // Stores the result into a state
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].completeTS != null) {
+                        cList.push(result[i]);
+                    } else {
+                        iList.push(result[i]);
+                    }
                 }
-            );
+                this.setState({
+                    completeReports: cList,
+                    incompleteReports: iList
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    //Gets all reports by current user on first load of the page. May occur when app is restarted, or when a new user signs in
+    componentDidMount() {
+        this.getReports();
     }
 
     render() {
@@ -76,7 +169,50 @@ class History extends Component {
                     </Header>
                     {/* Main Body */}
                     <Content contentContainerStyle={styles.container}>
-                        <Text>History ....</Text>
+                        <View
+                            style={{
+                                width: "90%",
+                                height: "85%",
+                                backgroundColor: "#FFFFFF80",
+                                padding: 10
+                            }}
+                        >
+                            {/* List of all Reports are here */}
+                            <View
+                                style={
+                                    ({ height: "50%" }, styles.itemContainer)
+                                }
+                            >
+                                <Text style={{ fontSize: 24, margin: 5 }}>
+                                    Reports under Review:
+                                </Text>
+                                {this.MyFlatList(this.state.incompleteReports)}
+                            </View>
+                            <View
+                                style={
+                                    ({ height: "50%" }, styles.itemContainer)
+                                }
+                            >
+                                <Text style={{ fontSize: 24, margin: 5 }}>
+                                    Completed Reports:
+                                </Text>
+                                {this.MyFlatList(this.state.completeReports)}
+                            </View>
+                        </View>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.getReports;
+                            }}
+                        >
+                            <Icon
+                                name={`${
+                                    Platform.OS === "ios" ? "ios" : "md"
+                                }-refresh`}
+                                style={{ color: "white" }}
+                            />
+                            <Text style={{ color: "white" }}>Refresh</Text>
+                        </TouchableOpacity>
                     </Content>
                     <Footer style={styles.footer}>
                         <Left
