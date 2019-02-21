@@ -176,10 +176,12 @@ class History extends Component {
                     il.push(r);
                 }
             }
+            /*
             this.setState({
                 completeReports: cl,
                 incompleteReports: il
             });
+            */
         } catch (error) {
             console.log(error.message);
         }
