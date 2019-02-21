@@ -92,10 +92,15 @@ function generateSingleReportHelper(reportID, document, tags) {
 
             // All data has now been added into reportData
             const modal = document.getElementById("report");
-            if (productInfo["resolvedUnresolved"].includes("Unresolved")) {
+            if (productInfo["resolvedUnresolved"].includes("New")) {
                 // For resolvedUnresolved, gets status. If resolved, green. else, red.
                 document.getElementById("resolvedUnresolved").style.color =
                     "red";
+            } else if (
+                productInfo["resolvedUnresolved"].includes("Incomplete")
+            ) {
+                document.getElementById("resolvedUnresolved").style.color =
+                    "orange";
             } else {
                 document.getElementById("resolvedUnresolved").style.color =
                     "yellowgreen";
@@ -214,9 +219,31 @@ function generateMultipleReports(reportIDs, document, tags) {
                         "onclick",
                         "displayReport(" + report["reportID"] + ")"
                     );
+                    const resolvedUnresolved = report["resolvedUnresolved"];
+                    var resolvedUnresolvedText = document.createElement("b");
+                    if (resolvedUnresolved.includes("New")) {
+                        // For resolvedUnresolved, gets status. If resolved, green. else, red.
+                        resolvedUnresolvedText.setAttribute(
+                            "style",
+                            "color:red"
+                        );
+                    } else if (resolvedUnresolved.includes("Incomplete")) {
+                        resolvedUnresolvedText.setAttribute(
+                            "style",
+                            "color:orange"
+                        );
+                    } else {
+                        resolvedUnresolvedText.setAttribute(
+                            "style",
+                            "color:green"
+                        );
+                    }
+                    resolvedUnresolvedText.appendChild(
+                        document.createTextNode(resolvedUnresolved)
+                    );
+                    button.appendChild(resolvedUnresolvedText);
                     var buttonText = document.createTextNode(
-                        report["resolvedUnresolved"] +
-                            " | " +
+                        " | " +
                             report["incidentID"] +
                             " | " +
                             report["reportTS"] +

@@ -85,6 +85,9 @@ router.post("/specifyReportIDs", function(req, res) {
                 firstItem = false;
             }
         }
+        query =
+            query +
+            " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC;"; // Ordering clause
         connection.query(query, function(err, rows) {
             if (err) {
                 myConsole.error(err);
