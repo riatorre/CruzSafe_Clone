@@ -16,10 +16,11 @@ import {
 import { Container, Header, Content, Footer } from "native-base";
 import Swiper from "react-native-swiper";
 import styles from "../components/styles.js";
+import { appendFileSync } from "fs";
 
 class WelcomeScreen extends Component {
     // State of the screen; maintained as long as app is not fully closed.
-    state = { username: "", errorMessage: null };
+    state = { mobileID: 1, username: "", errorMessage: null };
 
     render() {
         const isDisabled = this.state.username.length === 0;
@@ -79,35 +80,34 @@ class WelcomeScreen extends Component {
         );
     }
 
-    // function used to handle submitting report to DB.
-    // Utilizes a fetch stmt to call API that does the actual insertion
-    // Not Async as to allow us to determine if we need to give the user an error message
-    async handleSubmit() {
-        // Must convert the Tag from a string to a Int for DB
-        var incidentTagID = 0;
-        for (i = 0; i < tagsList.length; i++) {
-            if (tagsList[i] === this.state.incidentCategory) {
-                incidentTagID = i;
-                break;
-            }
-        }
+    /*
+     * Used to handle the logging in; takes in an email and attempts to find a user
+     * in the database.
+     *
+     * Takes in the firstName, lastName, and email.
+     * (Note that this is temporary; once login is implemeneted with Shibboleth, these three variables will be given to us and will call the APIs automatically)
+     */
+    async handleLogin(firstName, lastName, email) {
         // Main Portion of the request, contains all metadata to be sent to link
-        await fetch("https://cruzsafe.appspot.com/api/reports/submitReport", {
-            // Defines what type of call is being made; above link is a POST request, so POST is needed Below
-            method: "POST",
-            // Metadata in regards as to what is expected to be sent/recieved
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
-            body: JSON.stringify({
-                mobileID: 1, //Set to 1 for now, will be a unique ID for logged in user once we setup Shibboleth
-                incidentDesc: this.state.incidentDesc,
-                incidentCategory: incidentTagID,
-                incidentLocationDesc: this.state.incidentLocationDesc
-            })
-        })
+        var response = await fetch(
+            "https://cruzsafe.appspot.com/api/users/checkID",
+            {
+                // Defines what type of call is being made; above link is a POST request, so POST is needed Below
+                method: "POST",
+                // Metadata in regards as to what is expected to be sent/recieved
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email
+                })
+            }
+        );
+        /*
             // Successful Call to API
             .then(() => {
                 return true;
@@ -117,10 +117,15 @@ class WelcomeScreen extends Component {
                 console.log(err);
                 return false;
             });
+            */
+        var json = await response.json();
+        this.state.mobileID = json;
+        console.log(json);
     }
 
     // Function used to 'sign' user in. Stores name into AsyncStorage
     _signInAsync = async () => {
+        handleLogin();
         await AsyncStorage.setItem("userToken", this.state.username);
         this.props.navigation.navigate("App");
     };
