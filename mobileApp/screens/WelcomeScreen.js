@@ -79,6 +79,46 @@ class WelcomeScreen extends Component {
         );
     }
 
+    // function used to handle submitting report to DB.
+    // Utilizes a fetch stmt to call API that does the actual insertion
+    // Not Async as to allow us to determine if we need to give the user an error message
+    async handleSubmit() {
+        // Must convert the Tag from a string to a Int for DB
+        var incidentTagID = 0;
+        for (i = 0; i < tagsList.length; i++) {
+            if (tagsList[i] === this.state.incidentCategory) {
+                incidentTagID = i;
+                break;
+            }
+        }
+        // Main Portion of the request, contains all metadata to be sent to link
+        await fetch("https://cruzsafe.appspot.com/api/reports/submitReport", {
+            // Defines what type of call is being made; above link is a POST request, so POST is needed Below
+            method: "POST",
+            // Metadata in regards as to what is expected to be sent/recieved
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
+            body: JSON.stringify({
+                mobileID: 1, //Set to 1 for now, will be a unique ID for logged in user once we setup Shibboleth
+                incidentDesc: this.state.incidentDesc,
+                incidentCategory: incidentTagID,
+                incidentLocationDesc: this.state.incidentLocationDesc
+            })
+        })
+            // Successful Call to API
+            .then(() => {
+                return true;
+            })
+            // Unsuccessful Call to API
+            .catch(err => {
+                console.log(err);
+                return false;
+            });
+    }
+
     // Function used to 'sign' user in. Stores name into AsyncStorage
     _signInAsync = async () => {
         await AsyncStorage.setItem("userToken", this.state.username);
