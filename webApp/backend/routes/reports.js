@@ -28,7 +28,9 @@ router.post("/", function(req, res) {
             query = query + " OR reportID = " + reportIDs[i];
         }
     }
-
+    query =
+        query +
+        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"; // Ordering clause
     connection.query(query, function(err, rows, fields) {
         if (err) {
             myConsole.error(err);
@@ -125,20 +127,21 @@ router.post("/tags", function(req, res) {
     Get all of the reportIDs in the database.
 */
 router.post("/reportIDs", function(req, res) {
-    myConsole.log("[Database] Attempting to select all reportIDs");
-    connection.query("SELECT reportID FROM reports", function(
-        err,
-        rows,
-        fields
-    ) {
-        if (err) {
-            myConsole.error(err);
-            res.json({ message: "An Error has occured" });
-        } else {
-            myConsole.log("[Database] Select all reportIDs Successful");
-            res.json(rows);
+    myConsole.log(
+        "[Database] Attempting to select all reportIDs ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"
+    );
+    connection.query(
+        "SELECT reportID FROM reports ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC",
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has occured" });
+            } else {
+                myConsole.log("[Database] Select all reportIDs Successful");
+                res.json(rows);
+            }
         }
-    });
+    );
 });
 
 // Get Report by internal ID #, should return either 0 or 1 entry
