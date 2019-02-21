@@ -148,7 +148,6 @@ class HomeScreen extends Component {
                 { cancelable: false }
             );
         }
-        this.setState({ incidentCategory: "" });
     }
 
     // When the user create a report, start detecting previous unsubmitted report
