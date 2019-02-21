@@ -95,5 +95,13 @@ export default (styles = StyleSheet.create({
         borderTopWidth: 0.5,
         borderBottomWidth: 0.5,
         borderColor: "#4488A7"
+    },
+    reportBtn: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: "#336",
+        borderColor: "#D4AF37",
+        borderWidth: 0.5,
+        borderRadius: 10
     }
 }));

@@ -23,7 +23,6 @@ import {
     Body,
     Icon
 } from "native-base";
-import PropTypes from "prop-types";
 
 import styles from "../components/styles.js";
 
@@ -54,6 +53,51 @@ class History extends Component {
         )
     };
 
+    // Formats the Time component to a user friendly formant; 12 hour
+    formatDate(date) {
+        var d = new Date(date);
+        var hh = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        var dd = "AM";
+        var h = hh;
+        if (h >= 12) {
+            h = hh - 12;
+            dd = "PM";
+        }
+        if (h == 0) {
+            h = 12;
+        }
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+        h = h < 10 ? "0" + h : h;
+        var pattern = new RegExp("0?" + hh + ":" + m + ":" + s);
+        var replace = h + ":" + m;
+        //replace += ":" + s;
+        replace += " " + dd;
+        var edittedTS = date.replace(pattern, replace);
+        var GMTRemovePattern = new RegExp("GMT-[0-9]{4} ");
+        var finalTS = edittedTS.replace(GMTRemovePattern, "");
+        return finalTS;
+    }
+
+    // Formats entire DateTime from MySQL to a user friendly format
+    splitTS(TS) {
+        var TSArray = TS.split(/[-T:.]/);
+        var TStemp = new Date(
+            Date.UTC(
+                TSArray[0],
+                TSArray[1],
+                TSArray[2],
+                TSArray[3],
+                TSArray[4],
+                TSArray[5]
+            )
+        );
+        var TSString = TStemp.toString();
+        return this.formatDate(TSString);
+    }
+
     MyFlatList(list) {
         if (list.length > 0) {
             return (
@@ -63,29 +107,33 @@ class History extends Component {
                     renderItem={({ item }) => (
                         //Defining how each element will appear in the list
                         <TouchableOpacity
-                            style={styles.itemContainer}
+                            style={styles.reportBtn}
                             onPress={() => {
                                 console.log(item.reportID);
                             }}
                         >
                             <View style={{ flexDirection: "row" }}>
-                                <Text>
+                                <Text style={{ color: "white" }}>
                                     Report #{item.reportID}
                                     {/*Incident #{item.incidentID}*/}
                                 </Text>
                                 <Text
                                     style={{
-                                        marginLeft: "auto"
+                                        marginLeft: "auto",
+                                        color: "white"
                                     }}
                                 >
                                     {tagsList[item.tag]}
                                 </Text>
                             </View>
                             <View>
-                                <Text>Date Created: {item.reportTS}</Text>
+                                <Text style={{ color: "white" }}>
+                                    Created on: {this.splitTS(item.reportTS)}
+                                </Text>
                                 {item.completeTS !== null ? (
-                                    <Text>
-                                        Date Completed: {item.completeTS}
+                                    <Text style={{ color: "white" }}>
+                                        Completed on:{" "}
+                                        {this.splitTS(item.completeTS)}
                                     </Text>
                                 ) : (
                                     <View />
@@ -100,7 +148,7 @@ class History extends Component {
                 <View style={styles.itemContainer}>
                     <Text>
                         No reports are available at this time. Please try again
-                        later
+                        later.
                     </Text>
                 </View>
             );
@@ -132,12 +180,6 @@ class History extends Component {
                         iList.push(result[i]);
                     }
                 }
-                /*
-                this.setState({
-                    completeReports: cList,
-                    incompleteReports: iList
-                });
-                */
             })
             .catch(err => {
                 console.log(err);
