@@ -16,7 +16,6 @@ import {
 import { Container, Header, Content, Footer } from "native-base";
 import Swiper from "react-native-swiper";
 import styles from "../components/styles.js";
-import { appendFileSync } from "fs";
 
 class WelcomeScreen extends Component {
     // State of the screen; maintained as long as app is not fully closed.
@@ -125,7 +124,7 @@ class WelcomeScreen extends Component {
 
     // Function used to 'sign' user in. Stores name into AsyncStorage
     _signInAsync = async () => {
-        handleLogin();
+        this.handleLogin();
         await AsyncStorage.setItem("userToken", this.state.username);
         this.props.navigation.navigate("App");
     };
