@@ -265,4 +265,102 @@ router.post("/userReports", function(req, res) {
     );
 });
 
+/*
+ * Inserts current time as a timestamp to either intialOpenTS or complete TS.
+ * initialOpenTS is either 1 or 0.
+ * Takes in id as well.
+ */
+router.post("/timestamp", function(req, res) {
+    console.log(
+        "[Database] Attempting to insert TS for initialOpenTS = " +
+            req.body.initialOpenTS +
+            " for reportID = " +
+            req.body.reportID +
+            "for webID = " +
+            req.body.webID
+    );
+    if (initialOpenTS == 1) {
+        query =
+            "UPDATE reports SET initialOpenTS = ?, initialOpenWebID = ? WHERE reportID = ?";
+    } else {
+        query =
+            "UPDATE reports SET initialOpenTS = ?, completeWebID = ? WHERE reportID = ?";
+    }
+    res.json({
+        message:
+            "Query is " +
+            query +
+            " webID is " +
+            req.body.webID +
+            " reportID is " +
+            req.body.reportID
+    });
+    const time = new Date().toMysqlFormat();
+    connection.query(query, [time, req.body.webID, req.body.reportID], function(
+        err,
+        rows
+    ) {
+        if (err) {
+            console.error(err);
+            res.json({
+                message:
+                    "[Database] An Error has Occured, query = " +
+                    query +
+                    " with time = " +
+                    time +
+                    " and with id = " +
+                    req.body.reportID +
+                    "for webID = " +
+                    req.body.webID
+            });
+        } else {
+            console.log(
+                "[Database] Updated! query = " +
+                    query +
+                    " with time = " +
+                    time +
+                    " and with id = " +
+                    req.body.reportID +
+                    "for webID = " +
+                    req.body.webID
+            );
+            res.json(rows);
+        }
+    });
+});
+
+/*
+    The following is imported code to convert JS date to MySQL TS.
+*/
+/**
+ * You first need to create a formatting function to pad numbers to two digits…
+ **/
+function twoDigits(d) {
+    if (0 <= d && d < 10) return "0" + d.toString();
+    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+    return d.toString();
+}
+
+/**
+ * …and then create the method to output the date string as desired.
+ * Some people hate using prototypes this way, but if you are going
+ * to apply this to more than one Date object, having it as a prototype
+ * makes sense.
+ **/
+Date.prototype.toMysqlFormat = function() {
+    return (
+        this.getUTCFullYear() +
+        "-" +
+        twoDigits(1 + this.getUTCMonth()) +
+        "-" +
+        twoDigits(this.getUTCDate()) +
+        " " +
+        twoDigits(this.getUTCHours()) +
+        ":" +
+        twoDigits(this.getUTCMinutes()) +
+        ":" +
+        twoDigits(this.getUTCSeconds())
+    );
+};
+
 module.exports = router;

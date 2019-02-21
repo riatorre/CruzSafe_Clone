@@ -23,6 +23,17 @@ reportFields = [
     "body"
 ];
 
+// Apply tag colors (In the future this dictionary will be replaced by SQL query!)
+const colorDict = {
+    "Water Leak": "#1226D9", // Water leak
+    "Broken Light": "#08B619", // Broken light
+    "Broken Window": "#831AB0", // Broekn window
+    "Lighting Deficiency": "#C8B71C", // Lighting deficiency
+    "Excess Trash": "#0D0D0D" // Excess trash
+};
+// WebID (In the future, will be replaced by actual webID from Shibboleth!)
+const webID = 1;
+
 /*
     generateSingleReport: takes in a specific reportID and the document itself. 
     Assuming the report modal is in the document, makes two requests to the APIs. 
@@ -62,7 +73,9 @@ function generateSingleReportHelper(reportID, document, tags) {
             } else if (!!reportInfo["initialOpenTS"]) {
                 var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
             } else {
-                var resolvedUnresolved = "[New]"; // Null
+                // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
+                //insertTS(1, reportID, webID);
+                var resolvedUnresolved = "[Incomplete]"; // Null
             }
             productInfo["resolvedUnresolved"] = resolvedUnresolved;
             // reportTS
@@ -127,12 +140,37 @@ function generateSingleReportHelper(reportID, document, tags) {
                 const targetTag = document.getElementById(field);
                 targetTag.innerHTML = productInfo[field];
             }
+            tag.setAttribute("style", "color:" + colorDict[productInfo["tag"]]);
+            document
+                .getElementById("reportResolve")
+                .setAttribute("onclick", "markComplete(" + reportID + ")"); // Add onclick function to button
             modal.style.display = "block"; // Display the modal
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id: reportID }));
+}
+
+/*
+ * Calls an API that inserts a timestamp into either comletedTS or initialOpenTS
+ */
+function insertTS(initialOpenTS, reportID, webID) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log("Updated TS.");
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(
+        JSON.stringify({
+            initialOpenTS: initialOpenTS,
+            reportID: reportID,
+            webID: webID
+        })
+    );
 }
 
 /*
@@ -226,7 +264,7 @@ function generateMultipleReports(reportIDs, document, tags) {
                     tagValue = report["tag"];
                     productInfo["tag"] = tags[tagValue];
                     // fullName
-                    fullName = report["lastName"] + " " + report["firstName"];
+                    fullName = report["lastName"] + ", " + report["firstName"];
                     productInfo["fullName"] = fullName;
                     // mobileID
                     productInfo["body"] = report["body"];
@@ -294,14 +332,6 @@ function generateMultipleReports(reportIDs, document, tags) {
                         trimString(report["body"], 70),
                         document
                     );
-                    // Apply tag colors (In the future this dictionary will be replaced by SQL query!)
-                    const colorDict = {
-                        "Water Leak": "#1226D9", // Water leak
-                        "Broken Light": "#08B619", // Broken light
-                        "Broken Window": "#831AB0", // Broekn window
-                        "Lighting Deficiency": "#C8B71C", // Lighting deficiency
-                        "Excess Trash": "#0D0D0D" // Excess trash
-                    };
                     tagText.setAttribute(
                         "style",
                         "color:" + colorDict[report["tag"]]
@@ -536,36 +566,14 @@ function toDateFormat(mySQLDate) {
     return new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8));
 }
 
-/*
-    The following is imported code to convert JS date to MySQL TS.
-*/
-/**
- * You first need to create a formatting function to pad numbers to two digits…
- **/
-function twoDigits(d) {
-    if (0 <= d && d < 10) return "0" + d.toString();
-    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
-    return d.toString();
+// A report has been selected!
+function displayReport(id) {
+    generateSingleReport(id, document); // Intializes report display
+}
+function hideReport() {
+    document.getElementById("report").style.display = "none";
 }
 
-/**
- * …and then create the method to output the date string as desired.
- * Some people hate using prototypes this way, but if you are going
- * to apply this to more than one Date object, having it as a prototype
- * makes sense.
- **/
-Date.prototype.toMysqlFormat = function() {
-    return (
-        this.getUTCFullYear() +
-        "-" +
-        twoDigits(1 + this.getUTCMonth()) +
-        "-" +
-        twoDigits(this.getUTCDate()) +
-        " " +
-        twoDigits(this.getUTCHours()) +
-        ":" +
-        twoDigits(this.getUTCMinutes()) +
-        ":" +
-        twoDigits(this.getUTCSeconds())
-    );
-};
+function markComplete(reportID) {
+    insertTS(0, reportID, webID);
+}
