@@ -10,7 +10,8 @@ import {
     SafeAreaView,
     Platform,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    AsyncStorage
 } from "react-native";
 import {
     Container,
@@ -121,22 +122,66 @@ class History extends Component {
             .then(result => {
                 var cList = [];
                 var iList = [];
-                this.setState({ data: result }); // Stores the result into a state
+                this.setState({ data: result });
+                // Stores the result into a state
                 for (var i = 0; i < result.length; i++) {
                     if (result[i].completeTS != null) {
                         cList.push(result[i]);
+                        this.storeReports(
+                            JSON.stringify(result[i].reportID),
+                            JSON.stringify(result[i])
+                        );
                     } else {
                         iList.push(result[i]);
+                        this.storeReports(
+                            JSON.stringify(result[i].reportID),
+                            JSON.stringify(result[i])
+                        );
                     }
-                }
+                } /*
                 this.setState({
                     completeReports: cList,
                     incompleteReports: iList
                 });
+                */
             })
             .catch(err => {
                 console.log(err);
             });
+    }
+
+    async storeReports(key, report) {
+        try {
+            await AsyncStorage.setItem(key, report);
+        } catch (error) {
+            console.log(error.message);
+        }
+        this.setReports();
+    }
+
+    async setReports() {
+        try {
+            var cl = [];
+            var il = [];
+            var key = await AsyncStorage.getAllKeys();
+            key.sort(function(a, b) {
+                return a - b;
+            });
+            for (var i = 0; i < key.length - 1; i++) {
+                var r = JSON.parse(await AsyncStorage.getItem(key[i]));
+                if (r.completeTS != null) {
+                    cl.push(r);
+                } else {
+                    il.push(r);
+                }
+            }
+            this.setState({
+                completeReports: cl,
+                incompleteReports: il
+            });
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     //Gets all reports by current user on first load of the page. May occur when app is restarted, or when a new user signs in

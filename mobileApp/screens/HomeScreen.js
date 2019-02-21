@@ -574,6 +574,7 @@ class HomeScreen extends Component {
                                                         {
                                                             text: "OK",
                                                             onPress: () => {
+                                                                /*
                                                                 // Store submitted report in AsyncStorage
                                                                 // Store blank texts in AsyncStorage
                                                                 this.storeItem(
@@ -599,6 +600,7 @@ class HomeScreen extends Component {
                                                                     incidentLocationDesc:
                                                                         ""
                                                                 });
+                                                                */
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
@@ -609,6 +611,7 @@ class HomeScreen extends Component {
                                                             text:
                                                                 "Check the status of my report: ",
                                                             onPress: () => {
+                                                                /*
                                                                 // Store submitted report in AsyncStorage
                                                                 // Store blank texts in AsyncStorage
                                                                 this.storeItem(
@@ -633,7 +636,7 @@ class HomeScreen extends Component {
                                                                         "",
                                                                     incidentLocationDesc:
                                                                         ""
-                                                                });
+                                                                });*/
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
