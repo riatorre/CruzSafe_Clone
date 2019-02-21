@@ -279,6 +279,10 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                     );
                     const resolvedUnresolved = report["resolvedUnresolved"];
                     var resolvedUnresolvedText = document.createElement("b");
+                    resolvedUnresolvedText.setAttribute(
+                        "id",
+                        "buttonResolvedUnresolved"
+                    );
                     if (resolvedUnresolved.includes("New")) {
                         // For resolvedUnresolved, gets status. If resolved, green. else, red.
                         resolvedUnresolvedText.setAttribute(
@@ -516,7 +520,7 @@ function filterReportsHelper(
                 });
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
-            generateMultipleReports(reportIDs, document, tags);
+            generateMultipleReports(reportIDs, document, tags, tagColors);
         }
     };
     request.open(
@@ -531,7 +535,7 @@ function filterReportsHelper(
  * Helper function to add spacing divs to button
  */
 function addSpace(button) {
-    button.appendChild(addSpan("buttonSplitText", "  |  ", document));
+    button.appendChild(addSpan("buttonSplitText", "    ", document));
 }
 
 /*
