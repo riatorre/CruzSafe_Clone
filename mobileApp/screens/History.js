@@ -123,27 +123,21 @@ class History extends Component {
                 var cList = [];
                 var iList = [];
                 this.setState({ data: result });
+                this.storeReports("Reports", JSON.stringify(result));
                 // Stores the result into a state
                 for (var i = 0; i < result.length; i++) {
                     if (result[i].completeTS != null) {
                         cList.push(result[i]);
-                        this.storeReports(
-                            JSON.stringify(result[i].reportID),
-                            JSON.stringify(result[i])
-                        );
                     } else {
                         iList.push(result[i]);
-                        this.storeReports(
-                            JSON.stringify(result[i].reportID),
-                            JSON.stringify(result[i])
-                        );
                     }
                 }
-
+                /*
                 this.setState({
                     completeReports: cList,
                     incompleteReports: iList
                 });
+                */
             })
             .catch(err => {
                 console.log(err);
@@ -152,36 +146,29 @@ class History extends Component {
 
     async storeReports(key, report) {
         try {
-            await AsyncStorage.clear();
             await AsyncStorage.setItem(key, report);
         } catch (error) {
             console.log(error.message);
         }
-        this.setReports();
+        this.setReports(key);
     }
 
-    async setReports() {
+    async setReports(key) {
         try {
-            var cl = [];
-            var il = [];
-            var key = await AsyncStorage.getAllKeys();
-            key.sort(function(a, b) {
-                return a - b;
-            });
-            for (var i = 0; i < key.length - 1; i++) {
-                var r = JSON.parse(await AsyncStorage.getItem(key[i]));
-                if (r.completeTS != null) {
-                    cl.push(r);
+            var cL = [];
+            var iL = [];
+            var result = JSON.parse(await AsyncStorage.getItem(key));
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].completeTS != null) {
+                    cL.push(result[i]);
                 } else {
-                    il.push(r);
+                    iL.push(result[i]);
                 }
             }
-            /*
             this.setState({
-                completeReports: cl,
-                incompleteReports: il
+                completeReports: cL,
+                incompleteReports: iL
             });
-            */
         } catch (error) {
             console.log(error.message);
         }
