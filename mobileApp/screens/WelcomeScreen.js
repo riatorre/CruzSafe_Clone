@@ -88,38 +88,32 @@ class WelcomeScreen extends Component {
      */
     async handleLogin(firstName, lastName, email) {
         // Main Portion of the request, contains all metadata to be sent to link
-        var response = await fetch(
-            "https://cruzsafe.appspot.com/api/users/checkID",
-            {
-                // Defines what type of call is being made; above link is a POST request, so POST is needed Below
-                method: "POST",
-                // Metadata in regards as to what is expected to be sent/recieved
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json"
-                },
-                // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
-                body: JSON.stringify({
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email
-                })
-            }
-        );
-        /*
-            // Successful Call to API
-            .then(() => {
-                return true;
+        await fetch("https://cruzsafe.appspot.com/api/users/checkID", {
+            // Defines what type of call is being made; above link is a POST request, so POST is needed Below
+            method: "POST",
+            // Metadata in regards as to what is expected to be sent/recieved
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                email: email
+            })
+        })
+            .then(response => {
+                response.json;
+            })
+            .then(responseJSON => {
+                this.state.mobileID = responseJSON;
+                console.log(responseJSON);
             })
             // Unsuccessful Call to API
             .catch(err => {
                 console.log(err);
-                return false;
             });
-            */
-        var json = await response.json();
-        this.state.mobileID = json;
-        console.log(json);
     }
 
     // Function used to 'sign' user in. Stores name into AsyncStorage
