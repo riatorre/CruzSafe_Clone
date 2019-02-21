@@ -62,37 +62,46 @@ router.post("/specifyReportIDs", function(req, res) {
     }
 
     // Dictionary populated, construct query.
-    var query = "SELECT reportID FROM reports";
+    var query =
+        "SELECT reportID FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID";
     if (Object.keys(filters).length != 0) {
         // If anything in dictionary
         query = query + " WHERE "; // Add an initial where clause
         var firstItem = true;
         for (var key in filters) {
+            const value = "" + filters[key];
             // For each item in dictionary
-            if (firstItem) {
-                // if first item, no AND.
-                query = query + key + " = " + filters[key];
+            if (!firstItem) {
+                query = query + " AND "; // If not first item, etc.
+            }
+            if (value.startsWith("LIKE ")) {
+                query = query + key + " " + value; // EX) SELECT reportID FROM reports WHERE column LIKE '${$needle}$'
                 firstItem = false;
-            } else if (("" + filters[key]).startsWith(" LIKE ")) {
-                query = query + key + filters[key]; // EX) SELECT reportID FROM reports WHERE column LIKE '${$needle}$'
-            } else if (("" + filters[key]).startsWith(" IS ")) {
-                query = query + key + filters[key]; // EX) SELECT reportID FROM reports WHERE column IS NOT NULL'
+            } else if (value.startsWith("IS ")) {
+                query = query + key + " " + value; // EX) SELECT reportID FROM reports WHERE column IS NOT NULL'
+                firstItem = false;
             } else {
-                // else not first item, append AND in beginning.
-                query = query + " AND " + key + " = " + filters[key];
+                query = query + key + " = " + value;
+                firstItem = false;
             }
         }
+        connection.query(query, function(err, rows) {
+            if (err) {
+                myConsole.error(err);
+                res.json({
+                    message: "[Database] An Error has occured: query = " + query
+                });
+            } else {
+                myConsole.log(
+                    "[Database] Select all reportIDs Successful: query = " +
+                        query
+                );
+                res.json(rows);
+            }
+        });
+    } else {
+        res.json({ message: "[Database] Nothing found!" });
     }
-
-    connection.query(query, function(err, rows) {
-        if (err) {
-            myConsole.error(err);
-            res.json({ message: "An Error has occured" });
-        } else {
-            myConsole.log("[Database] Select all reportIDs Successful");
-            res.json(rows);
-        }
-    });
 });
 
 // Get all tags

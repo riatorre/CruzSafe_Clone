@@ -36,7 +36,7 @@ function generateSingleReport(reportID, document) {
             tags = JSON.parse(request.response);
             // Gotten array of IDs.
             tagDict = {};
-            tags.forEach(function(tag) {
+            Array.from(tags).forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
@@ -57,9 +57,11 @@ function generateSingleReportHelper(reportID, document, tags) {
             productInfo["incidentID"] = reportInfo["incidentID"];
             // resolved/unresolved
             if (!!reportInfo["completeTS"]) {
-                var resolvedUnresolved = "[Resolved]"; // Not null
+                var resolvedUnresolved = "[Complete]"; // Completed; not null
+            } else if (!!reportInfo["initialOpenTS"]) {
+                var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
             } else {
-                var resolvedUnresolved = "[Unresolved]"; // Null
+                var resolvedUnresolved = "[New]"; // Null
             }
             productInfo["resolvedUnresolved"] = resolvedUnresolved;
             // reportTS
@@ -126,7 +128,7 @@ function setupReports(document) {
             tags = JSON.parse(request.response);
             // Gotten array of IDs.
             tagDict = {};
-            tags.forEach(function(tag) {
+            Array.from(tags).forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
@@ -144,7 +146,7 @@ function gatherReportPage(document, tags) {
             reportIDsArray = JSON.parse(request.response);
             // Gotten array of IDs.
             reportIDs = [];
-            reportIDsArray.forEach(function(reportID) {
+            Array.from(reportIDsArray).forEach(function(reportID) {
                 reportIDs.push(reportID["reportID"]);
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
@@ -174,16 +176,18 @@ function generateMultipleReports(reportIDs, document, tags) {
                 reportList.removeChild(reportList.firstChild);
             }
             if (reportInfo != null) {
-                reportInfo.forEach(function(report) {
+                Array.from(reportInfo).forEach(function(report) {
                     var productInfo = [];
                     productInfo["reportID"] = report["reportID"];
                     // incidentID
                     productInfo["incidentID"] = report["incidentID"];
                     // resolved/unresolved
                     if (!!report["completeTS"]) {
-                        var resolvedUnresolved = "[R]"; // Not null
+                        var resolvedUnresolved = "[Complete]"; // Completed; not null
+                    } else if (!!report["initialOpenTS"]) {
+                        var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
                     } else {
-                        var resolvedUnresolved = "[UR]"; // Null
+                        var resolvedUnresolved = "[New]"; // Null
                     }
                     productInfo["resolvedUnresolved"] = resolvedUnresolved;
                     // reportTS
@@ -203,7 +207,7 @@ function generateMultipleReports(reportIDs, document, tags) {
                     allInfo.push(productInfo);
                 });
                 // All info for all reports have been read and formatted. Create buttons.
-                allInfo.forEach(function(report) {
+                Array.from(allInfo).forEach(function(report) {
                     var button = document.createElement("BUTTON");
                     button.setAttribute("id", "launchReport");
                     button.setAttribute(
@@ -256,7 +260,7 @@ function filterReports(filterDict, document) {
             // Gotten array of IDs.
             tagDict = {};
             reverseTagDict = {};
-            tags.forEach(function(tag) {
+            Array.from(tags).forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
                 reverseTagDict[tag["tagName"].toLowerCase()] = tag["tagID"];
             });
@@ -294,19 +298,23 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                 case "filterStatus": {
                     if (value === "Complete") {
                         columnTitle = "completeTS";
-                        value = " IS NOT NULL"; // If it exists.
+                        value = "IS NOT NULL"; // If it exists.
                     } else if (value === "Incomplete") {
+                        // Requires two conditions
                         columnTitle = "initialOpenTS";
-                        value = " IS NOT NULL"; /// If it exists.
+                        value = "IS NOT NULL"; /// If it exists.
+                        apiDict[columnTitle] = value; // Log this straight away
+                        columnTitle = "completeTS";
+                        value = "IS NULL";
                     } else {
                         columnTitle = "initialOpenTS";
-                        value = " IS NULL"; // If it DOESN'T exist.
+                        value = "IS NULL"; // If it DOESN'T exist.
                     }
                     break;
                 }
                 case "filterBody": {
                     columnTitle = "body";
-                    value = " LIKE '%{$" + value + "}%'";
+                    value = "LIKE '%{$\" + value + \"}%'";
                     break;
                 }
                 case "filterUnchangedLocation": {
@@ -327,15 +335,23 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
                     }
                     break;
                 }
+                // Cases of integers; no add quotes
+                case "filterMobileID":
+                case "filterIncidentID": {
+                    columnTitle = key.replace("filter", "");
+                    columnTitle =
+                        columnTitle.charAt(0).toLowerCase() +
+                        columnTitle.slice(1);
+                }
                 default: {
                     // Else simply remove filter prefix and change first letter to lowercase; this should be the column title.
                     columnTitle = key.replace("filter", "");
                     columnTitle =
                         columnTitle.charAt(0).toLowerCase() +
                         columnTitle.slice(1);
+                    value = addQuotes(value); // Furthermore, assume the value is a VARCHAR in the database.
                 }
             }
-            console.log(value);
             apiDict[columnTitle] = value;
         }
     }
@@ -347,7 +363,7 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
             // Gotten array of IDs.
             reportIDs = [];
             if (reportIDsArray != null) {
-                reportIDsArray.forEach(function(reportID) {
+                Array.from(reportIDsArray).forEach(function(reportID) {
                     reportIDs.push(reportID["reportID"]);
                 });
             }
@@ -361,6 +377,13 @@ function filterReportsHelper(filterDict, document, tags, reverseTags) {
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ dict: JSON.stringify(apiDict) }));
+}
+
+/*
+ * Helper function that wraps a string in '' symbols for a SQL query.
+ */
+function addQuotes(string) {
+    string = '"' + string + '"';
 }
 
 /*
