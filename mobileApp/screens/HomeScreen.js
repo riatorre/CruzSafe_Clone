@@ -238,6 +238,11 @@ class HomeScreen extends Component {
         })
             // Successful Call to API
             .then(() => {
+                this.setState({
+                    incidentCategory: "",
+                    incidentDesc: "",
+                    incidentLocationDesc: ""
+                });
                 return true;
             })
             // Unsuccessful Call to API
