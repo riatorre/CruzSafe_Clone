@@ -30,6 +30,7 @@ import {
     Body,
     Icon
 } from "native-base";
+import { Camera, Permissions } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
 
@@ -72,32 +73,48 @@ class HomeScreen extends Component {
         cameraModalVisible: false,
         iOSPickerVisible: false,
         locationModalVisible: false,
+        latitude: "",
+        longitude: "",
         incidentCategory: "",
         incidentDesc: "",
         incidentLocationDesc: "",
-        location: null
+        location: null,
+        hasCameraPermission: null,
+        type: Camera.Constants.Type.back
     };
 
     setReportModalVisible(visible) {
         this.setState({ reportModalVisible: visible });
     }
 
-    setCameraModalVisible(visible) {
+    async setCameraModalVisible(visible) {
+        if (visible === true) {
+            this.getCameraAsync(visible);
+        }
         this.setState({ cameraModalVisible: visible });
     }
 
     async setLocationModalVisible(visible) {
-        this.setState({ locationModalVisible: visible });
         if (visible === true) {
-            this.getLocationAsync();
+            this.getLocationAsync(visible);
         }
+        this.setState({ locationModalVisible: visible });
     }
 
     setIOSPickerVisible(visible) {
         this.setState({ iOSPickerVisible: visible });
     }
 
-    async getLocationAsync() {
+    async getCameraAsync(visible) {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        if (status === "granted") {
+            this.setState({ hasCameraPermission: status === "granted" });
+        } else {
+            this.setCameraModalVisible(!visible);
+        }
+    }
+
+    async getLocationAsync(visible) {
         const { Location, Permissions } = Expo;
         // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
         const { status, permissions } = await Permissions.askAsync(
@@ -107,7 +124,11 @@ class HomeScreen extends Component {
             const loc = await Location.getCurrentPositionAsync({
                 enableHighAccuracy: true
             });
-            this.setState({ location: loc });
+            this.setState({
+                location: loc,
+                latitude: JSON.stringify(loc.coords.latitude),
+                longitude: JSON.stringify(loc.coords.longitude)
+            });
             console.log(
                 "latitude:" +
                     loc.coords.latitude +
@@ -115,7 +136,7 @@ class HomeScreen extends Component {
                     loc.coords.longitude
             );
         } else {
-            this.setLocationModalVisible(!this.state.locationModalVisible);
+            this.setLocationModalVisible(!visible);
         }
     }
 
@@ -600,33 +621,6 @@ class HomeScreen extends Component {
                                                         {
                                                             text: "OK",
                                                             onPress: () => {
-                                                                /*
-                                                                // Store submitted report in AsyncStorage
-                                                                // Store blank texts in AsyncStorage
-                                                                this.storeItem(
-                                                                    "incidentCategory_sub",
-                                                                    this.state
-                                                                        .incidentCategory,
-                                                                    this.state
-                                                                        .incidentLocationDesc,
-                                                                    this.state
-                                                                        .incidentLocationDesc
-                                                                );
-                                                                this.storeItem(
-                                                                    "unsub_report",
-                                                                    "",
-                                                                    "",
-                                                                    ""
-                                                                );
-                                                                this.setState({
-                                                                    incidentCategory:
-                                                                        "",
-                                                                    incidentDesc:
-                                                                        "",
-                                                                    incidentLocationDesc:
-                                                                        ""
-                                                                });
-                                                                */
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
@@ -637,32 +631,6 @@ class HomeScreen extends Component {
                                                             text:
                                                                 "Check the status of my report: ",
                                                             onPress: () => {
-                                                                /*
-                                                                // Store submitted report in AsyncStorage
-                                                                // Store blank texts in AsyncStorage
-                                                                this.storeItem(
-                                                                    "incidentCategory_sub",
-                                                                    this.state
-                                                                        .incidentCategory,
-                                                                    this.state
-                                                                        .incidentLocationDesc,
-                                                                    this.state
-                                                                        .incidentLocationDesc
-                                                                );
-                                                                this.storeItem(
-                                                                    "unsub_report",
-                                                                    "",
-                                                                    "",
-                                                                    ""
-                                                                );
-                                                                this.setState({
-                                                                    incidentCategory:
-                                                                        "",
-                                                                    incidentDesc:
-                                                                        "",
-                                                                    incidentLocationDesc:
-                                                                        ""
-                                                                });*/
                                                                 this.setReportModalVisible(
                                                                     !this.state
                                                                         .reportModalVisible
@@ -822,6 +790,7 @@ class HomeScreen extends Component {
                                     <Body />
                                     <Right />
                                 </Header>
+                                {/*
                                 <Content
                                     contentContainerStyle={styles.container}
                                 >
@@ -835,6 +804,82 @@ class HomeScreen extends Component {
                                         }}
                                     />
                                 </Content>
+                                <Footer style={styles.footer}>
+                                    <Left
+                                        style={{
+                                            flex: 1,
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        }}
+                                    />
+                                    <Body
+                                        style={{
+                                            flex: 1,
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        }}
+                                    >
+                                        <Text style={styles.footer_text}>
+                                            CruzSafe
+                                        </Text>
+                                    </Body>
+                                    <Right
+                                        style={{
+                                            flex: 1,
+                                            alignItems: "center",
+                                            justifyContent: "center"
+                                        }}
+                                    />
+                                </Footer>
+                                    */}
+                                <View style={{ flex: 1 }}>
+                                    <Camera
+                                        style={{ flex: 1 }}
+                                        type={this.state.type}
+                                    >
+                                        <View
+                                            style={{
+                                                flex: 1,
+                                                backgroundColor: "transparenb",
+                                                flexDirection: "row"
+                                            }}
+                                        >
+                                            <TouchableOpacity
+                                                style={{
+                                                    flex: 0.1,
+                                                    alignSelf: "flex-end",
+                                                    alignItems: "center"
+                                                }}
+                                                onPress={() => {
+                                                    this.setState({
+                                                        type:
+                                                            this.state.type ===
+                                                            Camera.Constants
+                                                                .Type.back
+                                                                ? Camera
+                                                                      .Constants
+                                                                      .Type
+                                                                      .front
+                                                                : Camera
+                                                                      .Constants
+                                                                      .Type.back
+                                                    });
+                                                }}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        fontSize: 18,
+                                                        marginBottom: 10,
+                                                        color: "white"
+                                                    }}
+                                                >
+                                                    {" "}
+                                                    Flip{" "}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </Camera>
+                                </View>
                                 <Footer style={styles.footer}>
                                     <Left
                                         style={{
@@ -908,6 +953,16 @@ class HomeScreen extends Component {
                                             );
                                         }}
                                     />
+                                </Content>
+                                <Content
+                                    contentContainerStyle={styles.container}
+                                >
+                                    <Text>
+                                        {"latitude: " +
+                                            this.state.latitude +
+                                            ", longitude: " +
+                                            this.state.longitude}
+                                    </Text>
                                 </Content>
                                 <Footer style={styles.footer}>
                                     <Left
