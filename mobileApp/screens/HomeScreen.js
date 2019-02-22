@@ -30,7 +30,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Camera, Permissions } from "expo";
+import { Camera, Permissions, Location } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
 
@@ -92,15 +92,18 @@ class HomeScreen extends Component {
         if (this.state.hasCameraPermission) {
             this.setState({ cameraModalVisible: visible });
         } else {
-            this.getCameraPermission();
+            alert("You need to enable camera for this app");
         }
     }
 
     setLocationModalVisible(visible) {
         if (this.state.hasLocationPermission) {
             this.setState({ locationModalVisible: visible });
+            if (visible) {
+                this.getLocation();
+            }
         } else {
-            this.getLocationPermission();
+            alert("You need to enable location for this app");
         }
     }
 
@@ -108,40 +111,66 @@ class HomeScreen extends Component {
         this.setState({ iOSPickerVisible: visible });
     }
 
-    async getCameraPermission() {
+    async getCameraPermission(c) {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         if (status === "granted") {
             this.setState({ hasCameraPermission: status === "granted" });
-            this.getLocationPermission();
+            this.getLocationPermission(c);
+        } else if (c < 2) {
+            this.getCameraPermission(c + 1);
         } else {
-            this.getCameraPermission();
+            Alert.alert(
+                "Permission denied",
+                "You need to enable camera for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getLocationPermission(0);
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
         }
     }
 
-    async getLocationPermission() {
+    async getLocationPermission(c) {
         const { Location, Permissions } = Expo;
         // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
         const { status, permissions } = await Permissions.askAsync(
             Permissions.LOCATION
         );
         if (status === "granted") {
+            this.setState({
+                hasLocationPermission: status === "granted"
+            });
+            this.getLocation();
+        } else if (c < 2) {
+            this.getLocationPermission(c + 1);
+        } else {
+            alert("You need to enable location for this app");
+        }
+    }
+
+    async getLocation() {
+        try {
             const loc = await Location.getCurrentPositionAsync({
                 enableHighAccuracy: true
             });
             this.setState({
-                hasLocationPermission: status === "granted",
                 location: loc,
                 latitude: JSON.stringify(loc.coords.latitude),
                 longitude: JSON.stringify(loc.coords.longitude)
             });
             console.log(
                 "latitude:" +
-                    loc.coords.latitude +
+                    JSON.stringify(loc.coords.latitude) +
                     "\nlongitude:" +
-                    loc.coords.longitude
+                    JSON.stringify(loc.coords.longitude)
             );
-        } else {
-            this.getLocationPermission();
+        } catch (error) {
+            console.log(error.message);
         }
     }
 
@@ -202,7 +231,7 @@ class HomeScreen extends Component {
         this.setReportModalVisible(visible);
         this.delay = setTimeout(() => {
             this.continue();
-        }, 100);
+        }, 10);
     }
 
     // store texts in AsyncStorage
@@ -271,7 +300,7 @@ class HomeScreen extends Component {
     };
 
     componentDidMount() {
-        this.getCameraPermission();
+        this.getCameraPermission(0);
     }
 
     render() {
