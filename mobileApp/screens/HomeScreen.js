@@ -80,6 +80,7 @@ class HomeScreen extends Component {
         incidentLocationDesc: "",
         location: null,
         hasCameraPermission: null,
+        hasLocationPermission: null,
         type: Camera.Constants.Type.back
     };
 
@@ -87,34 +88,37 @@ class HomeScreen extends Component {
         this.setState({ reportModalVisible: visible });
     }
 
-    async setCameraModalVisible(visible) {
-        if (visible === true) {
-            this.getCameraAsync(visible);
+    setCameraModalVisible(visible) {
+        if (this.state.hasCameraPermission) {
+            this.setState({ cameraModalVisible: visible });
+        } else {
+            this.getCameraPermission();
         }
-        this.setState({ cameraModalVisible: visible });
     }
 
-    async setLocationModalVisible(visible) {
-        if (visible === true) {
-            this.getLocationAsync(visible);
+    setLocationModalVisible(visible) {
+        if (this.state.hasLocationPermission) {
+            this.setState({ locationModalVisible: visible });
+        } else {
+            this.getLocationPermission();
         }
-        this.setState({ locationModalVisible: visible });
     }
 
     setIOSPickerVisible(visible) {
         this.setState({ iOSPickerVisible: visible });
     }
 
-    async getCameraAsync(visible) {
+    async getCameraPermission() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         if (status === "granted") {
             this.setState({ hasCameraPermission: status === "granted" });
+            this.getLocationPermission();
         } else {
-            this.setCameraModalVisible(!visible);
+            this.getCameraPermission();
         }
     }
 
-    async getLocationAsync(visible) {
+    async getLocationPermission() {
         const { Location, Permissions } = Expo;
         // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
         const { status, permissions } = await Permissions.askAsync(
@@ -125,6 +129,7 @@ class HomeScreen extends Component {
                 enableHighAccuracy: true
             });
             this.setState({
+                hasLocationPermission: status === "granted",
                 location: loc,
                 latitude: JSON.stringify(loc.coords.latitude),
                 longitude: JSON.stringify(loc.coords.longitude)
@@ -136,7 +141,7 @@ class HomeScreen extends Component {
                     loc.coords.longitude
             );
         } else {
-            this.setLocationModalVisible(!visible);
+            this.getLocationPermission();
         }
     }
 
@@ -178,9 +183,11 @@ class HomeScreen extends Component {
                         onPress: () => {
                             // If the user choose to start a new report,
                             // reset all text states to ""
-                            this.setState({ incidentCategory: "" });
-                            this.setState({ incidentDesc: "" });
-                            this.setState({ incidentLocationDesc: "" });
+                            this.setState({
+                                incidentCategory: "",
+                                incidentDesc: "",
+                                incidentLocationDesc: ""
+                            });
                         },
                         style: "cancel"
                     }
@@ -238,11 +245,12 @@ class HomeScreen extends Component {
         })
             // Successful Call to API
             .then(() => {
-                this.setState({
-                    incidentCategory: "",
+                var unsub_report = {
                     incidentDesc: "",
+                    incidentCategory: "",
                     incidentLocationDesc: ""
-                });
+                };
+                this.storeItem("unsub_report", unsub_report);
                 return true;
             })
             // Unsuccessful Call to API
@@ -261,6 +269,10 @@ class HomeScreen extends Component {
             />
         )
     };
+
+    componentDidMount() {
+        this.getCameraPermission();
+    }
 
     render() {
         const IncidentTypePicker = createIncidentTypePicker;
@@ -688,6 +700,11 @@ class HomeScreen extends Component {
                                                 { cancelable: false }
                                             );
                                         }
+                                        this.setState({
+                                            incidentCategory: "",
+                                            incidentDesc: "",
+                                            incidentLocationDesc: ""
+                                        });
                                     }}
                                 >
                                     <Icon
