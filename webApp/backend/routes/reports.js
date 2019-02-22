@@ -247,7 +247,7 @@ router.post("/userReports", function(req, res) {
             req.body.mobileID
     );
     connection.query(
-        "SELECT * FROM reports WHERE mobileID=?",
+        "SELECT * FROM reports WHERE mobileID=? ORDER BY reportTS DESC",
         req.body.mobileID,
         function(err, rows, fields) {
             if (err) {
