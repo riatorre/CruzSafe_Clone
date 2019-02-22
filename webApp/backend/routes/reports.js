@@ -329,6 +329,30 @@ router.post("/timestamp", function(req, res) {
     });
 });
 
+router.post("/latestReports", function(req, res) {
+    var num_reports = 7;
+    myConsole.log(
+        "[Database] Attempting to select the latest " + num_reports + " reports"
+    );
+    connection.query(
+        "SELECT * FROM reports ORDER BY reportTS DESC LIMIT ?",
+        num_reports,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] Select latest " +
+                        num_reports +
+                        " reports successful"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
 /*
     The following is imported code to convert JS date to MySQL TS.
 */

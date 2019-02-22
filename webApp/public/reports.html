@@ -37,10 +37,35 @@
     </head>
     <body>
         <script src="./libs/NavLib.js"></script>
+        <!--Code for launching report modal-->
+        <script src="./libs/report.js"></script>
+        <!--END REPORT MODAL-->
         <script>
+            var tid = "";
             document.addEventListener('DOMContentLoaded', function(){
                 setupReports(document);
             });
+
+            // Sets up Timer to call function every 30 seconds;
+            // Time is in milliseconds
+            if(tid === ""){
+                tid = setInterval(determineSetup,30000);
+            }
+
+            function determineSetup(){
+                const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoordinates","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
+                var filtersSet = false;
+                for(var i = 0; i<filterElements.length; i++){
+                    if(document.getElementById(filterElements[i]).value != (null|"")){
+                        filtersSet = true;
+                        break;
+                    }
+                }
+                // Will prevent auto-refresh of list when user is attempting to search for something
+                if(!filtersSet){
+                    setupReports(document);
+                }
+            }
         </script>
         <!--Header-->
         <div class="topnav" id="topNav">
@@ -53,7 +78,8 @@
             <a href="./analytics.html"
                 ><i class="fa fa-pie-chart" aria-hidden="true"></i> Analytics</a
             >
-            <a href="./admin.html"> Admin</a>
+            <a href="./admin.html">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i> Admin</a>
             <a href="./welcome.html"
                 ><i class="fa fa-sign-out" aria-hidden="true"></i> Sign-Out</a
             >
@@ -71,6 +97,7 @@
                 <p>Report date (MM-DD-YYYY) :</p><br/><input id = "filterDate"></input><br/>
                 <p>Report time (HH:MM):</p><br/><input id = "filterTime"></input><br/>
                 <p>Status:
+                    <!--
                     <div class="dropdown">
                         <button id = "filterStatus" class = "dropbtn">(Not chosen)</button>
                         <div class = "dropdown-content">
@@ -79,29 +106,48 @@
                             <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus3">Complete</button>
                         </div>
                     </div>
+                -->
+                    <select id="filterStatus">
+                        <option value="">(Not chosen)</option>
+                        <option value="New">New</option>
+                        <option value="Incomplete">Incomplete</option>
+                        <option value="Complete">Complete</option>
+                    </select>
                 </p>
                 <br/>
                 <p>Body contains:</p><br/><input id = "filterBody"></input><br/>
                 <p>Location:</p><br/><input id = "filterLocation"></input><br/>
                 <p>Coordinates:</p><br/><input id = "filterCoordinates"></input><br/>
                 <p>Location method:
+                    <!--
                     <div class="dropdown">
                             <button id = "filterUnchangedLocation" class = "dropbtn">(Not chosen)</button>
                             <div class = "dropdown-content">
                                 <button onclick = "applySelected('filterUnchangedLocation',this)" id = "dropdownfilterUnchangedLocation1">Device reported</button>
                                 <button onclick = "applySelected('filterUnchangedLocation',this)" id = "dropdownfilterUnchangedLocation2">Pinned location</button>
                             </div>
-                        </div>
+                        </div>-->
+                        <select id="filterUnchangedLocation">
+                            <option value="">(Not chosen)</option>
+                            <option value="Device reported">Device reported</option>
+                            <option value="Pinned location">Pinned location</option>
+                        </select>
                     <br/>
                 </p>
                 <p>Attachments:
+                    <!--
                     <div class="dropdown">
                             <button  id = "filterAttachments" class = "dropbtn">(Not chosen)</button>
                             <div class = "dropdown-content">
                                 <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments1">Yes</button>
                                 <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments2">No</button>
                             </div>
-                        </div>
+                        </div>-->
+                        <select id="filterAttachments">
+                            <option value="">(Not chosen)</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                     <br/>
                 </p>
                 <p>Mobile user id(s):</p><br/><input id = "filterMobileID"></input><br/>
@@ -137,7 +183,7 @@
                     for(i = 0; i < filterElements.length;i++) {// fill the dictionary
                         element = document.getElementById(filterElements[i]);
                         var text = element.innerHTML;
-                        if(text === ""){ // An input field has been found
+                        if(text === "" || filterElements[i] === ("filterStatus"|"filterUnchangedLocation"|"filterAttachments")){ // An input field has been found
                             text = element.value;
                         }
                         if(text != "(Not chosen)" && text != ""){  // If not empty/not chosen for dropdown
@@ -160,19 +206,19 @@
             </script>
             <div id="reportColumn" class="column">
                 <div id= "reportHeader">
-                    <span id = buttonResolvedUnresolved> Status </span>
-                    <span id = buttonSplitText>  |  </span>
-                    <span id = buttonIncidentIDText> Inc#</span>
-                    <span id = buttonSplitText>  |  </span>
-                    <span id = buttonReportTSText> Date + Time</span>
-                    <span id = buttonSplitText>  |  </span>
-                    <span id = buttonTagText> Tag</span>
-                    <span id = buttonSplitText>  |  </span>
-                    <span id = buttonLocationText> Location</span>
-                    <span id = buttonSplitText>  |  </span>
-                    <span id = buttonFullNameText> Last, First name</span>
-                    <span id = buttonSplitText>  |  </span>
-                    <span id = buttonBodyText> Body</span>
+                    <span id = buttonResolvedUnresolved>Status</span>
+                    <span id = buttonSplitText>|</span>
+                    <span id = buttonIncidentIDText>Inc#</span>
+                    <span id = buttonSplitText>|</span>
+                    <span id = buttonReportTSText>Date + Time</span>
+                    <span id = buttonSplitText>|</span>
+                    <span id = buttonTagText>Tag</span>
+                    <span id = buttonSplitText>|</span>
+                    <span id = buttonLocationText>Location</span>
+                    <span id = buttonSplitText>|</span>
+                    <span id = buttonFullNameText>Last, First name</span>
+                    <span id = buttonSplitText>|</span>
+                    <span id = buttonBodyText>Body</span>
                 </div>
                 <div id= "reportList"></div> <!--Div to be filled by setupReports()-->
                 <center>
@@ -257,8 +303,5 @@
                 </form>
             </div>
         </center>
-        <!--Code for launching report modal-->
-        <script src="./libs/report.js"></script>
-        <!--END REPORT MODAL-->
     </body>
 </html>

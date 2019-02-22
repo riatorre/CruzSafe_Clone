@@ -7,10 +7,10 @@
 }
 
 #column1 {
-    flex: 35%;
+    width: 35%;
 }
 #column2 {
-    flex: 65%;
+    width: 65%;
 }
 
 /*
@@ -62,13 +62,14 @@
 */
 
 #filterOptions {
+    padding: 10px;
     margin-top: 20px;
     margin-left: 40px;
-    flex: 15%;
     margin-right: 40px;
-    height: 85%;
+    width: 20%;
+    height: 80%;
     border: 3px solid black;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 #filterOptions > p {
@@ -81,17 +82,16 @@
 }
 
 #reportColumn {
-    flex: 80%;
+    width: 75%;
 }
 
 #reportList {
     margin-top: 20px;
     margin-right: 40px;
-    margin-left: 0px;
-    height: 74%;
-    border: 5px solid black;
+    height: 75%;
+    border: 2px solid black;
     background: rgb(123, 123, 123, 0.9);
-    overflow-y: auto;
+    overflow: auto;
 }
 
 #navigationButtons {
@@ -107,75 +107,75 @@
 #reportHeader {
     margin-top: 20px;
     margin-right: 40px;
-    margin-left: 0px;
-    height: 30px;
-    border: 5px solid black;
+    padding: 5px;
+    border: 2px solid black;
     background: rgb(123, 123, 123, 0.9);
-    overflow-y: auto;
+    overflow: auto;
     font-size: 15px;
-    white-space: pre;
     text-align: left;
     display: flex;
-    justify-content: space-between;
     font-weight: bold;
+    white-space: pre;
 }
 
 #launchReport {
+    height: 46;
     width: 100%;
+    padding: 5px;
+    margin-bottom: 4px;
+    margin-top: 4px;
     font-size: 15px;
-    background: darkblue;
-    white-space: pre;
     text-align: left;
     display: flex;
-    justify-content: space-between;
+    overflow: auto;
 }
-
+/*
 #launchReport:hover {
     background: turquoise;
-}
-
+}*/
+/*
 #launchReport > #buttonSplitText {
-    color: grey;
-}
+    color: black;
+}*/
 
 #buttonResolvedUnresolved {
-    flex: 7%;
+    width: 5%;
 }
 
 #buttonIncidentIDText {
-    flex: 3%;
+    width: 5%;
 }
 
 #buttonReportTSText {
-    flex: 10%;
+    width: 15%;
 }
 
 #buttonTagText {
-    flex: 10%;
+    width: 15%;
 }
 
 #buttonLocationText {
-    flex: 15%;
+    width: 15%;
 }
 
 #launchReport > #buttonLocationText {
     font-style: italic;
 }
-
+/*
 #launchReport > #buttonFullNameText {
     color: lightgrey;
-}
+}*/
 
 #buttonFullNameText {
-    flex: 12%;
+    width: 15%;
 }
-
+/*
 #launchReport > #buttonBodyText {
     color: grey;
-}
+}*/
 
 #buttonBodyText {
-    flex: 40%;
+    width: 27%;
 }
 
 #navigationButtons > button {

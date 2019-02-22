@@ -30,6 +30,22 @@
         />
     </head>
     <body>
+        <script>
+
+            // Sets up timer for repeated checks to the Database for latest reports
+            //var tid = setInterval(getLatestReports, 3000);
+
+            function getLatestReports(){
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function(){
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(request.response);
+                    }
+                }
+                request.open("POST", "http://localhost:8080/api/reports/latestReports");
+                request.send();
+            }    
+        </script>
         <center>
             <!--Header-->
             <div class="topnav" id="topNav">

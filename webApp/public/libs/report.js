@@ -153,7 +153,7 @@ function insertTS(initialOpenTS, reportID, webID) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("Updated TS.");
+            //console.log("Updated TS.");
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
@@ -183,10 +183,17 @@ function setupReports(document) {
             Array.from(tags).forEach(function(tag) {
                 tagDict[tag["tagID"]] = tag["tagName"];
             });
-            tagColors = {};
+            tagColors = [];
+            tagColors["Water Leak"] = "blue";
+            tagColors["Broken Light"] = "lime";
+            tagColors["Broken Window"] = "navy";
+            tagColors["Lighting Deficiency"] = "aqua";
+            tagColors["Excess Trash"] = "olive";
+            tagColors["undefined"] = "black";
+            /*
             Array.from(tags).forEach(function(tag) {
                 tagColors[tag["tagName"]] = tag["color"];
-            });
+            });*/
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             gatherReportPage(document, tagDict, tagColors);
         }
@@ -239,11 +246,11 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                     productInfo["incidentID"] = report["incidentID"];
                     // resolved/unresolved
                     if (!!report["completeTS"]) {
-                        var resolvedUnresolved = "[Complete]"; // Completed; not null
+                        var resolvedUnresolved = "[C]"; // Completed; not null
                     } else if (!!report["initialOpenTS"]) {
-                        var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
+                        var resolvedUnresolved = "[I]"; // no complete TS but a inital open TS
                     } else {
-                        var resolvedUnresolved = "[New]"; // Null
+                        var resolvedUnresolved = "[N]"; // Null
                     }
                     productInfo["resolvedUnresolved"] = resolvedUnresolved;
                     // reportTS
@@ -283,14 +290,14 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                         "id",
                         "buttonResolvedUnresolved"
                     );
-                    if (resolvedUnresolved.includes("New")) {
+                    if (resolvedUnresolved.includes("N")) {
                         // For resolvedUnresolved, gets status. If resolved, green. else, red.
                         resolvedUnresolvedText.setAttribute(
                             "style",
                             "color:red"
                         );
                         // button.setAttribute("style", "background:#540909");
-                    } else if (resolvedUnresolved.includes("Incomplete")) {
+                    } else if (resolvedUnresolved.includes("I")) {
                         resolvedUnresolvedText.setAttribute(
                             "style",
                             "color:orange"
@@ -333,12 +340,12 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                     );
                     const bodyText = addSpan(
                         "buttonBodyText",
-                        trimString(report["body"], 70),
+                        trimString(report["body"], 40),
                         document
                     );
-                    tagText.setAttribute(
-                        "style",
-                        "color:" + tagColors[report["tag"]]
+                    button.setAttribute(
+                        "class",
+                        "btn " + tagColors[report["tag"]]
                     );
 
                     button.appendChild(resolvedUnresolvedText);
@@ -388,10 +395,16 @@ function filterReports(filterDict, document) {
                 tagDict[tag["tagID"]] = tag["tagName"];
                 reverseTagDict[tag["tagName"].toLowerCase()] = tag["tagID"];
             });
-            tagColors = {};
-            Array.from(tags).forEach(function(tag) {
+            tagColors = [];
+            tagColors["Water Leak"] = "blue";
+            tagColors["Broken Light"] = "lime";
+            tagColors["Broken Window"] = "navy";
+            tagColors["Lighting Deficiency"] = "aqua";
+            tagColors["Excess Trash"] = "olive";
+            tagColors["undefined"] = "black";
+            /*Array.from(tags).forEach(function(tag) {
                 tagColors[tag["tagName"]] = tag["color"];
-            });
+            });*/
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             filterReportsHelper(
                 filterDict,
@@ -439,9 +452,9 @@ function filterReportsHelper(
                     var time = value.split(":");
                     columnTitle = "HOUR(reportTS)"; // Expect XX:XX
                     value = time[0];
-                    console.log(
+                    /*console.log(
                         "columnTitle = " + columnTitle + ", value = " + value
-                    );
+                    );*/
                     apiDict[columnTitle] = value; // Log this straight away
                     columnTitle = "MINUTE(reportTS)";
                     value = time[1];
@@ -509,7 +522,7 @@ function filterReportsHelper(
                     break;
                 }
             }
-            console.log("columnTitle = " + columnTitle + ", value = " + value);
+            //console.log("columnTitle = " + columnTitle + ", value = " + value);
             apiDict[columnTitle] = value;
         }
     }
@@ -541,7 +554,7 @@ function filterReportsHelper(
  * Helper function to add spacing divs to button
  */
 function addSpace(button) {
-    button.appendChild(addSpan("buttonSplitText", "    ", document));
+    button.appendChild(addSpan("buttonSplitText", "|", document));
 }
 
 /*
@@ -576,9 +589,9 @@ function addQuotes(string) {
     Returns a string.
 */
 function formatDate(mySQLDate, options) {
-    console.log("mySQLDate = " + mySQLDate);
+    //console.log("mySQLDate = " + mySQLDate);
     var jsDate = toDateFormat(mySQLDate);
-    console.log(jsDate);
+    //console.log(jsDate);
     return jsDate.toLocaleString("en-US", options);
 }
 
