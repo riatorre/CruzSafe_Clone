@@ -4,8 +4,8 @@
  * May need to change host in order for connection to work
  */
 
-var mysql = require("mysql");
-var myConsole = require("../utilities/customConsole");
+const mysql = require("mysql");
+const myConsole = require("../utilities/customConsole");
 
 const localTest = false; // Global variable for debugging purposes.
 

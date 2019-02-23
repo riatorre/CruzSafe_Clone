@@ -1,7 +1,7 @@
-var express = require("express");
-var router = express.Router();
-var connection = require("../DB/config");
-var myConsole = require("../utilities/customConsole");
+const express = require("express");
+const router = express.Router();
+const connection = require("../DB/config");
+const myConsole = require("../utilities/customConsole");
 
 /*
  *  Code to get the information from a user given a user ID.

@@ -6,10 +6,10 @@
  * page to be bookmarked or cached.
  */
 
-var express = require("express");
-var router = express.Router();
-var connection = require("../DB/config");
-var myConsole = require("../utilities/customConsole");
+const express = require("express");
+const router = express.Router();
+const connection = require("../DB/config");
+const myConsole = require("../utilities/customConsole");
 
 // Get all reports, Default request
 router.post("/", function(req, res) {
