@@ -97,18 +97,8 @@
                 <p>Report date (MM-DD-YYYY) :</p><br/><input id = "filterDate"></input><br/>
                 <p>Report time (HH:MM):</p><br/><input id = "filterTime"></input><br/>
                 <p>Status:
-                    <!--
-                    <div class="dropdown">
-                        <button id = "filterStatus" class = "dropbtn">(Not chosen)</button>
-                        <div class = "dropdown-content">
-                            <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus1">New</button>
-                            <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus2">Incomplete</button>
-                            <button onclick = "applySelected('filterStatus',this)" id = "dropdownfilterStatus3">Complete</button>
-                        </div>
-                    </div>
-                -->
-                    <select id="filterStatus">
-                        <option value="">(Not chosen)</option>
+                    <select id="filterStatus" autocomplete="off">
+                        <option value="" selected="selected">Any</option>
                         <option value="New">New</option>
                         <option value="Incomplete">Incomplete</option>
                         <option value="Complete">Complete</option>
@@ -119,35 +109,19 @@
                 <p>Location:</p><br/><input id = "filterLocation"></input><br/>
                 <p>Coordinates:</p><br/><input id = "filterCoordinates"></input><br/>
                 <p>Location method:
-                    <!--
-                    <div class="dropdown">
-                            <button id = "filterUnchangedLocation" class = "dropbtn">(Not chosen)</button>
-                            <div class = "dropdown-content">
-                                <button onclick = "applySelected('filterUnchangedLocation',this)" id = "dropdownfilterUnchangedLocation1">Device reported</button>
-                                <button onclick = "applySelected('filterUnchangedLocation',this)" id = "dropdownfilterUnchangedLocation2">Pinned location</button>
-                            </div>
-                        </div>-->
-                        <select id="filterUnchangedLocation">
-                            <option value="">(Not chosen)</option>
-                            <option value="Device reported">Device reported</option>
-                            <option value="Pinned location">Pinned location</option>
-                        </select>
+                    <select id="filterUnchangedLocation" autocomplete="off">
+                        <option value="" selected="selected">Any</option>
+                        <option value="device reported">Device reported</option>
+                        <option value="pinned location">Pinned location</option>
+                    </select>
                     <br/>
                 </p>
                 <p>Attachments:
-                    <!--
-                    <div class="dropdown">
-                            <button  id = "filterAttachments" class = "dropbtn">(Not chosen)</button>
-                            <div class = "dropdown-content">
-                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments1">Yes</button>
-                                <button onclick = "applySelected('filterAttachments',this)" id = "dropdownfilterAttachments2">No</button>
-                            </div>
-                        </div>-->
-                        <select id="filterAttachments">
-                            <option value="">(Not chosen)</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
+                    <select id="filterAttachments" autocomplete="off">
+                        <option value="" selected="selected">Any</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
                     <br/>
                 </p>
                 <p>Mobile user id(s):</p><br/><input id = "filterMobileID"></input><br/>
@@ -182,11 +156,10 @@
                     var filterDict = {};  // Create the dictionary. 
                     for(i = 0; i < filterElements.length;i++) {// fill the dictionary
                         element = document.getElementById(filterElements[i]);
-                        var text = element.innerHTML;
-                        if(text === "" || filterElements[i] === ("filterStatus"|"filterUnchangedLocation"|"filterAttachments")){ // An input field has been found
-                            text = element.value;
-                        }
-                        if(text != "(Not chosen)" && text != ""){  // If not empty/not chosen for dropdown
+                        // With a proper dropdown menu, no longer need to check for the text of the old one
+                        // element.value should return the value of any input type elements (text fields + dropboxes qualify)
+                        var text = element.value; 
+                        if(text != ""){  // If not empty/not chosen for dropdown
                             filterDict[filterElements[i]] = text; // filterElement:value
                         }
                         else{
