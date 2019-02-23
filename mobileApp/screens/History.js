@@ -180,6 +180,10 @@ class History extends Component {
                         iList.push(result[i]);
                     }
                 }
+                this.setState({
+                    completeReports: cList,
+                    incompleteReports: iList
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -207,10 +211,12 @@ class History extends Component {
                     iL.push(result[i]);
                 }
             }
+            /*
             this.setState({
                 completeReports: cL,
                 incompleteReports: iL
             });
+            */
         } catch (error) {
             console.log(error.message);
         }
@@ -279,7 +285,7 @@ class History extends Component {
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                this.getReports;
+                                this.getReports();
                             }}
                         >
                             <Icon
