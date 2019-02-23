@@ -20,7 +20,7 @@ router.get("/", function(req, res) {
 // Sets up Access Control for any page that is not the welcome page
 // Only affects html pages; should not affect APIs, images, css, js, etc pages/files
 // Uncomment out portion below in order to enable Authentication Verification
-router.get("/*.html" /* verifyAuthentication*/);
+router.get("/*.html" /*, verifyAuthentication*/);
 
 // Access Control Function
 // Utilizes a function from Passport.js to determine if user is Authenticated
