@@ -208,11 +208,14 @@ router.post("/submitReport", function(req, res) {
             req.body.mobileID,
             req.body.incidentDesc,
             req.body.incidentLocationDesc,
-            req.body.incidentCategory
+            req.body.incidentCategory,
+            req.body.incidentLatitude,
+            req.body.incidentLongitude,
+            req.body.incidentUnchangedLocation
         ]
     ];
     connection.query(
-        "INSERT INTO reports (mobileID, body, location, tag) VALUES ?",
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation) VALUES ?",
         [values],
         function(err, result) {
             if (err) {

@@ -269,7 +269,10 @@ class HomeScreen extends Component {
                 mobileID: 1, //Set to 1 for now, will be a unique ID for logged in user once we setup Shibboleth
                 incidentDesc: this.state.incidentDesc,
                 incidentCategory: incidentTagID,
-                incidentLocationDesc: this.state.incidentLocationDesc
+                incidentLocationDesc: this.state.incidentLocationDesc,
+                incidentLatitude: this.state.latitude,
+                incidentLongitude: this.state.longitude,
+                incidentUnchangedLocation: 0
             })
         })
             // Successful Call to API
