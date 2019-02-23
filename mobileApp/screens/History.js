@@ -173,6 +173,7 @@ class History extends Component {
                 this.setState({ data: result });
                 this.storeReports("Reports", JSON.stringify(result));
                 // Stores the result into a state
+                /*
                 for (var i = 0; i < result.length; i++) {
                     if (result[i].completeTS != null) {
                         cList.push(result[i]);
@@ -180,6 +181,11 @@ class History extends Component {
                         iList.push(result[i]);
                     }
                 }
+                this.setState({
+                    completeReports: cList,
+                    incompleteReports: iList
+                });
+                */
             })
             .catch(err => {
                 console.log(err);
@@ -279,7 +285,7 @@ class History extends Component {
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                this.getReports;
+                                this.getReports();
                             }}
                         >
                             <Icon
