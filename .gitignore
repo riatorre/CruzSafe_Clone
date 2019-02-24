@@ -2,3 +2,6 @@
 **/.expo
 **/backup
 **/cloud_sql_proxy.exe
+**/*.png~
+**/*.kra
+**/*.kra~

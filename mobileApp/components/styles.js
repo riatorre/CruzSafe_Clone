@@ -14,13 +14,13 @@ export default (styles = StyleSheet.create({
     },
     header: {
         marginTop: StatusBar.currentHeight,
-        backgroundColor: "#336"
+        backgroundColor: "#303060"
     },
     header_modal: {
-        backgroundColor: "#336"
+        backgroundColor: "#303060"
     },
     footer: {
-        backgroundColor: "#336"
+        backgroundColor: "#303060"
     },
     icon: {
         color: "silver",
@@ -66,7 +66,7 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         width: 100,
         borderRadius: 125,
-        backgroundColor: "#336"
+        backgroundColor: "#303060"
     },
     btn_disabled: {
         margin: 5,
@@ -99,7 +99,7 @@ export default (styles = StyleSheet.create({
     reportBtn: {
         flex: 1,
         padding: 10,
-        backgroundColor: "#336",
+        backgroundColor: "#303060",
         borderColor: "#D4AF37",
         borderWidth: 0.5,
         borderRadius: 10
