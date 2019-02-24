@@ -34,6 +34,9 @@ class ReportDetail extends Component {
     )
   };
   render() {
+    const { navigation } = this.props;
+    const itemId = navigation.getParam("itemId", "NO-ID");
+
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Container>
@@ -56,6 +59,9 @@ class ReportDetail extends Component {
           {/* Main Body */}
           <Content contentContainerStyle={styles.container}>
             <Text>Report detail coming soon ....</Text>
+
+            <Text>itemId: {JSON.stringify(itemId)}</Text>
+
             <Button title="History" onPress={this._showHistory} />
           </Content>
 

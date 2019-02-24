@@ -113,7 +113,11 @@ class History extends Component {
                 console.log(item.reportID);
                 // this._showMoreDetailReport;
                 // Open up indivial report with report ID
-                this.props.navigation.navigate("ReportDetail");
+                // this.props.navigation.navigate("ReportDetail");
+
+                this.props.navigation.navigate("ReportDetail", {
+                  itemId: item.reportID
+                });
               }}
             >
               <View style={{ flexDirection: "row" }}>
