@@ -112,6 +112,7 @@ class History extends Component {
               onPress={() => {
                 console.log(item.reportID);
                 // this._showMoreDetailReport;
+                // Open up indivial report with report ID
                 this.props.navigation.navigate("ReportDetail");
               }}
             >

@@ -52,11 +52,13 @@ class ReportDetail extends Component {
             </Body>
             <Right />
           </Header>
+
           {/* Main Body */}
           <Content contentContainerStyle={styles.container}>
             <Text>Report detail coming soon ....</Text>
             <Button title="History" onPress={this._showHistory} />
           </Content>
+
           <Footer style={styles.footer}>
             <Left
               style={{
