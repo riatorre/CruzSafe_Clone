@@ -111,6 +111,8 @@ class History extends Component {
               style={styles.reportBtn}
               onPress={() => {
                 console.log(item.reportID);
+                // this._showMoreDetailReport;
+                this.props.navigation.navigate("ReportDetail");
               }}
             >
               <View style={{ flexDirection: "row" }}>
@@ -260,10 +262,10 @@ class History extends Component {
                 <Text style={{ fontSize: 24, margin: 5 }}>
                   Reports under Review:
                 </Text>
-                <Button
+                {/* <Button
                   title="Get more detail"
                   onPress={this._showMoreDetailReport}
-                />
+                /> */}
                 {this.MyFlatList(this.state.incompleteReports)}
               </View>
               <View style={({ height: "50%" }, styles.itemContainer)}>
@@ -316,9 +318,9 @@ class History extends Component {
       </SafeAreaView>
     );
   }
-  _showMoreDetailReport = () => {
-    this.props.navigation.navigate("ReportDetail");
-  };
+  //   _showMoreDetailReport = () => {
+  //     this.props.navigation.navigate("ReportDetail");
+  //   };
 }
 
 export default History;
