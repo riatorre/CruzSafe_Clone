@@ -4,7 +4,8 @@
  */
 
 import React, { Component } from "react";
-import { Text, SafeAreaView, Platform } from "react-native";
+import { DrawerActions } from "react-navigation";
+import { Text, SafeAreaView, Platform, Button } from "react-native";
 import {
   Container,
   Header,
@@ -39,11 +40,11 @@ class ReportDetail extends Component {
           <Header style={styles.header}>
             <Left>
               {/* Icon used to open Side Drawer */}
-              <Icon
+              {/* <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-menu`}
                 style={styles.icon}
-                onPress={() => this.props.navigation.openDrawer()}
-              />
+                onPress={() => this.props.dispatch(DrawerActions.openDrawer())}
+              /> */}
             </Left>
             <Body>
               {/* Center of Header */}
@@ -54,6 +55,7 @@ class ReportDetail extends Component {
           {/* Main Body */}
           <Content contentContainerStyle={styles.container}>
             <Text>Report detail coming soon ....</Text>
+            <Button title="History" onPress={this._showHistory} />
           </Content>
           <Footer style={styles.footer}>
             <Left
@@ -85,5 +87,8 @@ class ReportDetail extends Component {
       </SafeAreaView>
     );
   }
+  _showHistory = () => {
+    this.props.navigation.navigate("History");
+  };
 }
 export default ReportDetail;

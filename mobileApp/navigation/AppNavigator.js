@@ -15,13 +15,19 @@ import History from "../screens/History";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 
 // The Main App. Edit MainTabNavigator if you wish to add more screens to Main App
-const AppStack = MainTabNavigator;
+// const AppStack = MainTabNavigator;
+
+const AppStack = createStackNavigator({ MainTabNavigator: MainTabNavigator });
+
 // The Authentication Portion of the App.
 const AuthStack = createStackNavigator(
   { Welcome: WelcomeScreen },
-  { ReportDetail: ReportDetail },
-  { History: History },
   { headerMode: "none" }
+);
+
+const HistoryStack = createStackNavigator(
+  { ReportDetail: ReportDetail },
+  { History: History }
 );
 
 export default createAppContainer(
@@ -31,7 +37,8 @@ export default createAppContainer(
       // Read more at https://reactnavigation.org/docs/en/auth-flow.html
       AuthLoading: AuthLoadingScreen,
       App: AppStack,
-      Auth: AuthStack
+      Auth: AuthStack,
+      His: HistoryStack
     },
     {
       initialRouteName: "AuthLoading"

@@ -262,7 +262,7 @@ class History extends Component {
                 </Text>
                 <Button
                   title="Get more detail"
-                  onPress={() => this.props.navigation.navigate("ReportDetail")}
+                  onPress={this._showMoreDetailReport}
                 />
                 {this.MyFlatList(this.state.incompleteReports)}
               </View>
@@ -316,5 +316,9 @@ class History extends Component {
       </SafeAreaView>
     );
   }
+  _showMoreDetailReport = () => {
+    this.props.navigation.navigate("ReportDetail");
+  };
 }
+
 export default History;
