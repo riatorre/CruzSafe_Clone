@@ -5,7 +5,7 @@
 
 import React, { Component } from "react";
 import { DrawerActions } from "react-navigation";
-import { Text, SafeAreaView, Platform, Button } from "react-native";
+import { View, Text, SafeAreaView, Platform, Button } from "react-native";
 import {
   Container,
   Header,
@@ -56,13 +56,21 @@ class ReportDetail extends Component {
             <Right />
           </Header>
 
-          {/* Main Body */}
           <Content contentContainerStyle={styles.container}>
-            <Text>Report detail coming soon ....</Text>
-
-            <Text>itemId: {JSON.stringify(itemId)}</Text>
-
-            <Button title="History" onPress={this._showHistory} />
+            <View
+              style={{
+                width: "90%",
+                height: "85%",
+                backgroundColor: "#FFFFFF80",
+                padding: 10
+              }}
+            >
+              {/* List of all Reports are here */}
+              <View style={({ height: "50%" }, styles.itemContainer)}>
+                <Text>Report ID: {JSON.stringify(itemId)}</Text>
+                <Button title="History" onPress={this._showHistory} />
+              </View>
+            </View>
           </Content>
 
           <Footer style={styles.footer}>
