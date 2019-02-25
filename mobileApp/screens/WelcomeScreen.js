@@ -124,9 +124,9 @@ class WelcomeScreen extends Component {
             },
             // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
             body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                email: email
+                firstName: firstName.trim(),
+                lastName: lastName.trim(),
+                email: email.trim()
             })
         })
             .then(response => response.json())
