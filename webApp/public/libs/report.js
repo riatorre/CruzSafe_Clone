@@ -552,9 +552,10 @@ function filterReportsHelper(
 
 /*
  * Helper function to add spacing divs to button
+ * NOTE: NOW DEFUNCT: GET RID OF ME.
  */
 function addSpace(button) {
-    button.appendChild(addSpan("buttonSplitText", "|", document));
+    button.appendChild(addSpan("buttonSplitText", "", document));
 }
 
 /*

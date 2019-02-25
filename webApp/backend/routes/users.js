@@ -46,8 +46,11 @@ router.post("/newID", function(req, res) {
     var lastName = req.body.lastName;
     var email = req.body.email;
     var query =
-        "INSERT IGNORE INTO mobileUsers (firstName, lastName, email) VALUES (?, ?, ?)";
-    connection.query(query, [firstName, lastName, email], function(err, rows) {
+        "INSERT INTO mobileUsers (firstName, lastName, email) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE mobileID =LAST_INSERT_ID(mobileID), firstName=?";
+    connection.query(query, [firstName, lastName, email, firstName], function(
+        err,
+        rows
+    ) {
         if (err) {
             myConsole.error(err);
             res.json({ message: "An Error has Occured" });
