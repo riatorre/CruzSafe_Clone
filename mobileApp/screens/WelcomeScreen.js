@@ -19,10 +19,16 @@ import styles from "../components/styles.js";
 
 class WelcomeScreen extends Component {
     // State of the screen; maintained as long as app is not fully closed.
-    state = { mobileID: 1, username: "", errorMessage: null };
+    state = {
+        mobileID: 1,
+        userFirstName: "",
+        userLastName: "",
+        userEmail: "",
+        errorMessage: null
+    };
 
     render() {
-        const isDisabled = this.state.username.length === 0;
+        //const isDisabled = this.state.username.length === 0;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Swiper
@@ -49,27 +55,47 @@ class WelcomeScreen extends Component {
                         <Header style={styles.header} />
                         <Content contentContainerStyle={styles.container}>
                             <Text style={{ fontSize: 24 }}>
-                                Please enter a name
+                                UCSC CruzSafe: Credentials
                             </Text>
                             <TextInput
                                 style={styles.textInput}
-                                autoCapitalize="none"
-                                placeholder="Name"
-                                onChangeText={username =>
-                                    this.setState({ username })
+                                autoCapitalize="words"
+                                placeholder="First Name"
+                                onChangeText={userFirstName =>
+                                    this.setState({ userFirstName })
                                 }
-                                value={this.state.username}
+                                value={this.state.userFirstName}
+                            />
+                            <TextInput
+                                style={styles.textInput}
+                                autoCapitalize="words"
+                                placeholder="Last Name"
+                                onChangeText={userLastName =>
+                                    this.setState({ userLastName })
+                                }
+                                value={this.state.userLastName}
+                            />
+                            <TextInput
+                                style={styles.textInput}
+                                autoCapitalize="none"
+                                placeholder="Email"
+                                onChangeText={userEmail =>
+                                    this.setState({ userEmail })
+                                }
+                                value={this.state.userEmail}
                             />
                             <TouchableOpacity
                                 style={
-                                    !this.state.username
+                                    !this.state.userEmail |
+                                    !this.state.userFirstName |
+                                    !this.state.userLastName
                                         ? styles.btn_disabled
                                         : styles.btn
                                 }
-                                disabled={isDisabled}
-                                onPress={this._signInAsync}
+                                //disabled={isDisabled}
+                                onPress={this._signInAsync} // Initiate sign in Async!
                             >
-                                <Text style={{ color: "white" }}>Sign in!</Text>
+                                <Text style={{ color: "white" }}>Sign in</Text>
                             </TouchableOpacity>
                         </Content>
                         <Footer style={styles.footer} />
@@ -88,7 +114,7 @@ class WelcomeScreen extends Component {
      */
     async handleLogin(firstName, lastName, email) {
         // Main Portion of the request, contains all metadata to be sent to link
-        await fetch("https://cruzsafe.appspot.com/api/users/checkID", {
+        await fetch("https://cruzsafe.appspot.com/api/users/newID", {
             // Defines what type of call is being made; above link is a POST request, so POST is needed Below
             method: "POST",
             // Metadata in regards as to what is expected to be sent/recieved
@@ -103,12 +129,10 @@ class WelcomeScreen extends Component {
                 email: email
             })
         })
-            .then(response => {
-                response.json;
-            })
-            .then(responseJSON => {
-                this.state.mobileID = responseJSON;
-                console.log(responseJSON);
+            .then(response => response.json())
+            .then(json => {
+                console.log("ReponseJSON = " + json[0]["LAST_INSERT_ID()"]);
+                this.state.mobileID = json[0]["LAST_INSERT_ID()"];
             })
             // Unsuccessful Call to API
             .catch(err => {
@@ -118,8 +142,20 @@ class WelcomeScreen extends Component {
 
     // Function used to 'sign' user in. Stores name into AsyncStorage
     _signInAsync = async () => {
-        this.handleLogin();
-        await AsyncStorage.setItem("userToken", this.state.username);
+        console.log(
+            "Attempting to sign in with " +
+                this.state.userFirstName +
+                " and " +
+                this.state.userLastName +
+                " and " +
+                this.state.userEmail
+        );
+        this.handleLogin(
+            this.state.userFirstName,
+            this.state.userLastName,
+            this.state.userEmail
+        );
+        await AsyncStorage.setItem("mobileID", "" + this.state.mobileID);
         this.props.navigation.navigate("App");
     };
 }
