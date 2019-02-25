@@ -23,6 +23,8 @@ reportFields = [
     "body"
 ];
 
+aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
+
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
 const webID = 1;
 
@@ -114,6 +116,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
 
             // All data has now been added into reportData
             const modal = document.getElementById("report");
+
             if (productInfo["resolvedUnresolved"].includes("New")) {
                 // For resolvedUnresolved, gets status. If resolved, green. else, red.
                 document.getElementById("resolvedUnresolved").style.color =
@@ -127,6 +130,18 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                 document.getElementById("resolvedUnresolved").style.color =
                     "yellowgreen";
             }
+
+            // Edit Location
+            const map = document.getElementById("reportMap");
+            map.setAttribute(
+                "src",
+                "https://www.google.com/maps/embed/v1/place?q=" +
+                    reportInfo["latitude"] +
+                    "," +
+                    reportInfo["longitude"] +
+                    "&key=" +
+                    aPIKey
+            );
 
             for (i = 0; i < reportFields.length; i++) {
                 // For all entries in reportFields
