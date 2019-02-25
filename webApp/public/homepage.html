@@ -165,55 +165,30 @@
                             <div class="reportRow">
                                 <div id="column1" class="reportColumn1">
                                     <p>
-                                        <b>Incident:</b> #<span
-                                            id="incidentID"
-                                        ></span>
-                                        <b id="resolvedUnresolved"></b>
+                                        <b>Incident:</b> #<span id = "incidentID"></span> <b id="resolvedUnresolved"></b>
                                     </p>
-                                    <p>
-                                        <b>Date:</b> <span id="reportTS"></span>
-                                    </p>
-                                    <p>
-                                        <b>Time:</b>
-                                        <span id="reportTS2"></span>
-                                    </p>
-                                    <p>
-                                        <b>Location:</b>
-                                        <span id="location"></span>
-                                        <span id="actualPinned"></span>
-                                    </p>
+                                    <p><b>Date:</b> <span id="reportTS"></span></p>
+                                    <p><b>Time:</b> <span id="reportTS2"></span></p>
+                                    <p><b>Location:</b> <span id="location"></span> <span id="actualPinned"></span></p>
                                     <p><b>Tag:</b> <span id="tag"></span></p>
                                     <br />
-                                    <img
-                                        id="reportMap"
-                                        src="./assets/images/report_map.png"
-                                        alt="report map"
-                                    />
+                                    <iframe id="reportMap"></iframe>
                                     <br />
                                     <img
                                         id="reportPhoto"
-                                        src="./assets/images/report_photo.png"
+                                        src="./assets/images/report_photo_two.png"
                                         alt="report photo"
                                     />
                                 </div>
                                 <div id="column2" class="reportColumn2">
                                     <br />
-                                    <p>
-                                        <b>Name:</b>
-                                        <span id="fullName"></span> - #<span
-                                            id="mobileID"
-                                        ></span>
-                                    </p>
-                                    <p>
-                                        <b>Phone:</b> <span id="phone"></span>
-                                    </p>
-                                    <p>
-                                        <b>Email:</b> <span id="email"></span>
-                                    </p>
+                                    <p><b>Name:</b> <span id="fullName"></span> - #<span id="mobileID"></span></p>
+                                    <p><b>Phone:</b> <span id="phone"></span></p>
+                                    <p><b>Email:</b> <span id="email"></span></p>
                                     <br />
-                                    <b>Report Body:</b>
+                                    <b>Report Body:</b> 
                                     <br /><br />
-                                    <p id="body"></p>
+                                    <p id = "body"></p>
                                     <br />
                                     <div id="responseButtons">
                                         <button id="reportRespond">

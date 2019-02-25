@@ -143,6 +143,17 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                     aPIKey
             );
 
+            // Edit photo
+            const photo = document.getElementById("reportPhoto");
+            if (reportID["attachments"]) {
+                photo.setAttribute(
+                    "src",
+                    "https://storage.googleapis.com/cruzsafe.appspot.com/" +
+                        reportID +
+                        ".jpg"
+                );
+            }
+
             for (i = 0; i < reportFields.length; i++) {
                 // For all entries in reportFields
                 const field = reportFields[i];
