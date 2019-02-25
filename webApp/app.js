@@ -14,7 +14,6 @@ const cors = require("cors");
 const myConsole = require("./backend/utilities/customConsole");
 const users = require("./backend/routes/users");
 const reports = require("./backend/routes/reports");
-//const public_router = require("./backend/routes/public");
 
 const app = express();
 
@@ -26,7 +25,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Use the Router on the sub routes
 app.use("/api/users", users);
 app.use("/api/reports", reports);
-//app.use("/", public_router);
 
 app.get("/", function(req, res) {
     res.sendFile("welcome.html", {
