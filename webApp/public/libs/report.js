@@ -184,16 +184,9 @@ function setupReports(document) {
                 tagDict[tag["tagID"]] = tag["tagName"];
             });
             tagColors = [];
-            tagColors["Water Leak"] = "blue";
-            tagColors["Broken Light"] = "lime";
-            tagColors["Broken Window"] = "navy";
-            tagColors["Lighting Deficiency"] = "aqua";
-            tagColors["Excess Trash"] = "olive";
-            tagColors["undefined"] = "black";
-            /*
             Array.from(tags).forEach(function(tag) {
                 tagColors[tag["tagName"]] = tag["color"];
-            });*/
+            });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             gatherReportPage(document, tagDict, tagColors);
         }
