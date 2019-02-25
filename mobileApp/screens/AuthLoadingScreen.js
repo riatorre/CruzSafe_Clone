@@ -11,7 +11,7 @@ export default class AuthLoadingScreen extends React.Component {
 
     // This is where the app determines if authentication is needed
     _bootstrapAsync = async () => {
-        const userToken = await AsyncStorage.getItem("userToken");
+        const userToken = await AsyncStorage.getItem("mobileID");
         this.props.navigation.navigate(userToken ? "App" : "Auth");
     };
 
