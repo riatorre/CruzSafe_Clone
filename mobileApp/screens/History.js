@@ -163,20 +163,34 @@ class History extends Component {
                 );
             }
         } else {
-            return <ActivityIndicator size="small" color="#00ff00" />;
+            return (
+                <View style={styles.itemContainer}>
+                    <ActivityIndicator size="large" color="#303060" />
+                </View>
+            );
         }
     }
 
-    getReports() {
+    async getMobileID() {
+        try {
+            const id = await AsyncStorage.getItem("mobileID");
+            this.setState({ mobile: id });
+            return id;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async getReports() {
         this.setState({ isLoading: true });
-        fetch("https://cruzsafe.appspot.com/api/reports/userReports", {
+        await fetch("https://cruzsafe.appspot.com/api/reports/userReports", {
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                mobileID: 1 //Temporary Value of 1; Must be replaced once we integrate Shibboleth
+                mobileID: await this.getMobileID() //Temporary Value of 1; Must be replaced once we integrate Shibboleth
             })
         })
             .then(res => res.json())

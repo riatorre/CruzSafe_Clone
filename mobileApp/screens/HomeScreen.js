@@ -173,12 +173,6 @@ class HomeScreen extends Component {
                     latitude: loc.coords.latitude,
                     longitude: loc.coords.longitude
                 });
-                console.log(
-                    "latitude:" +
-                        JSON.stringify(loc.coords.latitude) +
-                        "\nlongitude:" +
-                        JSON.stringify(loc.coords.longitude)
-                );
             }
         } catch (error) {
             console.log(error.message);
@@ -1004,7 +998,6 @@ class HomeScreen extends Component {
                                         }}
                                         title={"Incident Location"}
                                         onDragEnd={e => {
-                                            //console.log(e.nativeEvent);
                                             this.setState({
                                                 latitude:
                                                     e.nativeEvent.coordinate
