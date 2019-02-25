@@ -43,6 +43,9 @@ var tagsList = [
     "Lighting deficiency"
 ];
 
+const LATITUDE = "36.9916";
+const LONGITUDE = "-122.0583";
+
 function createIncidentTypePicker(props) {
     return (
         <TouchableOpacity
@@ -72,8 +75,8 @@ class HomeScreen extends Component {
         cameraModalVisible: false,
         iOSPickerVisible: false,
         locationModalVisible: false,
-        latitude: "36.9916",
-        longitude: "-122.0583",
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
         location: null,
         unchangedLocation: true,
         incidentCategory: "",
@@ -187,7 +190,10 @@ class HomeScreen extends Component {
             pre_report = {
                 incidentDesc: "",
                 incidentCategory: "",
-                incidentLocationDesc: ""
+                incidentLocationDesc: "",
+                incidentLatitude: LATITUDE,
+                incidentLongitude: LONGITUDE,
+                unchangedLocation: true
             };
             this.storeItem("unsub_report", pre_report);
         }
@@ -220,7 +226,8 @@ class HomeScreen extends Component {
                             this.setState({
                                 incidentCategory: "",
                                 incidentDesc: "",
-                                incidentLocationDesc: ""
+                                incidentLocationDesc: "",
+                                unchangedLocation: true
                             });
                         },
                         style: "cancel"
@@ -296,7 +303,8 @@ class HomeScreen extends Component {
                                 this.setState({
                                     incidentCategory: "",
                                     incidentDesc: "",
-                                    incidentLocationDesc: ""
+                                    incidentLocationDesc: "",
+                                    unchangedLocation: true
                                 });
                             }
                         },
@@ -310,7 +318,8 @@ class HomeScreen extends Component {
                                 this.setState({
                                     incidentCategory: "",
                                     incidentDesc: "",
-                                    incidentLocationDesc: ""
+                                    incidentLocationDesc: "",
+                                    unchangedLocation: true
                                 });
                                 this.props.navigation.navigate("ReportDetail");
                             }
@@ -321,7 +330,10 @@ class HomeScreen extends Component {
                 var unsub_report = {
                     incidentDesc: "",
                     incidentCategory: "",
-                    incidentLocationDesc: ""
+                    incidentLocationDesc: "",
+                    incidentLatitude: LATITUDE,
+                    incidentLongitude: LONGITUDE,
+                    unchangedLocation: true
                 };
                 this.storeItem("unsub_report", unsub_report);
             })
@@ -569,7 +581,10 @@ class HomeScreen extends Component {
                             incidentCategory: this.state.incidentCategory,
                             incidentDesc: this.state.incidentDesc,
                             incidentLocationDesc: this.state
-                                .incidentLocationDesc
+                                .incidentLocationDesc,
+                            incidentLatitude: this.state.latitude,
+                            incidentLongitude: this.state.longitude,
+                            unchangedLocation: this.state.unchangedLocation
                         });
                     }}
                 >
@@ -592,7 +607,13 @@ class HomeScreen extends Component {
                                             incidentDesc: this.state
                                                 .incidentDesc,
                                             incidentLocationDesc: this.state
-                                                .incidentLocationDesc
+                                                .incidentLocationDesc,
+                                            incidentLatitude: this.state
+                                                .latitude,
+                                            incidentLongitude: this.state
+                                                .longitude,
+                                            unchangedLocation: this.state
+                                                .unchangedLocation
                                         });
                                     }}
                                 />
@@ -694,7 +715,13 @@ class HomeScreen extends Component {
                                             incidentDesc: this.state
                                                 .incidentDesc,
                                             incidentLocationDesc: this.state
-                                                .incidentLocationDesc
+                                                .incidentLocationDesc,
+                                            incidentLatitude: this.state
+                                                .latitude,
+                                            incidentLongitude: this.state
+                                                .longitude,
+                                            unchangedLocation: this.state
+                                                .unchangedLocation
                                         });
                                     }}
                                 >
