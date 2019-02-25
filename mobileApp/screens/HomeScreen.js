@@ -79,6 +79,7 @@ class HomeScreen extends Component {
         incidentCategory: "",
         incidentDesc: "",
         incidentLocationDesc: "",
+        mobile: "",
         hasCameraPermission: null,
         hasLocationPermission: null,
         type: Camera.Constants.Type.back
@@ -109,6 +110,16 @@ class HomeScreen extends Component {
 
     setIOSPickerVisible(visible) {
         this.setState({ iOSPickerVisible: visible });
+    }
+
+    async getMobileID() {
+        try {
+            const id = await AsyncStorage.getItem("mobileID");
+            this.setState({ mobile: id });
+            return id;
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     async getCameraPermission(c) {
@@ -266,7 +277,7 @@ class HomeScreen extends Component {
             },
             // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
             body: JSON.stringify({
-                mobileID: 1, //Set to 1 for now, will be a unique ID for logged in user once we setup Shibboleth
+                mobileID: await this.getMobileID(), //Set to 1 for now, will be a unique ID for logged in user once we setup Shibboleth
                 incidentDesc: this.state.incidentDesc,
                 incidentCategory: incidentTagID,
                 incidentLocationDesc: this.state.incidentLocationDesc,

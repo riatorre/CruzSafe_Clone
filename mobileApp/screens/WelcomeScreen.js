@@ -132,7 +132,7 @@ class WelcomeScreen extends Component {
             .then(response => response.json())
             .then(json => {
                 console.log("ReponseJSON = " + json[0]["LAST_INSERT_ID()"]);
-                this.state.mobileID = json[0]["LAST_INSERT_ID()"];
+                this.setID(JSON.stringify(json[0]["LAST_INSERT_ID()"]));
             })
             // Unsuccessful Call to API
             .catch(err => {
@@ -155,8 +155,15 @@ class WelcomeScreen extends Component {
             this.state.userLastName,
             this.state.userEmail
         );
-        await AsyncStorage.setItem("mobileID", "" + this.state.mobileID);
         this.props.navigation.navigate("App");
     };
+
+    async setID(id) {
+        try {
+            await AsyncStorage.setItem("mobileID", id);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 }
 export default WelcomeScreen;
