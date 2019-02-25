@@ -75,7 +75,7 @@ class HomeScreen extends Component {
         latitude: "36.9916",
         longitude: "-122.0583",
         location: null,
-        unchangedLocation: "",
+        unchangedLocation: true,
         incidentCategory: "",
         incidentDesc: "",
         incidentLocationDesc: "",
@@ -166,20 +166,22 @@ class HomeScreen extends Component {
 
     async getLocation() {
         try {
-            const loc = await Location.getCurrentPositionAsync({
-                enableHighAccuracy: true
-            });
-            this.setState({
-                location: loc,
-                latitude: loc.coords.latitude,
-                longitude: loc.coords.longitude
-            });
-            console.log(
-                "latitude:" +
-                    JSON.stringify(loc.coords.latitude) +
-                    "\nlongitude:" +
-                    JSON.stringify(loc.coords.longitude)
-            );
+            if (this.state.unchangedLocation) {
+                const loc = await Location.getCurrentPositionAsync({
+                    enableHighAccuracy: true
+                });
+                this.setState({
+                    location: loc,
+                    latitude: loc.coords.latitude,
+                    longitude: loc.coords.longitude
+                });
+                console.log(
+                    "latitude:" +
+                        JSON.stringify(loc.coords.latitude) +
+                        "\nlongitude:" +
+                        JSON.stringify(loc.coords.longitude)
+                );
+            }
         } catch (error) {
             console.log(error.message);
         }
@@ -266,6 +268,7 @@ class HomeScreen extends Component {
                 break;
             }
         }
+        console.log(this.state);
         // Main Portion of the request, contains all metadata to be sent to link
         await fetch("https://cruzsafe.appspot.com/api/reports/submitReport", {
             // Defines what type of call is being made; above link is a POST request, so POST is needed Below
@@ -288,16 +291,62 @@ class HomeScreen extends Component {
         })
             // Successful Call to API
             .then(() => {
+                Alert.alert(
+                    this.state.incidentCategory + " Report Submitted",
+                    "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
+                    [
+                        {
+                            text: "OK",
+                            onPress: () => {
+                                this.setReportModalVisible(
+                                    !this.state.reportModalVisible
+                                );
+
+                                this.setState({
+                                    incidentCategory: "",
+                                    incidentDesc: "",
+                                    incidentLocationDesc: ""
+                                });
+                            }
+                        },
+                        {
+                            text: "Check the status of my report: ",
+                            onPress: () => {
+                                this.setReportModalVisible(
+                                    !this.state.reportModalVisible
+                                );
+
+                                this.setState({
+                                    incidentCategory: "",
+                                    incidentDesc: "",
+                                    incidentLocationDesc: ""
+                                });
+                                this.props.navigation.navigate("ReportDetail");
+                            }
+                        }
+                    ],
+                    { cancelable: false }
+                );
                 var unsub_report = {
                     incidentDesc: "",
                     incidentCategory: "",
                     incidentLocationDesc: ""
                 };
                 this.storeItem("unsub_report", unsub_report);
-                return true;
             })
             // Unsuccessful Call to API
             .catch(err => {
+                Alert.alert(
+                    "Error",
+                    "An error has occurred. Please try again later.",
+                    [
+                        {
+                            text: "Ok",
+                            onPress: () => {}
+                        }
+                    ],
+                    { cancelable: false }
+                );
                 console.log(err);
                 return false;
             });
@@ -678,51 +727,7 @@ class HomeScreen extends Component {
                                             this.state.incidentLocationDesc !=
                                                 ""
                                         ) {
-                                            if (this.handleSubmit()) {
-                                                Alert.alert(
-                                                    this.state
-                                                        .incidentCategory +
-                                                        " Report Submitted",
-                                                    "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
-                                                    [
-                                                        {
-                                                            text: "OK",
-                                                            onPress: () => {
-                                                                this.setReportModalVisible(
-                                                                    !this.state
-                                                                        .reportModalVisible
-                                                                );
-                                                            }
-                                                        },
-                                                        {
-                                                            text:
-                                                                "Check the status of my report: ",
-                                                            onPress: () => {
-                                                                this.setReportModalVisible(
-                                                                    !this.state
-                                                                        .reportModalVisible
-                                                                );
-                                                                this.props.navigation.navigate(
-                                                                    "ReportDetail"
-                                                                );
-                                                            }
-                                                        }
-                                                    ],
-                                                    { cancelable: false }
-                                                );
-                                            } else {
-                                                Alert.alert(
-                                                    "Error",
-                                                    "An error has occurred. Please try again later.",
-                                                    [
-                                                        {
-                                                            text: "Ok",
-                                                            onPress: () => {}
-                                                        }
-                                                    ],
-                                                    { cancelable: false }
-                                                );
-                                            }
+                                            this.handleSubmit();
                                         } else {
                                             Alert.alert(
                                                 "Empty report",
@@ -746,11 +751,6 @@ class HomeScreen extends Component {
                                                 { cancelable: false }
                                             );
                                         }
-                                        this.setState({
-                                            incidentCategory: "",
-                                            incidentDesc: "",
-                                            incidentLocationDesc: ""
-                                        });
                                     }}
                                 >
                                     <Icon
@@ -996,6 +996,7 @@ class HomeScreen extends Component {
                                     }}
                                 >
                                     <MapView.Marker
+                                        draggable
                                         coordinate={{
                                             latitude: parseFloat(
                                                 this.state.latitude
@@ -1005,6 +1006,18 @@ class HomeScreen extends Component {
                                             )
                                         }}
                                         title={"Incident Location"}
+                                        onDragEnd={e => {
+                                            //console.log(e.nativeEvent);
+                                            this.setState({
+                                                latitude:
+                                                    e.nativeEvent.coordinate
+                                                        .latitude,
+                                                longitude:
+                                                    e.nativeEvent.coordinate
+                                                        .longitude,
+                                                unchangedLocation: false
+                                            });
+                                        }}
                                     />
                                 </MapView>
                                 <Footer style={styles.footer}>
