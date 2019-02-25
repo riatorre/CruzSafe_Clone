@@ -20,7 +20,6 @@ import styles from "../components/styles.js";
 class WelcomeScreen extends Component {
     // State of the screen; maintained as long as app is not fully closed.
     state = {
-        mobileID: 1,
         userFirstName: "",
         userLastName: "",
         userEmail: "",

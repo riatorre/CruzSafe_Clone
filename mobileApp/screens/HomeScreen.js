@@ -79,7 +79,6 @@ class HomeScreen extends Component {
         incidentCategory: "",
         incidentDesc: "",
         incidentLocationDesc: "",
-        mobile: "",
         hasCameraPermission: null,
         hasLocationPermission: null,
         type: Camera.Constants.Type.back
@@ -115,8 +114,7 @@ class HomeScreen extends Component {
     async getMobileID() {
         try {
             const id = await AsyncStorage.getItem("mobileID");
-            this.setState({ mobile: id });
-            return id;
+            return Number(id);
         } catch (error) {
             console.log(error.message);
         }
@@ -268,7 +266,6 @@ class HomeScreen extends Component {
                 break;
             }
         }
-        console.log(this.state);
         // Main Portion of the request, contains all metadata to be sent to link
         await fetch("https://cruzsafe.appspot.com/api/reports/submitReport", {
             // Defines what type of call is being made; above link is a POST request, so POST is needed Below
