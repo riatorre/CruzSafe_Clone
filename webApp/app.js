@@ -26,10 +26,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/users", users);
 app.use("/api/reports", reports);
 
+// Sets default page to welcome.html
 app.get("/", function(req, res) {
     res.sendFile("welcome.html", {
         root: __dirname + "/public"
     });
+});
+
+// "Redirects" '/welcome.html' to '/'; just for consistency with url and to catch before authentication check
+app.get("/welcome.html", function(req, res) {
+    res.redirect("/");
 });
 
 // Sets up Access Control for any page that is not the welcome page
