@@ -895,13 +895,6 @@ class HomeScreen extends Component {
                                             this.camera = cam;
                                         }}
                                     >
-                                        {/* <Text
-                                            style={styles.capture}
-                                            onPress={this.camera.takePictureAsync()}
-                                            // onPress={this.takePicture.bind(this)}
-                                        >
-                                            [CAPTURE]
-                                        </Text> */}
                                         <View
                                             style={{
                                                 flex: 1,
@@ -957,9 +950,6 @@ class HomeScreen extends Component {
                                                         .then(data =>
                                                             console.log(data)
                                                         );
-                                                    // this.setState({
-                                                    //     type: this.camera.takePictureAsync()
-                                                    // });
                                                 }}
                                             >
                                                 <Text
@@ -1005,7 +995,7 @@ class HomeScreen extends Component {
                                 </Footer>
                             </Container>
                         </Modal>
-                        {/* Location Modal. TODO: Replace with actual location.*/}
+                        {/* Location Modal. */}
                         <Modal
                             animationType="slide"
                             transparent={false}
