@@ -851,7 +851,7 @@ class HomeScreen extends Component {
                                 </View>
                             </View>
                         </Modal>
-                        {/* Camera Modal. TODO: Replace with actual camera.*/}
+                        {/* Camera Modal.*/}
                         <Modal
                             animationType="slide"
                             transparent={false}
@@ -891,7 +891,17 @@ class HomeScreen extends Component {
                                     <Camera
                                         style={{ flex: 1 }}
                                         type={this.state.type}
+                                        ref={cam => {
+                                            this.camera = cam;
+                                        }}
                                     >
+                                        {/* <Text
+                                            style={styles.capture}
+                                            onPress={this.camera.takePictureAsync()}
+                                            // onPress={this.takePicture.bind(this)}
+                                        >
+                                            [CAPTURE]
+                                        </Text> */}
                                         <View
                                             style={{
                                                 flex: 1,
@@ -930,6 +940,37 @@ class HomeScreen extends Component {
                                                 >
                                                     {" "}
                                                     Flip{" "}
+                                                </Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={{
+                                                    flex: 0.5,
+                                                    justifyContent: "flex-end",
+                                                    alignItems: "center"
+                                                }}
+                                                onPress={() => {
+                                                    console.log(
+                                                        "about to photograph"
+                                                    );
+                                                    this.camera
+                                                        .takePictureAsync()
+                                                        .then(data =>
+                                                            console.log(data)
+                                                        );
+                                                    // this.setState({
+                                                    //     type: this.camera.takePictureAsync()
+                                                    // });
+                                                }}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        fontSize: 18,
+                                                        marginBottom: 10,
+                                                        color: "red"
+                                                    }}
+                                                >
+                                                    {" "}
+                                                    Take photo{" "}
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
