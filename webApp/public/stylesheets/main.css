@@ -16,7 +16,7 @@
 
 html {
   box-sizing: border-box;
-  background: white;
+  /* background: green; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -221,7 +221,6 @@ table .btn {
 .topnav {
   background-color: #0d3c6c;
   overflow: hidden;
-  padding: 10px;
 }
 
 /* Style the links inside the navigation bar */
@@ -489,7 +488,7 @@ table .btn {
 
 div.transbox {
   /* margin: 30px; */
-  background-color: #ffffff;
+  background-color: #0d3c6c;
   border: 1px solid black;
   opacity: 0.6;
   filter: alpha(opacity=60);
