@@ -17,7 +17,8 @@ import {
     Modal,
     ScrollView,
     AsyncStorage,
-    Alert
+    Alert,
+    Image
 } from "react-native";
 import {
     Container,
@@ -29,7 +30,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Camera, Permissions, Location, MapView } from "expo";
+import { Camera, Permissions, Location, MapView, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
 
@@ -83,7 +84,9 @@ class HomeScreen extends Component {
         incidentDesc: "",
         incidentLocationDesc: "",
         hasCameraPermission: null,
+        hasCameraRollPermission: null,
         hasLocationPermission: null,
+        image: null,
         type: Camera.Constants.Type.back
     };
 
@@ -134,6 +137,30 @@ class HomeScreen extends Component {
             Alert.alert(
                 "Permission denied",
                 "You need to enable camera for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getCameraRollPermission(0);
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getCameraRollPermission(c) {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === "granted") {
+            this.setState({ hasCameraRollPermission: status === "granted" });
+            this.getLocationPermission(c);
+        } else if (c < 2) {
+            this.getCameraRollPermission(c + 1);
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to enable gallery for this app",
                 [
                     {
                         text: "OK",
@@ -355,6 +382,32 @@ class HomeScreen extends Component {
             });
     }
 
+    async pickImage() {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: "All",
+            allowsEditing: false
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
+        }
+    }
+
+    async takePhoto() {
+        let photo_result = await ImagePicker.launchCameraAsync({
+            mediaTypes: "All",
+            allowsEditing: false
+        });
+
+        console.log(photo_result);
+
+        if (!photo_result.cancelled) {
+            this.setState({ image: photo_result.uri });
+        }
+    }
+
     static navigationOptions = {
         drawerLabel: "Home",
         drawerIcon: ({ tintColor }) => (
@@ -371,6 +424,7 @@ class HomeScreen extends Component {
 
     render() {
         const IncidentTypePicker = createIncidentTypePicker;
+        var { image } = this.state;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Container>
@@ -532,7 +586,7 @@ class HomeScreen extends Component {
                                                 style: "cancel"
                                             }
                                         ],
-                                        { cancelable: false }
+                                        { cancelable: true }
                                     );
                                 }}
                             >
@@ -664,12 +718,57 @@ class HomeScreen extends Component {
                                 }
                                 value={this.state.incidentLocationDesc}
                             />
-                            <View style={{ flexDirection: "row" }}>
+                            <View
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: "grey",
+                                    marginTop: 8,
+                                    marginBottom: 8
+                                }}
+                            >
+                                {image && (
+                                    <Image
+                                        source={{ uri: image }}
+                                        style={{
+                                            width: 125,
+                                            height: 75
+                                        }}
+                                    />
+                                )}
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: "row"
+                                }}
+                            >
                                 {/* Button that allows Camera (Modal) to be opened */}
                                 <TouchableOpacity
                                     style={styles.btn}
                                     onPress={() => {
-                                        this.setCameraModalVisible(true);
+                                        Alert.alert(
+                                            "Media option",
+                                            null,
+                                            [
+                                                {
+                                                    text: "take photo",
+                                                    onPress: () => {
+                                                        /*
+                                                        this.setCameraModalVisible(
+                                                            true
+                                                        );
+                                                        */
+                                                        this.takePhoto();
+                                                    }
+                                                },
+                                                {
+                                                    text: "selet from gallery",
+                                                    onPress: () => {
+                                                        this.pickImage();
+                                                    }
+                                                }
+                                            ],
+                                            { cancelable: true }
+                                        );
                                     }}
                                 >
                                     <Icon
