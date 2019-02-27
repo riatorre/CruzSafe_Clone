@@ -62,23 +62,23 @@
 */
 
 #filterOptions {
-  padding: 10px;
+  padding: 35px;
   margin-top: 20px;
   margin-left: 40px;
   margin-right: 40px;
   width: 20%;
   height: 80%;
-  border: 3px solid black;
+  border: 0px solid black;
   overflow: auto;
 }
 
 #filterOptions > p {
   display: inline;
-  color: red;
+  color: Black;
 }
 
 #filterOptions > h1 {
-  color: red;
+  color: Black;
 }
 
 #reportColumn {
@@ -214,3 +214,16 @@
 /*
     End Dropdown Code
 */
+
+input {
+  -webkit-appearance: textfield;
+  background-color: white;
+  -webkit-rtl-ordering: logical;
+  cursor: text;
+  padding: 8px;
+  border-width: 1px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
+  width: 200px;
+}
