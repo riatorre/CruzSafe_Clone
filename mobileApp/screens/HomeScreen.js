@@ -35,6 +35,8 @@ import { Camera, Permissions, Location, MapView, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
 
+import CameraModal from "../components/CameraModal";
+
 import styles from "../components/styles.js";
 
 var tagsList = [
@@ -147,6 +149,16 @@ class HomeScreen extends Component {
                 ],
                 { cancelable: false }
             );
+        }
+    }
+
+    async pickImage() {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: "All",
+            allowsEditing: false
+        });
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
         }
     }
 
@@ -400,21 +412,6 @@ class HomeScreen extends Component {
                 console.log(err);
                 return false;
             });
-    }
-
-    async pickImage() {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: "All",
-            allowsEditing: false
-        });
-        if (!result.cancelled) {
-            this.setState({ image: result.uri });
-        }
-    }
-
-    async takePhoto(data) {
-        console.log(data.uri);
-        this.setState({ image: data.uri });
     }
 
     static navigationOptions = {
@@ -956,148 +953,9 @@ class HomeScreen extends Component {
                                 </View>
                             </View>
                         </Modal>
-                        {/* Camera Modal.*/}
-                        <Modal
-                            animationType="slide"
-                            transparent={false}
-                            visible={this.state.cameraModalVisible}
-                            onRequestClose={() => {
-                                this.setCameraModalVisible(
-                                    !this.state.cameraModalVisible
-                                );
-                            }}
-                        >
-                            <Container>
-                                <Header style={styles.header_modal}>
-                                    <Left>
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-arrow-back`}
-                                            style={styles.icon}
-                                            onPress={() => {
-                                                this.setCameraModalVisible(
-                                                    !this.state
-                                                        .cameraModalVisible
-                                                );
-                                            }}
-                                        />
-                                    </Left>
-                                    <Body>
-                                        <Text style={styles.header_text}>
-                                            Camera
-                                        </Text>
-                                    </Body>
-                                    <Right />
-                                </Header>
-                                <View style={{ flex: 1 }}>
-                                    <Camera
-                                        style={{ flex: 1 }}
-                                        type={this.state.type}
-                                        ref={cam => {
-                                            this.camera = cam;
-                                        }}
-                                    >
-                                        <View
-                                            style={{
-                                                flex: 1,
-                                                backgroundColor: "transparenb",
-                                                flexDirection: "row"
-                                            }}
-                                        >
-                                            <TouchableOpacity
-                                                style={{
-                                                    flex: 0.1,
-                                                    alignSelf: "flex-end",
-                                                    alignItems: "center"
-                                                }}
-                                                onPress={() => {
-                                                    this.setState({
-                                                        type:
-                                                            this.state.type ===
-                                                            Camera.Constants
-                                                                .Type.back
-                                                                ? Camera
-                                                                      .Constants
-                                                                      .Type
-                                                                      .front
-                                                                : Camera
-                                                                      .Constants
-                                                                      .Type.back
-                                                    });
-                                                }}
-                                            >
-                                                <Text
-                                                    style={{
-                                                        fontSize: 18,
-                                                        marginBottom: 10,
-                                                        color: "white"
-                                                    }}
-                                                >
-                                                    {" "}
-                                                    Flip{" "}
-                                                </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                style={{
-                                                    flex: 0.5,
-                                                    justifyContent: "flex-end",
-                                                    alignItems: "center"
-                                                }}
-                                                onPress={() => {
-                                                    this.camera
-                                                        .takePictureAsync()
-                                                        .then(data =>
-                                                            this.takePhoto(
-                                                                data
-                                                            ).then(
-                                                                this.setCameraModalVisible(
-                                                                    !this.state
-                                                                        .cameraModalVisible
-                                                                )
-                                                            )
-                                                        );
-                                                }}
-                                            >
-                                                <Text style={styles.btn}>
-                                                    {" "}
-                                                    Take photo{" "}
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </Camera>
-                                </View>
-                                <Footer style={styles.footer}>
-                                    <Left
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                    />
-                                    <Body
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                    >
-                                        <Text style={styles.footer_text}>
-                                            CruzSafe
-                                        </Text>
-                                    </Body>
-                                    <Right
-                                        style={{
-                                            flex: 1,
-                                            alignItems: "center",
-                                            justifyContent: "center"
-                                        }}
-                                    />
-                                </Footer>
-                            </Container>
-                        </Modal>
+
+                        <CameraModal homeScreen={this} />
+
                         {/* Location Modal. */}
                         <Modal
                             animationType="slide"
