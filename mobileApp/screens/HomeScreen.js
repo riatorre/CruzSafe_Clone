@@ -126,13 +126,11 @@ class HomeScreen extends Component {
         }
     }
 
-    async getCameraPermission(c) {
+    async getCameraPermission() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         if (status === "granted") {
             this.setState({ hasCameraPermission: status === "granted" });
-            this.getCameraRollPermission(c);
-        } else if (c < 1) {
-            this.getCameraPermission(c + 1);
+            this.getCameraRollPermission();
         } else {
             Alert.alert(
                 "Permission denied",
@@ -141,7 +139,7 @@ class HomeScreen extends Component {
                     {
                         text: "OK",
                         onPress: () => {
-                            this.getCameraRollPermission(0);
+                            this.getCameraRollPermission();
                         }
                     }
                 ],
@@ -150,13 +148,11 @@ class HomeScreen extends Component {
         }
     }
 
-    async getCameraRollPermission(c) {
+    async getCameraRollPermission() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         if (status === "granted") {
             this.setState({ hasCameraRollPermission: status === "granted" });
-            this.getLocationPermission(c);
-        } else if (c < 1) {
-            this.getCameraRollPermission(c + 1);
+            this.getLocationPermission();
         } else {
             Alert.alert(
                 "Permission denied",
@@ -165,7 +161,7 @@ class HomeScreen extends Component {
                     {
                         text: "OK",
                         onPress: () => {
-                            this.getLocationPermission(0);
+                            this.getLocationPermission();
                         }
                     }
                 ],
@@ -174,7 +170,7 @@ class HomeScreen extends Component {
         }
     }
 
-    async getLocationPermission(c) {
+    async getLocationPermission() {
         const { Location, Permissions } = Expo;
         // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
         const { status, permissions } = await Permissions.askAsync(
@@ -185,8 +181,6 @@ class HomeScreen extends Component {
                 hasLocationPermission: status === "granted"
             });
             this.getLocation();
-        } else if (c < 1) {
-            this.getLocationPermission(c + 1);
         } else {
             alert("You need to enable location for this app");
         }
