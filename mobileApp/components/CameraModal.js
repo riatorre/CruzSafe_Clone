@@ -68,7 +68,7 @@ class CameraModal extends Component {
                                 }-arrow-back`}
                                 style={styles.icon}
                                 onPress={() => {
-                                    this.setCameraModalVisible(
+                                    this.homeScreen.setCameraModalVisible(
                                         !this.homeScreen.state
                                             .cameraModalVisible
                                     );
