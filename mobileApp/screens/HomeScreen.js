@@ -85,6 +85,7 @@ class HomeScreen extends Component {
         incidentLocationDesc: "",
         hasCameraPermission: null,
         hasCameraRollPermission: null,
+        hasRecordingPermission: null,
         hasLocationPermission: null,
         image: null,
         type: Camera.Constants.Type.back
@@ -152,11 +153,35 @@ class HomeScreen extends Component {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         if (status === "granted") {
             this.setState({ hasCameraRollPermission: status === "granted" });
-            this.getLocationPermission();
+            this.getRecordingPermission();
         } else {
             Alert.alert(
                 "Permission denied",
                 "You need to grant file access for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getRecordingPermission();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getRecordingPermission() {
+        const { status } = await Permissions.askAsync(
+            Permissions.AUDIO_RECORDING
+        );
+        if (status === "granted") {
+            this.setState({ hasRecordingPermission: status === "granted" });
+            this.getLocationPermission();
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to enable recording for this app",
                 [
                     {
                         text: "OK",
