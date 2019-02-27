@@ -1050,15 +1050,12 @@ class HomeScreen extends Component {
                                                     this.camera
                                                         .takePictureAsync()
                                                         .then(data =>
-                                                            this.takePhoto(
-                                                                data
-                                                            ).then(
-                                                                this.setCameraModalVisible(
-                                                                    !this.state
-                                                                        .cameraModalVisible
-                                                                )
-                                                            )
+                                                            this.takePhoto(data)
                                                         );
+                                                    this.setCameraModalVisible(
+                                                        !this.state
+                                                            .cameraModalVisible
+                                                    );
                                                 }}
                                             >
                                                 <Text style={styles.btn}>
