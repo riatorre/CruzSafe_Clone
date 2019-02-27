@@ -4,10 +4,19 @@
 
 /*** Basic Styles ***/
 
-html {
+/* html {
   box-sizing: border-box;
   background: radial-gradient(aquamarine, blue, navy) no-repeat center center
     fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+} */
+
+html {
+  box-sizing: border-box;
+  background: white;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -210,8 +219,9 @@ table .btn {
 /* Add a black background color to the top navigation */
 
 .topnav {
-  background-color: #333;
+  background-color: #0d3c6c;
   overflow: hidden;
+  padding: 10px;
 }
 
 /* Style the links inside the navigation bar */
@@ -461,9 +471,11 @@ table .btn {
   display: none !important;
 }
 
-div.transbox {
+/* div.transbox {
   margin-top: 50px;
   margin-bottom: 50px;
+  margin-left: 100px;
+  margin-right: 100px;
   background-image: radial-gradient(
     rgba(255, 255, 255, 1),
     rgba(255, 255, 255, 0.6),
@@ -473,9 +485,21 @@ div.transbox {
   filter: alpha(opacity=60);
   min-width: 300;
   min-height: auto;
+} */
+
+div.transbox {
+  /* margin: 30px; */
+  background-color: #ffffff;
+  border: 1px solid black;
+  opacity: 0.6;
+  filter: alpha(opacity=60);
+  /* min-width: 300;
+  min-height: 300; */
+  margin: 100;
 }
 
 div.transbox h1 {
+  /* margin: 5%; */
   font-weight: bold;
   color: black;
 }
