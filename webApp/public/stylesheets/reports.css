@@ -89,8 +89,8 @@
   margin-top: 20px;
   margin-right: 40px;
   height: 75%;
-  border: 2px solid black;
-  background: rgb(123, 123, 123, 0.9);
+  border: 0px solid black;
+  background: #f1f4f9;
   overflow: auto;
 }
 
@@ -108,7 +108,7 @@
   margin-top: 20px;
   margin-right: 40px;
   padding: 5px;
-  border: px solid black;
+  border: 0px solid black;
   background: #f1f4f9;
   overflow: auto;
   font-size: 15px;
