@@ -389,26 +389,6 @@ class HomeScreen extends Component {
         }
     }
 
-    async takePhoto() {
-        console.log("pressed button");
-        if (
-            this.state.hasCameraPermission &&
-            this.state.hasCameraRollPermission
-        ) {
-            let photo_result = await ImagePicker.launchCameraAsync({
-                allowsEditing: false
-            });
-
-            console.log(photo_result);
-
-            if (!photo_result.cancelled) {
-                this.setState({ image: photo_result.uri });
-            }
-        } else {
-            alert("You need to grant file access for this app");
-        }
-    }
-
     static navigationOptions = {
         drawerLabel: "Home",
         drawerIcon: ({ tintColor }) => (
@@ -753,12 +733,9 @@ class HomeScreen extends Component {
                                                 {
                                                     text: "take photo",
                                                     onPress: () => {
-                                                        /*
                                                         this.setCameraModalVisible(
                                                             true
                                                         );
-                                                        */
-                                                        this.takePhoto();
                                                     }
                                                 },
                                                 {
