@@ -11,6 +11,7 @@ import {
     Text,
     TextInput,
     SafeAreaView,
+    StyleSheet,
     TouchableOpacity,
     Linking,
     Platform,
@@ -758,7 +759,7 @@ class HomeScreen extends Component {
                                             null,
                                             [
                                                 {
-                                                    text: "take photo",
+                                                    text: "Camera",
                                                     onPress: () => {
                                                         this.setCameraModalVisible(
                                                             true
@@ -766,7 +767,7 @@ class HomeScreen extends Component {
                                                     }
                                                 },
                                                 {
-                                                    text: "selet from gallery",
+                                                    text: "Select from Gallery",
                                                     onPress: () => {
                                                         this.pickImage();
                                                     }
@@ -1046,23 +1047,18 @@ class HomeScreen extends Component {
                                                     alignItems: "center"
                                                 }}
                                                 onPress={() => {
-                                                    console.log(
-                                                        "about to photograph"
-                                                    );
                                                     this.camera
                                                         .takePictureAsync()
                                                         .then(data =>
                                                             this.takePhoto(data)
                                                         );
+                                                    this.setCameraModalVisible(
+                                                        !this.state
+                                                            .cameraModalVisible
+                                                    );
                                                 }}
                                             >
-                                                <Text
-                                                    style={{
-                                                        fontSize: 18,
-                                                        marginBottom: 10,
-                                                        color: "red"
-                                                    }}
-                                                >
+                                                <Text style={styles.btn}>
                                                     {" "}
                                                     Take photo{" "}
                                                 </Text>
