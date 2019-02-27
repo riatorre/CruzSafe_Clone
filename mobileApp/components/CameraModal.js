@@ -1,25 +1,10 @@
 //camera modal
 
 import React, { Component } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    SafeAreaView,
-    StyleSheet,
-    TouchableOpacity,
-    Linking,
-    Platform,
-    Modal,
-    ScrollView,
-    AsyncStorage,
-    Alert,
-    Image
-} from "react-native";
+import { View, Text, TouchableOpacity, Platform, Modal } from "react-native";
 import {
     Container,
     Header,
-    Content,
     Footer,
     Left,
     Right,
