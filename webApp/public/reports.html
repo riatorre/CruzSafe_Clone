@@ -86,49 +86,45 @@
         </div>
         <!--Body-->
         <div class="row">
-            <div id="filterOptions" class="transbox">
-                <h1>Filters:</h1>
-                <br />
-                <br/><input id = "filterTag" placeholder="Tag"></input><br/>
-                <br/><input id = "filterIncidentID" placeholder="Incident id(s)"></input> <br/>
-                <br/><input id = "filterDate" placeholder="Report date (MM-DD-YYYY)"></input><br/>
-                <br/><input id = "filterTime" placeholder="Report time (HH:MM)"></input><br/>
+            <div id="filterOptions" class="text_box">
+                <h2>Filters:</h2>
+            <br/><input id = "filterTag" placeholder="Tag"></input><br/>
+                <input id = "filterIncidentID" placeholder="Incident id(s)"></input> <br/>
+                <input id = "filterDate" placeholder="Report date (MM-DD-YYYY)"></input><br/>
+                <input id = "filterTime" placeholder="Report time (HH:MM)"></input><br/>
+                <input id = "filterBody" placeholder="Body contains"></input><br/>
+                <input id = "filterLocation" placeholder="Location"></input><br/>
+                <input id = "filterCoordinates" placeholder="Coordinates"></input><br/>         
+                <input id = "filterMobileID" placeholder="Mobile user id(s)"></input><br/>
+                <input  id = "filterFirstName" placeholder="First name"></input><br/>
+                <input id = "filterLastName" placeholder="Last name"></input><br/>
+                <input  id = "filterEmail" placeholder="Email (Enter xxx@ucsc.edu)"></input><br/>
+                <input  id = "filterPhone" placeholder="Phone (Enter 555555555)"></input><br/>
+                <input id = "filterExpire" placeholder="Expiring within day"></input><br/><br/>
+                <p>Location method: </p>
+                <select id="filterUnchangedLocation" autocomplete="off">
+                    <option value="" selected="selected">Any</option>
+                    <option value="device reported">Device reported</option>
+                    <option value="pinned location">Pinned location</option>
+                </select>
+                <br/>
                 <p>Status:
-                    <select id="filterStatus" autocomplete="off">
-                        <option value="" selected="selected">Any</option>
-                        <option value="New">New</option>
-                        <option value="Incomplete">Incomplete</option>
-                        <option value="Complete">Complete</option>
-                    </select>
-                </p>
-                <br/>
-                <br/><input id = "filterBody" placeholder="Body contains"></input><br/>
-                <br/><input id = "filterLocation" placeholder="Location"></input><br/>
-                <br/><input id = "filterCoordinates" placeholder="Coordinates"></input><br/>
-                <p>Location method:
-                    <select id="filterUnchangedLocation" autocomplete="off">
-                        <option value="" selected="selected">Any</option>
-                        <option value="device reported">Device reported</option>
-                        <option value="pinned location">Pinned location</option>
-                    </select>
+                        <select id="filterStatus" autocomplete="off">
+                            <option value="" selected="selected">Any</option>
+                            <option value="New">New</option>
+                            <option value="Incomplete">Incomplete</option>
+                            <option value="Complete">Complete</option>
+                        </select>
+                    </p>
                     <br/>
-                </p>
-                <p>Attachments:
-                    <select id="filterAttachments" autocomplete="off">
-                        <option value="" selected="selected">Any</option>
-                        <option value="yes">Yes</option>
-                        <option value="no">No</option>
-                    </select>
-                    <br/>
-                </p>
-                <br/><input id = "filterMobileID" placeholder="Mobile user id(s)"></input><br/>
-                <br/><input  id = "filterFirstName" placeholder="First name"></input><br/>
-                <br/><input id = "filterLastName" placeholder="Last name"></input><br/>
-                <br/><input  id = "filterEmail" placeholder="Email (Enter xxx@ucsc.edu)"></input><br/>
-                <br/><input  id = "filterPhone" placeholder="Phone (Enter 555555555)"></input><br/>
-                <input id = "filterExpire" placeholder="Expiring within day"></input><br/>
+                <p>Attachments: </p>
+                <select id="filterAttachments" autocomplete="off">
+                    <option value="" selected="selected">Any</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
                 <br/>
-                <br/>
+                <br/>   
                 <button onclick = "applyFilters()" id = "applyFilters" >Apply Filters</button> <button onclick = "location.reload()" id = "resetPage">Reset</button>
             </div>
             <!--Filter Code-->

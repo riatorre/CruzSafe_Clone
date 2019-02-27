@@ -709,3 +709,16 @@ span.psw {
     width: 100%;
   }
 }
+
+.text_box {
+  padding: 20px;
+  -moz-border-radius: 8;
+  -webkit-border-radius: 8px;
+  border-radius: 12px;
+  margin-left: 20px;
+  /*background: lightgray;*/
+  /*background:rgba(255,255,255,0.5); ///// will change back*/
+  background: pink;
+  width: 325px;
+  color: black;
+}
