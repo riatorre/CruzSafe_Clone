@@ -85,6 +85,7 @@ class HomeScreen extends Component {
         incidentLocationDesc: "",
         hasCameraPermission: null,
         hasCameraRollPermission: null,
+        hasRecordingPermission: null,
         hasLocationPermission: null,
         image: null,
         type: Camera.Constants.Type.back
@@ -152,11 +153,35 @@ class HomeScreen extends Component {
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         if (status === "granted") {
             this.setState({ hasCameraRollPermission: status === "granted" });
-            this.getLocationPermission();
+            this.getRecordingPermission();
         } else {
             Alert.alert(
                 "Permission denied",
                 "You need to grant file access for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getRecordingPermission();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getRecordingPermission() {
+        const { status } = await Permissions.askAsync(
+            Permissions.AUDIO_RECORDING
+        );
+        if (status === "granted") {
+            this.setState({ hasRecordingPermission: status === "granted" });
+            this.getLocationPermission();
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to enable recording for this app",
                 [
                     {
                         text: "OK",
@@ -381,32 +406,14 @@ class HomeScreen extends Component {
             mediaTypes: "All",
             allowsEditing: false
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
             this.setState({ image: result.uri });
         }
     }
 
-    async takePhoto() {
-        console.log("pressed button");
-        if (
-            this.state.hasCameraPermission &&
-            this.state.hasCameraRollPermission
-        ) {
-            let photo_result = await ImagePicker.launchCameraAsync({
-                allowsEditing: false
-            });
-
-            console.log(photo_result);
-
-            if (!photo_result.cancelled) {
-                this.setState({ image: photo_result.uri });
-            }
-        } else {
-            alert("You need to grant file access for this app");
-        }
+    async takePhoto(data) {
+        console.log(data.uri);
+        this.setState({ image: data.uri });
     }
 
     static navigationOptions = {
@@ -753,12 +760,9 @@ class HomeScreen extends Component {
                                                 {
                                                     text: "take photo",
                                                     onPress: () => {
-                                                        /*
                                                         this.setCameraModalVisible(
                                                             true
                                                         );
-                                                        */
-                                                        this.takePhoto();
                                                     }
                                                 },
                                                 {
@@ -1048,7 +1052,7 @@ class HomeScreen extends Component {
                                                     this.camera
                                                         .takePictureAsync()
                                                         .then(data =>
-                                                            console.log(data)
+                                                            this.takePhoto(data)
                                                         );
                                                 }}
                                             >
