@@ -130,8 +130,8 @@ class HomeScreen extends Component {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         if (status === "granted") {
             this.setState({ hasCameraPermission: status === "granted" });
-            this.getLocationPermission(c);
-        } else if (c < 2) {
+            this.getCameraRollPermission(c);
+        } else if (c < 1) {
             this.getCameraPermission(c + 1);
         } else {
             Alert.alert(
@@ -155,12 +155,12 @@ class HomeScreen extends Component {
         if (status === "granted") {
             this.setState({ hasCameraRollPermission: status === "granted" });
             this.getLocationPermission(c);
-        } else if (c < 2) {
+        } else if (c < 1) {
             this.getCameraRollPermission(c + 1);
         } else {
             Alert.alert(
                 "Permission denied",
-                "You need to enable gallery for this app",
+                "You need to grant file access for this app",
                 [
                     {
                         text: "OK",
@@ -185,7 +185,7 @@ class HomeScreen extends Component {
                 hasLocationPermission: status === "granted"
             });
             this.getLocation();
-        } else if (c < 2) {
+        } else if (c < 1) {
             this.getLocationPermission(c + 1);
         } else {
             alert("You need to enable location for this app");
@@ -396,15 +396,22 @@ class HomeScreen extends Component {
     }
 
     async takePhoto() {
-        let photo_result = await ImagePicker.launchCameraAsync({
-            mediaTypes: "All",
-            allowsEditing: false
-        });
+        console.log("pressed button");
+        if (
+            this.state.hasCameraPermission &&
+            this.state.hasCameraRollPermission
+        ) {
+            let photo_result = await ImagePicker.launchCameraAsync({
+                allowsEditing: false
+            });
 
-        console.log(photo_result);
+            console.log(photo_result);
 
-        if (!photo_result.cancelled) {
-            this.setState({ image: photo_result.uri });
+            if (!photo_result.cancelled) {
+                this.setState({ image: photo_result.uri });
+            }
+        } else {
+            alert("You need to grant file access for this app");
         }
     }
 
