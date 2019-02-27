@@ -718,7 +718,7 @@ span.psw {
   margin-left: 20px;
   /*background: lightgray;*/
   /*background:rgba(255,255,255,0.5); ///// will change back*/
-  background: pink;
+  background: #f1f4f9;
   width: 325px;
   color: black;
 }
