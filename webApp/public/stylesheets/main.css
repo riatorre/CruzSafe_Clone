@@ -5,62 +5,62 @@
 /*** Basic Styles ***/
 
 html {
-    box-sizing: border-box;
-    background: radial-gradient(aquamarine, blue, navy) no-repeat center center
-        fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+  box-sizing: border-box;
+  background: radial-gradient(aquamarine, blue, navy) no-repeat center center
+    fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 *,
 *:after,
 *:before {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    box-sizing: inherit;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
 
 html,
 body {
-    max-width: 100vw;
-    overflow-x: hidden;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 body {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-        Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
+    Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 p,
 li {
-    margin-bottom: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 p {
-    text-align: justify;
+  text-align: justify;
 }
 
 label,
 strong {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 ul {
-    list-style-type: none;
-    padding-left: 20px;
+  list-style-type: none;
+  padding-left: 20px;
 }
 
 a {
-    text-decoration: none;
-    color: #26a69a;
-    white-space: nowrap;
+  text-decoration: none;
+  color: #26a69a;
+  white-space: nowrap;
 }
 
 a:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 h1,
@@ -69,99 +69,101 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 h1 {
-    font-size: 3em;
+  font-size: 3em;
 }
 
 h2 {
-    font-size: 2.4em;
+  font-size: 2.4em;
 }
 
 h3 {
-    font-size: 1.8em;
+  font-size: 1.8em;
 }
 
 h4 {
-    font-size: 1.6em;
+  font-size: 1.6em;
 }
 
 h5 {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
 
 h6 {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 table {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 
 tbody tr:hover {
-    background-color: #fbf6d9;
+  background-color: #fbf6d9;
 }
 
 thead tr {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 tbody tr {
-    border-bottom: 2px solid #f1f1f1;
+  border-bottom: 2px solid #f1f1f1;
 }
 
 td,
 th {
-    padding: 5px;
-    text-align: left;
-    vertical-align: top;
+  padding: 5px;
+  text-align: left;
+  vertical-align: top;
 }
 
 thead th {
-    vertical-align: bottom;
+  vertical-align: bottom;
 }
 
 header,
 main,
 footer {
-    display: block;
-    width: 100%;
+  display: block;
+  width: 100%;
 }
 
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 30;
-    background-color: #333;
-    color: white;
-    text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #0d3c6c;
+  padding: 20px;
+  color: #ffffff;
+}
+#heart:hover {
+  color: red;
 }
 
 /* IE fix */
 
 @media all and (max-width: 599px) {
-    h1 {
-        font-size: 2em;
-    }
-    h2 {
-        font-size: 1.8em;
-    }
-    h3 {
-        font-size: 1.6em;
-    }
-    h4 {
-        font-size: 1.4em;
-    }
-    h5 {
-        font-size: 1.2em;
-    }
-    h6 {
-        font-size: 1em;
-    }
+  h1 {
+    font-size: 2em;
+  }
+  h2 {
+    font-size: 1.8em;
+  }
+  h3 {
+    font-size: 1.6em;
+  }
+  h4 {
+    font-size: 1.4em;
+  }
+  h5 {
+    font-size: 1.2em;
+  }
+  h6 {
+    font-size: 1em;
+  }
 }
 
 /*** buttons ***/
@@ -170,112 +172,112 @@ footer {
 button,
 [type="button"],
 [type="submit"] {
-    padding: 0.5em 1em;
-    margin: 0 0.5em 0.5em 0;
-    display: inline-block;
-    background-color: #26a69a;
-    color: white;
+  padding: 0.5em 1em;
+  margin: 0 0.5em 0.5em 0;
+  display: inline-block;
+  background-color: #26a69a;
+  color: white;
 }
 
 .btn:hover,
 button:hover,
 [type="button"]:hover,
 [type="submit"]:hover {
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #ddd;
-    color: black;
-    cursor: pointer;
-    box-shadow: 0 0 10px #666;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #ddd;
+  color: black;
+  cursor: pointer;
+  box-shadow: 0 0 10px #666;
 }
 
 .btn.small,
 table .btn {
-    padding: 0.25em 0.5em;
-    font-size: 0.8em;
+  padding: 0.25em 0.5em;
+  font-size: 0.8em;
 }
 
 .btn.large {
-    padding: 1em 2em;
-    font-size: 1.2em;
+  padding: 1em 2em;
+  font-size: 1.2em;
 }
 
 .oval {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 /*** topnav Top Navigation Bar
 /* Add a black background color to the top navigation */
 
 .topnav {
-    background-color: #333;
-    overflow: hidden;
+  background-color: #333;
+  overflow: hidden;
 }
 
 /* Style the links inside the navigation bar */
 
 .topnav a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
 
 /* Change the color of links on hover */
 
 .topnav a:hover {
-    box-shadow: 0 0 10px #666;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #ddd;
-    color: black;
+  box-shadow: 0 0 10px #666;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #ddd;
+  color: black;
 }
 
 /* Add an active class to highlight the current page */
 
 .active {
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: Blue;
-    color: white;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: Blue;
+  color: white;
 }
 
 /* Hide the link that should open and close the topnav on small screens */
 
 .topnav .icon {
-    display: none;
+  display: none;
 }
 
 /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
 
 @media screen and (max-width: 600px) {
-    .topnav a:not(:first-child) {
-        display: none;
-    }
-    .topnav a.icon {
-        float: right;
-        display: block;
-    }
+  .topnav a:not(:first-child) {
+    display: none;
+  }
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
 }
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 
 @media screen and (max-width: 600px) {
-    .topnav.responsive {
-        position: relative;
-    }
-    .topnav.responsive a.icon {
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-    .topnav.responsive a {
-        float: none;
-        display: block;
-        text-align: left;
-    }
+  .topnav.responsive {
+    position: relative;
+  }
+  .topnav.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
 }
 
 /*** End of topnav Def ***/
@@ -285,197 +287,197 @@ table .btn {
 /*** colors from http://clrs.cc/ ***/
 
 .navy {
-    background-color: #001f3f;
-    color: white;
+  background-color: #001f3f;
+  color: white;
 }
 
 .blue {
-    background-color: #0074d9;
-    color: white;
+  background-color: #0074d9;
+  color: white;
 }
 
 .aqua {
-    background-color: #7fdbff;
-    color: #111111;
+  background-color: #7fdbff;
+  color: #111111;
 }
 
 .teal {
-    background-color: #39cccc;
-    color: white;
+  background-color: #39cccc;
+  color: white;
 }
 
 .olive {
-    background-color: #3d9970;
-    color: white;
+  background-color: #3d9970;
+  color: white;
 }
 
 .green {
-    background-color: #2ecc40;
-    color: white;
+  background-color: #2ecc40;
+  color: white;
 }
 
 .aquamarine {
-    background-color: #26a69a;
-    color: white;
+  background-color: #26a69a;
+  color: white;
 }
 
 .lime {
-    background-color: #01ff70;
-    color: #111111;
+  background-color: #01ff70;
+  color: #111111;
 }
 
 .yellow {
-    background-color: #ffdc00;
-    color: #111111;
+  background-color: #ffdc00;
+  color: #111111;
 }
 
 .orange {
-    background-color: #ff851b;
-    color: white;
+  background-color: #ff851b;
+  color: white;
 }
 
 .red {
-    background-color: #cc1f00;
-    color: white;
+  background-color: #cc1f00;
+  color: white;
 }
 
 .fuchsia {
-    background-color: #f012be;
-    color: white;
+  background-color: #f012be;
+  color: white;
 }
 
 .pink {
-    background-color: #ee6e73;
-    color: white;
+  background-color: #ee6e73;
+  color: white;
 }
 
 .purple {
-    background-color: #b10dc9;
-    color: white;
+  background-color: #b10dc9;
+  color: white;
 }
 
 .maroon {
-    background-color: #85144b;
-    color: white;
+  background-color: #85144b;
+  color: white;
 }
 
 .white {
-    background-color: #fff;
-    color: #111111;
-    -webkit-box-shadow: inset 0px 0px 0px 1px #ddd;
-    -moz-box-shadow: inset 0px 0px 0px 1px #ddd;
-    box-shadow: inset 0px 0px 0px 1px #ddd;
+  background-color: #fff;
+  color: #111111;
+  -webkit-box-shadow: inset 0px 0px 0px 1px #ddd;
+  -moz-box-shadow: inset 0px 0px 0px 1px #ddd;
+  box-shadow: inset 0px 0px 0px 1px #ddd;
 }
 
 .gray {
-    background-color: #aaa;
-    color: white;
+  background-color: #aaa;
+  color: white;
 }
 
 .silver {
-    background-color: #f1f1f1;
-    color: #111111;
+  background-color: #f1f1f1;
+  color: #111111;
 }
 
 .black {
-    background-color: #111111;
-    color: white;
+  background-color: #111111;
+  color: white;
 }
 
 .glass {
-    background: rgba(255, 255, 255, 0.5);
-    color: #111111;
+  background: rgba(255, 255, 255, 0.5);
+  color: #111111;
 }
 
 /*** helpers ***/
 
 .rounded {
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .padded {
-    padding: 10px 20px;
+  padding: 10px 20px;
 }
 
 .center {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .center > div {
-    text-align: left;
+  text-align: left;
 }
 
 .right {
-    right: 0;
-    text-align: right;
+  right: 0;
+  text-align: right;
 }
 
 .middle div {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .bottom div {
-    vertical-align: bottom;
+  vertical-align: bottom;
 }
 
 .xscroll {
-    overflow-x: scroll !important;
+  overflow-x: scroll !important;
 }
 
 .yscroll {
-    overflow-y: scroll !important;
+  overflow-y: scroll !important;
 }
 
 .nowrap {
-    white-space: nowrap;
-    overflow-x: hidden;
+  white-space: nowrap;
+  overflow-x: hidden;
 }
 
 .fill {
-    width: 100%;
+  width: 100%;
 }
 
 .lifted {
-    box-shadow: 5px 5px 10px #666;
+  box-shadow: 5px 5px 10px #666;
 }
 
 .relative {
-    position: relative;
+  position: relative;
 }
 
 .relative > div {
-    position: absolute;
+  position: absolute;
 }
 
 .spaced {
-    margin-bottom: 20px;
-    margin-top: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 div.transbox {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    background-image: radial-gradient(
-        rgba(255, 255, 255, 1),
-        rgba(255, 255, 255, 0.6),
-        rgba(255, 255, 255, 0.2)
-    );
-    opacity: 0.75;
-    filter: alpha(opacity=60);
-    min-width: 300;
-    min-height: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.2)
+  );
+  opacity: 0.75;
+  filter: alpha(opacity=60);
+  min-width: 300;
+  min-height: auto;
 }
 
 div.transbox h1 {
-    font-weight: bold;
-    color: black;
+  font-weight: bold;
+  color: black;
 }
 
 /* Tooltip that may be added to almost any element */
@@ -483,204 +485,204 @@ div.transbox h1 {
 /*** tooltips from http://codepen.io/trezy/pen/Khnzy, modifed ***/
 
 [data-tooltip] {
-    margin: 20px;
-    position: relative;
+  margin: 20px;
+  position: relative;
 }
 
 [data-tooltip]:before,
 [data-tooltip]:after {
-    display: none;
-    position: absolute;
+  display: none;
+  position: absolute;
 }
 
 [data-tooltip]:before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 4px 6px 0 6px;
-    border-style: solid;
-    border-color: #ee6e73 transparent transparent transparent;
-    z-index: 100;
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 6px 0 6px;
+  border-style: solid;
+  border-color: #ee6e73 transparent transparent transparent;
+  z-index: 100;
 }
 
 [data-tooltip]:after {
-    content: attr(data-tooltip-message);
-    position: absolute;
-    left: 50%;
-    top: -6px;
-    transform: translateX(-50%) translateY(-100%);
-    background: #ee6e73;
-    text-align: center;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 12px;
-    min-width: 80px;
-    border-radius: 5px;
+  content: attr(data-tooltip-message);
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  transform: translateX(-50%) translateY(-100%);
+  background: #ee6e73;
+  text-align: center;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 12px;
+  min-width: 80px;
+  border-radius: 5px;
 }
 
 [data-tooltip-position="left"]:before {
-    left: 0%;
-    top: 50%;
-    margin-left: -12px;
-    transform: translatey(-50%) rotate(-90deg);
+  left: 0%;
+  top: 50%;
+  margin-left: -12px;
+  transform: translatey(-50%) rotate(-90deg);
 }
 
 [data-tooltip-position="top"]::before {
-    left: 50%;
+  left: 50%;
 }
 
 [data-tooltip-position="bottom"]::before {
-    top: 100%;
-    margin-top: 8px;
-    transform: translateX(-50%) translatey(-100%) rotate(-180deg);
+  top: 100%;
+  margin-top: 8px;
+  transform: translateX(-50%) translatey(-100%) rotate(-180deg);
 }
 
 [data-tooltip-position="right"]::before {
-    left: 100%;
-    top: 50%;
-    margin-left: 1px;
-    transform: translatey(-50%) rotate(90deg);
+  left: 100%;
+  top: 50%;
+  margin-left: 1px;
+  transform: translatey(-50%) rotate(90deg);
 }
 
 [data-tooltip-position="left"]::after {
-    left: 0%;
-    top: 50%;
-    margin-left: -8px;
-    transform: translateX(-100%) translateY(-50%);
+  left: 0%;
+  top: 50%;
+  margin-left: -8px;
+  transform: translateX(-100%) translateY(-50%);
 }
 
 [data-tooltip-position="top"]::after {
-    left: 50%;
+  left: 50%;
 }
 
 [data-tooltip-position="bottom"]::after {
-    top: 100%;
-    margin-top: 8px;
-    transform: translateX(-50%) translateY(0%);
+  top: 100%;
+  margin-top: 8px;
+  transform: translateX(-50%) translateY(0%);
 }
 
 [data-tooltip-position="right"]::after {
-    left: 100%;
-    top: 50%;
-    margin-left: 8px;
-    transform: translateX(0%) translateY(-50%);
+  left: 100%;
+  top: 50%;
+  margin-left: 8px;
+  transform: translateX(0%) translateY(-50%);
 }
 
 [data-tooltip]:hover:after,
 [data-tooltip]:hover:before {
-    display: block;
+  display: block;
 }
 
 /* Full-width input fields */
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 /* Center the image and position the close button */
 
 .imgcontainer {
-    text-align: center;
-    margin: 24px 0 12px 0;
-    position: relative;
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
 }
 
 .container {
-    padding: 16px;
+  padding: 16px;
 }
 
 span.psw {
-    float: right;
-    padding-top: 16px;
+  float: right;
+  padding-top: 16px;
 }
 /* The Modal (background) */
 
 .modal {
-    display: none;
-    /* Hidden by default */
-    position: fixed;
-    /* Stay in place */
-    z-index: 1;
-    /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* Full width */
-    height: 100%;
-    /* Full height */
-    overflow: auto;
-    /* Enable scroll if needed */
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
-    padding-top: 60px;
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+  padding-top: 60px;
 }
 /* Modal Content/Box */
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto 15% auto;
-    /* 5% from the top, 15% from the bottom and centered */
-    border: 1px solid #888;
-    width: 80%;
-    /* Could be more or less, depending on screen size */
+  background-color: #fefefe;
+  margin: 5% auto 15% auto;
+  /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%;
+  /* Could be more or less, depending on screen size */
 }
 /* The Close Button (x) */
 
 .close {
-    position: absolute;
-    right: 25px;
-    top: 0;
-    color: #000;
-    font-size: 35px;
-    font-weight: bold;
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: red;
-    cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
 /* Add Zoom Animation */
 
 .animate {
-    -webkit-animation: animatezoom 0.6s;
-    animation: animatezoom 0.6s;
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s;
 }
 
 @-webkit-keyframes animatezoom {
-    from {
-        -webkit-transform: scale(0);
-    }
-    to {
-        -webkit-transform: scale(1);
-    }
+  from {
+    -webkit-transform: scale(0);
+  }
+  to {
+    -webkit-transform: scale(1);
+  }
 }
 
 @keyframes animatezoom {
-    from {
-        transform: scale(0);
-    }
-    to {
-        transform: scale(1);
-    }
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 /* Change styles for span and cancel button on extra small screens */
 
 @media screen and (max-width: 300px) {
-    span.psw {
-        display: block;
-        float: none;
-    }
-    .cancelbtn {
-        width: 100%;
-    }
+  span.psw {
+    display: block;
+    float: none;
+  }
+  .cancelbtn {
+    width: 100%;
+  }
 }

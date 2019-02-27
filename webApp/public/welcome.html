@@ -13,115 +13,112 @@
     - [Standardized] Bottom border
 -->
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>CruzSafe: Welcome</title>
-        <!--Import Stylesheet-->
-        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
-        <link
-            href="./stylesheets/welcome.css"
-            type="text/css"
-            rel="stylesheet"
-        />
-        <!--Imports External Icon Font Library-->
-        <!--TODO: Install all needed Icons & remove external dependency-->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        />
-    </head>
-    <body>
-        <center>
-            <!--Header-->
-            <div class="topnav" id="topnav" style="height:44"></div>
-            <!--Body-->
-            <div class="transbox">
-                <div style="padding:10">
-                    <!--<img
+  <head>
+    <meta charset="utf-8" />
+    <title>CruzSafe: Welcome</title>
+    <!--Import Stylesheet-->
+    <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+    <link href="./stylesheets/welcome.css" type="text/css" rel="stylesheet" />
+    <!--Imports External Icon Font Library-->
+    <!--TODO: Install all needed Icons & remove external dependency-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
+  <body>
+    <center>
+      <!--Header-->
+      <div class="topnav" id="topnav" style="height:44"></div>
+      <!--Body-->
+      <div class="transbox">
+        <div style="padding:10">
+          <!--<img
                         id="universityLogo"
                         src="https://www.ucsc.edu/annual-report/images/logo.png"
                         alt="UCSC Logo"
                     />-->
-                    <!--Main Text and Image-->
-                    <h1>CruzSafe</h1>
-                    <img
-                        id="policeLogo"
-                        src="./assets/images/UCSC_PD_Badge.png"
-                        alt="Santa Cruz Police Department"
-                        style="width:25%; height: auto; min-width: 200; min-height: auto"
-                        aria-hidden="true"
-                    />
-                    <h1>UCSC 211</h1>
-                    <!--Login Button; Opens Modal for confirmation-->
-                    <a
-                        type="button"
-                        id="loginButton"
-                        class="btn navy rounded"
-                        onclick="document.getElementById('loginModal').style.display='block'"
-                        >Login</a
-                    >
-                </div>
-                <!--Legal Notice Modal-->
-                <div id="loginModal" class="modal">
-                    <form class="modal-content animate" method="POST">
-                        <div class="imgcontainer">
-                            <!--Close Button; closes Modal-->
-                            <span
-                                onclick="document.getElementById('loginModal').style.display='none'"
-                                class="close"
-                                title="Close Modal"
-                                ><i class="fa fa-times"></i
-                            ></span>
-                            <!--Main Message-->
-                            <div id="loginModalText" class="container">
-                                <p>
-                                    Please confirm that you are authorized to
-                                    use this application.<br /><br />
-                                    This site is an interface designed for
-                                    police users only. If you are a civillan and
-                                    wish to make non-emergency reports to the UC
-                                    Santa Cruz Police Department, please
-                                    download the CruzSafe mobile application,
-                                    available in the Google Play Store or the
-                                    iOS App Store.<br />
-                                    <br />
-                                    Thank you for your cooperation.
-                                </p>
-                                <br />
-                            </div>
-                            <div
-                                class="container"
-                                style="background-color:#f1f1f1"
-                            >
-                                <!--Cancel Button; closes Modal-->
-                                <a
-                                    type="button"
-                                    onclick="document.getElementById('loginModal').style.display='none'"
-                                    class="btn red rounded"
-                                >
-                                    Cancel
-                                </a>
-                                <!--Confirmation Button; Navigates to homepage.html-->
-                                <!--TODO: Must redirect to Shibbolith Authentication before homepage.html-->
-                                <a
-                                    type="button"
-                                    href="./homepage.html"
-                                    class="btn green rounded"
-                                >
-                                    Continue
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </center>
-        <!--Footer-->
-        <div class="footer">
-            <div id="footerText" style="margin-top:5; margin-bottom:5">
-                <p style="text-align: center">CruzSafe 2019</p>
-            </div>
+          <!--Main Text and Image-->
+          <h1>CruzSafe</h1>
+          <img
+            id="policeLogo"
+            src="./assets/images/UCSC_PD_Badge.png"
+            alt="Santa Cruz Police Department"
+            style="width:25%; height: auto; min-width: 200; min-height: auto"
+            aria-hidden="true"
+          />
+          <h1>UCSC 211</h1>
+          <!--Login Button; Opens Modal for confirmation-->
+          <a
+            type="button"
+            id="loginButton"
+            class="btn navy rounded"
+            onclick="document.getElementById('loginModal').style.display='block'"
+            >Login</a
+          >
         </div>
-        <script src="./libs/NavLib.js"></script>
-    </body>
+        <!--Legal Notice Modal-->
+        <div id="loginModal" class="modal">
+          <form class="modal-content animate" method="POST">
+            <div class="imgcontainer">
+              <!--Close Button; closes Modal-->
+              <span
+                onclick="document.getElementById('loginModal').style.display='none'"
+                class="close"
+                title="Close Modal"
+                ><i class="fa fa-times"></i
+              ></span>
+              <!--Main Message-->
+              <div id="loginModalText" class="container">
+                <p>
+                  Please confirm that you are authorized to use this
+                  application.<br /><br />
+                  This site is an interface designed for police users only. If
+                  you are a civillan and wish to make non-emergency reports to
+                  the UC Santa Cruz Police Department, please download the
+                  CruzSafe mobile application, available in the Google Play
+                  Store or the iOS App Store.<br />
+                  <br />
+                  Thank you for your cooperation.
+                </p>
+                <br />
+              </div>
+              <div class="container" style="background-color:#f1f1f1">
+                <!--Cancel Button; closes Modal-->
+                <a
+                  type="button"
+                  onclick="document.getElementById('loginModal').style.display='none'"
+                  class="btn red rounded"
+                >
+                  Cancel
+                </a>
+                <!--Confirmation Button; Navigates to homepage.html-->
+                <!--TODO: Must redirect to Shibbolith Authentication before homepage.html-->
+                <a
+                  type="button"
+                  href="./homepage.html"
+                  class="btn green rounded"
+                >
+                  Continue
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </center>
+
+    <!--Footer-->
+    <div class="footer">
+      <section>
+        <div>
+          <p style="text-align: center">
+            CruzSafe Made with <i id="heart" class="fa fa-heart-o"></i> by UCSC
+            team
+          </p>
+        </div>
+      </section>
+    </div>
+    <script src="./libs/NavLib.js"></script>
+  </body>
 </html>
