@@ -221,26 +221,29 @@ table .btn {
 .topnav {
   background-color: #0d3c6c;
   overflow: hidden;
+  padding: 10px;
+  padding-left: 40px;
+  color: black;
 }
 
 /* Style the links inside the navigation bar */
 
 .topnav a {
   float: left;
-  color: #f2f2f2;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 20px;
 }
 
 /* Change the color of links on hover */
 
 .topnav a:hover {
-  box-shadow: 0 0 10px #666;
+  box-shadow: 0 0 10px #f1f4f9;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: #ddd;
+  background-color: #f1f4f9;
   color: black;
 }
 
@@ -249,8 +252,8 @@ table .btn {
 .active {
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: Blue;
-  color: white;
+  background-color: #f1f4f9;
+  color: black;
 }
 
 /* Hide the link that should open and close the topnav on small screens */
