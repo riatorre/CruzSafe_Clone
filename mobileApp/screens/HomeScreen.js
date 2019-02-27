@@ -1061,17 +1061,7 @@ class HomeScreen extends Component {
                                                         );
                                                 }}
                                             >
-                                                <Text
-                                                    style={styles.btn}
-                                                    //style={{
-                                                    //styles.btn
-                                                    //source={require('./')},
-                                                    //style={styles.ImageIconStyle}
-                                                    //fontSize: 18,
-                                                    //marginBottom: 10,
-                                                    //color: "white"
-                                                    //}}
-                                                >
+                                                <Text style={styles.btn}>
                                                     {" "}
                                                     Take photo{" "}
                                                 </Text>
