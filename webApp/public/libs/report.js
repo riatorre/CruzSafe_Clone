@@ -611,7 +611,9 @@ function addQuotes(string) {
 function formatDate(mySQLDate, options) {
     //console.log("mySQLDate = " + mySQLDate);
     var jsDate = toDateFormat(mySQLDate);
+    jsDate = new Date(jsDate.toString());
     //console.log(jsDate);
+    options["timeZone"] = "America/New_York"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK GODDAMNIT
     return jsDate.toLocaleString("en-US", options);
 }
 
