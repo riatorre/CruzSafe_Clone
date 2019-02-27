@@ -406,12 +406,14 @@ class HomeScreen extends Component {
             mediaTypes: "All",
             allowsEditing: false
         });
-
-        console.log(result);
-
         if (!result.cancelled) {
             this.setState({ image: result.uri });
         }
+    }
+
+    async takePhoto(data) {
+        console.log(data.uri);
+        this.setState({ image: data.uri });
     }
 
     static navigationOptions = {
@@ -1050,7 +1052,7 @@ class HomeScreen extends Component {
                                                     this.camera
                                                         .takePictureAsync()
                                                         .then(data =>
-                                                            console.log(data)
+                                                            this.takePhoto(data)
                                                         );
                                                 }}
                                             >
