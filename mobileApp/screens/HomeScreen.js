@@ -235,17 +235,17 @@ class HomeScreen extends Component {
                                 onPress={() => {
                                     Alert.alert(
                                         "Confirmation",
-                                        "Please make sure this report is not an Emergency",
+                                        "Please verify that this report is not an emergency.",
                                         [
                                             {
                                                 text:
-                                                    "No, it is not an Emergency",
+                                                    "No, it is not an emergency",
                                                 // Run when it's not emergency
                                                 onPress: () =>
                                                     this.handleReport(true)
                                             },
                                             {
-                                                text: "Yes, it is an Emergency",
+                                                text: "Yes, it is an emergency",
                                                 onPress: () => {
                                                     var url =
                                                         (Platform.OS === "ios"
