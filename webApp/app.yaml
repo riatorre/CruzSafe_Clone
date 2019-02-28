@@ -10,8 +10,8 @@ env: standard
 env_variables:
     DB_USER: riatorre
     DB_PASS: SiD1475357
-    DB_INSTANCE_NAME: cruzsafe:us-west2:cruzsafe-data
+    DB_INSTANCE_NAME: cruzsafe:us-west1:cruzsafe-db
     DB_DATABASE: cruzsafe_main
 
 beta_settings:
-    cloud_sql_instances: cruzsafe:us-west2:cruzsafe-data
+    cloud_sql_instances: cruzsafe:us-west1:cruzsafe-db

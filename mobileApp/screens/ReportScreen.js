@@ -281,9 +281,12 @@ class ReportScreen extends Component {
                 }
             )
                 // Successful Call to API
-                .then(() => {
+                .then(response => response.json())
+                .then(responseJSON => {
                     Alert.alert(
-                        pre_report.incidentCategory + " Report Submitted",
+                        pre_report.incidentCategory +
+                            " Report Submitted as #" +
+                            responseJSON.incidentID,
                         "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
                         [
                             {
@@ -312,7 +315,13 @@ class ReportScreen extends Component {
                                         });
                                     this.storeUnsubReport(newPre_report);
                                     this.props.navigation.navigate(
-                                        "ReportDetail"
+                                        "ReportDetail",
+                                        {
+                                            itemId: responseJSON.incidentID,
+                                            callBack: this.props.navigation.goBack.bind(
+                                                this
+                                            )
+                                        }
                                     );
                                 }
                             }

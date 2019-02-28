@@ -195,8 +195,6 @@ class History extends Component {
         })
             .then(res => res.json())
             .then(result => {
-                var cList = [];
-                var iList = [];
                 this.setState({ data: result, isLoading: false });
                 this.storeReports("Reports", JSON.stringify(result));
             })
