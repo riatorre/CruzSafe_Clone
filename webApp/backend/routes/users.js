@@ -46,18 +46,19 @@ router.post("/newID", function(req, res) {
     var lastName = req.body.lastName;
     var email = req.body.email;
     var query =
-        "INSERT INTO mobileUsers (firstName, lastName, email) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE mobileID =LAST_INSERT_ID(mobileID), firstName=?";
-    connection.query(query, [firstName, lastName, email, firstName], function(
-        err,
-        rows
-    ) {
-        if (err) {
-            myConsole.error(err);
-            res.json({ message: "An Error has Occured" });
-        } else {
-            myConsole.log("[Database] A user has been created.");
+        "INSERT INTO mobileUsers (firstName, lastName, email) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE mobileID =LAST_INSERT_ID(mobileID), firstName =?, lastName = ?, email=?";
+    connection.query(
+        query,
+        [firstName, lastName, email, firstName, lastName, email],
+        function(err) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log("[Database] A user has been created.");
+            }
         }
-    });
+    );
     connection.query("SELECT LAST_INSERT_ID()", function(err, rows) {
         if (err) {
             myConsole.error(err);

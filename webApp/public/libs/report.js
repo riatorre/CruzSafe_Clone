@@ -613,7 +613,7 @@ function formatDate(mySQLDate, options) {
     var jsDate = toDateFormat(mySQLDate);
     jsDate = new Date(jsDate.toString());
     //console.log(jsDate);
-    options["timeZone"] = "America/New_York"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK GODDAMNIT
+    options["timeZone"] = "America/New_York"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK
     return jsDate.toLocaleString("en-US", options);
 }
 
@@ -635,3 +635,29 @@ function hideReport() {
 function markComplete(reportID) {
     insertTS(0, reportID, webID);
 }
+
+/*
+    Function that plays a sound given a tagID.
+*/
+function playSound(tag) {
+    var audio = document.getElementById("incomingTag" + tag);
+    audio.play();
+}
+
+/*
+    Function that request the latest TS from database and sets that as latestTS hidden input in page.
+*/
+/*
+function getTS(document) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            response = JSON.parse(request.response);
+            var maxTS = response["MAX(reportTS)"];
+            document.getElementById("latestTS").value = maxTS;
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportIDs");
+    request.send();
+}
+*/

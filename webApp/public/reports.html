@@ -40,7 +40,8 @@
         <script>
             var tid = "";
             document.addEventListener('DOMContentLoaded', function(){
-                setupReports(document);
+                // When DOM is loaded
+                setupReports(document); // Setup reports initially
             });
 
             // Sets up Timer to call function every 30 seconds;
@@ -267,6 +268,12 @@
             </div>
         </center>
         <script src="./libs/report.js"></script>
+        <audio id = "incomingTag1" src="./assets/sounds/Ball.wav""></audio>
+        <audio id = "incomingTag2" src="./assets/sounds/Chime.wav""></audio>
+        <audio id = "incomingTag3" src="./assets/sounds/Coins.wav""></audio>
+        <audio id = "incomingTag4" src="./assets/sounds/Crunch.wav""></audio>
+        <audio id = "incomingTag5" src="./assets/sounds/Maraca.wav""></audio>
+        <audio id = "incomingTag6" src="./assets/sounds/Shuffle.wav""></audio>
         <!--END REPORT MODAL-->
     </body>
 </html>
