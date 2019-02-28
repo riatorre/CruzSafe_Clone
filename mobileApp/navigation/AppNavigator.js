@@ -5,17 +5,26 @@ import {
 } from "react-navigation";
 
 //Main App
-import MainTabNavigator from "./MainTabNavigator";
+import MainTabNavigator from "../navigation/MainTabNavigator";
 // Screen for Authentication
 import WelcomeScreen from "../screens/WelcomeScreen";
 import ReportDetail from "../screens/ReportDetail";
+import ReportScreen from "../screens/ReportScreen";
+import LocationScreen from "../screens/LocationScreen";
+import CameraScreen from "../screens/CameraScreen";
 
 // Screen for determining if (Re-)Authentication is needed
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 
 // The Main App. Edit MainTabNavigator if you wish to add more screens to Main App
 const AppStack = createStackNavigator(
-    { Main: MainTabNavigator, ReportDetail: ReportDetail },
+    {
+        Main: MainTabNavigator,
+        Report: ReportScreen,
+        Location: LocationScreen,
+        Camera: CameraScreen,
+        ReportDetail: ReportDetail
+    },
     { headerMode: "none" }
 );
 // The Authentication Portion of the App.

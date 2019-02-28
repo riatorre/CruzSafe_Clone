@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import {
+    View,
     Text,
     Platform,
     AsyncStorage,
     AppState,
-    SafeAreaView
+    SafeAreaView,
+    TouchableOpacity
 } from "react-native";
 import {
     Container,
@@ -99,6 +101,7 @@ class LocationScreen extends Component {
                 });
                 pre_report.incidentLatitude = loc.coords.latitude;
                 pre_report.incidentLongitude = loc.coords.longitude;
+                pre_report.unchangedLocation = true;
                 this._isMounted &&
                     this.setState({
                         location: loc,
@@ -149,41 +152,78 @@ class LocationScreen extends Component {
                         </Body>
                         <Right />
                     </Header>
-                    <MapView
-                        style={{ flex: 1 }}
-                        initialRegion={{
-                            latitude: parseFloat(this.state.latitude),
-                            longitude: parseFloat(this.state.longitude),
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421
-                        }}
-                    >
-                        <MapView.Marker
-                            draggable
-                            coordinate={{
+                    <View style={{ flex: 1 }}>
+                        <MapView
+                            style={{ flex: 1 }}
+                            region={{
                                 latitude: parseFloat(this.state.latitude),
-                                longitude: parseFloat(this.state.longitude)
+                                longitude: parseFloat(this.state.longitude),
+                                latitudeDelta: 0.0461,
+                                longitudeDelta: 0.021
                             }}
-                            title={"Incident Location"}
-                            onDragEnd={e => {
-                                var pre_report = this.state.pre_report;
-                                pre_report.incidentLatitude =
-                                    e.nativeEvent.coordinate.latitude;
-                                pre_report.incidentLongitude =
-                                    e.nativeEvent.coordinate.longitude;
-                                pre_report.unchangedLocation = false;
-                                this._isMounted &&
-                                    this.setState({
-                                        latitude:
-                                            e.nativeEvent.coordinate.latitude,
-                                        longitude:
-                                            e.nativeEvent.coordinate.longitude,
-                                        unchangedLocation: false,
-                                        pre_report: pre_report
-                                    });
+                        >
+                            <MapView.Marker
+                                draggable
+                                coordinate={{
+                                    latitude: parseFloat(this.state.latitude),
+                                    longitude: parseFloat(this.state.longitude)
+                                }}
+                                title={"Incident Location"}
+                                onDragEnd={e => {
+                                    var pre_report = this.state.pre_report;
+                                    pre_report.incidentLatitude =
+                                        e.nativeEvent.coordinate.latitude;
+                                    pre_report.incidentLongitude =
+                                        e.nativeEvent.coordinate.longitude;
+                                    pre_report.unchangedLocation = false;
+                                    this._isMounted &&
+                                        this.setState({
+                                            latitude:
+                                                e.nativeEvent.coordinate
+                                                    .latitude,
+                                            longitude:
+                                                e.nativeEvent.coordinate
+                                                    .longitude,
+                                            unchangedLocation: false,
+                                            pre_report: pre_report
+                                        });
+                                }}
+                            />
+                        </MapView>
+                        <View
+                            style={{
+                                position: "absolute",
+                                padding: 20,
+                                backgroundColor: "transparenb",
+                                top: "80%"
                             }}
-                        />
-                    </MapView>
+                        >
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: "#00000060",
+                                    borderRadius: 54,
+                                    alignItems: "center",
+                                    width: 54,
+                                    height: 54,
+                                    padding: 5
+                                }}
+                                onPress={async () => {
+                                    await (this._isMounted &&
+                                        this.setState({
+                                            unchangedLocation: true
+                                        }));
+                                    this.getLocation();
+                                }}
+                            >
+                                <Icon
+                                    name={`${
+                                        Platform.OS === "ios" ? "ios" : "md"
+                                    }-locate`}
+                                    style={{ fontSize: 44, color: "#303060" }}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                     <Footer style={styles.footer}>
                         <Left
                             style={{

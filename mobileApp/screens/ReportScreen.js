@@ -10,7 +10,8 @@ import {
     ScrollView,
     AsyncStorage,
     AppState,
-    Alert
+    Alert,
+    Image
 } from "react-native";
 import {
     Container,
@@ -22,7 +23,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Location } from "expo";
+import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
 
@@ -75,16 +76,25 @@ class ReportScreen extends Component {
     }
 
     state = {
+        appState: AppState.currentState,
+        hasCameraPermission: null,
+        hasCameraRollPermission: null,
+        hasRecordingPermission: null,
+        hasLocationPermission: null,
         incidentCategory: "",
         incidentDesc: "",
         incidentLocationDesc: "",
+        image: null,
         iOSPickerVisible: false,
         pre_report: null,
-        appState: AppState.currentState,
         isLoading: true
     };
 
-    returnToReport() {
+    returnFromCamera(newImage) {
+        this._isMounted && this.setState({ image: newImage });
+    }
+
+    returnFromLocation() {
         this.getUnsubReport().then(pre_report => {
             this._isMounted &&
                 this.setState({
@@ -106,7 +116,80 @@ class ReportScreen extends Component {
         return pre_report;
     }
 
-    async getLocationPermission(c) {
+    async getCameraPermission() {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        if (status === "granted") {
+            this._isMounted &&
+                this.setState({ hasCameraPermission: status === "granted" });
+            this.getCameraRollPermission();
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to enable camera for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getCameraRollPermission();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getCameraRollPermission() {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status === "granted") {
+            this._isMounted &&
+                this.setState({
+                    hasCameraRollPermission: status === "granted"
+                });
+            this.getRecordingPermission();
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to grant file access for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getRecordingPermission();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getRecordingPermission() {
+        const { status } = await Permissions.askAsync(
+            Permissions.AUDIO_RECORDING
+        );
+        if (status === "granted") {
+            this._isMounted &&
+                this.setState({ hasRecordingPermission: status === "granted" });
+            this.getLocationPermission();
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to enable recording for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getLocationPermission();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getLocationPermission() {
         const { Location, Permissions } = Expo;
         // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
         const { status, permissions } = await Permissions.askAsync(
@@ -118,8 +201,6 @@ class ReportScreen extends Component {
                     hasLocationPermission: status === "granted"
                 });
             this.getLocation();
-        } else if (c < 2) {
-            this.getLocationPermission(c + 1);
         } else {
             alert("You need to enable location for this app");
         }
@@ -269,7 +350,7 @@ class ReportScreen extends Component {
                     pre_report: pre_report,
                     isLoading: false
                 });
-            this.getLocationPermission(0);
+            this.getCameraPermission();
         });
         AppState.addEventListener("change", this._handleAppStateChange);
     }
@@ -283,6 +364,20 @@ class ReportScreen extends Component {
             pre_report.incidentLocationDesc = this.state.incidentLocationDesc;
             this.storeUnsubReport(pre_report);
         });
+    }
+
+    async pickImage() {
+        if (this.state.hasCameraRollPermission) {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: "All",
+                allowsEditing: false
+            });
+            if (!result.cancelled) {
+                this.setState({ image: result.uri });
+            }
+        } else {
+            alert("This feature requires Camera Roll Permission to be Enabled");
+        }
     }
 
     _handleAppStateChange = nextAppState => {
@@ -306,6 +401,7 @@ class ReportScreen extends Component {
     render() {
         const { goBack } = this.props.navigation;
         const IncidentTypePicker = createIncidentTypePicker;
+        var { image } = this.state;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Container>
@@ -380,14 +476,43 @@ class ReportScreen extends Component {
                             }}
                             value={this.state.incidentLocationDesc}
                         />
+                        {image && (
+                            <View
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: "grey",
+                                    marginTop: 8,
+                                    marginBottom: 8
+                                }}
+                            >
+                                <Image
+                                    source={{ uri: image }}
+                                    style={{
+                                        width: 125,
+                                        height: 75
+                                    }}
+                                />
+                            </View>
+                        )}
                         <View style={{ flexDirection: "row" }}>
                             {/* Button that allows Camera (Modal) to be opened */}
                             <TouchableOpacity
                                 style={styles.btn}
                                 onPress={() => {
-                                    this.props.navigation.navigate("Camera", {
-                                        callBack: this.returnToReport.bind(this)
-                                    });
+                                    if (this.state.hasCameraPermission) {
+                                        this.props.navigation.navigate(
+                                            "Camera",
+                                            {
+                                                callBack: this.returnFromCamera.bind(
+                                                    this
+                                                )
+                                            }
+                                        );
+                                    } else {
+                                        alert(
+                                            "This feature requires Camera Permission to be Enabled"
+                                        );
+                                    }
                                 }}
                             >
                                 <Icon
@@ -397,16 +522,43 @@ class ReportScreen extends Component {
                                     style={{ color: "white" }}
                                 />
                                 <Text style={{ color: "white" }}>
-                                    Attach Media
+                                    Open Camera
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.btn}
+                                onPress={() => {
+                                    this.pickImage();
+                                }}
+                            >
+                                <Icon
+                                    name={`${
+                                        Platform.OS === "ios" ? "ios" : "md"
+                                    }-image`}
+                                    style={{ color: "white" }}
+                                />
+                                <Text style={{ color: "white" }}>
+                                    Open Gallery
                                 </Text>
                             </TouchableOpacity>
                             {/* Button that allows Location (Modal) to be opened */}
                             <TouchableOpacity
                                 style={styles.btn}
                                 onPress={() => {
-                                    this.props.navigation.navigate("Location", {
-                                        callBack: this.returnToReport.bind(this)
-                                    });
+                                    if (this.state.hasLocationPermission) {
+                                        this.props.navigation.navigate(
+                                            "Location",
+                                            {
+                                                callBack: this.returnFromLocation.bind(
+                                                    this
+                                                )
+                                            }
+                                        );
+                                    } else {
+                                        alert(
+                                            "This feature requires Location Permission to be Enabled"
+                                        );
+                                    }
                                 }}
                             >
                                 <Icon

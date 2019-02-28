@@ -4,8 +4,7 @@ import {
     Text,
     SafeAreaView,
     TouchableOpacity,
-    Platform,
-    Alert
+    Platform
 } from "react-native";
 import {
     Container,
@@ -16,7 +15,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Camera, Permissions } from "expo";
+import { Camera } from "expo";
 
 import styles from "../components/styles.js";
 
@@ -27,41 +26,26 @@ class CameraScreen extends Component {
     }
 
     state = {
-        hasCameraPermission: null,
+        image: null,
         type: Camera.Constants.Type.back
     };
 
-    async getCameraPermission(c) {
-        const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        if (status === "granted") {
-            this._isMounted &&
-                this.setState({ hasCameraPermission: status === "granted" });
-        } else if (c < 2) {
-            this.getCameraPermission(c + 1);
-        } else {
-            Alert.alert(
-                "Permission denied",
-                "You need to enable camera for this app",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            this.props.navigation.goBack();
-                        }
-                    }
-                ],
-                { cancelable: false }
-            );
-        }
+    async takePhoto(data) {
+        console.log(data.uri);
+        this._isMounted && this.setState({ image: data.uri });
     }
 
     componentDidMount() {
         this._isMounted = true;
-        this.getCameraPermission(0);
     }
 
     componentWillUnmount() {
+        const { params } = this.props.navigation.state;
+        const { image } = this.state;
         this._isMounted = false;
+        if (image != null) {
+            params.callBack(image);
+        }
     }
 
     render() {
@@ -90,6 +74,8 @@ class CameraScreen extends Component {
                         <Camera
                             style={{ flex: 1 }}
                             type={this.state.type}
+                            flashMode={"auto"}
+                            autoFocus={"on"}
                             ref={cam => {
                                 this.camera = cam;
                             }}
@@ -97,64 +83,67 @@ class CameraScreen extends Component {
                             <View
                                 style={{
                                     flex: 1,
+                                    padding: 20,
                                     backgroundColor: "transparenb",
-                                    flexDirection: "row"
+                                    flexDirection: "column",
+                                    justifyContent: "flex-end",
+                                    alignItems: "center"
                                 }}
                             >
-                                <TouchableOpacity
+                                <View
                                     style={{
-                                        flex: 0.1,
-                                        alignSelf: "flex-end",
-                                        alignItems: "center"
+                                        backgroundColor: "transparentb",
+                                        flexDirection: "row"
                                     }}
-                                    onPress={() => {
-                                        this._isMounted &&
-                                            this.setState({
-                                                type:
-                                                    this.state.type ===
-                                                    Camera.Constants.Type.back
-                                                        ? Camera.Constants.Type
-                                                              .front
-                                                        : Camera.Constants.Type
-                                                              .back
+                                >
+                                    <TouchableOpacity
+                                        style={styles.btn}
+                                        onPress={() => {
+                                            this._isMounted &&
+                                                this.setState({
+                                                    type:
+                                                        this.state.type ===
+                                                        Camera.Constants.Type
+                                                            .back
+                                                            ? Camera.Constants
+                                                                  .Type.front
+                                                            : Camera.Constants
+                                                                  .Type.back
+                                                });
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                color: "white"
+                                            }}
+                                        >
+                                            Flip
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.btn}
+                                        onPress={() => {
+                                            this.camera.takePictureAsync({
+                                                quality: 0.5,
+                                                onPictureSaved: data => {
+                                                    this.takePhoto(data).then(
+                                                        goBack()
+                                                    );
+                                                }
                                             });
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            fontSize: 18,
-                                            marginBottom: 10,
-                                            color: "white"
                                         }}
                                     >
-                                        {" "}
-                                        Flip{" "}
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={{
-                                        flex: 0.5,
-                                        justifyContent: "flex-end",
-                                        alignItems: "center"
-                                    }}
-                                    onPress={() => {
-                                        console.log("about to photograph");
-                                        this.camera
-                                            .takePictureAsync()
-                                            .then(data => console.log(data));
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            fontSize: 18,
-                                            marginBottom: 10,
-                                            color: "red"
-                                        }}
-                                    >
-                                        {" "}
-                                        Take photo{" "}
-                                    </Text>
-                                </TouchableOpacity>
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                color: "white"
+                                            }}
+                                        >
+                                            Take photo
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </Camera>
                     </View>
