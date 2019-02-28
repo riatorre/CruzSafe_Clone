@@ -55,10 +55,10 @@ class HomeScreen extends Component {
         ) {
             Alert.alert(
                 "Continue?",
-                "Detected an unsubmitted report, what do you want to do?",
+                "We found an unsubmitted report. Do you wish to continue editting?",
                 [
                     {
-                        text: "Continue editting",
+                        text: "Yes, Continue Editting",
                         onPress: () => {
                             // If the user choose to continue editting previous report,
                             // reset all text states to previous one
@@ -66,7 +66,7 @@ class HomeScreen extends Component {
                         }
                     },
                     {
-                        text: "Start a new one",
+                        text: "No, Start a new one",
                         onPress: () => {
                             // If the user choose to start a new report,
                             // reset all text states to ""
@@ -235,16 +235,17 @@ class HomeScreen extends Component {
                                 onPress={() => {
                                     Alert.alert(
                                         "Confirmation",
-                                        "Please make sure this report is not emergency",
+                                        "Please make sure this report is not an Emergency",
                                         [
                                             {
-                                                text: "Non emergency",
+                                                text:
+                                                    "No, it is not an Emergency",
                                                 // Run when it's not emergency
                                                 onPress: () =>
                                                     this.handleReport(true)
                                             },
                                             {
-                                                text: "Emergency",
+                                                text: "Yes, it is an Emergency",
                                                 onPress: () => {
                                                     var url =
                                                         (Platform.OS === "ios"

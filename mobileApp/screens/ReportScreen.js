@@ -593,15 +593,15 @@ class ReportScreen extends Component {
                                 style={styles.btn}
                                 onPress={() => {
                                     if (
-                                        this.state.incidentCategory != "" ||
-                                        this.state.incidentDesc != "" ||
+                                        this.state.incidentCategory != "" &&
+                                        this.state.incidentDesc != "" &&
                                         this.state.incidentLocationDesc != ""
                                     ) {
                                         this.handleSubmit();
                                     } else {
                                         Alert.alert(
                                             "Empty report",
-                                            "Report should not be empty",
+                                            "Please select an Incident Type and provide a Description of the Incident and Location.",
                                             [
                                                 {
                                                     text: "Back to edit",
