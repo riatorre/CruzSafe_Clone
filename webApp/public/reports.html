@@ -37,32 +37,26 @@
     </head>
     <body>
         <script src="./libs/NavLib.js"></script>
+        <!--Hidden variable that stores the latest TS of a report. When this is no longer the latest as determined by API query, call determineSetup().-->
+        <input type="hidden" id= "storedTS">
         <script>
             var tid = "";
             document.addEventListener('DOMContentLoaded', function(){
                 // When DOM is loaded
                 setupReports(document); // Setup reports initially
+                var latestTS = document.getElementById("latestTS");
+                getTS(document, "storedTS", 1);// Gets the initial TS and sets up listener
             });
 
-            // Sets up Timer to call function every 30 seconds;
+            // Sets up Timer to call function every 10 seconds;
             // Time is in milliseconds
             if(tid === ""){
-                tid = setInterval(determineSetup,30000);
+                tid = setInterval(checkTS,5000);
             }
 
-            function determineSetup(){
-                const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoordinates","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
-                var filtersSet = false;
-                for(var i = 0; i<filterElements.length; i++){
-                    if(document.getElementById(filterElements[i]).value != (null|"")){
-                        filtersSet = true;
-                        break;
-                    }
-                }
-                // Will prevent auto-refresh of list when user is attempting to search for something
-                if(!filtersSet){
-                    setupReports(document);
-                }
+            function checkTS(){
+                // Process to test for a different timestamp.
+                getTS(document, "storedTS", 0);
             }
         </script>
         <!--Header-->
@@ -268,12 +262,34 @@
             </div>
         </center>
         <script src="./libs/report.js"></script>
-        <audio id = "incomingTag1" src="./assets/sounds/Ball.wav""></audio>
-        <audio id = "incomingTag2" src="./assets/sounds/Chime.wav""></audio>
-        <audio id = "incomingTag3" src="./assets/sounds/Coins.wav""></audio>
-        <audio id = "incomingTag4" src="./assets/sounds/Crunch.wav""></audio>
-        <audio id = "incomingTag5" src="./assets/sounds/Maraca.wav""></audio>
-        <audio id = "incomingTag6" src="./assets/sounds/Shuffle.wav""></audio>
+        <audio
+            id="incomingTag1"
+            src="./assets/sounds/Ball.wav"
+        ></audio>
+        <audio
+            id="incomingTag2"
+            src="./assets/sounds/Chime.wav"
+        ></audio>
+        <audio
+            id="incomingTag3"
+            src="./assets/sounds/Coins.wav"
+        ></audio>
+        <audio
+            id="incomingTag4"
+            src="./assets/sounds/Crunch.wav"
+        ></audio>
+        <audio
+            id="incomingTag5"
+            src="./assets/sounds/Maraca.wav"
+        ></audio>
+        <audio
+            id="incomingTag6"
+            src="./assets/sounds/Shuffle.wav"
+        ></audio>
+        <audio
+            id="incomingTag0"
+            src="./assets/sounds/Stapler.wav"
+        ></audio>
         <!--END REPORT MODAL-->
     </body>
 </html>

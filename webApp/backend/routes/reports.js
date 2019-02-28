@@ -359,7 +359,6 @@ router.post("/latestReports", function(req, res) {
 /*
     Grab latest TS in database.
 */
-/*
 router.post("/latestTS", function(req, res) {
     myConsole.log("[Database] Attempting to select the latest report TS");
     connection.query("SELECT MAX(reportTS) FROM reports", function(err, rows) {
@@ -371,33 +370,30 @@ router.post("/latestTS", function(req, res) {
             res.json(rows);
         }
     });
-});*/
+});
 
 /*
     Given a TS, return a report.
 */
-/*
 router.post("/reportTS", function(req, res) {
     myConsole.log(
-        "[Database] Attempting to select the with TS" + body.reportTS
+        "[Database] Attempting to select the with TS: " + req.body.reportTS
     );
-    connection.query(
-        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportTS = ?",
-        body.reportTS,
-        function(err, rows) {
-            if (err) {
-                myConsole.error(err);
-                res.json({ message: "An Error has Occured" });
-            } else {
-                myConsole.log(
-                    "[Database] Found report with TS" + body.reportTS
-                );
-                res.json(rows);
-            }
+    query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportTS = ";
+    query = query + '"' + req.body.reportTS + '"';
+    connection.query(query, function(err, rows) {
+        if (err) {
+            myConsole.error(err);
+            res.json({ message: "An Error has Occured with query: " + query });
+        } else {
+            myConsole.log(
+                "[Database] Found report with TS" + req.body.reportTS
+            );
+            res.json(rows);
         }
-    );
+    });
 });
-*/
 
 /*
     The following is imported code to convert JS date to MySQL TS.
