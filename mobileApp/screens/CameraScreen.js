@@ -99,31 +99,6 @@ class CameraScreen extends Component {
                                     <TouchableOpacity
                                         style={styles.btn}
                                         onPress={() => {
-                                            this._isMounted &&
-                                                this.setState({
-                                                    type:
-                                                        this.state.type ===
-                                                        Camera.Constants.Type
-                                                            .back
-                                                            ? Camera.Constants
-                                                                  .Type.front
-                                                            : Camera.Constants
-                                                                  .Type.back
-                                                });
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontSize: 18,
-                                                color: "white"
-                                            }}
-                                        >
-                                            Flip
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.btn}
-                                        onPress={() => {
                                             this.camera.takePictureAsync({
                                                 quality: 0.5,
                                                 onPictureSaved: data => {

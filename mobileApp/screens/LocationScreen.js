@@ -35,7 +35,6 @@ class LocationScreen extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         unchangedLocation: true,
-        hasLocationPermission: null,
         pre_report: null,
         appState: AppState.currentState,
         isLoading: true
@@ -73,25 +72,6 @@ class LocationScreen extends Component {
         }
     }
 
-    async getLocationPermission(c) {
-        const { Location, Permissions } = Expo;
-        // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
-        const { status, permissions } = await Permissions.askAsync(
-            Permissions.LOCATION
-        );
-        if (status === "granted") {
-            this._isMounted &&
-                this.setState({
-                    hasLocationPermission: status === "granted"
-                });
-            this.getLocation();
-        } else if (c < 2) {
-            this.getLocationPermission(c + 1);
-        } else {
-            alert("You need to enable location for this app");
-        }
-    }
-
     async getLocation() {
         try {
             if (this.state.unchangedLocation && !this.state.isLoading) {
@@ -119,7 +99,7 @@ class LocationScreen extends Component {
     componentDidMount() {
         this._isMounted = true;
         this.getUnsubReport().then(() => {
-            this.getLocationPermission(0);
+            this.getLocation();
         });
     }
 
