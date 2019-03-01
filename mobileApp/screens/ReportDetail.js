@@ -101,19 +101,90 @@ class ReportDetail extends Component {
     createReport() {
         const { report } = this.state;
         return (
-            <View style={{ flex: 1, justifyContent: "center" }}>
+            <View
+                style={{
+                    justifyContent: "center",
+                    width: "80%",
+                    padding: 5
+                }}
+            >
                 <View
                     style={{
                         flexDirection: "row",
                         justifyContent: "space-between"
                     }}
                 >
-                    <Text>Report ID: {report.reportID}</Text>
-                    <Text>Incident #{report.incidentID}</Text>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            textDecorationLine: "underline"
+                        }}
+                    >
+                        Report ID: {report.reportID}
+                    </Text>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            textDecorationLine: "underline"
+                        }}
+                    >
+                        Incident #{report.incidentID}
+                    </Text>
                 </View>
-                <Text>Incident Category: {tagsList[report.tag]}</Text>
-                <Text>Incident Description: {report.body}</Text>
-                <Text>Description of Location: {report.location}</Text>
+                <View
+                    style={{
+                        padding: 5,
+                        borderTopWidth: 2,
+                        borderBottomWidth: 2,
+                        borderColor: "#303060"
+                    }}
+                >
+                    <View
+                        style={{
+                            flexDirection: "row"
+                        }}
+                    >
+                        <Text
+                            style={{
+                                fontSize: 20,
+                                fontWeight: "bold",
+                                textDecorationLine: "underline"
+                            }}
+                        >
+                            Incident Category:
+                        </Text>
+                        <Text style={{ fontSize: 20 }}>
+                            {" "}
+                            {tagsList[report.tag]}
+                        </Text>
+                    </View>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            textDecorationLine: "underline"
+                        }}
+                    >
+                        Incident Description:
+                    </Text>
+                    <Text style={{ fontSize: 20, paddingHorizontal: 15 }}>
+                        {report.body}
+                    </Text>
+                    <Text
+                        style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            textDecorationLine: "underline"
+                        }}
+                    >
+                        Description of Location:
+                    </Text>
+                    <Text style={{ fontSize: 20, paddingHorizontal: 15 }}>
+                        {report.location}
+                    </Text>
+                </View>
             </View>
         );
     }
