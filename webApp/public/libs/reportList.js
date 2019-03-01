@@ -1,4 +1,8 @@
 /*
+    Code meant specifically for reports.html. Allows for the fetching of pages of reports as well as filtering of reports.
+*/
+
+/*
     setupReports; has two helper functions. 
     Meant to set up the Reports page by first getting all tags from database,
     then calls gatherReportPage to get all of the reportIDs and to section off some IDs for a page.

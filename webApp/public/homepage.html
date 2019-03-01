@@ -30,24 +30,29 @@
         />
     </head>
     <body>
+        <!--reportHomeRefresher code-->
+        <input type="hidden" id="storedTS" />
         <script>
-            // Sets up timer for repeated checks to the Database for latest reports
-            //var tid = setInterval(getLatestReports, 3000);
+            var tid = "";
+            document.addEventListener("DOMContentLoaded", function() {
+                // When DOM is loaded
+                var latestTS = document.getElementById("latestTS");
+                getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
+            });
 
-            function getLatestReports() {
-                var request = new XMLHttpRequest();
-                request.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        console.log(request.response);
-                    }
-                };
-                request.open(
-                    "POST",
-                    "https://cruzsafe.appspot.com/api/reports/latestReports"
-                );
-                request.send();
+            // Sets up Timer to call function every 10 seconds;
+            // Time is in milliseconds
+            if (tid === "") {
+                tid = setInterval(checkTS, 5000);
+            }
+
+            function checkTS() {
+                // Process to test for a different timestamp.
+                getTS(document, "storedTS", 0);
             }
         </script>
+        <!--End reportHomeRefresher code-->
+
         <center>
             <!--Header-->
             <div class="topnav" id="topNav">
@@ -103,63 +108,10 @@
                     <h1>
                         ----Information such as tags will go here----
                     </h1>
-                    <button onclick="displayReport(150)">SELECT REPORT</button
-                    ><br /><br />
-                    <button onclick="playaudio('testAudio1')">
-                        TEST SOUND 1
-                    </button>
-                    <button onclick="playaudio('testAudio2')">
-                        TEST SOUND 2</button
+                    <button onclick="displayReport(150)" id="latestReport">
+                        LATEST REPORT</button
                     ><br />
-                    <button onclick="playaudio('testAudio3')">
-                        TEST SOUND 3
-                    </button>
-                    <button onclick="playaudio('testAudio4')">
-                        TEST SOUND 4</button
-                    ><br />
-                    <button onclick="playaudio('testAudio5')">
-                        TEST SOUND 5
-                    </button>
-                    <button onclick="playaudio('testAudio6')">
-                        TEST SOUND 6</button
-                    ><br />
-                    <button onclick="playaudio('testAudio7')">
-                        TEST SOUND 7
-                    </button>
-                    <script>
-                        function playaudio(audioID) {
-                            var audio = document.getElementById(audioID);
-                            audio.play();
-                        }
-                    </script>
-                    <audio
-                        id="testAudio1"
-                        src="./assets/sounds/Ball.wav"
-                    ></audio>
-                    <audio
-                        id="testAudio2"
-                        src="./assets/sounds/Chime.wav"
-                    ></audio>
-                    <audio
-                        id="testAudio3"
-                        src="./assets/sounds/Coins.wav"
-                    ></audio>
-                    <audio
-                        id="testAudio4"
-                        src="./assets/sounds/Crunch.wav"
-                    ></audio>
-                    <audio
-                        id="testAudio5"
-                        src="./assets/sounds/Maraca.wav"
-                    ></audio>
-                    <audio
-                        id="testAudio6"
-                        src="./assets/sounds/Shuffle.wav"
-                    ></audio>
-                    <audio
-                        id="testAudio7"
-                        src="./assets/sounds/Stapler.wav"
-                    ></audio>
+                    <div id="reportsMap"></div>
                     <h1>
                         ----Counter of unopened/unresolved reports here----
                     </h1>
@@ -261,8 +213,16 @@
                 </form>
             </div>
         </center>
-        <script src="./libs/report.js"></script>
+        <audio id="incomingTag1" src="./assets/sounds/Ball.wav"></audio>
+        <audio id="incomingTag2" src="./assets/sounds/Chime.wav"></audio>
+        <audio id="incomingTag3" src="./assets/sounds/Coins.wav"></audio>
+        <audio id="incomingTag4" src="./assets/sounds/Crunch.wav"></audio>
+        <audio id="incomingTag5" src="./assets/sounds/Maraca.wav"></audio>
+        <audio id="incomingTag6" src="./assets/sounds/Shuffle.wav"></audio>
+        <audio id="incomingTag0" src="./assets/sounds/Stapler.wav"></audio>
+        <script src="./libs/reportHomeRefresher.js"></script>
         <script src="./libs/reportSingle.js"></script>
+        <script src="./libs/reportHome.js"></script>
         <!--END REPORT MODAL-->
     </body>
 </html>
