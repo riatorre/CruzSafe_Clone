@@ -192,10 +192,11 @@
                 <div id= "reportList"></div> <!--Div to be filled by setupReports()-->
                 <center>
                     <div id= "navigationButtons">
-                        <button class="btn navy rounded">first</button>
-                        <button class="btn navy rounded">prev</button>
-                        <button class="btn navy rounded">next</button>
-                        <button class="btn navy rounded">last</button>
+                        <button id="firstBtn" class="btn navy rounded" onClick="firstLast('first')">First</button>
+                        <button id="prevBtn" class="btn navy rounded" onClick="nextPrev(-1)">Prev</button>
+                        <div id="reportListIndicators"></div> <!--Div to be filled by setupReports()-->
+                        <button id="nextBtn" class="btn navy rounded" onClick="nextPrev(1)">Next</button>
+                        <button id="lastBtn" class="btn navy rounded" onClick="firstLast('last')">Last</button>
                     </div>
                 </center>
             </div>
@@ -299,6 +300,7 @@
             src="./assets/sounds/Stapler.wav"
         ></audio>
         <script src="./libs/reportListRefresher.js"></script>
+        <script src="./libs/pagination.js"></script>
         <script src="./libs/reportList.js"></script>
     </body>
 </html>

@@ -3,6 +3,73 @@
 */
 
 /*
+ *  Function to create a report button from template;
+ *  this is passed into createPages() from pagination.js
+ *  To help create all the pages.
+ */
+function createReportButton(report) {
+    var button = document.createElement("BUTTON");
+    button.setAttribute("id", "launchReport");
+    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
+    const resolvedUnresolved = report["resolvedUnresolved"];
+    var resolvedUnresolvedText = document.createElement("b");
+    resolvedUnresolvedText.setAttribute("id", "buttonResolvedUnresolved");
+    if (resolvedUnresolved.includes("N")) {
+        // For resolvedUnresolved, gets status. If resolved, green. else, red.
+        resolvedUnresolvedText.setAttribute("style", "color:red");
+    } else if (resolvedUnresolved.includes("I")) {
+        resolvedUnresolvedText.setAttribute("style", "color:orange");
+    } else {
+        resolvedUnresolvedText.setAttribute("style", "color:green");
+    }
+    resolvedUnresolvedText.appendChild(
+        document.createTextNode(resolvedUnresolved)
+    );
+    const incidentIDText = addSpan(
+        "buttonIncidentIDText",
+        "#" + report["incidentID"],
+        document
+    );
+    const reportTSText = addSpan(
+        "buttonReportTSText",
+        report["reportTS"],
+        document
+    );
+    const tagText = addSpan("buttonTagText", report["tag"], document);
+    const locationText = addSpan(
+        "buttonLocationText",
+        report["location"],
+        document
+    );
+    const fullNameText = addSpan(
+        "buttonFullNameText",
+        report["fullName"],
+        document
+    );
+    const bodyText = addSpan(
+        "buttonBodyText",
+        trimString(report["body"], 40),
+        document
+    );
+    button.setAttribute("class", "btn " + tagColors[report["tag"]]);
+
+    button.appendChild(resolvedUnresolvedText);
+    addSpace(button);
+    button.appendChild(incidentIDText);
+    addSpace(button);
+    button.appendChild(reportTSText);
+    addSpace(button);
+    button.appendChild(tagText);
+    addSpace(button);
+    button.appendChild(locationText);
+    addSpace(button);
+    button.appendChild(fullNameText);
+    addSpace(button);
+    button.appendChild(bodyText);
+    return button;
+}
+
+/*
     setupReports; has two helper functions. 
     Meant to set up the Reports page by first getting all tags from database,
     then calls gatherReportPage to get all of the reportIDs and to section off some IDs for a page.
@@ -104,93 +171,9 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                     // All data has now been added into reportData
                     allInfo.push(productInfo);
                 });
-                // All info for all reports have been read and formatted. Create buttons.
-                Array.from(allInfo).forEach(function(report) {
-                    var button = document.createElement("BUTTON");
-                    button.setAttribute("id", "launchReport");
-                    button.setAttribute(
-                        "onclick",
-                        "displayReport(" + report["reportID"] + ")"
-                    );
-                    const resolvedUnresolved = report["resolvedUnresolved"];
-                    var resolvedUnresolvedText = document.createElement("b");
-                    resolvedUnresolvedText.setAttribute(
-                        "id",
-                        "buttonResolvedUnresolved"
-                    );
-                    if (resolvedUnresolved.includes("N")) {
-                        // For resolvedUnresolved, gets status. If resolved, green. else, red.
-                        resolvedUnresolvedText.setAttribute(
-                            "style",
-                            "color:red"
-                        );
-                        // button.setAttribute("style", "background:#540909");
-                    } else if (resolvedUnresolved.includes("I")) {
-                        resolvedUnresolvedText.setAttribute(
-                            "style",
-                            "color:orange"
-                        );
-                        //button.setAttribute("style", "background:#795307");
-                    } else {
-                        resolvedUnresolvedText.setAttribute(
-                            "style",
-                            "color:green"
-                        );
-                        //button.setAttribute("style", "background:#00008b");
-                    }
-                    resolvedUnresolvedText.appendChild(
-                        document.createTextNode(resolvedUnresolved)
-                    );
-                    const incidentIDText = addSpan(
-                        "buttonIncidentIDText",
-                        "#" + report["incidentID"],
-                        document
-                    );
-                    const reportTSText = addSpan(
-                        "buttonReportTSText",
-                        report["reportTS"],
-                        document
-                    );
-                    const tagText = addSpan(
-                        "buttonTagText",
-                        report["tag"],
-                        document
-                    );
-                    const locationText = addSpan(
-                        "buttonLocationText",
-                        report["location"],
-                        document
-                    );
-                    const fullNameText = addSpan(
-                        "buttonFullNameText",
-                        report["fullName"],
-                        document
-                    );
-                    const bodyText = addSpan(
-                        "buttonBodyText",
-                        trimString(report["body"], 40),
-                        document
-                    );
-                    button.setAttribute(
-                        "class",
-                        "btn " + tagColors[report["tag"]]
-                    );
-
-                    button.appendChild(resolvedUnresolvedText);
-                    addSpace(button);
-                    button.appendChild(incidentIDText);
-                    addSpace(button);
-                    button.appendChild(reportTSText);
-                    addSpace(button);
-                    button.appendChild(tagText);
-                    addSpace(button);
-                    button.appendChild(locationText);
-                    addSpace(button);
-                    button.appendChild(fullNameText);
-                    addSpace(button);
-                    button.appendChild(bodyText);
-                    reportList.appendChild(button);
-                });
+                createPages("reportList", 10, allInfo, createReportButton);
+                currentTab = 0;
+                showTab(0);
             }
         }
     };
@@ -367,6 +350,7 @@ function filterReportsHelper(
                 });
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
+            clearPages();
             generateMultipleReports(reportIDs, document, tags, tagColors);
         }
     };

@@ -13,7 +13,7 @@ function getTS(document, hiddenID, firstRun) {
             response = JSON.parse(request.response);
             //console.log("getTS responded: " + JSON.stringify(response));
             var maxTS = response[0]["MAX(reportTS)"];
-            console.log("getTS got maxTS of: " + maxTS);
+            //console.log("getTS got maxTS of: " + maxTS);
             var storedTS = document.getElementById(hiddenID);
             var previouslyStored = storedTS.value;
             storedTS.value = maxTS;
@@ -77,7 +77,8 @@ function determineSetup() {
         }
     }
     // Will prevent auto-refresh of list when user is attempting to search for something
-    if (!filtersSet) {
+    if (!filtersSet && currentTab == 0) {
+        clearReports();
         setupReports(document);
     }
 }

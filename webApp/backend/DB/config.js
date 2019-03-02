@@ -11,7 +11,7 @@ const localTest = false; // Global variable for debugging purposes.
 
 if (localTest) {
     var connection = mysql.createConnection({
-        host: "35.236.9.152",
+        host: "104.196.241.235",
         user: "riatorre",
         password: "SiD1475357",
         database: "cruzsafe_main"
