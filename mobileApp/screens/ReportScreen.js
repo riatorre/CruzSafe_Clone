@@ -23,6 +23,7 @@ import {
     Body,
     Icon
 } from "native-base";
+import { Video } from "react-native-video";
 import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
@@ -85,13 +86,16 @@ class ReportScreen extends Component {
         incidentDesc: "",
         incidentLocationDesc: "",
         image: null,
+        video: null,
         iOSPickerVisible: false,
         pre_report: null,
         isLoading: true
     };
 
     returnFromCamera(newImage) {
+        console.log(newImage);
         this._isMounted && this.setState({ image: newImage });
+        this._isMounted && this.setState({ video: newImage });
     }
 
     returnFromLocation() {
@@ -375,6 +379,7 @@ class ReportScreen extends Component {
         });
     }
 
+    //pick image from gallery
     async pickImage() {
         if (this.state.hasCameraRollPermission) {
             let result = await ImagePicker.launchImageLibraryAsync({
@@ -411,6 +416,7 @@ class ReportScreen extends Component {
         const { goBack } = this.props.navigation;
         const IncidentTypePicker = createIncidentTypePicker;
         var { image } = this.state;
+        var { video } = this.state;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Container>
@@ -496,6 +502,24 @@ class ReportScreen extends Component {
                             >
                                 <Image
                                     source={{ uri: image }}
+                                    style={{
+                                        width: 125,
+                                        height: 75
+                                    }}
+                                />
+                            </View>
+                        )}
+                        {video && (
+                            <View
+                                style={{
+                                    borderWidth: 1,
+                                    borderColor: "grey",
+                                    marginTop: 8,
+                                    marginBottom: 8
+                                }}
+                            >
+                                <Video
+                                    source={{ uri: video }}
                                     style={{
                                         width: 125,
                                         height: 75

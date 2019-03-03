@@ -27,12 +27,27 @@ class CameraScreen extends Component {
 
     state = {
         image: null,
+        video: null,
         type: Camera.Constants.Type.back
     };
 
-    async takePhoto(data) {
+    async savePhoto(data) {
         console.log(data.uri);
         this._isMounted && this.setState({ image: data.uri });
+    }
+
+    async saveVideo(data) {
+        console.log(data.uri);
+        this._isMounted && this.setState({ video: data.uri });
+    }
+
+    async takeVideo() {
+        this.camera
+            .recordAsync({
+                quality: 0.5,
+                maxDuration: 5
+            })
+            .then(this.saveVideo);
     }
 
     componentDidMount() {
@@ -102,7 +117,7 @@ class CameraScreen extends Component {
                                             this.camera.takePictureAsync({
                                                 quality: 0.5,
                                                 onPictureSaved: data => {
-                                                    this.takePhoto(data).then(
+                                                    this.savePhoto(data).then(
                                                         goBack()
                                                     );
                                                 }
@@ -116,6 +131,21 @@ class CameraScreen extends Component {
                                             }}
                                         >
                                             Take photo
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.btn}
+                                        onPress={() => {
+                                            this.takeVideo();
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                color: "white"
+                                            }}
+                                        >
+                                            Take Video
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
