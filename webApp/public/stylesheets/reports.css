@@ -1,9 +1,7 @@
 /*
     Stylesheet for reports.html
 */
-* {
-  background-color: Pink;
-}
+
 .row {
   display: flex;
 }
@@ -13,28 +11,6 @@
 }
 #column2 {
   width: 65%;
-}
-
-/*** topnav Top Navigation Bar
-/* Add a black background color to the top navigation */
-
-.topnavBar {
-  background-color: #0d3c6c;
-  overflow: hidden;
-  padding: 10px;
-  padding-left: 40px;
-  color: black;
-}
-
-/* Style the links inside the navigation bar */
-
-.topnavBar a {
-  float: left;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 20px;
 }
 
 /*
@@ -98,11 +74,11 @@
 
 #filterOptions > p {
   display: inline;
-  color: Black;
+  color: pink;
 }
 
 #filterOptions > h1 {
-  color: Black;
+  color: pink;
 }
 
 #reportColumn {
@@ -114,7 +90,7 @@
   margin-right: 40px;
   height: 75%;
   border: 0px solid black;
-  background: #f1f4f9;
+  background: Green;
   overflow: auto;
 }
 
