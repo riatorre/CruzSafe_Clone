@@ -21,6 +21,25 @@ body {
   padding-bottom: 100px;
 }
 
+.topnavMain {
+  background-color: #0d3c6c;
+  overflow: hidden;
+  padding: 10px;
+  padding-left: 40px;
+  color: black;
+}
+
+/* Style the links inside the navigation bar */
+
+.topnavMain a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
 #loginModalText > p {
   text-align: center;
 }

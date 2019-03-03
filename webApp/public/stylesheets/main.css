@@ -205,9 +205,9 @@ table .btn {
 /* Add a black background color to the top navigation */
 
 .topnav {
-  background-color: #0d3c6c;
+  background-color: Black;
   overflow: hidden;
-  padding: 10px;
+  padding-top: 60px;
   padding-left: 40px;
   color: black;
 }
