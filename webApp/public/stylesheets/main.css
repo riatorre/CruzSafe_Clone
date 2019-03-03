@@ -207,9 +207,8 @@ table .btn {
 .topnav {
   background-color: Black;
   overflow: hidden;
-  padding-top: 60px;
+  padding-top: 50px;
   padding-left: 40px;
-  padding: 50px;
   /* color: rgb(212, 201, 201); */
   /* color: purple; */
 }
@@ -218,7 +217,7 @@ table .btn {
 
 .topnav a {
   float: left;
-  color: Blue;
+  color: #095ea3;
   /* background-color: purple; */
   text-align: center;
   padding: 14px 16px;
@@ -229,10 +228,10 @@ table .btn {
 /* Change the color of links on hover */
 
 .topnav a:hover {
-  box-shadow: 0 0 2px red;
+  /* box-shadow: 0 0 2px white; */
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: greenyellow;
+  background-color: #113f67;
   color: black;
 }
 
@@ -241,8 +240,7 @@ table .btn {
 .active {
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: #f1f4f9;
-  color: black;
+  background-color: #ffffff;
 }
 
 /* Hide the link that should open and close the topnav on small screens */

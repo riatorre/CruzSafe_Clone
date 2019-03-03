@@ -70,15 +70,16 @@
   height: 80%;
   border: 0px solid black;
   overflow: auto;
+  background-color: black;
 }
 
 #filterOptions > p {
   display: inline;
-  color: pink;
+  color: #095ea3;
 }
 
 #filterOptions > h1 {
-  color: pink;
+  color: #095ea3;
 }
 
 #reportColumn {
@@ -88,10 +89,11 @@
 #reportList {
   margin-top: 20px;
   margin-right: 40px;
-  height: 75%;
+  height: 71%;
   border: 0px solid black;
-  background: Green;
+  background: Black;
   overflow: auto;
+  padding: 10px;
 }
 
 #navigationButtons {
@@ -99,6 +101,7 @@
   /*margin-right: 35%;
     margin-left: 35%;*/
   margin-bottom: 20px;
+  color: ;
 }
 
 /*
@@ -107,9 +110,10 @@
 #reportHeader {
   margin-top: 20px;
   margin-right: 40px;
-  padding: 5px;
-  border: 0px solid black;
-  background: Red;
+  padding: 15px;
+  /* border: 0px solid black; */
+  color: #095ea3;
+  background: Black;
   overflow: auto;
   font-size: 15px;
   text-align: left;
@@ -224,7 +228,7 @@
 
 input {
   -webkit-appearance: textfield;
-  background-color: yellow;
+  background-color: white;
   -webkit-rtl-ordering: logical;
   cursor: text;
   padding: 8px;
