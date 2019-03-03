@@ -4,19 +4,8 @@
 
 /*** Basic Styles ***/
 
-/* html {
-  box-sizing: border-box;
-  background: radial-gradient(aquamarine, blue, navy) no-repeat center center
-    fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-} */
-
 html {
   box-sizing: border-box;
-  /* background: green; */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -209,8 +198,6 @@ table .btn {
   overflow: hidden;
   padding-top: 50px;
   padding-left: 40px;
-  /* color: rgb(212, 201, 201); */
-  /* color: purple; */
 }
 
 /* Style the links inside the navigation bar */
@@ -218,7 +205,6 @@ table .btn {
 .topnav a {
   float: left;
   color: #095ea3;
-  /* background-color: purple; */
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -228,7 +214,6 @@ table .btn {
 /* Change the color of links on hover */
 
 .topnav a:hover {
-  /* box-shadow: 0 0 2px white; */
   -moz-border-radius: 5px;
   border-radius: 5px;
   background-color: #113f67;
