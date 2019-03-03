@@ -3,43 +3,44 @@
 */
 
 .row {
-    display: flex;
+  display: flex;
+  background: #113f67;
 }
 
 #column1 {
-    flex: 30%;
+  flex: 30%;
 }
 #column2 {
-    flex: 70%;
+  flex: 70%;
 }
 
 #userList {
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-    height: 80%;
-    border: 5px solid black;
-    background: rgb(123, 123, 123, 0.9);
-    overflow-y: auto;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  height: 80%;
+  border: 5px solid black;
+  background: rgb(123, 123, 123, 0.9);
+  overflow-y: auto;
 }
 
 #selectUser {
-    width: 100%;
-    font-size: 15px;
-    background: darkblue;
-    text-align: left;
+  width: 100%;
+  font-size: 15px;
+  background: darkblue;
+  text-align: left;
 }
 #selectUser:hover {
-    background: turquoise;
+  background: turquoise;
 }
 
 .transbox {
-    margin-right: 20px;
-    border: 1px solid black;
+  margin-right: 20px;
+  border: 1px solid black;
 }
 
 #networkInfo {
-    margin-right: 20px;
-    border: 1px solid black;
-    background: rgb(123, 123, 123, 0.9);
+  margin-right: 20px;
+  border: 1px solid black;
+  background: rgb(123, 123, 123, 0.9);
 }

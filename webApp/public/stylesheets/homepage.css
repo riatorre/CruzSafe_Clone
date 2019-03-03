@@ -3,90 +3,94 @@
 */
 
 .column {
-    float: left;
-    width: 33.33%;
+  float: left;
+  width: 33.33%;
+}
+.row {
+  display: flex;
+  background: #113f67;
 }
 
 /* Clear floats after the columns */
 .row:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /*
     BEGIN REPORT MODAL STYLING
 */
 .reportRow {
-    display: flex;
+  display: flex;
 }
 
 .reportColumn1 {
-    flex: 35%;
+  flex: 35%;
 }
 .reportColumn2 {
-    flex: 65%;
+  flex: 65%;
 }
 
 #reportResolve {
-    background: green;
+  background: green;
 }
 #reportResolve:hover {
-    background: limegreen;
+  background: limegreen;
 }
 
 #reportMap {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
+  float: left;
+  height: auto;
+  width: 90%;
+  margin: 5%;
+  margin-top: 0%;
 }
 #reportPhoto {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
+  float: left;
+  height: auto;
+  width: 90%;
+  margin: 5%;
+  margin-top: 0%;
 }
 
 #responseButtons > button {
-    font-size: 20px;
-    margin-left: 50px;
-    margin-top: 50px;
-    padding: 10px 20px;
-    top: 50%;
-    size: large;
+  font-size: 20px;
+  margin-left: 50px;
+  margin-top: 50px;
+  padding: 10px 20px;
+  top: 50%;
+  size: large;
 }
 /*
     END REPORT MODAL STYLING
 */
 
 #column3 > h1 {
-    color: white;
-    font-size: smaller;
-    text-align: center;
-    margin: 50;
-    height: 50%;
-    width: auto;
+  color: white;
+  font-size: smaller;
+  text-align: center;
+  margin: 50;
+  height: 50%;
+  width: auto;
 }
 
 #responseChart {
-    height: 35%;
-    width: auto;
-    margin: 5;
+  height: 35%;
+  width: auto;
+  margin: 5;
 }
 
 #mainCampus {
-    margin: 5;
-    height: 90%;
-    width: auto;
-    box-shadow: 0 10px 10px black;
+  margin: 5;
+  height: 90%;
+  width: auto;
+  box-shadow: 0 10px 10px black;
 }
 
 #costalCampus {
-    height: 50%;
-    margin: 5;
-    width: auto;
-    box-shadow: 0 10px 10px black;
+  height: 50%;
+  margin: 5;
+  width: auto;
+  box-shadow: 0 10px 10px black;
 }
