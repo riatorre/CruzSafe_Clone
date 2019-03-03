@@ -240,7 +240,8 @@ table .btn {
 .active {
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color: #113f67;
+  color: black;
 }
 
 /* Hide the link that should open and close the topnav on small screens */
