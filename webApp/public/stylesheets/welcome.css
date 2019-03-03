@@ -40,7 +40,11 @@ body {
 
 #loginButton {
   margin-top: 5;
+  background-color: #365899;
   color: white;
+}
+#loginButton:hover {
+  background-color: #4f6999;
 }
 
 /* Footer code that also have hover effect for the heart */
