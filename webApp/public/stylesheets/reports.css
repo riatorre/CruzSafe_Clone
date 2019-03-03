@@ -4,6 +4,7 @@
 
 .row {
   display: flex;
+  background: #113f67;
 }
 
 #column1 {
