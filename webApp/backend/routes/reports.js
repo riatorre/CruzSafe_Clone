@@ -11,6 +11,8 @@ const router = express.Router();
 const connection = require("../DB/config");
 const myConsole = require("../utilities/customConsole");
 
+const numDays = 90; // number of days before a report expires
+
 // Get all reports, Default request
 router.post("/", function(req, res) {
     myConsole.log(
@@ -196,6 +198,26 @@ router.post("/incidentID", function(req, res) {
         }
     );
 });
+/*
+// Test of grabbing and adding 90 days to selected reportTS
+router.post("/testCalcExpireTS", function(req, res) {
+    const reportID = req.body.id;
+    connection.query(
+        "SELECT reportTS FROM reports WHERE reportID =" + reportID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.log(err);
+            } else {
+                TS = rows[0].reportTS;
+                //myConsole.log(TS.toString());
+                TS.setDate(TS.getDate() + numDays);
+                //myConsole.log(TS.toString());
+                res.json({ DateTime: TS.toString() });
+            }
+        }
+    );
+});
+//*/
 
 /*
  *  Function that submits a single Report by given user
@@ -227,8 +249,22 @@ router.post("/submitReport", function(req, res) {
                 // This is used to set up incidentID to equal the reportID
                 // Should default the report as a unique incident
                 connection.query(
-                    "UPDATE reports SET incidentID = ? WHERE reportID = ?",
-                    [result.insertId, result.insertId]
+                    "SELECT reportTS FROM reports WHERE reportID = ?",
+                    result.insertId,
+                    function(err, rows, fields) {
+                        if (err) {
+                            myConsole.log(err);
+                        } else {
+                            var expireTS = rows[0].reportTS;
+                            //myConsole.log(expireTS.toString());
+                            expireTS.setDate(expireTS.getDate() + numDays);
+                            //myConsole.log(expireTS.toString());
+                            connection.query(
+                                "UPDATE reports SET incidentID = ?, expireTS = ? WHERE reportID = ?",
+                                [result.insertId, expireTS, result.insertId]
+                            );
+                        }
+                    }
                 );
                 // Logs Success & returns the "incident" ID
                 myConsole.log(

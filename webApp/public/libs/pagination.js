@@ -57,6 +57,7 @@ function showTab(n) {
         } else {
             for (var i = 0; i < y.length; i++) {
                 y[i].style.display = "inline-block";
+                y[i].className = y[i].className.replace(" active", "");
             }
         }
         y[n].className += " active";
