@@ -87,7 +87,6 @@ class ReportScreen extends Component {
         incidentLocationDesc: "",
         image: null,
         iOSPickerVisible: false,
-        ImageViewerVisible: false,
         pre_report: null,
         isLoading: true
     };
@@ -491,7 +490,12 @@ class ReportScreen extends Component {
                         {image && (
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.setState({ ImageViewerVisible: true });
+                                    this.props.navigation.navigate(
+                                        "ImageView",
+                                        {
+                                            image: this.state.image
+                                        }
+                                    );
                                 }}
                             >
                                 <View
@@ -512,39 +516,6 @@ class ReportScreen extends Component {
                                 </View>
                             </TouchableOpacity>
                         )}
-
-                        <Modal
-                            visible={this.state.ImageViewerVisible}
-                            transparent={true}
-                            onRequestClose={() => {
-                                this.setState({ ImageViewerVisible: false });
-                            }}
-                        >
-                            <Container>
-                                <Header style={styles.header_modal_1}>
-                                    <Left>
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-arrow-back`}
-                                            style={styles.icon_black}
-                                            onPress={() => {
-                                                this.setState({
-                                                    ImageViewerVisible: false
-                                                });
-                                            }}
-                                        />
-                                    </Left>
-                                    <Body />
-                                    <Right />
-                                </Header>
-                                <ImageViewer
-                                    imageUrls={[{ url: this.state.image }]}
-                                />
-                            </Container>
-                        </Modal>
                         <View style={{ flexDirection: "row" }}>
                             {/* Button that allows Camera (Modal) to be opened */}
                             <TouchableOpacity

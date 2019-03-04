@@ -16,21 +16,20 @@ export default (styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight,
         backgroundColor: "#303060"
     },
+    header_image: {
+        marginTop: StatusBar.currentHeight,
+        backgroundColor: "black",
+        shadowColor: "black",
+        borderBottomWidth: 0
+    },
     header_modal: {
         backgroundColor: "#303060"
-    },
-    header_modal_1: {
-        opacity: 1
     },
     footer: {
         backgroundColor: "#303060"
     },
     icon: {
         color: "silver",
-        marginLeft: 10
-    },
-    icon_black: {
-        color: "black",
         marginLeft: 10
     },
     header_text: {

@@ -12,6 +12,7 @@ import ReportDetail from "../screens/ReportDetail";
 import ReportScreen from "../screens/ReportScreen";
 import LocationScreen from "../screens/LocationScreen";
 import CameraScreen from "../screens/CameraScreen";
+import ImageView from "../screens/ImageView";
 
 // Screen for determining if (Re-)Authentication is needed
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
@@ -23,7 +24,8 @@ const AppStack = createStackNavigator(
         Report: ReportScreen,
         Location: LocationScreen,
         Camera: CameraScreen,
-        ReportDetail: ReportDetail
+        ReportDetail: ReportDetail,
+        ImageView: ImageView
     },
     { headerMode: "none" }
 );
