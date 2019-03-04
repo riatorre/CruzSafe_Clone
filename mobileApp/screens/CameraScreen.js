@@ -33,8 +33,6 @@ class CameraScreen extends Component {
     };
 
     async saveMedia(media) {
-        console.log("media.uri is");
-        console.log(media.uri);
         this._isMounted && this.setState({ image: media.uri });
     }
 
