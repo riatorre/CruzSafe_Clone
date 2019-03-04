@@ -112,13 +112,16 @@ class ReportScreen extends Component {
             this.props.navigation.navigate("ImageView", {
                 image: this.state.image
             });
-        } else if (this.state.image.includes(".mp4")) {
+        } else if (
+            this.state.image.includes(".mp4") ||
+            this.state.image.includes(".mov")
+        ) {
             this.props.navigation.navigate("VideoPlay", {
                 video: this.state.image
             });
         } else {
             console.log(
-                "Incompatible File Type Encountered; object not a .jpg or a .mp4"
+                "Incompatible File Type Encountered; object must be .jpg, .mp4, or .mov"
             );
         }
     }
