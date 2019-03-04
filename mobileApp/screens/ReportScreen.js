@@ -11,7 +11,8 @@ import {
     AsyncStorage,
     AppState,
     Alert,
-    Image
+    Image,
+    Video
 } from "react-native";
 import {
     Container,
@@ -23,7 +24,6 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Video } from "react-native-video";
 import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
@@ -93,7 +93,7 @@ class ReportScreen extends Component {
     };
 
     returnFromCamera(newImage) {
-        console.log(newImage);
+        //console.log(newImage);
         this._isMounted && this.setState({ image: newImage });
         this._isMounted && this.setState({ video: newImage });
     }
@@ -388,6 +388,7 @@ class ReportScreen extends Component {
             });
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
+                console.log(this.state.image);
             }
         } else {
             alert("This feature requires Camera Roll Permission to be Enabled");
@@ -502,24 +503,6 @@ class ReportScreen extends Component {
                             >
                                 <Image
                                     source={{ uri: image }}
-                                    style={{
-                                        width: 125,
-                                        height: 75
-                                    }}
-                                />
-                            </View>
-                        )}
-                        {video && (
-                            <View
-                                style={{
-                                    borderWidth: 1,
-                                    borderColor: "grey",
-                                    marginTop: 8,
-                                    marginBottom: 8
-                                }}
-                            >
-                                <Video
-                                    source={{ uri: video }}
                                     style={{
                                         width: 125,
                                         height: 75

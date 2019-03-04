@@ -28,26 +28,51 @@ class CameraScreen extends Component {
     state = {
         image: null,
         video: null,
+        recording: false,
+        isTakingImage: false,
         type: Camera.Constants.Type.back
     };
 
-    async savePhoto(data) {
-        console.log(data.uri);
-        this._isMounted && this.setState({ image: data.uri });
+    async savePhoto(photo) {
+        console.log(photo.uri);
+        this._isMounted && this.setState({ image: photo.uri });
     }
 
-    async saveVideo(data) {
-        console.log(data.uri);
-        this._isMounted && this.setState({ video: data.uri });
+    async saveVideo(video) {
+        console.log(video.uri);
+        this._isMounted && this.setState({ video: video.uri });
     }
 
-    async takeVideo() {
-        this.camera
-            .recordAsync({
-                quality: 0.5,
-                maxDuration: 5
-            })
-            .then(this.saveVideo);
+    async takePhoto(goBack) {
+        setTimeout(() => {
+            this.setState({
+                isTakingImage: true
+            });
+        }, 1);
+        const photo = await this.camera.takePictureAsync();
+        this.setState({
+            isTakingImage: false
+        });
+        this.savePhoto(photo);
+        goBack();
+    }
+
+    async recordVideo(goBack) {
+        if (!this.state.recording) {
+            setTimeout(() => {
+                this.setState({
+                    recording: true
+                });
+            }, 1);
+            const video = await this.camera.recordAsync({ maxDuration: 5 });
+            this.saveVideo(video);
+            goBack();
+        } else {
+            this.camera.stopRecording();
+            this.setState({
+                recording: false
+            });
+        }
     }
 
     componentDidMount() {
@@ -57,9 +82,13 @@ class CameraScreen extends Component {
     componentWillUnmount() {
         const { params } = this.props.navigation.state;
         const { image } = this.state;
+        const { video } = this.state;
         this._isMounted = false;
         if (image != null) {
             params.callBack(image);
+        }
+        if (video != null) {
+            params.callBack(video);
         }
     }
 
@@ -114,14 +143,7 @@ class CameraScreen extends Component {
                                     <TouchableOpacity
                                         style={styles.btn}
                                         onPress={() => {
-                                            this.camera.takePictureAsync({
-                                                quality: 0.5,
-                                                onPictureSaved: data => {
-                                                    this.savePhoto(data).then(
-                                                        goBack()
-                                                    );
-                                                }
-                                            });
+                                            this.takePhoto(goBack);
                                         }}
                                     >
                                         <Text
@@ -136,7 +158,8 @@ class CameraScreen extends Component {
                                     <TouchableOpacity
                                         style={styles.btn}
                                         onPress={() => {
-                                            this.takeVideo();
+                                            console.log("Video");
+                                            this.recordVideo(goBack);
                                         }}
                                     >
                                         <Text
