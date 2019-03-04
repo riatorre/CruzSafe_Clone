@@ -38,14 +38,16 @@ class CameraScreen extends Component {
 
     async takePhoto(goBack) {
         setTimeout(() => {
-            this.setState({
-                isTakingImage: true
-            });
+            this._isMounted &&
+                this.setState({
+                    isTakingImage: true
+                });
         }, 1);
         const photo = await this.camera.takePictureAsync();
-        this.setState({
-            isTakingImage: false
-        });
+        this._isMounted &&
+            this.setState({
+                isTakingImage: false
+            });
         this.saveMedia(photo);
         goBack();
     }
@@ -53,18 +55,20 @@ class CameraScreen extends Component {
     async recordVideo(goBack) {
         if (!this.state.recording) {
             setTimeout(() => {
-                this.setState({
-                    recording: true
-                });
+                this._isMounted &&
+                    this.setState({
+                        recording: true
+                    });
             }, 1);
             const video = await this.camera.recordAsync({ maxDuration: 5 });
             this.saveMedia(video);
             goBack();
         } else {
             this.camera.stopRecording();
-            this.setState({
-                recording: false
-            });
+            this._isMounted &&
+                this.setState({
+                    recording: false
+                });
         }
     }
 
