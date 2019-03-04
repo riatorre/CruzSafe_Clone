@@ -23,7 +23,6 @@ import {
     Body,
     Icon
 } from "native-base";
-import ImageViewer from "react-native-image-zoom-viewer";
 import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
@@ -106,6 +105,21 @@ class ReportScreen extends Component {
 
     setIOSPickerVisible(visible) {
         this._isMounted && this.setState({ iOSPickerVisible: visible });
+    }
+
+    Media() {
+        console.log("pressed");
+        if (this.state.image.includes(".jpg")) {
+            this.props.navigation.navigate("ImageView", {
+                image: this.state.image
+            });
+        } else if (this.state.image.includes(".mp4")) {
+            this.props.navigation.navigate("VideoPlay", {
+                video: this.state.image
+            });
+        } else {
+            console.log("nothing");
+        }
     }
 
     async getUnsubReport() {
@@ -490,12 +504,7 @@ class ReportScreen extends Component {
                         {image && (
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.props.navigation.navigate(
-                                        "ImageView",
-                                        {
-                                            image: this.state.image
-                                        }
-                                    );
+                                    this.Media();
                                 }}
                             >
                                 <View
