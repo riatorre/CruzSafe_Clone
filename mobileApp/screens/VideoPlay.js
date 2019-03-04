@@ -14,19 +14,6 @@ import { Video } from "expo";
 import styles from "../components/styles.js";
 
 class VideoPlay extends Component {
-    constructor(props) {
-        super(props);
-        this._isMounted = false;
-    }
-
-    componentDidMount() {
-        this._isMounted = true;
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
-
     render() {
         const { navigation } = this.props;
         const video = navigation.getParam("video", "Not available");

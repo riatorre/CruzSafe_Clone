@@ -108,7 +108,6 @@ class ReportScreen extends Component {
     }
 
     Media() {
-        console.log("pressed");
         if (this.state.image.includes(".jpg")) {
             this.props.navigation.navigate("ImageView", {
                 image: this.state.image
@@ -118,7 +117,9 @@ class ReportScreen extends Component {
                 video: this.state.image
             });
         } else {
-            console.log("nothing");
+            console.log(
+                "Incompatible File Type Encountered; object not a .jpg or a .mp4"
+            );
         }
     }
 

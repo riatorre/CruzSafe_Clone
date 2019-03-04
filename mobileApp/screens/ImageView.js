@@ -6,19 +6,6 @@ import ImageViewer from "react-native-image-zoom-viewer";
 import styles from "../components/styles.js";
 
 class ImageView extends Component {
-    constructor(props) {
-        super(props);
-        this._isMounted = false;
-    }
-
-    componentDidMount() {
-        this._isMounted = true;
-    }
-
-    componentWillUnmount() {
-        this._isMounted = false;
-    }
-
     render() {
         const { navigation } = this.props;
         const image = navigation.getParam("image", "Not available");
