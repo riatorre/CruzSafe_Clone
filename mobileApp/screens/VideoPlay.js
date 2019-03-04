@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { SafeAreaView, Platform, Text } from "react-native";
-import { Container, Header, Left, Right, Body, Icon } from "native-base";
+import {
+    Container,
+    Header,
+    Left,
+    Right,
+    Body,
+    Content,
+    Icon
+} from "native-base";
 import { Video } from "expo";
 
 import styles from "../components/styles.js";
@@ -53,7 +61,9 @@ class VideoPlay extends Component {
                         resizeMode="cover"
                         shouldPlay
                         isLooping
+                        useNativeControls
                         style={{
+                            flex: 1,
                             width: "100%",
                             height: "100%",
                             alignSelf: "center"
