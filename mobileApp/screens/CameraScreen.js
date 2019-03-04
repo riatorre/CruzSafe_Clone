@@ -27,20 +27,13 @@ class CameraScreen extends Component {
 
     state = {
         image: null,
-        video: null,
         recording: false,
         isTakingImage: false,
         type: Camera.Constants.Type.back
     };
 
-    async savePhoto(photo) {
-        console.log(photo.uri);
-        this._isMounted && this.setState({ image: photo.uri });
-    }
-
-    async saveVideo(video) {
-        console.log(video.uri);
-        this._isMounted && this.setState({ video: video.uri });
+    async saveMedia(media) {
+        this._isMounted && this.setState({ image: media.uri });
     }
 
     async takePhoto(goBack) {
@@ -53,7 +46,7 @@ class CameraScreen extends Component {
         this.setState({
             isTakingImage: false
         });
-        this.savePhoto(photo);
+        this.saveMedia(photo);
         goBack();
     }
 
@@ -65,7 +58,7 @@ class CameraScreen extends Component {
                 });
             }, 1);
             const video = await this.camera.recordAsync({ maxDuration: 5 });
-            this.saveVideo(video);
+            this.saveMedia(video);
             goBack();
         } else {
             this.camera.stopRecording();
@@ -82,13 +75,9 @@ class CameraScreen extends Component {
     componentWillUnmount() {
         const { params } = this.props.navigation.state;
         const { image } = this.state;
-        const { video } = this.state;
         this._isMounted = false;
         if (image != null) {
             params.callBack(image);
-        }
-        if (video != null) {
-            params.callBack(video);
         }
     }
 
@@ -158,7 +147,6 @@ class CameraScreen extends Component {
                                     <TouchableOpacity
                                         style={styles.btn}
                                         onPress={() => {
-                                            console.log("Video");
                                             this.recordVideo(goBack);
                                         }}
                                     >

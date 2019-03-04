@@ -11,8 +11,7 @@ import {
     AsyncStorage,
     AppState,
     Alert,
-    Image,
-    Video
+    Image
 } from "react-native";
 import {
     Container,
@@ -86,7 +85,6 @@ class ReportScreen extends Component {
         incidentDesc: "",
         incidentLocationDesc: "",
         image: null,
-        video: null,
         iOSPickerVisible: false,
         pre_report: null,
         isLoading: true
@@ -95,7 +93,6 @@ class ReportScreen extends Component {
     returnFromCamera(newImage) {
         //console.log(newImage);
         this._isMounted && this.setState({ image: newImage });
-        this._isMounted && this.setState({ video: newImage });
     }
 
     returnFromLocation() {
@@ -388,7 +385,6 @@ class ReportScreen extends Component {
             });
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
-                console.log(this.state.image);
             }
         } else {
             alert("This feature requires Camera Roll Permission to be Enabled");
@@ -417,7 +413,6 @@ class ReportScreen extends Component {
         const { goBack } = this.props.navigation;
         const IncidentTypePicker = createIncidentTypePicker;
         var { image } = this.state;
-        var { video } = this.state;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Container>
