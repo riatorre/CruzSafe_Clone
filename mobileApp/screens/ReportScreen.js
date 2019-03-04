@@ -23,6 +23,7 @@ import {
     Body,
     Icon
 } from "native-base";
+import ImageViewer from "react-native-image-zoom-viewer";
 import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
@@ -86,12 +87,12 @@ class ReportScreen extends Component {
         incidentLocationDesc: "",
         image: null,
         iOSPickerVisible: false,
+        ImageViewerVisible: false,
         pre_report: null,
         isLoading: true
     };
 
     returnFromCamera(newImage) {
-        //console.log(newImage);
         this._isMounted && this.setState({ image: newImage });
     }
 
@@ -488,23 +489,62 @@ class ReportScreen extends Component {
                             value={this.state.incidentLocationDesc}
                         />
                         {image && (
-                            <View
-                                style={{
-                                    borderWidth: 1,
-                                    borderColor: "grey",
-                                    marginTop: 8,
-                                    marginBottom: 8
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.setState({ ImageViewerVisible: true });
                                 }}
                             >
-                                <Image
-                                    source={{ uri: image }}
+                                <View
                                     style={{
-                                        width: 125,
-                                        height: 75
+                                        borderWidth: 1,
+                                        borderColor: "grey",
+                                        marginTop: 8,
+                                        marginBottom: 8
                                     }}
-                                />
-                            </View>
+                                >
+                                    <Image
+                                        source={{ uri: image }}
+                                        style={{
+                                            width: 125,
+                                            height: 75
+                                        }}
+                                    />
+                                </View>
+                            </TouchableOpacity>
                         )}
+
+                        <Modal
+                            visible={this.state.ImageViewerVisible}
+                            transparent={true}
+                            onRequestClose={() => {
+                                this.setState({ ImageViewerVisible: false });
+                            }}
+                        >
+                            <Container>
+                                <Header style={styles.header_modal_1}>
+                                    <Left>
+                                        <Icon
+                                            name={`${
+                                                Platform.OS === "ios"
+                                                    ? "ios"
+                                                    : "md"
+                                            }-arrow-back`}
+                                            style={styles.icon_black}
+                                            onPress={() => {
+                                                this.setState({
+                                                    ImageViewerVisible: false
+                                                });
+                                            }}
+                                        />
+                                    </Left>
+                                    <Body />
+                                    <Right />
+                                </Header>
+                                <ImageViewer
+                                    imageUrls={[{ url: this.state.image }]}
+                                />
+                            </Container>
+                        </Modal>
                         <View style={{ flexDirection: "row" }}>
                             {/* Button that allows Camera (Modal) to be opened */}
                             <TouchableOpacity
