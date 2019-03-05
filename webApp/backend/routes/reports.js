@@ -198,26 +198,6 @@ router.post("/incidentID", function(req, res) {
         }
     );
 });
-/*
-// Test of grabbing and adding 90 days to selected reportTS
-router.post("/testCalcExpireTS", function(req, res) {
-    const reportID = req.body.id;
-    connection.query(
-        "SELECT reportTS FROM reports WHERE reportID =" + reportID,
-        function(err, rows, fields) {
-            if (err) {
-                myConsole.log(err);
-            } else {
-                TS = rows[0].reportTS;
-                //myConsole.log(TS.toString());
-                TS.setDate(TS.getDate() + numDays);
-                //myConsole.log(TS.toString());
-                res.json({ DateTime: TS.toString() });
-            }
-        }
-    );
-});
-//*/
 
 /*
  *  Function that submits a single Report by given user
@@ -310,60 +290,33 @@ router.post("/userReports", function(req, res) {
  * Takes in id as well.
  */
 router.post("/timestamp", function(req, res) {
-    console.log(
-        "[Database] Attempting to insert TS for initialOpenTS = " +
-            req.body.initialOpenTS +
-            " for reportID = " +
-            req.body.reportID +
-            "for webID = " +
-            req.body.webID
+    myConsole.log(
+        "[Database] Attempting to update timestamp(s) for incidentID = " +
+            req.body.incidentID
     );
-    if (initialOpenTS == 1) {
+    if (req.body.initialOpenTS == 1) {
         query =
-            "UPDATE reports SET initialOpenTS = ?, initialOpenWebID = ? WHERE reportID = ?";
+            "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = ? WHERE incidentID = ?";
     } else {
         query =
-            "UPDATE reports SET initialOpenTS = ?, completeWebID = ? WHERE reportID = ?";
+            "UPDATE reports SET completeTS = current_timestamp(), completeWebID = ? WHERE incidentID = ?";
     }
-    res.json({
-        message:
-            "Query is " +
-            query +
-            " webID is " +
-            req.body.webID +
-            " reportID is " +
-            req.body.reportID
-    });
-    const time = new Date().toMysqlFormat();
-    connection.query(query, [time, req.body.webID, req.body.reportID], function(
+    connection.query(query, [req.body.webID, req.body.incidentID], function(
         err,
-        rows
+        rows,
+        fields
     ) {
         if (err) {
-            console.error(err);
+            myConsole.error(err);
             res.json({
-                message:
-                    "[Database] An Error has Occured, query = " +
-                    query +
-                    " with time = " +
-                    time +
-                    " and with id = " +
-                    req.body.reportID +
-                    "for webID = " +
-                    req.body.webID
+                message: "An Error has occured. Please try again later."
             });
         } else {
-            console.log(
-                "[Database] Updated! query = " +
-                    query +
-                    " with time = " +
-                    time +
-                    " and with id = " +
-                    req.body.reportID +
-                    "for webID = " +
-                    req.body.webID
+            myConsole.log(
+                "[Database] Report(s) Timestamp(s) has been updated for incidentID = " +
+                    req.body.incidentID
             );
-            res.json(rows);
+            res.json({ message: "Timestamp Update Successful" });
         }
     });
 });
