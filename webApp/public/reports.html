@@ -34,6 +34,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+
     </head>
     <body>
         <script src="./libs/NavLib.js"></script>
@@ -250,10 +251,24 @@
                                     <br /><br />
                                     <p id = "body"></p>
                                     <br />
+
+                                    <div class="selectMessage">
+                                        <button onclick="myFunction()" class="Respondbtn">Respond</button>
+                                        <div id="messageDropdown" class="selectMessage-content">
+                                            <option value="TrashSolved"> Trash from that location has been picked up. </option>
+                                            <option value="WaterLeakageSolved"> Water leakage from that location has been resolved.</option>
+                                            <option value="BrokenLightSolved"> Broken light from that location has been fixed.</option>
+                                            <option value="BrokenWindowSolved"> Broken Window from that location has been fixed.</option>
+                                            <option value="LightDeficiencySolved"> Light Deficiency from that location has been resolved. </option>
+                                            <option value="FixProblem1"> Someone will be there with in an hour. </option>
+                                            <option value="FixProblem2"> Someone will be there with in half-hour. </option>
+                                        </div>
+                                    </div>
+
                                     <div id="responseButtons">
-                                        <button id="reportRespond">
+                                        <!-- <button id="reportRespond">
                                             Respond
-                                        </button>
+                                        </button> -->
                                         <button id="reportOther">
                                             Other Options
                                         </button>
@@ -263,10 +278,22 @@
                                         <br />
                                         <br />
 
-                                        <label> Send Message to reporter</label>
+<!-- 
+                                        <div class="dropdown">
+                                            <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+                                            <div id="myDropdown" class="dropdown-content">
+                                              <a href="#">Link 1</a>
+                                              <a href="#">Link 2</a>
+                                              <a href="#">Link 3</a>
+                                            </div>
+                                          </div> -->
+
+                                        <!-- <label> Send Message to reporter</label> -->
+                                        <!-- <span> Send Message to reporter: </span> 
+                                        <br/>
                                         <br />
                                         <select name="tagMessage">
-                                            <option>--------- Select ---------</option>
+                                            <option>--------- Select Message ---------</option>
                                             <option value="TrashSolved"> Trash from that location has been picked up. </option>
                                             <option value="WaterLeakageSolved"> Water leakage from that location has been resolved.</option>
                                             <option value="BrokenLightSolved"> Broken light from that location has been fixed.</option>
@@ -274,7 +301,7 @@
                                             <option value="LightDeficiencySolved"> Light Deficiency from that location has been resolved. </option>
                                             <option value="FixProblem1"> Someone will be there with in an hour. </option>
                                             <option value="FixProblem2"> Someone will be there with in half-hour. </option>
-                                        </select>
+                                        </select> -->
 
                                     </div>
 
@@ -318,5 +345,6 @@
         <script src="./libs/reportListRefresher.js"></script>
         <script src="./libs/pagination.js"></script>
         <script src="./libs/reportList.js"></script>
+
     </body>
 </html>
