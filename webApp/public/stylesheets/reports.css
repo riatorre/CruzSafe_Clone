@@ -266,14 +266,14 @@ input {
   z-index: 1;
 }
 
-.selectMessage-content a {
+.selectMessage-content option {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.selectMessage a:hover {
+.selectMessage option:hover {
   background-color: #ddd;
 }
 
