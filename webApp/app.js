@@ -14,6 +14,7 @@ const cors = require("cors");
 const myConsole = require("./backend/utilities/customConsole");
 const users = require("./backend/routes/users");
 const reports = require("./backend/routes/reports");
+const messages = require("./backend/routes/messages");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Use the Router on the sub routes
 app.use("/api/users", users);
 app.use("/api/reports", reports);
+app.use("/api/messages", messages);
 
 // Sets default page to welcome.html
 app.get("/", function(req, res) {

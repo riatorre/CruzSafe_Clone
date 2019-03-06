@@ -27,7 +27,10 @@ class WelcomeScreen extends Component {
     };
 
     render() {
-        //const isDisabled = this.state.username.length === 0;
+        const isDisabled =
+            this.state.userFirstName.length === 0 ||
+            this.state.userLastName.length === 0 ||
+            this.state.userEmail.length === 0;
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Swiper
@@ -91,7 +94,7 @@ class WelcomeScreen extends Component {
                                         ? styles.btn_disabled
                                         : styles.btn
                                 }
-                                //disabled={isDisabled}
+                                disabled={isDisabled}
                                 onPress={this._signInAsync} // Initiate sign in Async!
                             >
                                 <Text style={{ color: "white" }}>Sign in</Text>
