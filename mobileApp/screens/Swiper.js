@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(200,20,20,0.3)"
     },
     slide4: {
-        backgroundColor: "rgba(20,200,20,0.3)"
+        backgroundColor: "rgba(20,20,200,0.3)"
     },
     slide5: {
         backgroundColor: "rgba(200,20,20,0.3)"
@@ -30,10 +30,16 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(20,200,20,0.3)"
     },
     slide7: {
-        backgroundColor: "rgba(200,20,20,0.3)"
+        backgroundColor: "rgba(20,20,200,0.3)"
     },
     slide8: {
         backgroundColor: "rgba(20,200,20,0.3)"
+    },
+    slide9: {
+        backgroundColor: "rgba(200,20,20,0.3)"
+    },
+    slide10: {
+        backgroundColor: "rgba(20,20,200,0.3)"
     }
 });
 
@@ -137,6 +143,25 @@ export default class Screen extends React.Component {
                             If you press the yellow stoplight button, CruzSafe
                             will ask you to confirm that you wish to call the
                             police non-emergency number. [stoplight on yellow]
+                        </Text>
+                    </View>
+                    <View style={[styles.slideContainer, styles.slide9]}>
+                        <Text>
+                            If there is an issue on campus which is neither very
+                            urgent nor likely to be connected to a crime, it is
+                            appropriate to submit a report. Examples of such
+                            situations include:
+                        </Text>
+                        <Text>-Inadequate or broken lighting</Text>
+                        <Text>-Tripping hazards</Text>
+                        <Text>-A water leak</Text>
+                        <Text>-A broken window, door, or lock</Text>
+                    </View>
+                    <View style={[styles.slideContainer, styles.slide10]}>
+                        <Text>
+                            If you press the green stoplight button, CruzSafe
+                            will direct you to make a report. [stoplight on
+                            green]
                         </Text>
                     </View>
                 </Swiper>
