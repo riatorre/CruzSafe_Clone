@@ -1,11 +1,10 @@
+/*
+ * Tutorial.js
+ * Will create an about us page that tells who we are ...
+ */
+
 import React, { Component } from "react";
-import {
-  Text,
-  AsyncStorage,
-  SafeAreaView,
-  Button,
-  Platform
-} from "react-native";
+import { Text, SafeAreaView, Platform } from "react-native";
 import {
   Container,
   Header,
@@ -18,13 +17,15 @@ import {
 } from "native-base";
 
 import styles from "../components/styles.js";
-import HomeScreen from "./HomeScreen.js";
 
-class SettingsScreen extends Component {
+class Tutorial extends Component {
   static navigationOptions = {
+    // Drawer Name
+    drawerLabel: "Tutorial",
+    //Drawer Icon
     drawerIcon: ({ tintColor }) => (
       <Icon
-        name={`${Platform.OS === "ios" ? "ios" : "md"}-cog`}
+        name={`${Platform.OS === "ios" ? "ios" : "md"}-help-circle-outline`}
         style={{ fontSize: 24, color: tintColor }}
       />
     )
@@ -43,12 +44,14 @@ class SettingsScreen extends Component {
               />
             </Left>
             <Body>
-              <Text style={styles.header_text}>Settings</Text>
+              {/* Center of Header */}
+              <Text style={styles.header_text}>Tutorial</Text>
             </Body>
             <Right />
           </Header>
+          {/* Main Body */}
           <Content contentContainerStyle={styles.container}>
-            <Button title="Sign Out" onPress={this._signOutAsync} />
+            <Text>Tutorial Goes here.</Text>
           </Content>
           <Footer style={styles.footer}>
             <Left
@@ -65,6 +68,7 @@ class SettingsScreen extends Component {
                 justifyContent: "center"
               }}
             >
+              {/* Center of Footer */}
               <Text style={styles.footer_text}>CruzSafe</Text>
             </Body>
             <Right
@@ -79,11 +83,5 @@ class SettingsScreen extends Component {
       </SafeAreaView>
     );
   }
-
-  // Function used to 'sign out' user. Clears AsyncStorage of all values
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-    this.props.navigation.navigate("Auth");
-  };
 }
-export default SettingsScreen;
+export default Tutorial;
