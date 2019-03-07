@@ -270,7 +270,7 @@ router.post("/notes", function(req, res) {
 router.post("/submitReport", upload.single("media"), function(req, res) {
     myConsole.log("[Database] Attempting to submit a new report");
     // Sets up values to be inserted into the table
-    const attachment = req.file.filename;
+    const attachment = req.file ? req.file.filename : null;
     const hasAttachment = attachment ? 1 : 0;
     const values = [
         [
