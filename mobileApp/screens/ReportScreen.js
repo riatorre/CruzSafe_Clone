@@ -307,32 +307,35 @@ class ReportScreen extends Component {
                     break;
                 }
             }
-            // Set up form-data for POST request.
-            const imageURI = this.state.image;
-            // Split up imageURI to find filename with extension
-            const imagePathArray = imageURI.split("/");
-            const image = imagePathArray[imagePathArray.length - 1];
-            // Split up filename and extension
-            const imageArray = image.split(".");
-            // Record extension
-            const imageExtension = imageArray[imageArray.length - 1];
-            // determine MimeType for multer to properly save the file
-            var imageMimeType = "image/jpg";
-            switch (imageExtension) {
-                case "jpg":
-                    imageMimeType = "image/jpg";
-                case "jpeg":
-                    imageMimeType = "image/jpeg";
-                case "png":
-                    imageMimeType = "image/png";
-                case "gif":
-                    imageMimeType = "image/gif";
-                case "mov":
-                    imageMimeType = "video/quicktime";
-                case "mp4":
-                    imageMimeType = "video/mp4";
-                default:
-                    imageMimeType = "image/jpg";
+
+            if (this.state.image) {
+                // Set up form-data for POST request.
+                const imageURI = this.state.image;
+                // Split up imageURI to find filename with extension
+                const imagePathArray = imageURI.split("/");
+                const image = imagePathArray[imagePathArray.length - 1];
+                // Split up filename and extension
+                const imageArray = image.split(".");
+                // Record extension
+                const imageExtension = imageArray[imageArray.length - 1];
+                // determine MimeType for multer to properly save the file
+                var imageMimeType = "image/jpg";
+                switch (imageExtension) {
+                    case "jpg":
+                        imageMimeType = "image/jpg";
+                    case "jpeg":
+                        imageMimeType = "image/jpeg";
+                    case "png":
+                        imageMimeType = "image/png";
+                    case "gif":
+                        imageMimeType = "image/gif";
+                    case "mov":
+                        imageMimeType = "video/quicktime";
+                    case "mp4":
+                        imageMimeType = "video/mp4";
+                    default:
+                        imageMimeType = "image/jpg";
+                }
             }
             // Begin storing all report data for submission
             const data = new FormData();

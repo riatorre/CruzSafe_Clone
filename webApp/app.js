@@ -12,17 +12,21 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 
 /*passport.use(
-    new passport_SAML({ path: "", entryPoint: "", issuer: "" }, function(
-        profile,
-        done
-    ) {
-        findByEmail(profile.email, function(err, user) {
-            if (err) {
-                return done(err);
-            }
-            return done(null, user);
-        });
-    })
+    new passport_SAML(
+        {
+            path: "",
+            entryPoint: "https://login.ucsc.edu/idp/shibboleth",
+            issuer: "https://cruzsafe.appspot.com/shibboleth"
+        },
+        function(profile, done) {
+            findByEmail(profile.email, function(err, user) {
+                if (err) {
+                    return done(err);
+                }
+                return done(null, user);
+            });
+        }
+    )
 );*/
 
 // Imports of our files
