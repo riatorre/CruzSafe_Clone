@@ -14,6 +14,7 @@ import LocationScreen from "../screens/LocationScreen";
 import CameraScreen from "../screens/CameraScreen";
 import ImageView from "../screens/ImageView";
 import VideoPlay from "../screens/VideoPlay";
+import Swiper from "../screens/Swiper";
 
 // Screen for determining if (Re-)Authentication is needed
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
@@ -27,7 +28,8 @@ const AppStack = createStackNavigator(
         Camera: CameraScreen,
         ReportDetail: ReportDetail,
         ImageView: ImageView,
-        VideoPlay: VideoPlay
+        VideoPlay: VideoPlay,
+        Swiper: Swiper
     },
     { headerMode: "none" }
 );
