@@ -226,7 +226,7 @@ router.post("/notes", function(req, res) {
             req.body.reportID
     );
     connection.query(
-        "SELECT * FROM notes LEFT JOIN webUsers ON notes.webID = webUsers.webID WHERE reportID = ?",
+        "SELECT * FROM reportNotes LEFT JOIN webUsers ON reportNotes.webID = webUsers.webID WHERE reportID = ?",
         req.body.reportID,
         function(err, rows, fields) {
             if (err) {
