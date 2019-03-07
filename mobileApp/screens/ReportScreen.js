@@ -398,7 +398,7 @@ class ReportScreen extends Component {
                                 }
                             },
                             {
-                                text: "Check the status of my report: ",
+                                text: "Check the status of my report",
                                 onPress: () => {
                                     this._isMounted &&
                                         this.setState({

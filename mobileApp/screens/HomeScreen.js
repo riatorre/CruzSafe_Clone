@@ -57,10 +57,10 @@ class HomeScreen extends Component {
         ) {
             Alert.alert(
                 "Continue?",
-                "We found an unsubmitted report. Do you wish to continue editting?",
+                "We found an unsubmitted report. Do you wish to continue editing?",
                 [
                     {
-                        text: "Yes, Continue Editting",
+                        text: "Yes, Continue Editing",
                         onPress: () => {
                             // If the user choose to continue editting previous report,
                             // reset all text states to previous one
