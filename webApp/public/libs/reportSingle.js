@@ -16,7 +16,8 @@ reportFields = [
     "mobileID",
     "phone",
     "email",
-    "body"
+    "body",
+    "notes"
 ];
 aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
@@ -44,13 +45,69 @@ function generateSingleReport(reportID, document) {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateSingleReportHelper(reportID, document, tagDict, tagColors);
+            generateSingleReportHelperNotes(
+                reportID,
+                document,
+                tagDict,
+                tagColors
+            );
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function generateSingleReportHelper(reportID, document, tags, tagColors) {
+function generateSingleReportHelperNotes(
+    reportID,
+    document,
+    tagDict,
+    tagColors
+) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            notes = JSON.parse(request.response);
+            noteString = "";
+            Array.from(notes).forEach(function(note) {
+                formattedNoteDate = formatDate(notes["ts"], {
+                    hour: "numeric",
+                    minute: "numeric",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour12: false
+                });
+                noteString =
+                    noteString +
+                    "[" +
+                    formattedNoteDate +
+                    "] " +
+                    notes["firstName"] +
+                    " " +
+                    notes["lastName"] +
+                    " - " +
+                    notes["content"];
+            });
+            // gotten list of all IDs. Calls generateMultipleReports for given index.
+            generateSingleReportHelper(
+                reportID,
+                document,
+                tagDict,
+                tagColors,
+                noteString
+            );
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ id: JSON.stringify(reportID) }));
+}
+function generateSingleReportHelper(
+    reportID,
+    document,
+    tags,
+    tagColors,
+    noteString
+) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -107,6 +164,8 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             productInfo["email"] = reportInfo["email"];
             // body
             productInfo["body"] = reportInfo["body"];
+            // notes
+            productInfo["notes"] = noteString;
 
             // All data has now been added into reportData
             const modal = document.getElementById("report");
@@ -142,9 +201,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             if (reportID["attachments"]) {
                 photo.setAttribute(
                     "src",
-                    "https://storage.googleapis.com/cruzsafe.appspot.com/" +
-                        reportID +
-                        ".jpg"
+                    "./assets/images/upload/" + reportID["filename"]
                 );
             }
 

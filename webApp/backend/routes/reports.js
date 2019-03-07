@@ -219,6 +219,31 @@ router.post("/incidentID", function(req, res) {
     );
 });
 
+// Get notes joined with webID given a reportID.
+router.post("/notes", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to select notes with reportID = " +
+            req.body.reportID
+    );
+    connection.query(
+        "SELECT * FROM notes LEFT JOIN webUsers ON notes.webID = webUsers.webID WHERE reportID = ?",
+        req.body.reportID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has occured" });
+            } else {
+                myConsole.log(
+                    "[Database] Select notes with reportID = " +
+                        req.body.reportID +
+                        " Sucessful"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
 /*
  *  Function that submits a single Report by given user
  *  Needs fixing to allow proper storage of BOTH image and report
