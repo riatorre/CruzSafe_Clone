@@ -4,7 +4,7 @@
 */
 
 // Array of dictionary entries + tag ids.
-reportFields = [
+const reportFields = [
     "incidentID",
     "resolvedUnresolved",
     "reportTS",
@@ -18,9 +18,10 @@ reportFields = [
     "email",
     "body"
 ];
-aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
+const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
 const webID = 1;
+const imageTypes = ["png", "jpg", "jpeg", "gif"];
 
 /*
     generateSingleReport: takes in a specific reportID and the document itself. 
@@ -197,11 +198,33 @@ function generateSingleReportHelper(
 
             // Edit photo
             const photo = document.getElementById("reportPhoto");
-            if (reportID["attachments"]) {
-                photo.setAttribute(
-                    "src",
-                    "./assets/images/upload/" + reportID["filename"]
-                );
+            const video = document.getElementById("reportVideo");
+            if (reportInfo["attachments"]) {
+                const filename = reportInfo["filename"];
+                const extension = filename.split(".").pop(); // Split by dots.
+                if (imageTypes.includes(extension)) {
+                    video.removeAttribute("src");
+                    video.style.display = "none";
+                    photo.setAttribute(
+                        "src",
+                        "https://storage.googleapis.com/cruzsafe.appspot.com/" +
+                            reportInfo["filename"]
+                    );
+                    photo.style.display = "block";
+                } else {
+                    console.log("showing video");
+                    photo.removeAttribute("src");
+                    photo.style.display = "none";
+                    video.setAttribute(
+                        "src",
+                        "https://storage.googleapis.com/cruzsafe.appspot.com/" +
+                            reportInfo["filename"]
+                    );
+                    video.style.display = "block";
+                }
+            } else {
+                video.style.display = "none";
+                photo.style.display = "none";
             }
 
             // Edit notes
