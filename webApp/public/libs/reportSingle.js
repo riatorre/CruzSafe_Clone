@@ -124,7 +124,8 @@ function generateSingleReportHelper(
                 var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
             } else {
                 // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
-                //insertTS(1, reportID, webID);
+                console.log("Marking as incomplete!");
+                insertTS(1, reportID, webID);
                 var resolvedUnresolved = "[Incomplete]"; // Null
             }
             productInfo["resolvedUnresolved"] = resolvedUnresolved;
@@ -238,7 +239,8 @@ function insertTS(initialOpenTS, reportID, webID) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            //console.log("Updated TS.");
+            response = JSON.parse(request.response);
+            console.log("Updated TS. Response: " + response);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
@@ -275,6 +277,7 @@ function toDateFormat(mySQLDate) {
 
 function markComplete(reportID) {
     insertTS(0, reportID, webID);
+    hideReport(); // Close the modal
 }
 
 // A report has been selected!
