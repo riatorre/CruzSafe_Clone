@@ -80,6 +80,7 @@ class ReportScreen extends Component {
         appState: AppState.currentState,
         hasCameraPermission: null,
         hasCameraRollPermission: null,
+        hasNotificationPermission: null,
         hasRecordingPermission: null,
         hasLocationPermission: null,
         incidentCategory: "",
@@ -170,11 +171,38 @@ class ReportScreen extends Component {
                 this.setState({
                     hasCameraRollPermission: status === "granted"
                 });
-            this.getRecordingPermission();
+            this.getNotificationPermission();
         } else {
             Alert.alert(
                 "Permission denied",
                 "You need to grant file access for this app",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => {
+                            this.getNotificationPermission();
+                        }
+                    }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
+
+    async getNotificationPermission() {
+        const { status } = await Permissions.askAsync(
+            Permissions.NOTIFICATIONS
+        );
+        if (status === "granted") {
+            this._isMounted &&
+                this.setState({
+                    hasNotificationPermission: status === "granted"
+                });
+            this.getRecordingPermission();
+        } else {
+            Alert.alert(
+                "Permission denied",
+                "You need to enable notification for this app to receive response",
                 [
                     {
                         text: "OK",
