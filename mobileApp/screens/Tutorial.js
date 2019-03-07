@@ -60,7 +60,7 @@ class Tutorial extends Component {
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                console.log("launch");
+                                this.props.navigation.navigate("Swiper");
                             }}
                         >
                             <Text
