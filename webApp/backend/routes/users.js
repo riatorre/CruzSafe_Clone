@@ -4,6 +4,30 @@ const connection = require("../DB/config");
 const myConsole = require("../utilities/customConsole");
 
 /*
+ * Given a webID, returns the user privilege level.
+ */
+router.post("/privilege", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to get privilege from webID = " + req.body.webID
+    );
+    connection.query(
+        "SELECT role FROM mobileUsers WHERE webID=?",
+        req.body.webID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] Got privilege from webID = " + req.body.webID
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
+/*
  *  Code to get the information from a user given a user ID.
  */
 router.post("/checkID", function(req, res) {
