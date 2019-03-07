@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cruzsafe",
+  "private_key_id": "7a70429c24fc561e00cb58ba0dedd9c739f10c0a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCXuXcbZ/hysIQY\nZhOQ6I5+NrJ47vnqUOpEMkCR2WmYuFuE4eLuRb1QIp7+1+q0onBqwS1jCosutqkq\nFybJNLu2XSoGfV7TamlvFQNWSw8r5aYI/AQtYOYJ3P/n3RD02MQHk5HX0hlGLsBd\nnDgjYszJp1HvjqQSQVtQVRMqIIpQKw8Nb8Q7PuygMCL/BPDJh6eOB7/KuTA6QBxO\nWfSI7wLUy3KCJCV6CVI2ajlovTEQnuqtXdN5Mca+/JKHMZ/cJEWoEl+OTID+SwHD\nbVP4iTb+oJ1s+7McW2YQk07zEj9lEzAViwrg+YsmIYJwIPbfHbOKHlc8uCK3uQyI\nvN6n7dffAgMBAAECggEAGuIFtJlrcAbOoPQVK2vJM5vFa6AML/Q+Te8Jec4n46Nm\ns9jCOK2qqXQ477aaI39Uo9WukQnhN1muB4MqoCPzzpAbTiMQli0YmVID0VpjScfa\n72SX6OJuX/kEbrTAuGFf+mevQ6o6SDEobG2tlLeAyYoX/nYrpABoiYdJagFyAFoa\n7EKrUPenip4gXh6RW0n9RwsdLyuroLl4h8eG+lBwoz9a+42SvpJfPhzUrsnsYj68\nBunk25r2jaS18+s+hcfbtJ1fjWgjjSWLmGFI46bog/1YdjJG08tDADRk9nDyYscy\ncbtcVXMC1WmSCG7YxX2IsGT3oXbqJcfeKimXcWVTAQKBgQDHgjr4XEkwMUty4aAt\nZfs0ID/wLfTNAoHWN0fX7qw/83Us7yff14BZeWEo7fHMlE2XX6G4HL75Lwo+giP2\n7Tqp4/o20+ZxQQvVOBNHRiN5Hot4wsRr9VUdFXCTfxA3qDrsncHUZdimam4UhM7w\n829zriW+MOzxj9nKy4aWEsfPYQKBgQDCr4DSI9rUGtELjo7Wv6C4ivYDxG5vHSzq\n98ORDculnBy56exZHtnMBKPES+k3mI5jI/sp93siB6EeelACVHLhEZW69xOWdP/X\nUMcbI3RgbIUKIaVPTtaD/QA574Mz1gfbNpPnXIr5LsXfR86DZmICh0b+UQz8foNe\nnnDkEw8vPwKBgEGwJU5kxEwzzs2ycBTCgSU2gRbJatKdQraPWP5FvT0JIcl7rLtM\nrxvGlTDutzBOnAV9HTgLbu2IiWzvWHwSu7/4KggnWLZtXkIDxoUvGLrmTbGjHx0U\nl8ONrZVCvso0f8IsZwdRyTVx0XC8EY7P+CA0dITcgwc9/81/mX6MDHHBAoGBAL/n\nserybu1vNarXrlNe93WRfOm/wkADGVjQO9WLLLelh+d2/4Pl1ji2Rhvj3BLybUCq\nohT/H0AvFxHs7VsulULoS5jNnmBMGjjLJkjJDRlTP1z6R3JCu0/Fn2h8gO8ixgG+\n7dI8tbzk7yWmKZn63Rey8zcS++MUbjhho9QeOXSPAoGAdls88Eg38TwmLauol0yo\ns0kmFxSYSpSE4qP19VTFkv3KEJ4nu20W4cu922hyW689+HXt7TsNEJvEfP5nBS5n\nYw7ajkRf0QkJ9MtGUa6S/pFX9EFKdjTeaOpVUvOv/jBn2fyhCvsTXC7nUqlZDm4J\nlgFiUOhGu9WPpb+RH7PZyRM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "cruzsafemedia@cruzsafe.iam.gserviceaccount.com",
+  "client_id": "105073246440407503311",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cruzsafemedia%40cruzsafe.iam.gserviceaccount.com"
+}

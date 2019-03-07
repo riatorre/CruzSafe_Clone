@@ -12,6 +12,9 @@ env_variables:
     DB_PASS: SiD1475357
     DB_INSTANCE_NAME: cruzsafe:us-west1:cruzsafe-db
     DB_DATABASE: cruzsafe_main
+    GCS_BUCKET: cruzsafe.appspot.com
+    GCLOUD_PROJECT: cruzsafe
+    GCS_KEYFILE: ./certificates/cruzsafe-7a70429c24fc.json
 
 beta_settings:
     cloud_sql_instances: cruzsafe:us-west1:cruzsafe-db

@@ -61,14 +61,16 @@ class ReportDetail extends Component {
     async checkAsyncStorage() {
         const itemId = this.props.navigation.getParam("itemId");
         const storedReports = JSON.parse(await AsyncStorage.getItem("Reports"));
-        for (var i = 0; i < storedReports.length; i++) {
-            if (storedReports[i].reportID === itemId) {
-                this._isMounted &&
-                    this.setState({
-                        report: storedReports[i],
-                        isLoading: false
-                    });
-                return true;
+        if (storedReports) {
+            for (var i = 0; i < storedReports.length; i++) {
+                if (storedReports[i].reportID === itemId) {
+                    this._isMounted &&
+                        this.setState({
+                            report: storedReports[i],
+                            isLoading: false
+                        });
+                    return true;
+                }
             }
         }
         return false;

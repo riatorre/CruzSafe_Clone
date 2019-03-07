@@ -12,6 +12,7 @@ const router = express.Router();
 const connection = require("../DB/config");
 const myConsole = require("../utilities/customConsole");
 const multer = require("multer");
+const multerGoogleStorage = require("multer-google-storage");
 
 const numDays = 90; // number of days before a report expires
 
@@ -28,9 +29,24 @@ var storage = multer.diskStorage({
     }
 });
 
+// Google Cloud Definition to allow storage on GAE
+var googleStorageConfig = {
+    bucket: process.env.GCS_BUCKET,
+    projectId: process.env.GCLOUD_PROJECT,
+    keyFilename: process.env.GCS_KEYFILE,
+    filename: function(req, file, cb) {
+        cb(
+            null,
+            file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+        );
+    }
+};
+
 // Generate the middleware that will be used to handle files
 var upload = multer({
-    storage: storage
+    storage: process.env.GCS_BUCKET
+        ? multerGoogleStorage.storageEngine(googleStorageConfig)
+        : storage
 });
 
 // Get all reports, Default request
