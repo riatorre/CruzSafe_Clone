@@ -7,7 +7,8 @@
 const mysql = require("mysql");
 const myConsole = require("../utilities/customConsole");
 
-const localTest = false; // Global variable for debugging purposes.
+console.log("Hello");
+const localTest = true; // Global variable for debugging purposes.
 
 if (localTest) {
     var connection = mysql.createConnection({
