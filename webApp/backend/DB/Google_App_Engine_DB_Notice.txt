@@ -1,3 +1,0 @@
-Connection from app to Google App Engine's DB requires special configuration.
-Instructions can be found on: 
-        https://cloud.google.com/nodejs/getting-started/using-cloud-sql#deploying_the_app_to_the_app_engine_standard_environment

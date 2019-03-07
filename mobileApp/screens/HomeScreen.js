@@ -37,7 +37,8 @@ const newPre_report = {
     incidentLocationDesc: "",
     incidentLatitude: LATITUDE,
     incidentLongitude: LONGITUDE,
-    unchangedLocation: true
+    unchangedLocation: true,
+    imageURI: null
 };
 
 class HomeScreen extends Component {
@@ -51,6 +52,7 @@ class HomeScreen extends Component {
             pre_report.incidentCategory !== "" ||
             pre_report.incidentDesc !== "" ||
             pre_report.incidentLocationDesc !== "" ||
+            pre_report.imageURI !== null ||
             pre_report.unchangedLocation !== true
         ) {
             Alert.alert(

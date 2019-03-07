@@ -45,7 +45,8 @@ const newPre_report = {
     incidentLocationDesc: "",
     incidentLatitude: LATITUDE,
     incidentLongitude: LONGITUDE,
-    unchangedLocation: true
+    unchangedLocation: true,
+    imageURI: null
 };
 
 function createIncidentTypePicker(props) {
@@ -91,7 +92,11 @@ class ReportScreen extends Component {
     };
 
     returnFromCamera(newImage) {
-        this._isMounted && this.setState({ image: newImage });
+        this.getUnsubReport().then(pre_report => {
+            pre_report.imageURI = newImage;
+            this._isMounted &&
+                this.setState({ image: newImage, pre_report: pre_report });
+        });
     }
 
     returnFromLocation() {
@@ -274,6 +279,56 @@ class ReportScreen extends Component {
                     break;
                 }
             }
+            // Set up form-data for POST request.
+            const imageURI = this.state.image;
+            // Split up imageURI to find filename with extension
+            const imagePathArray = imageURI.split("/");
+            const image = imagePathArray[imagePathArray.length - 1];
+            // Split up filename and extension
+            const imageArray = image.split(".");
+            // Record extension
+            const imageExtension = imageArray[imageArray.length - 1];
+            // determine MimeType for multer to properly save the file
+            var imageMimeType = "image/jpg";
+            switch (imageExtension) {
+                case "jpg":
+                    imageMimeType = "image/jpg";
+                case "jpeg":
+                    imageMimeType = "image/jpeg";
+                case "png":
+                    imageMimeType = "image/png";
+                case "gif":
+                    imageMimeType = "image/gif";
+                case "mov":
+                    imageMimeType = "video/quicktime";
+                case "mp4":
+                    imageMimeType = "video/mp4";
+                default:
+                    imageMimeType = "image/jpg";
+            }
+            // Begin storing all report data for submission
+            const data = new FormData();
+            data.append("mobileID", await this.getMobileID());
+            data.append("incidentDesc", pre_report.incidentDesc);
+            data.append("incidentCategory", incidentTagID);
+            data.append(
+                "incidentLocationDesc",
+                pre_report.incidentLocationDesc
+            );
+            data.append("incidentLatitude", pre_report.incidentLatitude);
+            data.append("incidentLongitude", pre_report.incidentLongitude);
+            data.append(
+                "incidentUnchangedLocation",
+                pre_report.unchangedLocation ? 1 : 0
+            );
+            if (this.state.image) {
+                data.append("media", {
+                    uri: imageURI,
+                    type: imageMimeType,
+                    name: image
+                });
+            }
+
             // Main Portion of the request, contains all metadata to be sent to link
             await fetch(
                 "https://cruzsafe.appspot.com/api/reports/submitReport",
@@ -283,20 +338,10 @@ class ReportScreen extends Component {
                     // Metadata in regards as to what is expected to be sent/recieved
                     headers: {
                         Accept: "application/json",
-                        "Content-Type": "application/json"
+                        "Content-Type": "multipart/form-data"
                     },
                     // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
-                    body: JSON.stringify({
-                        mobileID: await this.getMobileID(), //Set to 1 for now, will be a unique ID for logged in user once we setup Shibboleth
-                        incidentDesc: pre_report.incidentDesc,
-                        incidentCategory: incidentTagID,
-                        incidentLocationDesc: pre_report.incidentLocationDesc,
-                        incidentLatitude: pre_report.incidentLatitude,
-                        incidentLongitude: pre_report.incidentLongitude,
-                        incidentUnchangedLocation: pre_report.unchangedLocation
-                            ? 1
-                            : 0
-                    })
+                    body: data
                 }
             )
                 // Successful Call to API
@@ -316,6 +361,7 @@ class ReportScreen extends Component {
                                             incidentCategory: "",
                                             incidentDesc: "",
                                             incidentLocationDesc: "",
+                                            image: null,
                                             pre_report: newPre_report
                                         });
                                     this.storeUnsubReport(newPre_report);
@@ -330,6 +376,7 @@ class ReportScreen extends Component {
                                             incidentCategory: "",
                                             incidentDesc: "",
                                             incidentLocationDesc: "",
+                                            image: null,
                                             pre_report: newPre_report
                                         });
                                     this.storeUnsubReport(newPre_report);
@@ -375,6 +422,7 @@ class ReportScreen extends Component {
                     incidentCategory: pre_report.incidentCategory,
                     incidentDesc: pre_report.incidentDesc,
                     incidentLocationDesc: pre_report.incidentLocationDesc,
+                    image: pre_report.imageURI,
                     pre_report: pre_report,
                     isLoading: false
                 });
@@ -390,6 +438,7 @@ class ReportScreen extends Component {
             pre_report.incidentCategory = this.state.incidentCategory;
             pre_report.incidentDesc = this.state.incidentDesc;
             pre_report.incidentLocationDesc = this.state.incidentLocationDesc;
+            pre_report.imageURI = this.state.image;
             this.storeUnsubReport(pre_report);
         });
     }
@@ -402,7 +451,14 @@ class ReportScreen extends Component {
                 allowsEditing: false
             });
             if (!result.cancelled) {
-                this.setState({ image: result.uri });
+                this.getUnsubReport().then(pre_report => {
+                    pre_report.imageURI = result.uri;
+                    this._isMounted &&
+                        this.setState({
+                            image: result.uri,
+                            pre_report: pre_report
+                        });
+                });
             }
         } else {
             alert("This feature requires Camera Roll Permission to be Enabled");
@@ -420,6 +476,7 @@ class ReportScreen extends Component {
                         incidentCategory: pre_report.incidentCategory,
                         incidentDesc: pre_report.incidentDesc,
                         incidentLocationDesc: pre_report.incidentLocationDesc,
+                        image: pre_report.imageURI,
                         pre_report: pre_report
                     });
             });

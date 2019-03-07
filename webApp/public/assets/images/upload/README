@@ -1,0 +1,3 @@
+This is the folder where file uploads should be placed by multer.
+If you change the file structure, be sure to change the file destination defined in
+/backend/routes/reports.js

@@ -7,8 +7,23 @@
 
 const express = require("express");
 const passport = require("passport");
+const passport_SAML = require("passport-saml").Strategy;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
+/*passport.use(
+    new passport_SAML({ path: "", entryPoint: "", issuer: "" }, function(
+        profile,
+        done
+    ) {
+        findByEmail(profile.email, function(err, user) {
+            if (err) {
+                return done(err);
+            }
+            return done(null, user);
+        });
+    })
+);*/
 
 // Imports of our files
 const myConsole = require("./backend/utilities/customConsole");
@@ -57,6 +72,12 @@ if (module == require.main) {
     });
 }
 
+/*
+ *  Sets up an interval timer to handle the clearing of reports
+ *  Executes once per day (in milliseconds)
+ */
+setInterval(clearExpiredReports, 86400000);
+
 // Access Control Function
 // Utilizes a function from Passport.js to determine if user is Authenticated
 function verifyAuthentication(req, res, next) {
@@ -68,3 +89,8 @@ function verifyAuthentication(req, res, next) {
         res.redirect("/");
     }
 }
+/*
+ *  Function used to clear all reports that have passed their expiry date
+ *  TODO: Implement a proper function that accomplishes this
+ */
+function clearExpiredReports() {}

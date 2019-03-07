@@ -7,11 +7,31 @@
  */
 
 const express = require("express");
+const path = require("path");
 const router = express.Router();
 const connection = require("../DB/config");
 const myConsole = require("../utilities/customConsole");
+const multer = require("multer");
 
 const numDays = 90; // number of days before a report expires
+
+// Define where multer will store the incoming files and how to name them
+var storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, path.join(__dirname, "../../public/assets/images/upload"));
+    },
+    filename: function(req, file, cb) {
+        cb(
+            null,
+            file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+        );
+    }
+});
+
+// Generate the middleware that will be used to handle files
+var upload = multer({
+    storage: storage
+});
 
 // Get all reports, Default request
 router.post("/", function(req, res) {
@@ -201,11 +221,17 @@ router.post("/incidentID", function(req, res) {
 
 /*
  *  Function that submits a single Report by given user
+ *  Needs fixing to allow proper storage of BOTH image and report
+ *  Image is already stored with a file name defined way above, but
+ *  The name does not match the reportID. Unsure as to how to change the name,
+ *  But it may be easier to just store the file name in the DB alongside the other Report elements.
  */
-router.post("/submitReport", function(req, res) {
+router.post("/submitReport", upload.single("media"), function(req, res) {
     myConsole.log("[Database] Attempting to submit a new report");
     // Sets up values to be inserted into the table
-    var values = [
+    const attachment = req.file.filename;
+    const hasAttachment = attachment ? 1 : 0;
+    const values = [
         [
             req.body.mobileID,
             req.body.incidentDesc,
@@ -213,11 +239,13 @@ router.post("/submitReport", function(req, res) {
             req.body.incidentCategory,
             req.body.incidentLatitude,
             req.body.incidentLongitude,
-            req.body.incidentUnchangedLocation
+            req.body.incidentUnchangedLocation,
+            hasAttachment,
+            attachment
         ]
     ];
     connection.query(
-        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation) VALUES ?",
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename) VALUES ?",
         [values],
         function(err, result) {
             if (err) {
@@ -227,6 +255,9 @@ router.post("/submitReport", function(req, res) {
                 res.json({ message: "An Error has Occurred" });
             } else {
                 // This is used to set up incidentID to equal the reportID
+                // as well as define the expiry date & time.
+                // 1st query gets the date that is officially recorded in the DB, then
+                // adds numDays to the Date portion of the DateTime OBJ.
                 // Should default the report as a unique incident
                 connection.query(
                     "SELECT reportTS FROM reports WHERE reportID = ?",
@@ -236,9 +267,7 @@ router.post("/submitReport", function(req, res) {
                             myConsole.log(err);
                         } else {
                             var expireTS = rows[0].reportTS;
-                            //myConsole.log(expireTS.toString());
                             expireTS.setDate(expireTS.getDate() + numDays);
-                            //myConsole.log(expireTS.toString());
                             connection.query(
                                 "UPDATE reports SET incidentID = ?, expireTS = ? WHERE reportID = ?",
                                 [result.insertId, expireTS, result.insertId]
@@ -303,8 +332,7 @@ router.post("/timestamp", function(req, res) {
     }
     connection.query(query, [req.body.webID, req.body.incidentID], function(
         err,
-        rows,
-        fields
+        results
     ) {
         if (err) {
             myConsole.error(err);
