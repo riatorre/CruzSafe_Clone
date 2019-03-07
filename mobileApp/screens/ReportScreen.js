@@ -308,9 +308,10 @@ class ReportScreen extends Component {
                 }
             }
 
-            if (this.state.image) {
+            const data = new FormData();
+            const imageURI = this.state.image;
+            if (imageURI != null) {
                 // Set up form-data for POST request.
-                const imageURI = this.state.image;
                 // Split up imageURI to find filename with extension
                 const imagePathArray = imageURI.split("/");
                 const image = imagePathArray[imagePathArray.length - 1];
@@ -336,9 +337,13 @@ class ReportScreen extends Component {
                     default:
                         imageMimeType = "image/jpg";
                 }
+                data.append("media", {
+                    uri: imageURI,
+                    type: imageMimeType,
+                    name: image
+                });
             }
             // Begin storing all report data for submission
-            const data = new FormData();
             data.append("mobileID", await this.getMobileID());
             data.append("incidentDesc", pre_report.incidentDesc);
             data.append("incidentCategory", incidentTagID);
@@ -352,13 +357,6 @@ class ReportScreen extends Component {
                 "incidentUnchangedLocation",
                 pre_report.unchangedLocation ? 1 : 0
             );
-            if (this.state.image) {
-                data.append("media", {
-                    uri: imageURI,
-                    type: imageMimeType,
-                    name: image
-                });
-            }
 
             // Main Portion of the request, contains all metadata to be sent to link
             await fetch(
@@ -376,10 +374,7 @@ class ReportScreen extends Component {
                 }
             )
                 // Successful Call to API
-                .then(response => {
-                    console.log(response);
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(responseJSON => {
                     Alert.alert(
                         pre_report.incidentCategory +
