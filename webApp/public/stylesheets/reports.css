@@ -58,6 +58,10 @@
     top: 50%;
     size: large;
 }
+
+#reportNotes {
+    text-align: center;
+}
 /*
     END REPORT MODAL STYLING
 */

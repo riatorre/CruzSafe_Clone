@@ -16,8 +16,7 @@ reportFields = [
     "mobileID",
     "phone",
     "email",
-    "body",
-    "notes"
+    "body"
 ];
 aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
@@ -66,9 +65,10 @@ function generateSingleReportHelperNotes(
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             notes = JSON.parse(request.response);
-            noteString = "";
+            var notesArray = [];
             Array.from(notes).forEach(function(note) {
-                formattedNoteDate = formatDate(notes["ts"], {
+                noteString = "";
+                formattedNoteDate = formatDate(note["ts"], {
                     hour: "numeric",
                     minute: "numeric",
                     year: "numeric",
@@ -81,11 +81,12 @@ function generateSingleReportHelperNotes(
                     "[" +
                     formattedNoteDate +
                     "] " +
-                    notes["firstName"] +
+                    note["firstName"] +
                     " " +
-                    notes["lastName"] +
+                    note["lastName"] +
                     " - " +
-                    notes["content"];
+                    note["content"];
+                notesArray.push(noteString);
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             generateSingleReportHelper(
@@ -93,20 +94,20 @@ function generateSingleReportHelperNotes(
                 document,
                 tagDict,
                 tagColors,
-                noteString
+                notesArray
             );
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({ id: JSON.stringify(reportID) }));
+    request.send(JSON.stringify({ reportID: reportID }));
 }
 function generateSingleReportHelper(
     reportID,
     document,
     tags,
     tagColors,
-    noteString
+    notesArray
 ) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -164,8 +165,6 @@ function generateSingleReportHelper(
             productInfo["email"] = reportInfo["email"];
             // body
             productInfo["body"] = reportInfo["body"];
-            // notes
-            productInfo["notes"] = noteString;
 
             // All data has now been added into reportData
             const modal = document.getElementById("report");
@@ -205,12 +204,21 @@ function generateSingleReportHelper(
                 );
             }
 
+            // Edit notes
+            const notesDiv = document.getElementById("reportNotes");
+            for (i = 0; i < notesArray.length; i++) {
+                var newNote = document.createTextNode(notesArray[i]);
+                notesDiv.appendChild(newNote);
+                notesDiv.appendChild(document.createElement("br"));
+            }
+
             for (i = 0; i < reportFields.length; i++) {
                 // For all entries in reportFields
                 const field = reportFields[i];
                 const targetTag = document.getElementById(field);
                 targetTag.innerHTML = productInfo[field];
             }
+
             tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
             document
                 .getElementById("reportResolve")
