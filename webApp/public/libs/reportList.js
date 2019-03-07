@@ -2,6 +2,8 @@
     Code meant specifically for reports.html. Allows for the fetching of pages of reports as well as filtering of reports.
 */
 
+var numButtons = 10;
+
 /*
  *  Function to create a report button from template;
  *  this is passed into createPages() from pagination.js
@@ -171,7 +173,12 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
                     // All data has now been added into reportData
                     allInfo.push(productInfo);
                 });
-                createPages("reportList", 10, allInfo, createReportButton);
+                createPages(
+                    "reportList",
+                    numButtons,
+                    allInfo,
+                    createReportButton
+                );
                 currentTab = 0;
                 showTab(0);
             }

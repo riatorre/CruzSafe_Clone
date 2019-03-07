@@ -361,17 +361,17 @@ router.post("/userReports", function(req, res) {
  */
 router.post("/timestamp", function(req, res) {
     myConsole.log(
-        "[Database] Attempting to update timestamp(s) for incidentID = " +
-            req.body.incidentID
+        "[Database] Attempting to update timestamp(s) for reportID = " +
+            req.body.reportID
     );
     if (req.body.initialOpenTS == 1) {
         query =
-            "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = ? WHERE incidentID = ?";
+            "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = ? WHERE reportID = ?";
     } else {
         query =
-            "UPDATE reports SET completeTS = current_timestamp(), completeWebID = ? WHERE incidentID = ?";
+            "UPDATE reports SET completeTS = current_timestamp(), completeWebID = ? WHERE reportID = ?";
     }
-    connection.query(query, [req.body.webID, req.body.incidentID], function(
+    connection.query(query, [req.body.webID, req.body.reportID], function(
         err,
         results
     ) {
@@ -383,7 +383,7 @@ router.post("/timestamp", function(req, res) {
         } else {
             myConsole.log(
                 "[Database] Report(s) Timestamp(s) has been updated for incidentID = " +
-                    req.body.incidentID
+                    req.body.reportID
             );
             res.json({ message: "Timestamp Update Successful" });
         }
