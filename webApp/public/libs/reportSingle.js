@@ -121,8 +121,14 @@ function generateSingleReportHelper(
             // resolved/unresolved
             if (!!reportInfo["completeTS"]) {
                 var resolvedUnresolved = "[Complete]"; // Completed; not null
+                document
+                    .getElementById("closeReport")
+                    .setAttribute("onclick", "hideReport(0)");
             } else if (!!reportInfo["initialOpenTS"]) {
                 var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
+                document
+                    .getElementById("closeReport")
+                    .setAttribute("onclick", "hideReport(0)");
             } else {
                 // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
                 insertTS(1, reportID, webID);
@@ -212,7 +218,10 @@ function generateSingleReportHelper(
                     );
                     photo.style.display = "block";
                 } else {
-                    console.log("showing video");
+                    console.log(
+                        "showing video https://storage.googleapis.com/cruzsafe.appspot.com/" +
+                            reportInfo["filename"]
+                    );
                     photo.removeAttribute("src");
                     photo.style.display = "none";
                     video.setAttribute(
@@ -268,6 +277,8 @@ function insertTS(initialOpenTS, reportID, webID) {
             webID: webID
         })
     );
+    const closeReport = document.getElementById("closeReport");
+    closeReport.setAttribute("onclick", "hideReport(1)");
 }
 
 /*
@@ -293,15 +304,17 @@ function toDateFormat(mySQLDate) {
 
 function markComplete(reportID) {
     insertTS(0, reportID, webID);
-    hideReport(); // Close the modal
+    hideReport(1); // Close the modal
 }
 
 // A report has been selected!
 function displayReport(id) {
     generateSingleReport(id, document); // Intializes report display
 }
-function hideReport() {
+function hideReport(changes) {
     document.getElementById("report").style.display = "none";
-    clearPages();
-    setupReports(document);
+    if (changes) {
+        clearPages();
+        setupReports(document);
+    }
 }
