@@ -376,7 +376,10 @@ class ReportScreen extends Component {
                 }
             )
                 // Successful Call to API
-                .then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                    return response.json();
+                })
                 .then(responseJSON => {
                     Alert.alert(
                         pre_report.incidentCategory +
