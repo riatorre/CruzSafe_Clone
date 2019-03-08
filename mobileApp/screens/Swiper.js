@@ -16,7 +16,7 @@ export default class Screen extends React.Component {
                     <View style={[styles.slideContainer, styles.slide1]}>
                         <Text>
                             <Image
-                                source={require("../assets/building.jpg")}
+                                source={require("../assets/images/building.jpg")}
                                 style={{
                                     width: 300,
                                     height: 200
@@ -133,7 +133,7 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideContainer, styles.slide5]}>
                         <Image
-                            source={require("../assets/Emergency.jpg")}
+                            source={require("../assets/images/Emergency.jpg")}
                             style={{
                                 width: 300,
                                 height: 600
@@ -162,7 +162,7 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideContainer, styles.slide6]}>
                         <Image
-                            source={require("../assets/Urgent.jpg")}
+                            source={require("../assets/images/Urgent.jpg")}
                             style={{
                                 width: 300,
                                 height: 600
@@ -230,7 +230,7 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideContainer, styles.slide8]}>
                         <Image
-                            source={require("../assets/Report.jpg")}
+                            source={require("../assets/images/Report.jpg")}
                             style={{
                                 width: 300,
                                 height: 600
