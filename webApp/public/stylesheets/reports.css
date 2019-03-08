@@ -104,9 +104,74 @@
     background-color: #ddd;
 }
 
+.forwardButton {
+    position: relative;
+    display: inline-block;
+}
+
+.forwardButton-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.forwardButton-content option {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.forwardButton option:hover {
+    background-color: #ddd;
+}
+
 /* Show the dropdown menu (use JS to add this class to the .selectMessage-content container when the user clicks on the dropdown button) */
 .show {
     display: block;
+}
+/*
+	Dropdown Code
+*/
+.dropbtn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+input {
+    -webkit-appearance: textfield;
+    background-color: #b7b2b2;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 8px;
+    border-width: 1px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+    width: 200px;
 }
 
 /*
@@ -181,14 +246,6 @@
     display: flex;
     overflow: auto;
 }
-/*
-#launchReport:hover {
-	background: turquoise;
-}*/
-/*
-#launchReport > #buttonSplitText {
-	color: black;
-}*/
 
 #buttonResolvedUnresolved {
     width: 5%;
@@ -213,18 +270,10 @@
 #launchReport > #buttonLocationText {
     font-style: italic;
 }
-/*
-#launchReport > #buttonFullNameText {
-	color: lightgrey;
-}*/
 
 #buttonFullNameText {
     width: 15%;
 }
-/*
-#launchReport > #buttonBodyText {
-	color: grey;
-}*/
 
 #buttonBodyText {
     width: 27%;
@@ -242,44 +291,4 @@
     font-size: 15px;
     padding-right: 20px;
     padding-left: 20px;
-}
-
-/*
-	Dropdown Code
-*/
-.dropbtn {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-}
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
-input {
-    -webkit-appearance: textfield;
-    background-color: #b7b2b2;
-    -webkit-rtl-ordering: logical;
-    cursor: text;
-    padding: 8px;
-    border-width: 1px;
-    border-style: inset;
-    border-color: initial;
-    border-image: initial;
-    width: 200px;
 }

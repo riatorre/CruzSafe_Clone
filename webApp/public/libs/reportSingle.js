@@ -412,6 +412,44 @@ function insertNote(reportID, webID, content) {
     }
 }
 
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function showMessageDropdown() {
+    document.getElementById("messageDropdown").classList.toggle("show");
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function showForwardDropdown() {
+    document.getElementById("forwardDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches(".Respondbtn")) {
+        var messagedropdown = document.getElementsByClassName(
+            "selectMessage-content"
+        );
+        var i;
+        for (i = 0; i < messagedropdown.length; i++) {
+            var openDropdown = messagedropdown[i];
+            if (openDropdown.classList.contains("show")) {
+                openDropdown.classList.remove("show");
+            }
+        }
+        var forwarddropdown = document.getElementsByClassName(
+            "forwardButton-content"
+        );
+        var i;
+        for (i = 0; i < forwarddropdown.length; i++) {
+            var openDropdown = forwarddropdown[i];
+            if (openDropdown.classList.contains("show")) {
+                openDropdown.classList.remove("show");
+            }
+        }
+    }
+};
+
 /*
     Helper function that converts a JS date into readable format (styling).
     Options are set to include hours,

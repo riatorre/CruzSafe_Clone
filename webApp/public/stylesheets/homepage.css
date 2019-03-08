@@ -19,7 +19,7 @@
 }
 
 /*
-    BEGIN REPORT MODAL STYLING
+	BEGIN REPORT MODAL STYLING
 */
 .reportRow {
     display: flex;
@@ -108,13 +108,39 @@
     background-color: #ddd;
 }
 
+.selectForward {
+    position: relative;
+    display: inline-block;
+}
+
+.selectForward-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.selectForward-content option {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.selectForward option:hover {
+    background-color: #ddd;
+}
+
 /* Show the dropdown menu (use JS to add this class to the .selectMessage-content container when the user clicks on the dropdown button) */
 .show {
     display: block;
 }
 
 /*
-    END REPORT MODAL STYLING
+	END REPORT MODAL STYLING
 */
 
 #column3 > h1 {
