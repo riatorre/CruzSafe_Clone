@@ -201,8 +201,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
 
 /*
  * Calls an API that inserts a timestamp into either comletedTS or initialOpenTS
-
- * Whenever the timestamp is modified, add an event in notes. 
+ * Whenever the timestamp is modified, add an event in notes.
  */
 function insertTS(initialOpenTS, reportID, webID) {
     // Code that adds a note for initial Open.
@@ -224,45 +223,6 @@ function insertTS(initialOpenTS, reportID, webID) {
     );
     const closeReport = document.getElementById("closeReport");
     closeReport.setAttribute("onclick", "hideReport(1)");
-}
-
-/*
-    Helper function that converts a JS date into readable format (styling).
-    Options are set to include hours,
-    Returns a string.
-*/
-function formatDate(mySQLDate, options) {
-    var jsDate = toDateFormat(mySQLDate);
-    // jsDate = new Date(jsDate.toString());
-    options["timeZone"] = "America/Los_Angeles"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK
-    return jsDate.toLocaleString("en-US", options);
-}
-
-/*
-    The following is imported code to convert MySQL TS to JS date.
-*/
-function toDateFormat(mySQLDate) {
-    return convertUTCDateToLocalDate(
-        new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8))
-    );
-}
-
-function convertUTCDateToLocalDate(date) {
-    return new Date(
-        Date.UTC(
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-            date.getHours(),
-            date.getMinutes(),
-            date.getSeconds()
-        )
-    );
-}
-
-function markComplete(reportID) {
-    insertTS(0, reportID, webID);
-    hideReport(1); // Close the modal
 }
 
 /*
@@ -323,6 +283,7 @@ function submitNote(reportID) {
     var reportNoteInput = document.getElementById("reportNoteInput");
     // Insert note into database
     insertNote(reportID, webID, reportNoteInput.value);
+    reportNoteInput.value = ""; // Clear the input.
 }
 
 /*
@@ -351,6 +312,43 @@ function insertNote(reportID, webID, content) {
             })
         );
     }
+}
+
+/*
+    Helper function that converts a JS date into readable format (styling).
+    Options are set to include hours,
+    Returns a string.
+*/
+function formatDate(mySQLDate, options) {
+    var jsDate = toDateFormat(mySQLDate);
+    return jsDate.toLocaleString("en-US", options);
+}
+
+/*
+    The following is imported code to convert MySQL TS to JS date.
+*/
+function toDateFormat(mySQLDate) {
+    return convertUTCDateToLocalDate(
+        new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8))
+    );
+}
+
+function convertUTCDateToLocalDate(date) {
+    return new Date(
+        Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds()
+        )
+    );
+}
+
+function markComplete(reportID) {
+    insertTS(0, reportID, webID);
+    hideReport(1); // Close the modal
 }
 
 // A report has been selected!
