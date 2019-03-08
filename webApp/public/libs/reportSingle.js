@@ -45,71 +45,13 @@ function generateSingleReport(reportID, document) {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateSingleReportHelperNotes(
-                reportID,
-                document,
-                tagDict,
-                tagColors
-            );
+            generateSingleReportHelper(reportID, document, tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function generateSingleReportHelperNotes(
-    reportID,
-    document,
-    tagDict,
-    tagColors
-) {
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            notes = JSON.parse(request.response);
-            var notesArray = [];
-            Array.from(notes).forEach(function(note) {
-                noteString = "";
-                formattedNoteDate = formatDate(note["ts"], {
-                    hour: "numeric",
-                    minute: "numeric",
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour12: false
-                });
-                noteString =
-                    noteString +
-                    "[" +
-                    formattedNoteDate +
-                    "] " +
-                    note["firstName"] +
-                    " " +
-                    note["lastName"] +
-                    " - " +
-                    note["content"];
-                notesArray.push(noteString);
-            });
-            // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateSingleReportHelper(
-                reportID,
-                document,
-                tagDict,
-                tagColors,
-                notesArray
-            );
-        }
-    };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({ reportID: reportID }));
-}
-function generateSingleReportHelper(
-    reportID,
-    document,
-    tags,
-    tagColors,
-    notesArray
-) {
+function generateSingleReportHelper(reportID, document, tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -232,7 +174,7 @@ function generateSingleReportHelper(
                 photo.style.display = "none";
             }
 
-            displayNotes(notesArray);
+            displayNotes(reportID);
 
             // Update add new note input
             const submitNote = document.getElementById("submitNote");
@@ -315,21 +257,54 @@ function markComplete(reportID) {
 }
 
 /*
- * Clears and initializes notes. Given document and notesARray.
+ * Clears and initializes notes. Displays them.
  */
-function displayNotes(notesArray) {
-    // Edit notes
-    var notesDiv = document.getElementById("reportNotes");
-    // Remove notes
-    while (notesDiv.firstChild) {
-        notesDiv.removeChild(notesDiv.firstChild);
-    }
-    //Add new notes
-    for (i = 0; i < notesArray.length; i++) {
-        var newNote = document.createTextNode(notesArray[i]);
-        notesDiv.appendChild(newNote);
-        notesDiv.appendChild(document.createElement("br"));
-    }
+function displayNotes(reportID) {
+    // Grab notes and submit
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            notes = JSON.parse(request.response);
+            var notesArray = [];
+            Array.from(notes).forEach(function(note) {
+                noteString = "";
+                formattedNoteDate = formatDate(note["ts"], {
+                    hour: "numeric",
+                    minute: "numeric",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    hour12: false
+                });
+                noteString =
+                    noteString +
+                    "[" +
+                    formattedNoteDate +
+                    "] " +
+                    note["firstName"] +
+                    " " +
+                    note["lastName"] +
+                    " - " +
+                    note["content"];
+                notesArray.push(noteString);
+            });
+            // Edit notes
+            var notesDiv = document.getElementById("reportNotes");
+            // Remove notes
+            while (notesDiv.firstChild) {
+                notesDiv.removeChild(notesDiv.firstChild);
+            }
+            //Add new notes
+            for (i = 0; i < notesArray.length; i++) {
+                var newNote = document.createTextNode(notesArray[i]);
+                notesDiv.appendChild(newNote);
+                notesDiv.appendChild(document.createElement("br"));
+            }
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ reportID: reportID }));
 }
 
 /*
@@ -350,43 +325,7 @@ function submitNote(reportID) {
 function insertNote(reportID, webID, content) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
-        // Grab notes and submit
-        const request2 = new XMLHttpRequest();
-        request2.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                notes = JSON.parse(request2.response);
-                var notesArray = [];
-                Array.from(notes).forEach(function(note) {
-                    noteString = "";
-                    formattedNoteDate = formatDate(note["ts"], {
-                        hour: "numeric",
-                        minute: "numeric",
-                        year: "numeric",
-                        month: "2-digit",
-                        day: "2-digit",
-                        hour12: false
-                    });
-                    noteString =
-                        noteString +
-                        "[" +
-                        formattedNoteDate +
-                        "] " +
-                        note["firstName"] +
-                        " " +
-                        note["lastName"] +
-                        " - " +
-                        note["content"];
-                    notesArray.push(noteString);
-                });
-                displayNotes(notesArray);
-            }
-        };
-        request2.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
-        request2.setRequestHeader(
-            "Content-Type",
-            "application/json;charset=UTF-8"
-        );
-        request2.send(JSON.stringify({ reportID: reportID }));
+        displayNotes(reportID);
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/newNote");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
