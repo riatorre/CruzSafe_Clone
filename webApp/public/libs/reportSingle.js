@@ -359,6 +359,7 @@ function displayReport(id) {
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
 function hideReport(changes) {
     document.getElementById("report").style.display = "none";
+    reportNoteInput.value = ""; // Clear the input of notes.
     if (changes) {
         clearPages();
         setupReports(document);
