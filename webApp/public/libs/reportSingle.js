@@ -220,11 +220,10 @@ function generateSingleReportHelper(
                 } else {
                     photo.removeAttribute("src");
                     photo.style.display = "none";
-                    var videoName = filename.split(".")[0] + ".mp4";
                     video.setAttribute(
                         "src",
                         "https://storage.googleapis.com/cruzsafe.appspot.com/" +
-                            videoName
+                            reportInfo["filename"]
                     );
                     video.style.display = "block";
                 }
