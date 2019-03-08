@@ -196,8 +196,9 @@ table .btn {
 .topnav {
   background-color: Black;
   overflow: hidden;
-  padding-top: 50px;
+  padding-top: 20px;
   padding-left: 40px;
+  padding-bottom: 10px;
 }
 
 /* Style the links inside the navigation bar */
