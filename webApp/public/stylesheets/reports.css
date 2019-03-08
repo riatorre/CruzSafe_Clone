@@ -60,7 +60,11 @@
 }
 
 #reportNotes {
+<<<<<<< HEAD
   text-align: center;
+=======
+    text-align: left;
+>>>>>>> a1485740b35548b7493e6fcbcb1b3fa182805bea
 }
 
 /**/

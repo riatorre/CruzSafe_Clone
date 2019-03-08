@@ -64,7 +64,7 @@
 }
 
 #reportNotes {
-    text-align: center;
+    text-align: left;
 }
 
 /**/
@@ -114,7 +114,7 @@
 }
 
 /*
-  END REPORT MODAL STYLING
+    END REPORT MODAL STYLING
 */
 
 #column3 > h1 {
