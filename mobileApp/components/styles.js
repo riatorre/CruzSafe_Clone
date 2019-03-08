@@ -74,6 +74,9 @@ export default (styles = StyleSheet.create({
         borderRadius: 125,
         backgroundColor: "#303060"
     },
+    slideOuterButton: {
+        marginBottom: 30
+    },
     btn_disabled: {
         margin: 5,
         padding: 5,
@@ -110,39 +113,56 @@ export default (styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 10
     },
-    slideContainer: {
+    slideOuterContainer: {
         flex: 1,
         alignItems: "center",
+        justifyContent: "space-between"
+    },
+    slideContainer: {
+        flex: 1,
         justifyContent: "center"
     },
+    slideText: {
+        fontSize: 20
+    },
     slide1: {
-        backgroundColor: "rgba(20,20,200,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,20,200,0.2)"
     },
     slide2: {
-        backgroundColor: "rgba(20,200,20,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,200,20,0.2)"
     },
     slide3: {
-        backgroundColor: "rgba(200,20,20,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(200,20,20,0.2)"
     },
     slide4: {
-        backgroundColor: "rgba(20,20,200,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,20,200,0.2)"
     },
     slide5: {
-        backgroundColor: "rgba(200,20,20,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(200,20,20,0.2)"
     },
     slide6: {
-        backgroundColor: "rgba(20,200,20,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,200,20,0.2)"
     },
     slide7: {
-        backgroundColor: "rgba(20,20,200,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,20,200,0.2)"
     },
     slide8: {
-        backgroundColor: "rgba(20,200,20,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,200,20,0.2)"
     },
     slide9: {
-        backgroundColor: "rgba(200,20,20,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(200,20,20,0.2)"
     },
     slide10: {
-        backgroundColor: "rgba(20,20,200,0.3)"
+        padding: 10,
+        backgroundColor: "rgba(20,20,200,0.2)"
     }
 }));
