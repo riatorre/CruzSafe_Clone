@@ -167,10 +167,10 @@
                                             id="reportPhoto"
                                             alt="report photo"
                                         />
-                                        <img
-                                            id="reportVideo"
-                                            alt="report video"
-                                        />
+                                        <video 
+                                            width = "320" height = "240" controls = "controls" 
+                                            id="reportVideo" alt="report video" type = "video/mp4">
+                                        </video>
                                     </div>
                                     <div id="column2" class="reportColumn2">
                                         <br />
@@ -186,7 +186,8 @@
                                         <br /><br />
                                         <div id = "reportNotes"></div>
                                         <br />
-                                        <input id = "reportNoteInput" placeholder = "Add Notes..."></input><br/>
+                                        <input id = "reportNoteInput" placeholder = "Add Notes..."></input>
+                                        <a id = "submitNote" class="Respondbtn">Submit</a><br/>
                                         <br /><br /><br />
                                         <div class="selectMessage">
                                             <a onclick="myFunction()" class="Respondbtn">Respond</a>
@@ -200,7 +201,7 @@
                                                 <option value="FixProblem2"> Someone will be there with in half-hour. </option>
                                             </div>
                                         </div>
-    
+                                        <br /><br /><br /><br />
                                         <div id="responseButtons">
                                             <!-- <button id="reportRespond">
                                                 Respond
@@ -209,13 +210,11 @@
                                                 Other Options
                                             </a>
                                             <a class="btn large" id="reportResolve">
-                                                Resolved
+    
                                             </a>
                                             <br />
                                             <br />
-    
                                         </div>
-    
                                     </div>
                                 </div>
                             </div>
@@ -230,17 +229,36 @@
                     var isEscape = false;
                     if("key" in e){
                         isEscape = (e.key === "Escape" || e.key === "Esc");
-                    }else{
+                    } else{
                         isEscape = (e.keyCode === 27);
                     }
-                    if(isEscape){
+                    if(isEscape){ // Exit out of report modal if applicable
                         if(document.getElementById("report").style.display === "block"){ // only if it is showing.
-                            console.log("closing modal!");
                             var span = document.getElementById("closeReport")
                             var click = new Event('click');
                             span.dispatchEvent(click);
                         }
                     }
+                    // TODO: Fix this space-to-play-video code!
+                    else{
+                        var isSpace = false;
+                        if("key" in e){
+                            isSpace = (e.key === "Space");
+                        } else{
+                            isSpace = (e.keyCode === 32);
+                        }
+                        if(isSpace){
+                            var video = document.getElementById("reportVideo");
+                            if(document.getElementById("report").style.display === "block"){ // If the modal is being shown
+                                if(video.paused){
+                                    video.play;
+                                } else{
+                                    video.pause;
+                                }
+                            }
+                        }
+                    }
+                    
                 };
             </script>
             <audio

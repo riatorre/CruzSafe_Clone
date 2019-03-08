@@ -262,31 +262,20 @@
                                     <a id = "submitNote" class="Respondbtn">Submit</a><br/>
                                     <br /><br /><br />
                                     <div class="selectMessage">
-                                        <a onclick="myFunction()" class="Respondbtn">Respond</a>
-                                        <div id="messageDropdown" class="selectMessage-content">
-                                            <option value="TrashSolved"> Trash from that location has been picked up. </option>
-                                            <option value="WaterLeakageSolved"> Water leakage from that location has been resolved.</option>
-                                            <option value="BrokenLightSolved"> Broken light from that location has been fixed.</option>
-                                            <option value="BrokenWindowSolved"> Broken Window from that location has been fixed.</option>
-                                            <option value="LightDeficiencySolved"> Light Deficiency from that location has been resolved. </option>
-                                            <option value="FixProblem1"> Someone will be there with in an hour. </option>
-                                            <option value="FixProblem2"> Someone will be there with in half-hour. </option>
+                                        <a onclick="showMessageDropdown()" class="Respondbtn">Respond</a>
+                                        <div id="messageDropdown" class="selectMessage-content"></div>
+                                    </div>
+                                    <br /><br /><br /><br />
+                                    <div class="forwardButton">
+                                        <a onclick = "showForwardDropdown()" class="Respondbtn">Assign Report</a>
+                                        <div id="forwardDropdown" class="forwardButton-content">
+                                            <option value="forwardTaps">Assign report to TAPS Supervisor</option>
+                                            <option value="forwardTaps">Assign report to ITS Supervisor</option>
+                                            <option value="forwardTaps">Assign report to CHAS Supervisor</option>
                                         </div>
                                     </div>
                                     <br /><br /><br /><br />
-                                    <div id="responseButtons">
-                                        <!-- <button id="reportRespond">
-                                            Respond
-                                        </button> -->
-                                        <a class="btn large"id="reportOther">
-                                            Other Options
-                                        </a>
-                                        <a class="btn large" id="reportResolve">
-                                            Resolved
-                                        </a>
-                                        <br />
-                                        <br />
-                                    </div>
+                                    <a class="Respondbtn" id="reportResolve"></a>
                                 </div>
                             </div>
                         </div>
