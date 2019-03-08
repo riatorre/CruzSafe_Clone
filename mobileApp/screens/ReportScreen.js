@@ -378,9 +378,8 @@ class ReportScreen extends Component {
             )
                 // Successful Call to API
                 .then(response => response.json())
-                .then(async responseJSON => {
-                    this._isMounted &&
-                        (await this.setState({ submitting: false }));
+                .then(responseJSON => {
+                    this._isMounted && this.setState({ submitting: false });
                     if (responseJSON.message == null) {
                         Alert.alert(
                             pre_report.incidentCategory +
