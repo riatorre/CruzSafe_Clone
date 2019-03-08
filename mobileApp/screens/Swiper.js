@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import {
+    SafeAreaView,
+    View,
+    Image,
+    Text,
+    TouchableOpacity
+} from "react-native";
 import Swiper from "react-native-swiper";
 
 import styles from "../components/styles.js";
@@ -7,7 +13,7 @@ import styles from "../components/styles.js";
 export default class Screen extends React.Component {
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <Swiper
                     ref={swiper => {
                         this.swiper = swiper;
@@ -394,7 +400,7 @@ export default class Screen extends React.Component {
                         </View>
                     </View>
                 </Swiper>
-            </View>
+            </SafeAreaView>
         );
     }
 }
