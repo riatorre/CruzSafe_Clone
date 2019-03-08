@@ -285,6 +285,11 @@ function sendMessage(reportID, webID, message) {
             messageText: message
         })
     );
+    insertNote(
+        reportID,
+        webID,
+        "{Sent user prewritten message: '" + message + "'}"
+    ); // Adds note that a response has been sent.
 }
 
 /*

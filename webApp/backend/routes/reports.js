@@ -244,7 +244,7 @@ router.post("/notes", function(req, res) {
     connection.query(
         "SELECT * FROM reportNotes LEFT JOIN webUsers ON reportNotes.webID = webUsers.webID WHERE reportID = ?",
         req.body.reportID,
-        function(err, rows, fields) {
+        function(err, rows) {
             if (err) {
                 myConsole.error(err);
                 res.json({ message: "An Error has occured" });
@@ -253,6 +253,40 @@ router.post("/notes", function(req, res) {
                     "[Database] Select notes with reportID = " +
                         req.body.reportID +
                         " Sucessful"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
+/*
+    Given a new note with reportID, webID, and content.
+*/
+router.post("/newNote", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to add note with reportID, webID, and content of " +
+            req.body.reportID +
+            ", " +
+            req.body.webID +
+            ", " +
+            req.body.content
+    );
+    connection.query(
+        "INSERT INTO reportNotes (reportID, webID, content) VALUES (?,?,?)",
+        [req.body.reportID, req.body.webID, req.body.content],
+        function(err, rows) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has occured" });
+            } else {
+                myConsole.log(
+                    "[Database] Successful in adding a note with reportID, webID, and content of " +
+                        req.body.reportID +
+                        ", " +
+                        req.body.webID +
+                        ", " +
+                        req.body.content
                 );
                 res.json(rows);
             }
@@ -451,6 +485,34 @@ router.post("/reportTS", function(req, res) {
             res.json(rows);
         }
     });
+});
+
+/*
+    Given a tag, return all prewritten responses
+*/
+router.post("/prewrittenResponses", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to get all prewritten Responses with tagID: " +
+            req.body.tagID
+    );
+    connection.query(
+        "SELECT * FROM prewrittenResponses WHERE tagID = ?",
+        req.body.tagID,
+        function(err, rows) {
+            if (err) {
+                myConsole.error(err);
+                res.json({
+                    message: "An Error has Occured with query: " + query
+                });
+            } else {
+                myConsole.log(
+                    "[Database] Found all prewritten Responses with tagID: " +
+                        req.body.tagID
+                );
+                res.json(rows);
+            }
+        }
+    );
 });
 
 /*
