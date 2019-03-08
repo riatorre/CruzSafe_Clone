@@ -377,10 +377,12 @@ class ReportScreen extends Component {
                 }
             )
                 // Successful Call to API
-                .then(response => response.json())
+                .then(response => response.json()) // Parse response into JSON
                 .then(responseJSON => {
+                    // Handle data
                     this._isMounted && this.setState({ submitting: false });
                     if (responseJSON.message == null) {
+                        // No Errors from DB
                         Alert.alert(
                             pre_report.incidentCategory +
                                 " Report Submitted as #" +
@@ -429,6 +431,7 @@ class ReportScreen extends Component {
                             { cancelable: false }
                         );
                     } else {
+                        // Error from DB
                         Alert.alert(
                             "Error",
                             "An error has occurred. Please try again later.",
@@ -440,11 +443,11 @@ class ReportScreen extends Component {
                             ],
                             { cancelable: false }
                         );
-                        console.log(err);
+                        console.log(responseJSON.message);
                         return false;
                     }
                 })
-                // Unsuccessful Call to API
+                // Unsuccessful Call to API; Error from Attempt to connect
                 .catch(err => {
                     Alert.alert(
                         "Error",
