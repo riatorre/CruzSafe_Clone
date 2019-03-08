@@ -218,16 +218,13 @@ function generateSingleReportHelper(
                     );
                     photo.style.display = "block";
                 } else {
-                    console.log(
-                        "showing video https://storage.googleapis.com/cruzsafe.appspot.com/" +
-                            reportInfo["filename"]
-                    );
                     photo.removeAttribute("src");
                     photo.style.display = "none";
+                    var videoName = filename.split(".")[0] + ".mp4";
                     video.setAttribute(
                         "src",
                         "https://storage.googleapis.com/cruzsafe.appspot.com/" +
-                            reportInfo["filename"]
+                            videoName
                     );
                     video.style.display = "block";
                 }
