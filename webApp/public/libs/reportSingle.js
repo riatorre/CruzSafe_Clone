@@ -232,13 +232,11 @@ function generateSingleReportHelper(
                 photo.style.display = "none";
             }
 
-            // Edit notes
-            const notesDiv = document.getElementById("reportNotes");
-            for (i = 0; i < notesArray.length; i++) {
-                var newNote = document.createTextNode(notesArray[i]);
-                notesDiv.appendChild(newNote);
-                notesDiv.appendChild(document.createElement("br"));
-            }
+            displayNotes(notesArray);
+
+            // Update add new note input
+            const submitNote = document.getElementById("submitNote");
+            submitNote.setAttribute("onclick", "submitNote(" + reportID + ")");
 
             for (i = 0; i < reportFields.length; i++) {
                 // For all entries in reportFields
@@ -314,6 +312,91 @@ function convertUTCDateToLocalDate(date) {
 function markComplete(reportID) {
     insertTS(0, reportID, webID);
     hideReport(1); // Close the modal
+}
+
+/*
+ * Clears and initializes notes. Given document and notesARray.
+ */
+function displayNotes(notesArray) {
+    // Edit notes
+    var notesDiv = document.getElementById("reportNotes");
+    // Remove notes
+    while (notesDiv.firstChild) {
+        notesDiv.removeChild(notesDiv.firstChild);
+    }
+    //Add new notes
+    for (i = 0; i < notesArray.length; i++) {
+        var newNote = document.createTextNode(notesArray[i]);
+        notesDiv.appendChild(newNote);
+        notesDiv.appendChild(document.createElement("br"));
+    }
+}
+
+/*
+ * Inserts note into database and re-initializes notes.
+ */
+function submitNote(reportID) {
+    // Submit notes into database
+    var reportNoteInput = document.getElementById("reportNoteInput");
+    if (reportNoteInput.value != "") {
+        // Insert note into database
+        insertNote(reportID, webID, reportNoteInput.value);
+    }
+}
+
+/*
+ * Calls an API that inserts a new note given a reportID, webID, and content. Once done, refreshes the notes page by regathering displayNotes and
+ */
+function insertNote(reportID, webID, content) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        // Grab notes and submit
+        const request2 = new XMLHttpRequest();
+        request2.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                notes = JSON.parse(request2.response);
+                var notesArray = [];
+                Array.from(notes).forEach(function(note) {
+                    noteString = "";
+                    formattedNoteDate = formatDate(note["ts"], {
+                        hour: "numeric",
+                        minute: "numeric",
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour12: false
+                    });
+                    noteString =
+                        noteString +
+                        "[" +
+                        formattedNoteDate +
+                        "] " +
+                        note["firstName"] +
+                        " " +
+                        note["lastName"] +
+                        " - " +
+                        note["content"];
+                    notesArray.push(noteString);
+                });
+                displayNotes(notesArray);
+            }
+        };
+        request2.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
+        request2.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request2.send(JSON.stringify({ reportID: reportID }));
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/newNote");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(
+        JSON.stringify({
+            content: content,
+            reportID: reportID,
+            webID: webID
+        })
+    );
 }
 
 // A report has been selected!
