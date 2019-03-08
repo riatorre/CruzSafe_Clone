@@ -296,6 +296,25 @@
             </div>
         </center>
         <script src="./libs/reportSingle.js"></script>
+        <script>
+            document.onkeydown = function (e) {
+                e = e || window.event;
+                var isEscape = false;
+                if("key" in e){
+                    isEscape = (e.key === "Escape" || e.key === "Esc");
+                }else{
+                    isEscape = (e.keyCode === 27);
+                }
+                if(isEscape){
+                    if(document.getElementById("report").style.display === "block"){ // only if it is showing.
+                        console.log("closing modal!");
+                        var span = document.getElementById("closeReport")
+                        var click = new Event('click');
+                        span.dispatchEvent(click);
+                    }
+                }
+            };
+        </script>
         <!--END REPORT MODAL-->
         <audio
             id="incomingTag1"
@@ -328,6 +347,5 @@
         <script src="./libs/reportListRefresher.js"></script>
         <script src="./libs/pagination.js"></script>
         <script src="./libs/reportList.js"></script>
-
     </body>
 </html>

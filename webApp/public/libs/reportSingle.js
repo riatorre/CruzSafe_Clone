@@ -287,10 +287,8 @@ function insertTS(initialOpenTS, reportID, webID) {
     Returns a string.
 */
 function formatDate(mySQLDate, options) {
-    //console.log("mySQLDate = " + mySQLDate);
     var jsDate = toDateFormat(mySQLDate);
     jsDate = new Date(jsDate.toString());
-    //console.log(jsDate);
     options["timeZone"] = "America/New_York"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK
     return jsDate.toLocaleString("en-US", options);
 }
@@ -311,6 +309,8 @@ function markComplete(reportID) {
 function displayReport(id) {
     generateSingleReport(id, document); // Intializes report display
 }
+
+// Hides the report and refreshes the page if necessary (changes = 1 vs 0)
 function hideReport(changes) {
     document.getElementById("report").style.display = "none";
     if (changes) {

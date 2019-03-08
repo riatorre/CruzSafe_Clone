@@ -13,107 +13,146 @@
     - [Standardized] Bottom border
 -->
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>CruzSafe: Welcome</title>
-    <!--Import Stylesheet-->
-    <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
-    <link href="./stylesheets/welcome.css" type="text/css" rel="stylesheet" />
-    <!--Imports External Icon Font Library-->
-    <!--TODO: Install all needed Icons & remove external dependency-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-  </head>
+    <head>
+        <meta charset="utf-8" />
+        <title>CruzSafe: Welcome</title>
+        <!--Import Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+        <link
+            href="./stylesheets/welcome.css"
+            type="text/css"
+            rel="stylesheet"
+        />
+        <!--Imports External Icon Font Library-->
+        <!--TODO: Install all needed Icons & remove external dependency-->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+    </head>
 
-  <body>
-    <center>
-      <!--Header-->
-      <div id="container">
-        <div id="main">
-          <div class="topnavMain" id="topnavMain" style="height:70"></div>
-          <!--Body-->
-          <div>
-            <h1 style="padding: 40px; color:#0d3c6c">CruzSafe</h1>
-            <img
-              id="policeLogo"
-              src="./assets/images/UCSCPD_Logo.png"
-              alt="Santa Cruz Police Department"
-              style="width:25%; height: auto; min-width: 200; min-height: auto"
-              aria-hidden="true"
-            />
-            <h1 style="padding: 20px; color:#0d3c6c">UCSC 211</h1>
-            <!--Login Button; Opens Modal for confirmation-->
-            <a
-              type="button"
-              id="loginButton"
-              class="btn navy rounded"
-              onclick="document.getElementById('loginModal').style.display='block'"
-              >Login
-            </a>
-          </div>
-          <!--Legal Notice Modal-->
-          <div id="loginModal" class="modal">
-            <form class="modal-content animate" method="POST">
-              <div class="imgcontainer">
-                <!--Close Button; closes Modal-->
-                <span
-                  onclick="document.getElementById('loginModal').style.display='none'"
-                  class="close"
-                  title="Close Modal"
-                  ><i class="fa fa-times"></i
-                ></span>
-                <!--Main Message-->
-                <div id="loginModalText" class="container">
-                  <p>
-                    Please confirm that you are authorized to use this
-                    application.<br /><br />
-                    This site is an interface designed for police users only. If
-                    you are a civillan and wish to make non-emergency reports to
-                    the UC Santa Cruz Police Department, please download the
-                    CruzSafe mobile application, available in the Google Play
-                    Store or the iOS App Store.<br />
-                    <br />
-                    Thank you for your cooperation.
-                  </p>
-                  <br />
+    <body>
+        <center>
+            <!--Header-->
+            <div id="container">
+                <div id="main">
+                    <div
+                        class="topnavMain"
+                        id="topnavMain"
+                        style="height:70"
+                    ></div>
+                    <!--Body-->
+                    <div>
+                        <h1 style="padding: 40px; color:#0d3c6c">CruzSafe</h1>
+                        <img
+                            id="policeLogo"
+                            src="./assets/images/UCSCPD_Logo.png"
+                            alt="Santa Cruz Police Department"
+                            style="width:25%; height: auto; min-width: 200; min-height: auto"
+                            aria-hidden="true"
+                        />
+                        <h1 style="padding: 20px; color:#0d3c6c">UCSC 211</h1>
+                        <!--Login Button; Opens Modal for confirmation-->
+                        <a
+                            type="button"
+                            id="loginButton"
+                            class="btn navy rounded"
+                            onclick="document.getElementById('loginModal').style.display='block'"
+                            >Login
+                        </a>
+                    </div>
+                    <!--Legal Notice Modal-->
+                    <div id="loginModal" class="modal">
+                        <form class="modal-content animate" method="POST">
+                            <div class="imgcontainer">
+                                <!--Close Button; closes Modal-->
+                                <span
+                                    onclick="document.getElementById('loginModal').style.display='none'"
+                                    class="close"
+                                    title="Close Modal"
+                                    ><i class="fa fa-times"></i
+                                ></span>
+                                <!--Main Message-->
+                                <div id="loginModalText" class="container">
+                                    <p>
+                                        Please confirm that you are authorized
+                                        to use this application.<br /><br />
+                                        This site is an interface designed for
+                                        police users only. If you are a civillan
+                                        and wish to make non-emergency reports
+                                        to the UC Santa Cruz Police Department,
+                                        please download the CruzSafe mobile
+                                        application, available in the Google
+                                        Play Store or the iOS App Store.<br />
+                                        <br />
+                                        Thank you for your cooperation.
+                                    </p>
+                                    <br />
+                                </div>
+                                <!--Cancel Button; closes Modal-->
+                                <a
+                                    id="closeModal"
+                                    type="button"
+                                    onclick="document.getElementById('loginModal').style.display='none'"
+                                    class="btn red rounded"
+                                >
+                                    Cancel
+                                </a>
+                                <script>
+                                    document.onkeydown = function(e) {
+                                        e = e || window.event;
+                                        var isEscape = false;
+                                        if ("key" in e) {
+                                            isEscape =
+                                                e.key === "Escape" ||
+                                                e.key === "Esc";
+                                        } else {
+                                            isEscape = e.keyCode === 27;
+                                        }
+                                        if (isEscape) {
+                                            if (
+                                                document.getElementById(
+                                                    "loginModal"
+                                                ).style.display === "block"
+                                            ) {
+                                                // only if it is showing.
+                                                console.log("closing modal!");
+                                                var span = document.getElementById(
+                                                    "closeModal"
+                                                );
+                                                var click = new Event("click");
+                                                span.dispatchEvent(click);
+                                            }
+                                        }
+                                    };
+                                </script>
+                                <!--Confirmation Button; Navigates to homepage.html-->
+                                <!--TODO: Must redirect to Shibbolith Authentication before homepage.html-->
+                                <a
+                                    type="button"
+                                    href="./homepage.html"
+                                    class="btn green rounded"
+                                >
+                                    Continue
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <!--Cancel Button; closes Modal-->
-                <a
-                  type="button"
-                  onclick="document.getElementById('loginModal').style.display='none'"
-                  class="btn red rounded"
-                >
-                  Cancel
-                </a>
-                <!--Confirmation Button; Navigates to homepage.html-->
-                <!--TODO: Must redirect to Shibbolith Authentication before homepage.html-->
-                <a
-                  type="button"
-                  href="./homepage.html"
-                  class="btn green rounded"
-                >
-                  Continue
-                </a>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </center>
+            </div>
+        </center>
 
-    <!--Footer-->
-    <footer class="footer">
-      <section>
-        <div>
-          <p style="text-align: center">
-            CruzSafe Made with <i id="heart" class="fa fa-heart-o"></i> by UCSC
-            team
-          </p>
-        </div>
-      </section>
-    </footer>
-    <script src="./libs/NavLib.js"></script>
-  </body>
+        <!--Footer-->
+        <footer class="footer">
+            <section>
+                <div>
+                    <p style="text-align: center">
+                        CruzSafe Made with
+                        <i id="heart" class="fa fa-heart-o"></i> by UCSC team
+                    </p>
+                </div>
+            </section>
+        </footer>
+        <script src="./libs/NavLib.js"></script>
+    </body>
 </html>
