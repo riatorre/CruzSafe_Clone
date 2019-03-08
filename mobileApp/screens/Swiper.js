@@ -202,22 +202,22 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide6]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Urgent.jpg")}
+                source={require("../assets/images/Urgent.png")}
                 style={{
-                  width: 100,
-                  height: 200
+                  width: 250,
+                  height: 250
                 }}
               />
-              <Text style={styles.slideText}>
-                If you become aware of a completed crime or an urgent problem on
-                campus that not merit a call to emergency services, it is still
-                not appropriate to report it through this app. Responses to
-                reports from this app can take 24 hours or more and the
-                reporting system is not designed to handle crimes. Instead,
-                please call the UC Santa Cruz non-emergency dispatch at (831)
-                459-2231.
-              </Text>
             </View>
+            <Text style={styles.slideText}>
+              If you become aware of a completed crime or an urgent problem on
+              campus that not merit a call to emergency services, it is still
+              not appropriate to report it through this app. Responses to
+              reports from this app can take 24 hours or more and the reporting
+              system is not designed to handle crimes. Instead, please call the
+              UC Santa Cruz non-emergency dispatch at (831) 459-2231.
+            </Text>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
@@ -239,32 +239,33 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide7]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Urgent.jpg")}
+                source={require("../assets/images/Urgent.png")}
                 style={{
-                  width: 100,
-                  height: 200
+                  width: 250,
+                  height: 250
                 }}
               />
-              <Text style={styles.slideText}>
-                Examples of non-emergency situations where you should call
-                dispatch include:
-              </Text>
-              <Text style={styles.slideText}>
-                -Property crimes such as theft or vandalism where no evidence,
-                witnesses, or suspects are known
-              </Text>
-              <Text style={styles.slideText}>
-                -A minor car crash in which there is motor damage but you are
-                certain no one has been hurt and the crash does not present a
-                danger to other drivers
-              </Text>
-              <Text style={styles.slideText}>
-                -Illegal parking or abandoned vehicles
-              </Text>
-              <Text style={styles.slideText}>
-                -Non-emergency related questions for the police
-              </Text>
             </View>
+            <Text style={styles.slideText}>
+              Examples of non-emergency situations where you should call
+              dispatch include:
+            </Text>
+            <Text style={styles.slideText}>
+              -Property crimes such as theft or vandalism where no evidence,
+              witnesses, or suspects are known
+            </Text>
+            <Text style={styles.slideText}>
+              -A minor car crash in which there is motor damage but you are
+              certain no one has been hurt and the crash does not present a
+              danger to other drivers
+            </Text>
+            <Text style={styles.slideText}>
+              -Illegal parking or abandoned vehicles
+            </Text>
+            <Text style={styles.slideText}>
+              -Non-emergency related questions for the police
+            </Text>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
@@ -286,18 +287,18 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide8]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Urgent.jpg")}
+                source={require("../assets/images/Urgent.png")}
                 style={{
-                  width: 100,
-                  height: 200
+                  width: 250,
+                  height: 250
                 }}
               />
-              <Text style={styles.slideText}>
-                If you press the yellow stoplight button, CruzSafe will ask you
-                to confirm that you wish to call the police non-emergency
-                number.
-              </Text>
             </View>
+            <Text style={styles.slideText}>
+              If you press the yellow stoplight button, CruzSafe will ask you to
+              confirm that you wish to call the police non-emergency number.
+            </Text>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
@@ -319,12 +320,13 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide9]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Report.jpg")}
+                source={require("../assets/images/Report.png")}
                 style={{
-                  width: 100,
+                  width: 200,
                   height: 200
                 }}
               />
+
               <Text style={styles.slideText}>
                 If there is an issue on campus which is neither very urgent nor
                 likely to be connected to a crime, it is appropriate to submit a
@@ -339,38 +341,40 @@ export default class Screen extends React.Component {
                 -A broken window, door, or lock
               </Text>
             </View>
-            <View style={styles.slideOuterButton}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={() => {
-                  this.swiper.scrollBy(1);
+          </View>
+          <View style={styles.slideOuterButton}>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => {
+                this.swiper.scrollBy(1);
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "white"
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: "white"
-                  }}
-                >
-                  Next
-                </Text>
-              </TouchableOpacity>
-            </View>
+                Next
+              </Text>
+            </TouchableOpacity>
           </View>
+
           <View style={[styles.slideOuterContainer, styles.slide10]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Report.jpg")}
+                source={require("../assets/images/Report.png")}
                 style={{
-                  width: 100,
-                  height: 200
+                  width: 250,
+                  height: 250
                 }}
               />
-              <Text style={styles.slideText}>
-                If you press the green stoplight button, CruzSafe will direct
-                you to make a report.
-              </Text>
             </View>
+            <Text style={styles.slideText}>
+              If you press the green stoplight button, CruzSafe will direct you
+              to make a report.
+            </Text>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
