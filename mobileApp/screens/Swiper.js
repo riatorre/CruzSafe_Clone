@@ -19,10 +19,10 @@ export default class Screen extends React.Component {
                                 source={require("../assets/images/building.jpg")}
                                 style={{
                                     width: 300,
-                                    height: 400
+                                    height: 200
                                 }}
                             />
-                            <Text>
+                            <Text style={styles.slideText}>
                                 Have you witnessed non-emergency issues on
                                 campus which cause inconvenience or a safety
                                 hazard? Perhaps a hallway with inadequate
@@ -50,7 +50,7 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide2]}>
                         <View style={[styles.slideContainer]}>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 [call 211 image] Some cities have a number to
                                 call for such issues, often 211, but many do
                                 not, particularly on college campuses. The
@@ -86,7 +86,7 @@ export default class Screen extends React.Component {
                                     height: 400
                                 }}
                             />
-                            <Text>
+                            <Text style={styles.slideText}>
                                 Before you report an issue, it's important to
                                 stop and think about the urgency of the
                                 situation. We have created buttons corresponding
@@ -114,24 +114,26 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide4]}>
                         <View style={[styles.slideContainer]}>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 If there is an imminent threat to life or
                                 property, it is important to quickly call 911.
                                 Examples of such situations include:
                             </Text>
-                            <Text>- A fire, even if it is still small</Text>
-                            <Text>
+                            <Text style={styles.slideText}>
+                                - A fire, even if it is still small
+                            </Text>
+                            <Text style={styles.slideText}>
                                 - A medical emergency, such as difficulty
                                 speaking or breathing, chest pain, fainting,
                                 numbness, poisoning, heavy bleeding, sudden
                                 intense pain, severe burns, or suicidality
                             </Text>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 - A crime in progress or imminently possible
                                 crime, such as an assault, burglary, or a
                                 suspicious person lurking
                             </Text>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 - A car crash, particularly if it is at higher
                                 speeds or someone feels dizzy or unwell
                                 [stoplight on red]
@@ -164,7 +166,7 @@ export default class Screen extends React.Component {
                                     height: 600
                                 }}
                             />
-                            <Text>
+                            <Text style={styles.slideText}>
                                 If you press the red stoplight button, CruzSafe
                                 will ask you to confirm that you wish to call
                                 911 through your phone app. [stoplight on red]
@@ -197,7 +199,7 @@ export default class Screen extends React.Component {
                                     height: 600
                                 }}
                             />
-                            <Text>
+                            <Text style={styles.slideText}>
                                 If you become aware of a completed crime or an
                                 urgent problem on campus that not merit a call
                                 to emergency services, it is still not
@@ -229,23 +231,25 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide7]}>
                         <View style={[styles.slideContainer]}>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 Examples of non-emergency situations where you
                                 should call dispatch include:
                             </Text>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 -Property crimes such as theft or vandalism
                                 where no evidence, witnesses, or suspects are
                                 known
                             </Text>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 -A minor car crash in which there is motor
                                 damage but you are certain no one has been hurt
                                 and the crash does not present a danger to other
                                 drivers
                             </Text>
-                            <Text>-Illegal parking or abandoned vehicles</Text>
-                            <Text>
+                            <Text style={styles.slideText}>
+                                -Illegal parking or abandoned vehicles
+                            </Text>
+                            <Text style={styles.slideText}>
                                 -Non-emergency related questions for the police
                             </Text>
                         </View>
@@ -276,7 +280,7 @@ export default class Screen extends React.Component {
                                     height: 600
                                 }}
                             />
-                            <Text>
+                            <Text style={styles.slideText}>
                                 If you press the yellow stoplight button,
                                 CruzSafe will ask you to confirm that you wish
                                 to call the police non-emergency number.
@@ -303,16 +307,22 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide9]}>
                         <View style={[styles.slideContainer]}>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 If there is an issue on campus which is neither
                                 very urgent nor likely to be connected to a
                                 crime, it is appropriate to submit a report.
                                 Examples of such situations include:
                             </Text>
-                            <Text>-Inadequate or broken lighting</Text>
-                            <Text>-Tripping hazards</Text>
-                            <Text>-A water leak</Text>
-                            <Text>-A broken window, door, or lock</Text>
+                            <Text style={styles.slideText}>
+                                -Inadequate or broken lighting
+                            </Text>
+                            <Text style={styles.slideText}>
+                                -Tripping hazards
+                            </Text>
+                            <Text style={styles.slideText}>-A water leak</Text>
+                            <Text style={styles.slideText}>
+                                -A broken window, door, or lock
+                            </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
                             <TouchableOpacity
@@ -334,7 +344,7 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide10]}>
                         <View style={[styles.slideContainer]}>
-                            <Text>
+                            <Text style={styles.slideText}>
                                 If you press the green stoplight button,
                                 CruzSafe will direct you to make a report.
                                 [stoplight on green]

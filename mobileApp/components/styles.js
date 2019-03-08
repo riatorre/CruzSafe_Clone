@@ -123,7 +123,7 @@ export default (styles = StyleSheet.create({
         justifyContent: "center"
     },
     slideText: {
-        fontSize: 20
+        fontSize: 16
     },
     slide1: {
         padding: 10,
