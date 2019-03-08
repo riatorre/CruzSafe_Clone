@@ -201,8 +201,17 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
 
 /*
  * Calls an API that inserts a timestamp into either comletedTS or initialOpenTS
+
+ * Whenever the timestamp is modified, add an event in notes. 
  */
 function insertTS(initialOpenTS, reportID, webID) {
+    // Code that adds a note for initial Open.
+    if (initialOpenTS) {
+        insertNote(reportID, webID, "{Report initially opened}");
+    } else {
+        insertNote(reportID, webID, "{Report marked as complete}"); // Code that adds a note for Complete.
+    }
+
     const request = new XMLHttpRequest();
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -257,10 +266,9 @@ function markComplete(reportID) {
 }
 
 /*
- * Clears and initializes notes. Displays them.
+ * Clears and initializes notes. Displays them, if the modal is being shown.
  */
 function displayNotes(reportID) {
-    // Grab notes and submit
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -308,34 +316,41 @@ function displayNotes(reportID) {
 }
 
 /*
- * Inserts note into database and re-initializes notes.
+ * Inserts note gotten from reportNoteInput.value into database and re-initializes notes.
  */
 function submitNote(reportID) {
     // Submit notes into database
     var reportNoteInput = document.getElementById("reportNoteInput");
-    if (reportNoteInput.value != "") {
-        // Insert note into database
-        insertNote(reportID, webID, reportNoteInput.value);
-    }
+    // Insert note into database
+    insertNote(reportID, webID, reportNoteInput.value);
 }
 
 /*
- * Calls an API that inserts a new note given a reportID, webID, and content. Once done, refreshes the notes page by regathering displayNotes and
+ * Calls an API that inserts a new note given a reportID, webID, and content. 
+ Once done, refreshes the notes page by regathering displayNotes and displaying them.
  */
 function insertNote(reportID, webID, content) {
-    const request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-        displayNotes(reportID);
-    };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/newNote");
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(
-        JSON.stringify({
-            content: content,
-            reportID: reportID,
-            webID: webID
-        })
-    );
+    if (content != "") {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            displayNotes(reportID);
+        };
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/newNote"
+        );
+        request.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request.send(
+            JSON.stringify({
+                content: content,
+                reportID: reportID,
+                webID: webID
+            })
+        );
+    }
 }
 
 // A report has been selected!
