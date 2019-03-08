@@ -65,7 +65,7 @@ export default class Screen extends React.Component {
                             Have you witnessed non-emergency issues on campus
                             which cause inconvenience or a safety hazard?
                             Perhaps a hallway with inadequate lighting, a broken
-                            windows, or a road partially blocked by trash?
+                            window, or a road partially blocked by trash?
                         </Text>
                         <TouchableOpacity
                             style={styles.btn}
