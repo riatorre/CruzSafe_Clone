@@ -119,34 +119,35 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide4]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Emergency.jpg")}
+                source={require("../assets/images/Emergency.png")}
                 style={{
-                  width: 100,
-                  height: 200
+                  width: 250,
+                  height: 250
                 }}
               />
-              <Text style={styles.slideText}>
-                If there is an imminent threat to life or property, it is
-                important to quickly call 911. Examples of such situations
-                include:
-              </Text>
-              <Text style={styles.slideText}>
-                - A fire, even if it is still small
-              </Text>
-              <Text style={styles.slideText}>
-                - A medical emergency, such as difficulty speaking or breathing,
-                chest pain, fainting, numbness, poisoning, heavy bleeding,
-                sudden intense pain, severe burns, or suicidality
-              </Text>
-              <Text style={styles.slideText}>
-                - A crime in progress or imminently possible crime, such as an
-                assault, burglary, or a suspicious person lurking
-              </Text>
-              <Text style={styles.slideText}>
-                - A car crash, particularly if it is at higher speeds or someone
-                feels dizzy or unwell
-              </Text>
             </View>
+            <Text style={styles.slideText}>
+              If there is an imminent threat to life or property, it is
+              important to quickly call 911. Examples of such situations
+              include:
+            </Text>
+            <Text style={styles.slideText}>
+              - A fire, even if it is still small
+            </Text>
+            <Text style={styles.slideText}>
+              - A medical emergency, such as difficulty speaking or breathing,
+              chest pain, fainting, numbness, poisoning, heavy bleeding, sudden
+              intense pain, severe burns, or suicidality
+            </Text>
+            <Text style={styles.slideText}>
+              - A crime in progress or imminently possible crime, such as an
+              assault, burglary, or a suspicious person lurking
+            </Text>
+            <Text style={styles.slideText}>
+              - A car crash, particularly if it is at higher speeds or someone
+              feels dizzy or unwell
+            </Text>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
@@ -168,17 +169,18 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide5]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/Emergency.jpg")}
+                source={require("../assets/images/Emergency.png")}
                 style={{
-                  width: 100,
-                  height: 200
+                  width: 250,
+                  height: 250
                 }}
               />
-              <Text style={styles.slideText}>
-                If you press the red stoplight button, CruzSafe will ask you to
-                confirm that you wish to call 911 through your phone app.
-              </Text>
             </View>
+            <Text style={styles.slideText}>
+              If you press the red stoplight button, CruzSafe will ask you to
+              confirm that you wish to call 911 through your phone app.
+            </Text>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
