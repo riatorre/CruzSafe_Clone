@@ -261,21 +261,31 @@
                                     <input id = "reportNoteInput" placeholder = "Add Notes..."></input>
                                     <a id = "submitNote" class="Respondbtn">Submit</a><br/>
                                     <br /><br /><br />
-                                    <div class="selectMessage">
+                                    <span class="selectMessage">
                                         <a onclick="showMessageDropdown()" class="Respondbtn">Respond</a>
                                         <div id="messageDropdown" class="selectMessage-content"></div>
-                                    </div>
-                                    <br /><br /><br /><br />
-                                    <div class="forwardButton">
+                                    </span>
+                                    <span class="forwardButton">
                                         <a onclick = "showForwardDropdown()" class="Respondbtn">Assign Report</a>
                                         <div id="forwardDropdown" class="forwardButton-content">
                                             <option value="forwardTaps">Assign report to TAPS Supervisor</option>
                                             <option value="forwardTaps">Assign report to ITS Supervisor</option>
                                             <option value="forwardTaps">Assign report to CHAS Supervisor</option>
                                         </div>
+                                    </span>
+                                    <a class="Respondbtn" id="reportResolve"></a>
+                                    <br /><br /><br /><br /><br /><br />
+                                    <p><b>Expiration Date:</b> <span id="expireTS"></span></p>
+                                    <br /><br />
+                                    <div class="whitelistButton">
+                                        <a onclick = "showWhitelistDropdown()" class="Respondbtn">Edit Expiration Date (Supervisor/Admin Only!)</a>
+                                        <div id="whitelistDropdown" class="whitelistButton-content">
+                                            <option value="forwardTaps">[Selected] Expire in 90 days from submission date</option>
+                                            <option value="forwardTaps">Expire in 180 days from submission date</option>
+                                            <option value="forwardTaps">Expire in 2 years from submission date</option>
+                                        </div>
                                     </div>
                                     <br /><br /><br /><br />
-                                    <a class="Respondbtn" id="reportResolve"></a>
                                 </div>
                             </div>
                         </div>
