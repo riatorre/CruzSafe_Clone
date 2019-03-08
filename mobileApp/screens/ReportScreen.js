@@ -11,7 +11,8 @@ import {
     AsyncStorage,
     AppState,
     Alert,
-    Image
+    Image,
+    ActivityIndicator
 } from "react-native";
 import {
     Container,
@@ -89,7 +90,8 @@ class ReportScreen extends Component {
         image: null,
         iOSPickerVisible: false,
         pre_report: null,
-        isLoading: true
+        isLoading: true,
+        submitting: false
     };
 
     returnFromCamera(newImage) {
@@ -299,6 +301,7 @@ class ReportScreen extends Component {
 
     async handleSubmit() {
         // Must convert the Tag from a string to a Int for DB
+        this._isMounted && this.setState({ submitting: true });
         this.getUnsubReport().then(async pre_report => {
             var incidentTagID = 0;
             for (i = 0; i < tagsList.length; i++) {
@@ -375,54 +378,72 @@ class ReportScreen extends Component {
             )
                 // Successful Call to API
                 .then(response => response.json())
-                .then(responseJSON => {
-                    Alert.alert(
-                        pre_report.incidentCategory +
-                            " Report Submitted as #" +
-                            responseJSON.incidentID,
-                        "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
-                        [
-                            {
-                                text: "OK",
-                                onPress: () => {
-                                    this._isMounted &&
-                                        this.setState({
-                                            incidentCategory: "",
-                                            incidentDesc: "",
-                                            incidentLocationDesc: "",
-                                            image: null,
-                                            pre_report: newPre_report
-                                        });
-                                    this.storeUnsubReport(newPre_report);
-                                    this.props.navigation.goBack();
+                .then(async responseJSON => {
+                    this._isMounted &&
+                        (await this.setState({ submitting: false }));
+                    if (responseJSON.message == null) {
+                        Alert.alert(
+                            pre_report.incidentCategory +
+                                " Report Submitted as #" +
+                                responseJSON.incidentID,
+                            "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
+                            [
+                                {
+                                    text: "OK",
+                                    onPress: () => {
+                                        this._isMounted &&
+                                            this.setState({
+                                                incidentCategory: "",
+                                                incidentDesc: "",
+                                                incidentLocationDesc: "",
+                                                image: null,
+                                                pre_report: newPre_report
+                                            });
+                                        this.storeUnsubReport(newPre_report);
+                                        this.props.navigation.goBack();
+                                    }
+                                },
+                                {
+                                    text: "Check the status of my report",
+                                    onPress: () => {
+                                        this._isMounted &&
+                                            this.setState({
+                                                incidentCategory: "",
+                                                incidentDesc: "",
+                                                incidentLocationDesc: "",
+                                                image: null,
+                                                pre_report: newPre_report
+                                            });
+                                        this.storeUnsubReport(newPre_report);
+                                        this.props.navigation.navigate(
+                                            "ReportDetail",
+                                            {
+                                                itemId: responseJSON.incidentID,
+                                                callBack: this.props.navigation.goBack.bind(
+                                                    this
+                                                )
+                                            }
+                                        );
+                                    }
                                 }
-                            },
-                            {
-                                text: "Check the status of my report",
-                                onPress: () => {
-                                    this._isMounted &&
-                                        this.setState({
-                                            incidentCategory: "",
-                                            incidentDesc: "",
-                                            incidentLocationDesc: "",
-                                            image: null,
-                                            pre_report: newPre_report
-                                        });
-                                    this.storeUnsubReport(newPre_report);
-                                    this.props.navigation.navigate(
-                                        "ReportDetail",
-                                        {
-                                            itemId: responseJSON.incidentID,
-                                            callBack: this.props.navigation.goBack.bind(
-                                                this
-                                            )
-                                        }
-                                    );
+                            ],
+                            { cancelable: false }
+                        );
+                    } else {
+                        Alert.alert(
+                            "Error",
+                            "An error has occurred. Please try again later.",
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => {}
                                 }
-                            }
-                        ],
-                        { cancelable: false }
-                    );
+                            ],
+                            { cancelable: false }
+                        );
+                        console.log(err);
+                        return false;
+                    }
                 })
                 // Unsuccessful Call to API
                 .catch(err => {
@@ -822,6 +843,23 @@ class ReportScreen extends Component {
                                     />
                                 </ScrollView>
                             </View>
+                        </View>
+                    </Modal>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={this.state.submitting}
+                        onRequestClose={() => {}}
+                    >
+                        <View
+                            style={{
+                                flex: 1,
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "#CCCCCCC0"
+                            }}
+                        >
+                            <ActivityIndicator size="large" color="#303060" />
                         </View>
                     </Modal>
                 </Container>
