@@ -16,7 +16,8 @@ const reportFields = [
     "mobileID",
     "phone",
     "email",
-    "body"
+    "body",
+    "expireTS"
 ];
 const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
@@ -129,6 +130,15 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             productInfo["email"] = reportInfo["email"];
             // body
             productInfo["body"] = reportInfo["body"];
+            // expireTS
+            productInfo["expireTS"] = formatDate(reportInfo["expireTS"], {
+                hour: "numeric",
+                minute: "numeric",
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour12: false
+            });
 
             // All data has now been added into reportData
             const modal = document.getElementById("report");
@@ -424,27 +434,28 @@ function showForwardDropdown() {
     document.getElementById("forwardDropdown").classList.toggle("show");
 }
 
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function showWhitelistDropdown() {
+    document.getElementById("whitelistDropdown").classList.toggle("show");
+}
+
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
+    const dropdowns = [
+        "selectMessage-content",
+        "forwardButton-content",
+        "whitelistButton-content"
+    ];
     if (!event.target.matches(".Respondbtn")) {
-        var messagedropdown = document.getElementsByClassName(
-            "selectMessage-content"
-        );
-        var i;
-        for (i = 0; i < messagedropdown.length; i++) {
-            var openDropdown = messagedropdown[i];
-            if (openDropdown.classList.contains("show")) {
-                openDropdown.classList.remove("show");
-            }
-        }
-        var forwarddropdown = document.getElementsByClassName(
-            "forwardButton-content"
-        );
-        var i;
-        for (i = 0; i < forwarddropdown.length; i++) {
-            var openDropdown = forwarddropdown[i];
-            if (openDropdown.classList.contains("show")) {
-                openDropdown.classList.remove("show");
+        for (i = 0; i < dropdowns.length; i++) {
+            var dropdownElement = document.getElementsByClassName(dropdowns[i]);
+            var j;
+            for (j = 0; j < dropdownElement.length; j++) {
+                var openDropdown = dropdownElement[j];
+                if (openDropdown.classList.contains("show")) {
+                    openDropdown.classList.remove("show");
+                }
             }
         }
     }
