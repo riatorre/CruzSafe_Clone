@@ -449,6 +449,32 @@ router.post("/latestReports", function(req, res) {
 });
 
 /*
+    Remove TS given reportID.
+*/
+router.post("/removeTimestamp", function(req, res) {
+    myConsole.log(
+        "[Database] Removing completion of report with ID " + req.body.reportID
+    );
+    connection.query(
+        "UPDATE reports SET completeTS = NULL AND completeWebID = NULL WHERE reportID = ?",
+        req.body.reportID,
+        function(err, rows) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] Removing of report completion with ID" +
+                        req.body.reportID +
+                        "successful"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
+/*
     Grab latest TS in database.
 */
 router.post("/latestTS", function(req, res) {

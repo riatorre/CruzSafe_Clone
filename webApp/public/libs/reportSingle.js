@@ -61,20 +61,34 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             // incidentID
             productInfo["incidentID"] = reportInfo["incidentID"];
             // resolved/unresolved
+            var resolvedButton = document.getElementById("reportResolve");
             if (!!reportInfo["completeTS"]) {
                 var resolvedUnresolved = "[Complete]"; // Completed; not null
                 document
                     .getElementById("closeReport")
                     .setAttribute("onclick", "hideReport(0)");
-            } else if (!!reportInfo["initialOpenTS"]) {
-                var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
-                document
-                    .getElementById("closeReport")
-                    .setAttribute("onclick", "hideReport(0)");
+                // If it's completed, provide the option to re-open.
+                resolvedButton.setAttribute(
+                    "onclick",
+                    "markIncomplete(" + reportID + ", " + webID + ")"
+                ); // Add onclick function to button
+                resolvedButton.innerHTML = "Mark Incomplete";
             } else {
-                // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
-                insertTS(1, reportID, webID);
-                var resolvedUnresolved = "[Incomplete]"; // Null
+                resolvedButton.setAttribute(
+                    "onclick",
+                    "markComplete(" + reportID + "," + webID + ")"
+                ); // Add onclick function to button
+                resolvedButton.innerHTML = "Mark Complete";
+                if (!!reportInfo["initialOpenTS"]) {
+                    var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
+                    document
+                        .getElementById("closeReport")
+                        .setAttribute("onclick", "hideReport(0)");
+                } else {
+                    // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
+                    insertTS(1, reportID, webID);
+                    var resolvedUnresolved = "[Incomplete]"; // Null
+                }
             }
             productInfo["resolvedUnresolved"] = resolvedUnresolved;
             // reportTS
@@ -187,11 +201,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                 const targetTag = document.getElementById(field);
                 targetTag.innerHTML = productInfo[field];
             }
-
             tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
-            document
-                .getElementById("reportResolve")
-                .setAttribute("onclick", "markComplete(" + reportID + ")"); // Add onclick function to button
             modal.style.display = "block"; // Display the modal
         }
     };
@@ -220,6 +230,27 @@ function insertTS(initialOpenTS, reportID, webID) {
             initialOpenTS: initialOpenTS,
             reportID: reportID,
             webID: webID
+        })
+    );
+    const closeReport = document.getElementById("closeReport");
+    closeReport.setAttribute("onclick", "hideReport(1)");
+}
+
+/*
+    Removes a TS and WebID from completedTS.
+*/
+function removeTS(reportID, webID) {
+    insertNote(reportID, webID, "{Report revised as incomplete}");
+
+    const request = new XMLHttpRequest();
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/removeTimestamp"
+    );
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(
+        JSON.stringify({
+            reportID: reportID
         })
     );
     const closeReport = document.getElementById("closeReport");
@@ -413,7 +444,20 @@ function convertUTCDateToLocalDate(date) {
     );
 }
 
-function markComplete(reportID) {
+function markIncomplete(reportID, webID) {
+    removeTS(reportID, webID);
+    const resolvedUnresolved = document.getElementById("resolvedUnresolved");
+    resolvedUnresolved.innerHTML = "[Incomplete]";
+    resolvedUnresolved.style.color = "orange";
+    var resolvedButton = document.getElementById("reportResolve");
+    resolvedButton.setAttribute(
+        "onclick",
+        "markComplete(" + reportID + "," + webID + ")"
+    ); // Add onclick function to button
+    resolvedButton.innerHTML = "Mark Complete";
+}
+
+function markComplete(reportID, webID) {
     insertTS(0, reportID, webID);
     hideReport(1); // Close the modal
 }
