@@ -284,8 +284,8 @@ function insertTS(initialOpenTS, reportID, webID) {
 */
 function formatDate(mySQLDate, options) {
     var jsDate = toDateFormat(mySQLDate);
-    jsDate = new Date(jsDate.toString());
-    options["timeZone"] = "America/New_York"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK
+    // jsDate = new Date(jsDate.toString());
+    options["timeZone"] = "America/Los_Angeles"; // WHY DOES AMERICA/LOS_ANGELES NOT WORK
     return jsDate.toLocaleString("en-US", options);
 }
 
@@ -293,7 +293,22 @@ function formatDate(mySQLDate, options) {
     The following is imported code to convert MySQL TS to JS date.
 */
 function toDateFormat(mySQLDate) {
-    return new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8));
+    return convertUTCDateToLocalDate(
+        new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8))
+    );
+}
+
+function convertUTCDateToLocalDate(date) {
+    return new Date(
+        Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds()
+        )
+    );
 }
 
 function markComplete(reportID) {
