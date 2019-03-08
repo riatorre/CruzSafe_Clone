@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
+import { Button } from "native-base";
 
 const styles = StyleSheet.create({
     container: {
@@ -47,7 +48,11 @@ export default class Screen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Swiper>
+                <Swiper
+                    ref={swiper => {
+                        this.swiper = swiper;
+                    }}
+                >
                     <View style={[styles.slideContainer, styles.slide1]}>
                         <Text>
                             [image of dilapidated building] Have you witnessed
@@ -56,6 +61,21 @@ export default class Screen extends React.Component {
                             with inadequate lighting, a broken windows, or a
                             road partially blocked by trash?
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide2]}>
                         <Text>
@@ -66,6 +86,21 @@ export default class Screen extends React.Component {
                             giving students a way to text reports of
                             non-emergency issues on campus.
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide3]}>
                         <Text>
@@ -75,6 +110,21 @@ export default class Screen extends React.Component {
                             urgency of situations you may encounter. [stoplight
                             image on side]
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide4]}>
                         <Text>
@@ -99,6 +149,21 @@ export default class Screen extends React.Component {
                             speeds or someone feels dizzy or unwell [stoplight
                             on red]
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide5]}>
                         <Text>
@@ -106,6 +171,21 @@ export default class Screen extends React.Component {
                             ask you to confirm that you wish to call 911 through
                             your phone app. [stoplight on red]
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide6]}>
                         <Text>
@@ -118,6 +198,21 @@ export default class Screen extends React.Component {
                             Instead, please call the UC Santa Cruz non-emergency
                             dispatch at (831) 459-2231. [stoplight on yellow]
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide7]}>
                         <Text>
@@ -137,6 +232,21 @@ export default class Screen extends React.Component {
                         <Text>
                             -Non-emergency related questions for the police
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide8]}>
                         <Text>
@@ -144,6 +254,21 @@ export default class Screen extends React.Component {
                             will ask you to confirm that you wish to call the
                             police non-emergency number. [stoplight on yellow]
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide9]}>
                         <Text>
@@ -156,6 +281,21 @@ export default class Screen extends React.Component {
                         <Text>-Tripping hazards</Text>
                         <Text>-A water leak</Text>
                         <Text>-A broken window, door, or lock</Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.swiper.scrollBy(1);
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Next
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={[styles.slideContainer, styles.slide10]}>
                         <Text>
@@ -163,6 +303,21 @@ export default class Screen extends React.Component {
                             will direct you to make a report. [stoplight on
                             green]
                         </Text>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                this.props.navigation.navigate("Home");
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "gray"
+                                }}
+                            >
+                                Exit
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </Swiper>
             </View>
