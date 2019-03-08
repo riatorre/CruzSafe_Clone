@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import { Button } from "native-base";
 
@@ -55,11 +55,17 @@ export default class Screen extends React.Component {
                 >
                     <View style={[styles.slideContainer, styles.slide1]}>
                         <Text>
-                            [image of dilapidated building] Have you witnessed
-                            non-emergency issues on campus which cause
-                            inconvenience or a safety hazard? Perhaps a hallway
-                            with inadequate lighting, a broken windows, or a
-                            road partially blocked by trash?
+                            <Image
+                                source={require("../assets/building.jpg")}
+                                style={{
+                                    width: 300,
+                                    height: 200
+                                }}
+                            />
+                            Have you witnessed non-emergency issues on campus
+                            which cause inconvenience or a safety hazard?
+                            Perhaps a hallway with inadequate lighting, a broken
+                            windows, or a road partially blocked by trash?
                         </Text>
                         <TouchableOpacity
                             style={styles.btn}
