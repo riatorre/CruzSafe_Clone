@@ -11,6 +11,7 @@
 
 // Definition of variables needed
 var currentTab = 0;
+var absoluteParent = "";
 
 // --- Navigation & Display Functions ---
 
@@ -18,6 +19,7 @@ var currentTab = 0;
 function showTab(n) {
     var x = document.getElementsByClassName("tab");
     var y = document.getElementsByClassName("indicator");
+    var z = document.getElementById(absoluteParent);
     if (x != null && x.length > 0) {
         x[n].style.display = "block";
         /*// Hides btns depending if on first or last page
@@ -61,6 +63,8 @@ function showTab(n) {
             }
         }
         y[n].className += " active";
+        window.scrollTo(0, 0);
+        z.scrollTop = 0;
     }
 }
 
@@ -136,6 +140,7 @@ function createPages(id, maxElemPerPage, elementArray, renderFunc) {
     var totalPages = document.createElement("DIV");
     var totalIndicators = document.createElement("DIV");
     var numElem = elementArray.length;
+    absoluteParent = id;
     totalPages.setAttribute("id", "totalPages");
     totalIndicators.setAttribute("id", "totalIndicators");
     if (numElem > 0) {

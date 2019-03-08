@@ -103,6 +103,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             // tag
             tagValue = reportInfo["tag"];
             productInfo["tag"] = tags[tagValue];
+            displayPrewrittenResponses(reportID, webID, tagValue);
             // fullName
             fullName = reportInfo["lastName"] + " " + reportInfo["firstName"];
             productInfo["fullName"] = fullName;
@@ -223,6 +224,67 @@ function insertTS(initialOpenTS, reportID, webID) {
     );
     const closeReport = document.getElementById("closeReport");
     closeReport.setAttribute("onclick", "hideReport(1)");
+}
+
+/*
+ * Function that takes in a tagID and populates the message dropdown div.
+ */
+function displayPrewrittenResponses(reportID, webID, tagID) {
+    // Clear the message dropdown.
+    var messageDropdown = document.getElementById("messageDropdown");
+    while (messageDropdown.firstChild) {
+        messageDropdown.removeChild(messageDropdown.firstChild);
+    }
+
+    // Query the database for the responses.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            prewrittenResponses = JSON.parse(request.response);
+            Array.from(prewrittenResponses).forEach(function(response) {
+                var newOption = document.createElement("option"); // For each response, add to message dropdown.
+                const responseContent = response["content"];
+                var text = document.createTextNode(responseContent);
+                newOption.appendChild(text);
+                newOption.setAttribute(
+                    "onclick",
+                    "sendMessage(" +
+                        reportID +
+                        ", " +
+                        webID +
+                        ", '" +
+                        responseContent +
+                        "')"
+                ); // For each message, add sendMessage with given text.
+                messageDropdown.appendChild(newOption);
+            });
+        }
+    };
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/prewrittenResponses"
+    );
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ tagID: tagID }));
+}
+
+/*
+ * Sends a message via the API.
+ */
+function sendMessage(reportID, webID, message) {
+    const request = new XMLHttpRequest();
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/messages/submitMessage"
+    );
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(
+        JSON.stringify({
+            reportID: reportID,
+            webID: webID,
+            messageText: message
+        })
+    );
 }
 
 /*

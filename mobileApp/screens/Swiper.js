@@ -82,8 +82,8 @@ export default class Screen extends React.Component {
                             <Image
                                 source={require("../assets/images/StopLight.jpg")}
                                 style={{
-                                    width: 130,
-                                    height: 400
+                                    width: 65,
+                                    height: 200
                                 }}
                             />
                             <Text style={styles.slideText}>
@@ -91,7 +91,7 @@ export default class Screen extends React.Component {
                                 stop and think about the urgency of the
                                 situation. We have created buttons corresponding
                                 to the level of urgency of situations you may
-                                encounter. [stoplight image on side]
+                                encounter.
                             </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
@@ -114,6 +114,13 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide4]}>
                         <View style={[styles.slideContainer]}>
+                            <Image
+                                source={require("../assets/images/Emergency.jpg")}
+                                style={{
+                                    width: 100,
+                                    height: 200
+                                }}
+                            />
                             <Text style={styles.slideText}>
                                 If there is an imminent threat to life or
                                 property, it is important to quickly call 911.
@@ -136,7 +143,6 @@ export default class Screen extends React.Component {
                             <Text style={styles.slideText}>
                                 - A car crash, particularly if it is at higher
                                 speeds or someone feels dizzy or unwell
-                                [stoplight on red]
                             </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
@@ -162,14 +168,14 @@ export default class Screen extends React.Component {
                             <Image
                                 source={require("../assets/images/Emergency.jpg")}
                                 style={{
-                                    width: 300,
-                                    height: 600
+                                    width: 100,
+                                    height: 200
                                 }}
                             />
                             <Text style={styles.slideText}>
                                 If you press the red stoplight button, CruzSafe
                                 will ask you to confirm that you wish to call
-                                911 through your phone app. [stoplight on red]
+                                911 through your phone app.
                             </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
@@ -195,8 +201,8 @@ export default class Screen extends React.Component {
                             <Image
                                 source={require("../assets/images/Urgent.jpg")}
                                 style={{
-                                    width: 300,
-                                    height: 600
+                                    width: 100,
+                                    height: 200
                                 }}
                             />
                             <Text style={styles.slideText}>
@@ -208,7 +214,7 @@ export default class Screen extends React.Component {
                                 hours or more and the reporting system is not
                                 designed to handle crimes. Instead, please call
                                 the UC Santa Cruz non-emergency dispatch at
-                                (831) 459-2231. [stoplight on yellow]
+                                (831) 459-2231.
                             </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
@@ -231,6 +237,13 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide7]}>
                         <View style={[styles.slideContainer]}>
+                            <Image
+                                source={require("../assets/images/Urgent.jpg")}
+                                style={{
+                                    width: 100,
+                                    height: 200
+                                }}
+                            />
                             <Text style={styles.slideText}>
                                 Examples of non-emergency situations where you
                                 should call dispatch include:
@@ -274,17 +287,16 @@ export default class Screen extends React.Component {
                     <View style={[styles.slideOuterContainer, styles.slide8]}>
                         <View style={[styles.slideContainer]}>
                             <Image
-                                source={require("../assets/images/Report.jpg")}
+                                source={require("../assets/images/Urgent.jpg")}
                                 style={{
-                                    width: 300,
-                                    height: 600
+                                    width: 100,
+                                    height: 200
                                 }}
                             />
                             <Text style={styles.slideText}>
                                 If you press the yellow stoplight button,
                                 CruzSafe will ask you to confirm that you wish
                                 to call the police non-emergency number.
-                                [stoplight on yellow]
                             </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
@@ -307,6 +319,13 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide9]}>
                         <View style={[styles.slideContainer]}>
+                            <Image
+                                source={require("../assets/images/Report.jpg")}
+                                style={{
+                                    width: 100,
+                                    height: 200
+                                }}
+                            />
                             <Text style={styles.slideText}>
                                 If there is an issue on campus which is neither
                                 very urgent nor likely to be connected to a
@@ -344,10 +363,16 @@ export default class Screen extends React.Component {
                     </View>
                     <View style={[styles.slideOuterContainer, styles.slide10]}>
                         <View style={[styles.slideContainer]}>
+                            <Image
+                                source={require("../assets/images/Report.jpg")}
+                                style={{
+                                    width: 100,
+                                    height: 200
+                                }}
+                            />
                             <Text style={styles.slideText}>
                                 If you press the green stoplight button,
                                 CruzSafe will direct you to make a report.
-                                [stoplight on green]
                             </Text>
                         </View>
                         <View style={styles.slideOuterButton}>
