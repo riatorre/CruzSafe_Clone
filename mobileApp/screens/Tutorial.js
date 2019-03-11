@@ -70,7 +70,7 @@ class Tutorial extends Component {
                                     color: "white"
                                 }}
                             >
-                                Launch Tutorial
+                                Review Intro
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -87,7 +87,7 @@ class Tutorial extends Component {
                                     color: "white"
                                 }}
                             >
-                                Launch Tour
+                                Tour the App
                             </Text>
                         </TouchableOpacity>
                     </Content>
