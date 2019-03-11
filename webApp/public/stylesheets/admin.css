@@ -1,5 +1,5 @@
 /*
-    Stylesheet for admin.html
+	Stylesheet for admin.html
 */
 
 .row {
@@ -18,29 +18,32 @@
   margin-top: 20px;
   margin-right: 20px;
   margin-left: 20px;
-  height: 80%;
-  border: 5px solid black;
-  background: rgb(123, 123, 123, 0.9);
+  padding: 10px;
+  height: 100%;
+  border: 2px solid black;
+  background: black;
   overflow-y: auto;
 }
 
 #selectUser {
   width: 100%;
   font-size: 15px;
-  background: darkblue;
+  background: #023c6b;
   text-align: left;
 }
 #selectUser:hover {
-  background: turquoise;
+  /* background: turquoise; */
+  background: #1a4f77;
 }
 
 .transbox {
-  margin-right: 20px;
+  /* margin-right: 10px; */
   border: 1px solid black;
 }
 
 #networkInfo {
   margin-right: 20px;
-  border: 1px solid black;
-  background: rgb(123, 123, 123, 0.9);
+  padding: 20px;
+  /* border: 1px solid black; */
+  /* background: rgb(123, 123, 123, 0.9); */
 }
