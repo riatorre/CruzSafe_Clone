@@ -39,6 +39,9 @@ const AuthStack = createStackNavigator(
     { headerMode: "none" }
 );
 
+//will contain boolean of tutorialmode and what pages we've seen
+export var tutorialParams = { tutorialMode: false };
+
 export default createAppContainer(
     createSwitchNavigator(
         {

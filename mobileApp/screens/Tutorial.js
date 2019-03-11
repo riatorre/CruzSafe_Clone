@@ -16,6 +16,7 @@ import {
     Icon
 } from "native-base";
 
+import tutorialParams from "../navigation/AppNavigator.js";
 import styles from "../components/styles.js";
 
 class Tutorial extends Component {
@@ -70,6 +71,23 @@ class Tutorial extends Component {
                                 }}
                             >
                                 Launch Tutorial
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={() => {
+                                console.log("launch tour");
+                                tutorialParams.tutorialMode = true;
+                                this.props.navigation.navigate("Home");
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    color: "white"
+                                }}
+                            >
+                                Launch Tour
                             </Text>
                         </TouchableOpacity>
                     </Content>
