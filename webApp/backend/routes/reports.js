@@ -449,6 +449,28 @@ router.post("/latestReports", function(req, res) {
 });
 
 /*
+    Grab the reportIDs and TSs of all reports.
+*/
+router.post("/allReportTS", function(req, res) {
+    myConsole.log("[Database] Attempting to select all reports by ID and TS.");
+    connection.query(
+        "SELECT reportID, initialTS FROM reports",
+        num_reports,
+        function(err, rows) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] Select all reports by ID and TS successful"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
+/*
     Remove TS given reportID.
 */
 router.post("/removeTimestamp", function(req, res) {

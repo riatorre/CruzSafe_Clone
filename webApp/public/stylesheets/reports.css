@@ -35,10 +35,6 @@
     background: limegreen;
 }
 
-#reportExpiration {
-    text-align: right;
-}
-
 #reportMap {
     float: left;
     height: auto;
