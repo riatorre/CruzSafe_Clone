@@ -57,7 +57,7 @@ export default class Screen extends React.Component {
           <View style={[styles.slideOuterContainer, styles.slide2]}>
             <View style={[styles.slideContainer]}>
               <Image
-                source={require("../assets/images/UrgentNew.png")}
+                source={require("../assets/images/call211.png")}
                 style={{
                   width: 250,
                   height: 250
