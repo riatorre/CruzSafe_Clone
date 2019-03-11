@@ -7,13 +7,13 @@
 const mysql = require("mysql");
 const myConsole = require("../utilities/customConsole");
 
-const localTest = false; // Global variable for debugging purposes.
+const localTest = true; // Global variable for debugging purposes.
 
 if (localTest) {
     var connection = mysql.createConnection({
         host: "104.196.241.235",
-        user: "riatorre",
-        password: "SiD1475357",
+        user: "lizhiyue",
+        password: "lychee123",
         database: "cruzsafe_main"
     });
 
