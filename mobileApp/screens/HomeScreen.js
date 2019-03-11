@@ -31,6 +31,7 @@ import styles from "../components/styles.js";
 
 const LATITUDE = "36.9916";
 const LONGITUDE = "-122.0583";
+var tutorialMode = true;
 const newPre_report = {
     incidentDesc: "",
     incidentCategory: "",
@@ -48,6 +49,27 @@ class HomeScreen extends Component {
             pre_report = newPre_report;
             this.storeItem("unsub_report", pre_report);
         }
+        if (tutorialMode == true) {
+            Alert.alert(
+                "Tour",
+                "Would you like to take a tour of how to create a report?",
+                [
+                    {
+                        text: "Yes",
+                        onPress: () => {
+                            //enter tutorial
+                            console.log("entering tutorial");
+                        }
+                    },
+                    {
+                        text: "No",
+                        onPress: () => {
+                            this.tutorialMode = false;
+                        }
+                    }
+                ]
+            );
+        }
         if (
             pre_report.incidentCategory !== "" ||
             pre_report.incidentDesc !== "" ||
@@ -60,7 +82,7 @@ class HomeScreen extends Component {
                 "We found an unsubmitted report. Do you wish to continue editing?",
                 [
                     {
-                        text: "Yes, Continue Editing",
+                        text: "Yes, continue editing",
                         onPress: () => {
                             // If the user choose to continue editting previous report,
                             // reset all text states to previous one
@@ -68,7 +90,7 @@ class HomeScreen extends Component {
                         }
                     },
                     {
-                        text: "No, Start a new one",
+                        text: "No, start a new one",
                         onPress: () => {
                             // If the user choose to start a new report,
                             // reset all text states to ""
