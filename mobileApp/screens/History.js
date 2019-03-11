@@ -42,6 +42,7 @@ class History extends Component {
         data: [],
         completeReports: [],
         incompleteReports: [],
+        reportID: [],
         isLoading: true
     };
 
@@ -181,6 +182,16 @@ class History extends Component {
         }
     }
 
+    async getreportID() {
+        try {
+            const rid = await AsyncStorage.getItem("reportID");
+            this.setState({ report: JSON.parse(rid) });
+            return rid;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     async getReports() {
         this.setState({ isLoading: true });
         await fetch("https://cruzsafe.appspot.com/api/reports/userReports", {
@@ -197,6 +208,36 @@ class History extends Component {
             .then(result => {
                 this.setState({ data: result, isLoading: false });
                 this.storeReports("Reports", JSON.stringify(result));
+                ID = [];
+                for (var i = 0; i < result.length; i++) {
+                    ID.push(JSON.stringify(result[i].reportID));
+                }
+                this.storeID("reportID", JSON.stringify(ID));
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    async getMessages() {
+        this.setState({ isLoading: true });
+        await fetch("https://cruzsafe.appspot.com/api/messages/getMessages", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                reportID: JSON.parse(await this.getreportID())
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log("results:\n" + JSON.stringify(result));
+                /*
+                this.setState({ data: result, isLoading: false });
+                this.storeReports("Reports", JSON.stringify(result));
+                */
             })
             .catch(err => {
                 console.log(err);
@@ -210,6 +251,15 @@ class History extends Component {
             console.log(error.message);
         }
         this.setReports(key);
+    }
+
+    async storeID(key, ID) {
+        try {
+            await AsyncStorage.setItem(key, ID);
+        } catch (error) {
+            console.log(error.message);
+        }
+        this.setState({ reportID: JSON.parse(ID) });
     }
 
     async setReports(key) {
@@ -297,6 +347,7 @@ class History extends Component {
                             style={styles.btn}
                             onPress={() => {
                                 this.getReports();
+                                this.getMessages();
                             }}
                         >
                             <Icon

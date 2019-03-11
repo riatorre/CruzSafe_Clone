@@ -33,22 +33,27 @@ router.post("/getMessages", function(req, res) {
         "[Database] Attempting to retrieve all messages for reportID = " +
             req.body.reportID
     );
-    connection.query(
-        "SELECT * FROM messages WHERE reportID = ?",
-        req.body.reportID,
-        function(err, rows, fields) {
-            if (err) {
-                myConsole.log(err);
-                res.json({ message: "An Error has Occured." });
-            } else {
-                myConsole.log(
-                    "[Database] Successfully retrieved all messages for reportID = " +
-                        req.body.reportID
-                );
-                res.json(rows);
-            }
+    var reportIDs = JSON.parse(req.body.reportID);
+    var query = "SELECT * FROM messages WHERE reportID = ";
+    for (i = 0; i < reportIDs.length; i++) {
+        if (i == 0) {
+            query = query + reportIDs[i];
+        } else {
+            query = query + " OR reportID = " + reportIDs[i];
         }
-    );
+    }
+    connection.query(query, function(err, rows, fields) {
+        if (err) {
+            myConsole.log(err);
+            res.json({ message: "An Error has Occured." });
+        } else {
+            myConsole.log(
+                "[Database] Successfully retrieved all messages for reportID = " +
+                    req.body.reportID
+            );
+            res.json(rows);
+        }
+    });
 });
 
 // Get all messages made by webID, should return 0+ messages

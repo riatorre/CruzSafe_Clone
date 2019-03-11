@@ -167,12 +167,12 @@ button,
 button:hover,
 [type="button"]:hover,
 [type="submit"]:hover {
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background-color: #ddd;
-  color: black;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #1a4f77;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 0 10px #666;
+  /* box-shadow: 0 0 10px #666; */
 }
 
 .btn.small,

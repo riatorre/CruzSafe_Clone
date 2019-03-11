@@ -268,9 +268,9 @@
                                     <span class="forwardButton">
                                         <a onclick = "showForwardDropdown()" class="Respondbtn">Assign Report</a>
                                         <div id="forwardDropdown" class="forwardButton-content">
-                                            <option value="forwardTaps">Assign report to TAPS Supervisor</option>
-                                            <option value="forwardTaps">Assign report to ITS Supervisor</option>
-                                            <option value="forwardTaps">Assign report to CHAS Supervisor</option>
+                                            <option value="forwardTaps">Assign report to designated TAPS Supervisor</option>
+                                            <option value="forwardTaps">Assign report to designated ITS Supervisor</option>
+                                            <option value="forwardTaps">Assign report to designated CHAS Supervisor</option>
                                         </div>
                                     </span>
                                     <a class="Respondbtn" id="reportResolve"></a>
@@ -280,9 +280,11 @@
                                     <div class="whitelistButton">
                                         <a onclick = "showWhitelistDropdown()" class="Respondbtn">Edit Expiration Date (Supervisor/Admin Only!)</a>
                                         <div id="whitelistDropdown" class="whitelistButton-content">
-                                            <option value="forwardTaps">[Selected] Expire in 90 days from submission date</option>
-                                            <option value="forwardTaps">Expire in 180 days from submission date</option>
-                                            <option value="forwardTaps">Expire in 2 years from submission date</option>
+                                            <option value="forwardTaps" onclick = "modifyExpire(1)">Expire in 1(?) days from submission date</option>
+                                            <option value="forwardTaps" onclick = "modifyExpire(3)">Expire in 3(?) days from submission date</option>
+                                            <option value="forwardTaps" onclick = "modifyExpire(90)">Expire in 90 days from submission date</option>
+                                            <option value="forwardTaps" onclick = "modifyExpire(180)">Expire in 180 days from submission date</option>
+                                            <option value="forwardTaps" onclick = "modifyExpire(730)">Expire in 2 years from submission date</option>
                                         </div>
                                     </div>
                                     <br /><br /><br /><br />
@@ -294,6 +296,7 @@
             </div>
         </center>
         <script src="./libs/reportSingle.js"></script>
+        <script src="./libs/adminCommands.js"></script>
         <script>
             document.onkeydown = function (e) {
                 e = e || window.event;
