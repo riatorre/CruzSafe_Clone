@@ -129,49 +129,25 @@ export default (styles = StyleSheet.create({
         fontSize: 16
     },
     slideText4: {
-        fontSize: 11.5
-    },
-    slideText7: {
         fontSize: 13
     },
-    slide1: {
-        padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
+    slideText7: {
+        fontSize: 15
     },
-    slide2: {
+    slidetan: {
         padding: 10,
-        backgroundColor: "rgba(20,200,20,0.2)"
+        backgroundColor: "rgba(153,76,0,0.2)"
     },
-    slide3: {
+    slidered: {
         padding: 10,
-        backgroundColor: "rgba(200,20,20,0.2)"
+        backgroundColor: "rgba(255,0,0,0.2)"
     },
-    slide4: {
+    slideyellow: {
         padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
+        backgroundColor: "rgba(255,255,0,0.2)"
     },
-    slide5: {
+    slidegreen: {
         padding: 10,
-        backgroundColor: "rgba(200,20,20,0.2)"
-    },
-    slide6: {
-        padding: 10,
-        backgroundColor: "rgba(20,200,20,0.2)"
-    },
-    slide7: {
-        padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
-    },
-    slide8: {
-        padding: 10,
-        backgroundColor: "rgba(20,200,20,0.2)"
-    },
-    slide9: {
-        padding: 10,
-        backgroundColor: "rgba(200,20,20,0.2)"
-    },
-    slide10: {
-        padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
+        backgroundColor: "rgba(0,204,0,0.2)"
     }
 }));
