@@ -7,125 +7,127 @@
     - Admin options (disable features, reset server, stop server)
 -->
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>CruzSafe: Analytics</title>
-    <!--Imports Stylesheet-->
-    <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
-    <link href="./stylesheets/admin.css" type="text/css" rel="stylesheet" />
-    <!--Imports External Icon Font Library-->
-    <!--TODO: Install all needed Icons & remove external dependency-->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-  </head>
-  <body>
-    <!--Header-->
-    <div class="topnav" id="topNav">
-      <a href="./homepage.html"
-        ><i class="fa fa-home" aria-hidden="true"></i> Home</a
-      >
-      <a href="./reports.html"
-        ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
-      >
-      <a href="./analytics.html"
-        ><i class="fa fa-pie-chart" aria-hidden="true"></i> Analytics</a
-      >
-      <a class="active" href="./admin.html">
-        <i class="fa fa-user-circle-o" aria-hidden="true"></i> Admin</a
-      >
-      <a href="./"
-        ><i class="fa fa-sign-out" aria-hidden="true"></i> Sign-Out</a
-      >
-      <a href="javascript:void(0);" class="icon" onclick="toggleTopNav()">
-        <i class="fa fa-bars"></i>
-      </a>
-    </div>
-    <!--Body-->
-    <div class="row">
-      <div id="column1" class="column">
-        <div id="userList">
-          <button id="selectUser" onclick="displayReport()">
-            1312939 | Calhoun | Sergeant | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            0341234 | Jacobs | Officer | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            1023920 | Oweis | Chief | Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            2321330 | Morgan | Officer | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            9243120 | Vasquez | Sergeant | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            2312324 | Jackson | Sergeant | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            4325313 | Martinez | Detective | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            8657564 | Holmes | Officer | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            2342132 | Watson| Sergeant | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            9657341 | Davidson | Intern | Not Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            1913198 | Li | Developer | Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            2342132 | Li | Developer | Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            6743744 | Fraser | Developer | Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            1023848 | Torres | Developer | Admin
-          </button>
-          <button id="selectUser" onclick="displayReport()">
-            0023512 | Shafiq | Developer | Admin
-          </button>
+    <head>
+        <meta charset="utf-8" />
+        <title>CruzSafe: Analytics</title>
+        <!--Imports Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+        <link href="./stylesheets/admin.css" type="text/css" rel="stylesheet" />
+        <!--Imports External Icon Font Library-->
+        <!--TODO: Install all needed Icons & remove external dependency-->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+    </head>
+    <body>
+        <!--Header-->
+        <div class="topnav" id="topNav">
+            <a href="./homepage.html"
+                ><i class="fa fa-home" aria-hidden="true"></i> Home</a
+            >
+            <a href="./reports.html"
+                ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
+            >
+            <a href="./analytics.html"
+                ><i class="fa fa-pie-chart" aria-hidden="true"></i> Analytics</a
+            >
+            <a class="active" href="./admin.html">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i> Admin</a
+            >
+            <a href="./"
+                ><i class="fa fa-sign-out" aria-hidden="true"></i> Sign-Out</a
+            >
+            <a href="javascript:void(0);" class="icon" onclick="toggleTopNav()">
+                <i class="fa fa-bars"></i>
+            </a>
         </div>
-      </div>
-      <div id="column2" class="column">
-        <div class="transbox">
-          <p>Disable WebApp Features:</p>
-          <button onClick="getReports()">Reports</button
-          ><button>Analytics</button><button>Report Details</button>
-          <div id="dest"></div>
+        <!--Body-->
+        <div class="row">
+            <div id="column1" class="column">
+                <div id="userList">
+                    <button id="selectUser" onclick="displayReport()">
+                        1312939 | Calhoun | Sergeant | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        0341234 | Jacobs | Officer | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        1023920 | Oweis | Chief | Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        2321330 | Morgan | Officer | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        9243120 | Vasquez | Sergeant | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        2312324 | Jackson | Sergeant | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        4325313 | Martinez | Detective | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        8657564 | Holmes | Officer | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        2342132 | Watson| Sergeant | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        9657341 | Davidson | Intern | Not Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        1913198 | Li | Developer | Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        2342132 | Li | Developer | Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        6743744 | Fraser | Developer | Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        1023848 | Torres | Developer | Admin
+                    </button>
+                    <button id="selectUser" onclick="displayReport()">
+                        0023512 | Shafiq | Developer | Admin
+                    </button>
+                </div>
+            </div>
+            <div id="column2" class="column">
+                <div class="transbox">
+                    <p>Disable WebApp Features:</p>
+                    <button onClick="getReports()">Reports</button
+                    ><button>Analytics</button><button>Report Details</button>
+                    <div id="dest"></div>
+                </div>
+                <div class="transbox">
+                    <p>Server Options:</p>
+                    <button>Restart</button><button>Stop</button
+                    ><button onclick="modifyExpire(5)">Change Date 5!</button>
+                </div>
+                <div id="networkInfo">
+                    <p>Network Information:</p>
+                    <img
+                        id="adminGraph"
+                        src="./assets/images/admin_graph.png"
+                        alt="admin graph"
+                    />
+                </div>
+            </div>
         </div>
-        <div class="transbox">
-          <p>Server Options:</p>
-          <button>Restart</button><button>Stop</button>
-        </div>
-        <div id="networkInfo">
-          <p>Network Information:</p>
-          <img
-            id="adminGraph"
-            src="./assets/images/admin_graph.png"
-            alt="admin graph"
-          />
-        </div>
-      </div>
-    </div>
-    <script src="./libs/NavLib.js"></script>
-    <script>
-      function getReports() {
-        var request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("dest").innerHTML = request.responseText;
-          }
-        };
-        request.open("GET", "https://cruzsafe.appspot.com/api/reports");
-        request.send();
-      }
-    </script>
-  </body>
+        <script src="./libs/NavLib.js"></script>
+        <script>
+            function getReports() {
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("dest").innerHTML =
+                            request.responseText;
+                    }
+                };
+                request.open("GET", "https://cruzsafe.appspot.com/api/reports");
+                request.send();
+            }
+        </script>
+    </body>
 </html>

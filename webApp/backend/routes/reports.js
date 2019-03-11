@@ -453,21 +453,69 @@ router.post("/latestReports", function(req, res) {
 */
 router.post("/allReportTS", function(req, res) {
     myConsole.log("[Database] Attempting to select all reports by ID and TS.");
-    connection.query(
-        "SELECT reportID, initialTS FROM reports",
-        num_reports,
-        function(err, rows) {
+    connection.query("SELECT reportID, reportTS FROM reports", function(
+        err,
+        rows
+    ) {
+        if (err) {
+            myConsole.error(err);
+            res.json({ message: "An Error has Occured" });
+        } else {
+            myConsole.log(
+                "[Database] Select all reports by ID and TS successful"
+            );
+            res.json(rows);
+        }
+    });
+});
+
+/*
+    Sets expire TS given reportDict. (ID:newExpireTS)
+*/
+router.post("/setExpire", function(req, res) {
+    myConsole.log("[Database] Attempting to insert dict of reports.");
+
+    // Interpret passed JSON string to dictionary
+    var reportsDict = {};
+    var dictionary = JSON.parse(req.body.reportsDict);
+    for (var key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+            var value = dictionary[key];
+            reportsDict[key] = value;
+        }
+    }
+    //res.json({ message: "Dict = " + reportsDict });
+    if (reportsDict != {}) {
+        // Dictionary populated. Now construct the query.
+        var query = "UPDATE reports SET expireTS = CASE ";
+        for (key in reportsDict) {
+            var expireTS = reportsDict[key];
+            query =
+                query + "WHEN reportID = " + key + " THEN " + expireTS + " ";
+        }
+        query = query + "END WHERE reportID IN (";
+        var firstValue = true;
+        for (key in reportsDict) {
+            if (firstValue) {
+                query = query + key;
+                firstValue = false;
+            } else {
+                query = query + "," + key;
+            }
+        }
+        query = query + ")";
+        connection.query(query, function(err, rows) {
             if (err) {
                 myConsole.error(err);
                 res.json({ message: "An Error has Occured" });
             } else {
                 myConsole.log(
-                    "[Database] Select all reports by ID and TS successful"
+                    "[Database] Inserting dict of reports successful."
                 );
                 res.json(rows);
             }
-        }
-    );
+        });
+    }
 });
 
 /*

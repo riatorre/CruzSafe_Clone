@@ -280,6 +280,8 @@
                                     <div class="whitelistButton">
                                         <a onclick = "showWhitelistDropdown()" class="Respondbtn">Edit Expiration Date (Supervisor/Admin Only!)</a>
                                         <div id="whitelistDropdown" class="whitelistButton-content">
+                                            <option value="forwardTaps" onclick = "modifyExpire(1)">Expire in 1(?) days from submission date</option>
+                                            <option value="forwardTaps" onclick = "modifyExpire(3)">Expire in 3(?) days from submission date</option>
                                             <option value="forwardTaps" onclick = "modifyExpire(90)">Expire in 90 days from submission date</option>
                                             <option value="forwardTaps" onclick = "modifyExpire(180)">Expire in 180 days from submission date</option>
                                             <option value="forwardTaps" onclick = "modifyExpire(730)">Expire in 2 years from submission date</option>
