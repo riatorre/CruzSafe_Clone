@@ -118,12 +118,21 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between"
     },
-    slideContainer: {
+    slideImageContainer: {
         flex: 1,
         justifyContent: "center"
     },
+    slideTextContainer: {
+        justifyContent: "flex-start"
+    },
     slideText: {
         fontSize: 16
+    },
+    slideText4: {
+        fontSize: 11.5
+    },
+    slideText7: {
+        fontSize: 13
     },
     slide1: {
         padding: 10,
