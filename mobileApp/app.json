@@ -24,6 +24,8 @@
         },
         "assetBundlePatterns": ["**/*"],
         "android": {
+            "package": "cruzsafe.appspot.com",
+            "googleServicesFile": "./google-services.json",
             "permissions": [
                 "ACCESS_COARSE_LOCATION",
                 "ACCESS_FINE_LOCATION",

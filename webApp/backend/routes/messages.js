@@ -33,15 +33,15 @@ router.post("/getMessages", function(req, res) {
         "[Database] Attempting to retrieve all messages for reportID = " +
             req.body.reportID
     );
-    var reportIDs = JSON.parse(req.body.reportID);
     var query = "SELECT * FROM messages WHERE reportID = ";
-    for (i = 0; i < reportIDs.length; i++) {
+    for (i = 0; i < req.body.reportID.length; i++) {
         if (i == 0) {
-            query = query + reportIDs[i];
+            query = query + req.body.reportID[i];
         } else {
-            query = query + " OR reportID = " + reportIDs[i];
+            query = query + " OR reportID = " + req.body.reportID[i];
         }
     }
+    myConsole.log(query);
     connection.query(query, function(err, rows, fields) {
         if (err) {
             myConsole.log(err);

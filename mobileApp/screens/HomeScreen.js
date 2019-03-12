@@ -26,7 +26,7 @@ import {
     Body,
     Icon
 } from "native-base";
-
+import { Permissions, Notifications } from "expo";
 import styles from "../components/styles.js";
 
 const LATITUDE = "36.9916";
@@ -102,6 +102,38 @@ class HomeScreen extends Component {
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    async getNotificationPermission() {
+        const { status: existingStatus } = await Permissions.getAsync(
+            Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        // only ask if permissions have not already been determined, because
+        // iOS won't necessarily prompt the user a second time.
+        if (existingStatus !== "granted") {
+            // Android remote notification permissions are granted during the app
+            // install, so this will only ask on iOS
+            const { status } = await Permissions.askAsync(
+                Permissions.NOTIFICATIONS
+            );
+            finalStatus = status;
+        }
+
+        // Stop here if the user did not grant permissions
+        if (finalStatus !== "granted") {
+            return;
+        }
+        console.log("status: " + finalStatus);
+        // Get the token that uniquely identifies this device
+        let token = await Notifications.getExpoPushTokenAsync();
+        console.log("token: " + token);
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        this.getNotificationPermission();
     }
 
     static navigationOptions = {

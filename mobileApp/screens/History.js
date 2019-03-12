@@ -43,6 +43,7 @@ class History extends Component {
         completeReports: [],
         incompleteReports: [],
         reportID: [],
+        messages: [],
         isLoading: true
     };
 
@@ -221,7 +222,7 @@ class History extends Component {
 
     async getMessages() {
         this.setState({ isLoading: true });
-        await fetch("https://cruzsafe.appspot.com/api/messages/getMessages", {
+        await fetch("http://169.233.212.169:8080/api/messages/getMessages", {
             method: "POST",
             headers: {
                 Accept: "application/json",
@@ -233,11 +234,8 @@ class History extends Component {
         })
             .then(res => res.json())
             .then(result => {
-                console.log("results:\n" + JSON.stringify(result));
-                /*
-                this.setState({ data: result, isLoading: false });
-                this.storeReports("Reports", JSON.stringify(result));
-                */
+                this.setState({ messages: result, isLoading: false });
+                this.storeMessages("Messages", JSON.stringify(result));
             })
             .catch(err => {
                 console.log(err);
@@ -251,6 +249,16 @@ class History extends Component {
             console.log(error.message);
         }
         this.setReports(key);
+    }
+
+    async storeMessages(key, message) {
+        try {
+            await AsyncStorage.setItem(key, message);
+        } catch (error) {
+            console.log(error.message);
+        }
+        this.setState({ messages: JSON.parse(message) });
+        console.log(this.state.messages);
     }
 
     async storeID(key, ID) {

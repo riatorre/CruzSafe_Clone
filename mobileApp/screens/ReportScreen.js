@@ -173,7 +173,7 @@ class ReportScreen extends Component {
                 this.setState({
                     hasCameraRollPermission: status === "granted"
                 });
-            this.getNotificationPermission();
+            this.getRecordingPermission();
         } else {
             Alert.alert(
                 "Permission denied",
@@ -182,7 +182,7 @@ class ReportScreen extends Component {
                     {
                         text: "OK",
                         onPress: () => {
-                            this.getNotificationPermission();
+                            this.getRecordingPermission();
                         }
                     }
                 ],
@@ -190,7 +190,8 @@ class ReportScreen extends Component {
             );
         }
     }
-
+    
+    /*
     async getNotificationPermission() {
         const { status } = await Permissions.askAsync(
             Permissions.NOTIFICATIONS
@@ -217,6 +218,7 @@ class ReportScreen extends Component {
             );
         }
     }
+    */
 
     async getRecordingPermission() {
         const { status } = await Permissions.askAsync(
