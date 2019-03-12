@@ -118,51 +118,36 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between"
     },
-    slideContainer: {
+    slideImageContainer: {
         flex: 1,
         justifyContent: "center"
+    },
+    slideTextContainer: {
+        justifyContent: "flex-start"
     },
     slideText: {
         fontSize: 16
     },
-    slide1: {
-        padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
+    slideText4: {
+        fontSize: 13
     },
-    slide2: {
-        padding: 10,
-        backgroundColor: "rgba(20,200,20,0.2)"
+    slideText7: {
+        fontSize: 15
     },
-    slide3: {
+    slidetan: {
         padding: 10,
-        backgroundColor: "rgba(200,20,20,0.2)"
+        backgroundColor: "rgba(153,76,0,0.2)"
     },
-    slide4: {
+    slidered: {
         padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
+        backgroundColor: "rgba(255,0,0,0.2)"
     },
-    slide5: {
+    slideyellow: {
         padding: 10,
-        backgroundColor: "rgba(200,20,20,0.2)"
+        backgroundColor: "rgba(255,255,0,0.2)"
     },
-    slide6: {
+    slidegreen: {
         padding: 10,
-        backgroundColor: "rgba(20,200,20,0.2)"
-    },
-    slide7: {
-        padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
-    },
-    slide8: {
-        padding: 10,
-        backgroundColor: "rgba(20,200,20,0.2)"
-    },
-    slide9: {
-        padding: 10,
-        backgroundColor: "rgba(200,20,20,0.2)"
-    },
-    slide10: {
-        padding: 10,
-        backgroundColor: "rgba(20,20,200,0.2)"
+        backgroundColor: "rgba(0,204,0,0.2)"
     }
 }));
