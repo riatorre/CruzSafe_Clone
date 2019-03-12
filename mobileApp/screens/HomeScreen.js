@@ -147,7 +147,6 @@ class HomeScreen extends Component {
         if (finalStatus !== "granted") {
             return;
         }
-        console.log("status: " + finalStatus);
         // Get the token that uniquely identifies this device
         let token = await Notifications.getExpoPushTokenAsync();
         console.log("token: " + token);

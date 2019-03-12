@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "838368330737",
+    "firebase_url": "https://cruzsafe.firebaseio.com",
+    "project_id": "cruzsafe",
+    "storage_bucket": "cruzsafe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838368330737:android:4cb730c65d1ecdd2",
+        "android_client_info": {
+          "package_name": "cruzsafe.appspot.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838368330737-1kcat6mnoj59hiuguqr7caapcbmgjr08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtLPdUZUfnN6j7vFHw1sEbztLbdhax67A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

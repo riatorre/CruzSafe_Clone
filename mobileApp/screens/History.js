@@ -222,7 +222,7 @@ class History extends Component {
 
     async getMessages() {
         this.setState({ isLoading: true });
-        await fetch("http://169.233.212.169:8080/api/messages/getMessages", {
+        await fetch("https://cruzsafe.appspot.com/api/messages/getMessages", {
             method: "POST",
             headers: {
                 Accept: "application/json",
