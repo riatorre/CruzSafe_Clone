@@ -126,6 +126,15 @@ class HomeScreen extends Component {
         }
     }
 
+    async getMobileID() {
+        try {
+            const id = await AsyncStorage.getItem("mobileID");
+            return id;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     async getNotificationPermission() {
         const { status: existingStatus } = await Permissions.getAsync(
             Permissions.NOTIFICATIONS
@@ -149,7 +158,25 @@ class HomeScreen extends Component {
         }
         // Get the token that uniquely identifies this device
         let token = await Notifications.getExpoPushTokenAsync();
-        console.log("token: " + token);
+        this.storeItem("token", token);
+        await fetch("https://cruzsafe.appspot.com/api/users/insertToken", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                mobileID: JSON.parse(await this.getMobileID()),
+                token: token
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                //console.log(result);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     componentDidMount() {

@@ -312,6 +312,40 @@ function displayPrewrittenResponses(reportID, webID, tagID) {
  * Sends a message via the API.
  */
 function sendMessage(reportID, webID, message) {
+    /*
+    const request_token = new XMLHttpRequest();
+    request_token.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var token = JSON.parse(request_token.response)[0].token;
+            console.log(token);
+            const request_ntf = new XMLHttpRequest("no-cors");
+            request_ntf.open("POST", "https://exp.host/--/api/v2/push/send");
+            request_ntf.setRequestHeader("Content-Type", "application/json");
+            request_ntf.send(
+                JSON.stringify({
+                    to: token,
+                    title: "NOTIFICATION",
+                    body: "BODY",
+                    sound: "default",
+                    priority: "high"
+                })
+            );
+        }
+    };
+    request_token.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/getToken"
+    );
+    request_token.setRequestHeader(
+        "Content-Type",
+        "application/json;charset=UTF-8"
+    );
+    request_token.send(
+        JSON.stringify({
+            reportID: reportID
+        })
+    );
+    */
     const request = new XMLHttpRequest();
     request.open(
         "POST",
@@ -325,11 +359,7 @@ function sendMessage(reportID, webID, message) {
             messageText: message
         })
     );
-    insertNote(
-        reportID,
-        webID,
-        "{Sent user prewritten message: '" + message + "'}"
-    ); // Adds note that a response has been sent.
+    insertNote(reportID, webID, message); // Adds note that a response has been sent.
 }
 
 /*
@@ -398,16 +428,35 @@ function submitNote(reportID) {
  Once done, refreshes the notes page by regathering displayNotes and displaying them.
  */
 function insertNote(reportID, webID, content) {
-    const request_ntf = new XMLHttpRequest("no-cors");
-    request_ntf.open("POST", "https://exp.host/--/api/v2/push/send");
-    request_ntf.setRequestHeader("Content-Type", "application/json");
-    request_ntf.send(
+    const request_token = new XMLHttpRequest();
+    request_token.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var token = JSON.parse(request_token.response)[0].token;
+            const request_ntf = new XMLHttpRequest("no-cors");
+            request_ntf.open("POST", "https://exp.host/--/api/v2/push/send");
+            request_ntf.setRequestHeader("Content-Type", "application/json");
+            request_ntf.send(
+                JSON.stringify({
+                    to: token,
+                    title: "You have a new message",
+                    body: content,
+                    sound: "default",
+                    priority: "high"
+                })
+            );
+        }
+    };
+    request_token.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/getToken"
+    );
+    request_token.setRequestHeader(
+        "Content-Type",
+        "application/json;charset=UTF-8"
+    );
+    request_token.send(
         JSON.stringify({
-            to: "ExponentPushToken[_EdKi3JzZPVj5V8mYFtOOa]",
-            title: "NOTIFICATION",
-            body: "BODY",
-            sound: "default",
-            priority: "high"
+            reportID: reportID
         })
     );
     if (content != "") {

@@ -316,11 +316,12 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
             req.body.incidentLongitude,
             req.body.incidentUnchangedLocation,
             hasAttachment,
-            attachment
+            attachment,
+            req.body.token
         ]
     ];
     connection.query(
-        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename) VALUES ?",
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES ?",
         [values],
         function(err, result) {
             if (err) {
@@ -380,6 +381,29 @@ router.post("/userReports", function(req, res) {
                 myConsole.log(
                     "[Database] All reports by mobileID = " +
                         req.body.mobileID +
+                        " have been selected"
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
+router.post("/getToken", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to get token for reportID = " + req.body.reportID
+    );
+    connection.query(
+        "SELECT * FROM reports WHERE reportID=?",
+        req.body.reportID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] token by reportID = " +
+                        req.body.reportID +
                         " have been selected"
                 );
                 res.json(rows);

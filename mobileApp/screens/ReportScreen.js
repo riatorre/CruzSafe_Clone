@@ -190,7 +190,7 @@ class ReportScreen extends Component {
             );
         }
     }
-    
+
     /*
     async getNotificationPermission() {
         const { status } = await Permissions.askAsync(
@@ -301,6 +301,15 @@ class ReportScreen extends Component {
         }
     }
 
+    async getToken() {
+        try {
+            const token = await AsyncStorage.getItem("token");
+            return token;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     async handleSubmit() {
         // Must convert the Tag from a string to a Int for DB
         this._isMounted && this.setState({ submitting: true });
@@ -362,6 +371,7 @@ class ReportScreen extends Component {
                 "incidentUnchangedLocation",
                 pre_report.unchangedLocation ? 1 : 0
             );
+            data.append("token", JSON.parse(await this.getToken()));
 
             // Main Portion of the request, contains all metadata to be sent to link
             await fetch(

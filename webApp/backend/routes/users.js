@@ -27,6 +27,27 @@ router.post("/privilege", function(req, res) {
     );
 });
 
+router.post("/insertToken", function(req, res) {
+    myConsole.log("[Database] Attempting to set token for" + req.body.mobileID);
+    connection.query(
+        "UPDATE mobileUsers SET token = " +
+            JSON.stringify(req.body.token) +
+            " WHERE mobileID = " +
+            req.body.mobileID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] set token for mobileID = " + req.body.mobileID
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
 /*
  *  Code to get the information from a user given a user ID.
  */
