@@ -49,7 +49,7 @@ function generateSingleReport(reportID, document) {
             generateSingleReportHelper(reportID, document, tagDict, tagColors);
         }
     };
-    request.open("POST", "http://192.168.1.216:8080/api/reports/tags");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 function generateSingleReportHelper(reportID, document, tags, tagColors) {
@@ -215,7 +215,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             modal.style.display = "block"; // Display the modal
         }
     };
-    request.open("POST", "http://192.168.1.216:8080/api/reports/reportID");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id: reportID }));
 }
@@ -232,7 +232,7 @@ function insertTS(initialOpenTS, reportID, webID) {
         insertNote(reportID, webID, "{Report marked as complete}"); // Code that adds a note for Complete.
     }
     const request = new XMLHttpRequest();
-    request.open("POST", "http://192.168.1.216:8080/api/reports/timestamp");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(
         JSON.stringify({
@@ -254,7 +254,7 @@ function removeTS(reportID, webID) {
     const request = new XMLHttpRequest();
     request.open(
         "POST",
-        "http://192.168.1.216:8080/api/reports/removeTimestamp"
+        "https://cruzsafe.appspot.com/api/reports/removeTimestamp"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(
@@ -302,7 +302,7 @@ function displayPrewrittenResponses(reportID, webID, tagID) {
     };
     request.open(
         "POST",
-        "http://192.168.1.216:8080/api/reports/prewrittenResponses"
+        "https://cruzsafe.appspot.com/api/reports/prewrittenResponses"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ tagID: tagID }));
@@ -315,7 +315,7 @@ function sendMessage(reportID, webID, message) {
     const request = new XMLHttpRequest();
     request.open(
         "POST",
-        "http://192.168.1.216:8080/api/messages/submitMessage"
+        "https://cruzsafe.appspot.com/api/messages/submitMessage"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(
@@ -377,7 +377,7 @@ function displayNotes(reportID) {
             }
         }
     };
-    request.open("POST", "http://192.168.1.216:8080/api/reports/notes");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ reportID: reportID }));
 }
@@ -415,7 +415,10 @@ function insertNote(reportID, webID, content) {
         request.onreadystatechange = function() {
             displayNotes(reportID);
         };
-        request.open("POST", "http://192.168.1.216:8080/api/reports/newNote");
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/newNote"
+        );
         request.setRequestHeader(
             "Content-Type",
             "application/json;charset=UTF-8"
