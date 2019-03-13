@@ -792,6 +792,10 @@ span.psw {
     color: #202020;
 }
 .indicator.active {
-    background-color: #303060;
+    background-color: #001f3f;
     color: #ffffff;
+}
+.indicator:hover {
+    background-color: white;
+    color: #202020;
 }
