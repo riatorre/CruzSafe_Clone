@@ -230,6 +230,43 @@ function insertTS(initialOpenTS, reportID, webID) {
         insertNote(reportID, webID, "{Report initially opened}");
     } else {
         insertNote(reportID, webID, "{Report marked as complete}"); // Code that adds a note for Complete.
+        const request_token = new XMLHttpRequest();
+        request_token.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var token = JSON.parse(request_token.response)[0].token;
+                const request_ntf = new XMLHttpRequest("no-cors");
+                request_ntf.open(
+                    "POST",
+                    "https://exp.host/--/api/v2/push/send"
+                );
+                request_ntf.setRequestHeader(
+                    "Content-Type",
+                    "application/json"
+                );
+                request_ntf.send(
+                    JSON.stringify({
+                        to: token,
+                        title: "You have a new message",
+                        body: "Your report is completed",
+                        sound: "default",
+                        priority: "high"
+                    })
+                );
+            }
+        };
+        request_token.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/getToken"
+        );
+        request_token.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request_token.send(
+            JSON.stringify({
+                reportID: reportID
+            })
+        );
     }
     const request = new XMLHttpRequest();
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
