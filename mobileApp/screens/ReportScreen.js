@@ -312,7 +312,7 @@ class ReportScreen extends Component {
 
     async handleSubmit() {
         // Must convert the Tag from a string to a Int for DB
-        this._isMounted && this.setState({ submitting: true });
+        //this._isMounted && this.setState({ submitting: true });
         this.getUnsubReport().then(async pre_report => {
             var incidentTagID = 0;
             for (i = 0; i < tagsList.length; i++) {
@@ -392,7 +392,7 @@ class ReportScreen extends Component {
                 .then(response => response.json()) // Parse response into JSON
                 .then(responseJSON => {
                     // Handle data
-                    this._isMounted && this.setState({ submitting: false });
+                    //this._isMounted && this.setState({ submitting: false });
                     if (responseJSON.message == null) {
                         // No Errors from DB
                         Alert.alert(
