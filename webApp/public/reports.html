@@ -16,6 +16,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CruzSafe: Reports</title>
         <!--Import Stylesheet-->
         <link
@@ -64,30 +65,39 @@
         <!--End reportListRefresher code-->
 
         <!--Header-->
-        <div class="topnav" id="topnav" >
-            <a href="./homepage.html"
-                ><i class="fa fa-home" aria-hidden="true"></i> Home</a
-            >
-            <a class="active" href="./reports.html"
-                ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
-            >
-            <a href="./analytics.html"
-                ><i class="fa fa-pie-chart" aria-hidden="true"></i> Analytics</a
-            >
-            <a href="./admin.html">
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i> Admin</a>
-            <a href="./"
-                ><i class="fa fa-sign-out" aria-hidden="true"></i> Sign-Out</a
-            >
-            <!-- <a href="javascript:void(0);" class="icon" onclick="toggleTopNav()">
-                <i class="fa fa-bars"></i>
-            </a> -->
-        </div>
+        <div class="topnav" id="topNav">
+                <a href="./homepage.html"
+                    ><i class="fa fa-home" aria-hidden="true"></i> Home</a
+                >
+                <a class="active" href="./reports.html"
+                    ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
+                >
+                <a href="./analytics.html"
+                    ><i class="fa fa-pie-chart" aria-hidden="true"></i>
+                    Analytics</a
+                >
+                <a href="./admin.html">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    Admin</a
+                >
+                <a href="./"
+                    ><i class="fa fa-sign-out" aria-hidden="true"></i>
+                    Sign-Out</a
+                >
+                <a
+                    href="javascript:void(0);"
+                    class="icon"
+                    onclick="toggleTopNav()"
+                >
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
 
         <!--Body-->
         <div class="row">
+            <div class="quarterColumn" style="padding:20px">
             <div id="filterOptions" class="text_box">
-                <h2>Filters:</h2>
+                <h3>Filters:</h3>
                 <input id = "filterTag" placeholder="Tag"></input><br/>
                 <input id = "filterIncidentID" placeholder="Incident id(s)"></input> <br/>
                 <input id = "filterDate" placeholder="Report date (MM-DD-YYYY)"></input><br/>
@@ -100,7 +110,7 @@
                 <input id = "filterLastName" placeholder="Last name"></input><br/>
                 <input  id = "filterEmail" placeholder="Email (Enter xxx@ucsc.edu)"></input><br/>
                 <input  id = "filterPhone" placeholder="Phone (Enter 555555555)"></input><br/>
-                <input id = "filterExpire" placeholder="Expiring within day"></input><br/><br/>
+                <input id = "filterExpire" placeholder="Expiring within day"></input><br/>
                 <p>Location method: </p>
                 <select id="filterUnchangedLocation" autocomplete="off">
                     <option value="" selected="selected">Any</option>
@@ -127,6 +137,7 @@
                 <br/>   
                 <button onclick = "applyFilters()" id = "applyFilters" class="btn navy rounded">Apply Filters</button> 
                 <button onclick = "location.reload()" id = "resetPage" class="btn navy rounded">Reset</button>
+            </div>
             </div>
 
             <!--Filter Code-->
@@ -174,7 +185,7 @@
             </script>
             <!--Filter code end-->
 
-            <div id="reportColumn" class="column">
+            <div id="reportColumn" class="threeQuartersColumn" style="padding: 20px">
                 <div id= "reportHeader">
                     <span id = buttonResolvedUnresolved>Status</span>
                     <span id = buttonSplitText></span>
@@ -225,69 +236,73 @@
                         <div id="reportContent" class="container">
                             <div class="reportRow">
                                 <div id="column1" class="reportColumn1">
-                                    <p>
-                                        <b>Incident:</b> #<span id = "incidentID"></span> <b id="resolvedUnresolved"></b>
-                                    </p>
-                                    <p><b>Date:</b> <span id="reportTS"></span></p>
-                                    <p><b>Time:</b> <span id="reportTS2"></span></p>
-                                    <p><b>Location:</b> <span id="location"></span> <span id="actualPinned"></span></p>
-                                    <p><b>Tag:</b> <span id="tag"></span></p>
-                                    <br />
-                                    <iframe id="reportMap"></iframe>
-                                    <br />
-                                    <img
-                                        id="reportPhoto"
-                                        alt="report photo"
-                                    />
-                                    <video 
-                                        width = "320" height = "240" controls = "controls" 
-                                        id="reportVideo" alt="report video" type = "video/mp4">
-                                    </video>
+                                    <div>
+                                        <p>
+                                            <b>Incident:</b> #<span id = "incidentID"></span> <b id="resolvedUnresolved"></b>
+                                        </p>
+                                        <p><b>Date:</b> <span id="reportTS"></span></p>
+                                        <p><b>Time:</b> <span id="reportTS2"></span></p>
+                                        <p><b>Location:</b> <span id="location"></span> <span id="actualPinned"></span></p>
+                                        <p><b>Tag:</b> <span id="tag"></span></p>
+                                    </div>
+                                    <div>
+                                        <iframe id="reportMap"></iframe>
+                                        <br />
+                                        <img
+                                            id="reportPhoto"
+                                            alt="report photo"
+                                        />
+                                        <video 
+                                            width = "320" height = "240" controls = "controls" 
+                                            id="reportVideo" alt="report video" type = "video/mp4">
+                                        </video>
+                                    </div>
                                 </div>
                                 <div id="column2" class="reportColumn2">
-                                    <br />
-                                    <p><b>Name:</b> <span id="fullName" placeholder="FullName"></span> - #<span id="mobileID"></span></p>
-                                    <p><b>Phone:</b> <span id="phone"></span></p>
-                                    <p><b>Email:</b> <span id="email"></span></p>
-                                    <br />
-                                    <b>Report Body:</b> 
-                                    <br /><br />
-                                    <p id = "body"></p>
-                                    <br />
-                                    <b>Notes:</b> 
-                                    <br /><br />
-                                    <div id = "reportNotes"></div>
-                                    <br />
-                                    <input id = "reportNoteInput" placeholder = "Add Notes..."></input>
-                                    <a id = "submitNote" class="Respondbtn">Submit</a><br/>
-                                    <br /><br /><br />
-                                    <span class="selectMessage">
-                                        <a onclick="showMessageDropdown()" class="Respondbtn">Respond</a>
-                                        <div id="messageDropdown" class="selectMessage-content"></div>
-                                    </span>
-                                    <span class="forwardButton">
-                                        <a onclick = "showForwardDropdown()" class="Respondbtn">Assign Report</a>
-                                        <div id="forwardDropdown" class="forwardButton-content">
-                                            <option value="forwardTaps">Assign report to designated TAPS Supervisor</option>
-                                            <option value="forwardTaps">Assign report to designated ITS Supervisor</option>
-                                            <option value="forwardTaps">Assign report to designated CHAS Supervisor</option>
-                                        </div>
-                                    </span>
-                                    <a class="Respondbtn" id="reportResolve"></a>
-                                    <br /><br /><br /><br /><br /><br />
-                                    <p><b>Expiration Date:</b> <span id="expireTS"></span></p>
-                                    <br /><br />
-                                    <div class="whitelistButton">
-                                        <a onclick = "showWhitelistDropdown()" class="Respondbtn">Edit Expiration Date (Supervisor/Admin Only!)</a>
-                                        <div id="whitelistDropdown" class="whitelistButton-content">
-                                            <option value="forwardTaps" onclick = "modifyExpire(1)">Expire in 1(?) days from submission date</option>
-                                            <option value="forwardTaps" onclick = "modifyExpire(3)">Expire in 3(?) days from submission date</option>
-                                            <option value="forwardTaps" onclick = "modifyExpire(90)">Expire in 90 days from submission date</option>
-                                            <option value="forwardTaps" onclick = "modifyExpire(180)">Expire in 180 days from submission date</option>
-                                            <option value="forwardTaps" onclick = "modifyExpire(730)">Expire in 2 years from submission date</option>
+                                    <div style="margin:5px; background-color:lightgray;">
+                                        <p><b>Name:</b> <span id="fullName" placeholder="FullName"></span> - #<span id="mobileID"></span></p>
+                                        <p><b>Phone:</b> <span id="phone"></span></p>
+                                        <p><b>Email:</b> <span id="email"></span></p>
+                                    </div>
+                                    <div style="margin:5px;">
+                                        <b>Report Body:</b> 
+                                        <br /><br />
+                                        <p id = "body"></p>
+                                    </div>
+                                    <div style="margin:5px; background-color:lightgray; height:30%">
+                                        <b>Notes:</b>
+                                        <div id = "reportNotes"></div>
+                                        <input id = "reportNoteInput" placeholder = "Add Notes..."></input>
+                                        <a id = "submitNote" class="btn small rounded navy Respondbtn">Submit</a>
+                                    </div>
+                                    <div style="margin:5px;">
+                                        <span class="selectMessage">
+                                            <a onclick="showMessageDropdown()" class="btn rounded navy Respondbtn">Respond</a>
+                                            <div id="messageDropdown" class="selectMessage-content"></div>
+                                        </span>
+                                        <span class="forwardButton">
+                                            <a onclick = "showForwardDropdown()" class="btn rounded navy Respondbtn">Assign Report</a>
+                                            <div id="forwardDropdown" class="forwardButton-content">
+                                                <option value="forwardTaps">Assign report to designated TAPS Supervisor</option>
+                                                <option value="forwardTaps">Assign report to designated ITS Supervisor</option>
+                                                <option value="forwardTaps">Assign report to designated CHAS Supervisor</option>
+                                            </div>
+                                        </span>
+                                        <a class="btn rounded green Respondbtn" id="reportResolve"></a>
+                                    </div>
+                                    <div style="margin:5px; background-color:lightgray;">
+                                        <p><b>Expiration Date:</b> <span id="expireTS"></span></p>
+                                        <div class="whitelistButton">
+                                            <a onclick = "showWhitelistDropdown()" class="btn rounded navy Respondbtn">Edit Expiration Date (Supervisor/Admin Only!)</a>
+                                            <div id="whitelistDropdown" class="whitelistButton-content">
+                                                <option value="forwardTaps" onclick = "modifyExpire(1)">Expire in 1(?) days from submission date</option>
+                                                <option value="forwardTaps" onclick = "modifyExpire(3)">Expire in 3(?) days from submission date</option>
+                                                <option value="forwardTaps" onclick = "modifyExpire(90)">Expire in 90 days from submission date</option>
+                                                <option value="forwardTaps" onclick = "modifyExpire(180)">Expire in 180 days from submission date</option>
+                                                <option value="forwardTaps" onclick = "modifyExpire(730)">Expire in 2 years from submission date</option>
+                                            </div>
                                         </div>
                                     </div>
-                                    <br /><br /><br /><br />
                                 </div>
                             </div>
                         </div>
@@ -307,7 +322,7 @@
                     isEscape = (e.keyCode === 27);
                 }
                 if(isEscape){ // Exit out of report modal if applicable
-                    if(document.getElementById("report").style.display === "block"){ // only if it is showing.
+                    if(document.getElementById("report").style.display === "inline-flex"){ // only if it is showing.
                         var span = document.getElementById("closeReport")
                         var click = new Event('click');
                         span.dispatchEvent(click);
@@ -323,7 +338,7 @@
                     }
                     if(isSpace){
                         var video = document.getElementById("reportVideo");
-                        if(document.getElementById("report").style.display === "block"){ // If the modal is being shown
+                        if(document.getElementById("report").style.display === "inline-flex"){ // If the modal is being shown
                             if(video.paused){
                                 video.play;
                             } else{

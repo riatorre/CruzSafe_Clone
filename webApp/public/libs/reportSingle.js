@@ -212,7 +212,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                 targetTag.innerHTML = productInfo[field];
             }
             tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
-            modal.style.display = "block"; // Display the modal
+            modal.style.display = "inline-flex"; // Display the modal
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
@@ -375,6 +375,7 @@ function displayNotes(reportID) {
                 notesDiv.appendChild(newNote);
                 notesDiv.appendChild(document.createElement("br"));
             }
+            notesDiv.scrollTop = notesDiv.scrollHeight;
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");

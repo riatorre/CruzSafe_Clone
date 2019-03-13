@@ -63,7 +63,6 @@ function showTab(n) {
             }
         }
         y[n].className += " active";
-        window.scrollTo(0, 0);
         z.scrollTop = 0;
     }
 }

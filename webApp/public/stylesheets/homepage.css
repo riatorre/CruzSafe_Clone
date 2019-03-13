@@ -2,22 +2,6 @@
     stylesheet for homepage.html
 */
 
-.column {
-    float: left;
-    width: 33.33%;
-}
-.row {
-    display: flex;
-    background: #113f67;
-}
-
-/* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
 /*
 	BEGIN REPORT MODAL STYLING
 */
@@ -148,26 +132,25 @@
     font-size: smaller;
     text-align: center;
     margin: 50;
-    height: 50%;
     width: auto;
 }
 
 #responseChart {
-    height: 35%;
-    width: auto;
+    width: 33%;
+    height: auto;
     margin: 5;
 }
 
 #mainCampus {
     margin: 5;
-    height: 90%;
-    width: auto;
+    width: 100%;
+    height: auto;
     box-shadow: 0 10px 10px black;
 }
 
 #costalCampus {
-    height: 50%;
     margin: 5;
-    width: auto;
+    width: 66%;
+    height: auto;
     box-shadow: 0 10px 10px black;
 }
