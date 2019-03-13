@@ -40,7 +40,7 @@ li {
 }
 
 p {
-    text-align: justify;
+    text-align: left;
 }
 
 label,
@@ -187,7 +187,7 @@ main {
     justify-content: center;
     align-items: center;
     height: 100%;
-    overflow: hidden;
+    padding: 20px;
 }
 
 .quarterColumn {
@@ -254,6 +254,7 @@ table .btn {
 /* Add a black background color to the top navigation */
 
 .topnav {
+    padding-top: 10px;
     background-color: Black;
     overflow: hidden;
 }
@@ -272,17 +273,17 @@ table .btn {
 /* Change the color of links on hover */
 
 .topnav a:hover {
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #113f67;
-    color: #1a5ea2;
+    -moz-border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: slategray;
+    color: black;
 }
 
 /* Add an active class to highlight the current page */
 
-.active.active {
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+.topnav a.active {
+    -moz-border-radius: 5px 5px 0px 0px;
+    border-radius: 5px 5px 0px 0px;
     background-color: #113f67;
     color: black;
 }
@@ -309,7 +310,8 @@ table .btn {
     .threeQuartersColumn {
         width: 100%;
         height: auto;
-        max-height: 300px;
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 }
 
@@ -322,7 +324,15 @@ table .btn {
     .topnav.responsive a.icon {
         position: absolute;
         right: 0;
-        top: 0;
+        top: 10px;
+    }
+    .topnav.responsive a.active {
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+    .topnav.responsive a:hover {
+        -moz-border-radius: 5px;
+        border-radius: 5px;
     }
     .topnav.responsive a {
         float: none;
@@ -776,10 +786,7 @@ span.psw {
     font-size: 15px;
     margin-left: 5px;
     margin-right: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px 10px;
     background-color: #808080;
     border-radius: 5px;
     color: #202020;

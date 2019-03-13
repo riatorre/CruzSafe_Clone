@@ -2,7 +2,7 @@
     Code meant specifically for reports.html. Allows for the fetching of pages of reports as well as filtering of reports.
 */
 
-var numButtons = 20;
+var numButtons = 5;
 
 /*
  *  Function to create a report button from template;

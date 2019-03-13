@@ -11,3 +11,12 @@ function toggleTopNav() {
         x.className = "topnav";
     }
 }
+
+function toggleFilters() {
+    var x = document.getElementById("filterOptions");
+    if (x.className === "text_box") {
+        x.className += " responsive";
+    } else {
+        x.className = "text_box";
+    }
+}

@@ -67,6 +67,29 @@ function showTab(n) {
     }
 }
 
+function swapNavBTNContent(mediaQuery) {
+    var firstBtn = document.getElementById("firstBtn");
+    var prevBtn = document.getElementById("prevBtn");
+    var nextBtn = document.getElementById("nextBtn");
+    var lastBtn = document.getElementById("lastBtn");
+    if (mediaQuery.matches) {
+        if (firstBtn)
+            firstBtn.innerHTML = '<i class="fa fa-step-backward"></i>';
+        if (prevBtn) prevBtn.innerHTML = '<i class="fa fa-caret-left"></i>';
+        if (nextBtn) nextBtn.innerHTML = '<i class="fa fa-caret-right"></i>';
+        if (lastBtn) lastBtn.innerHTML = '<i class="fa fa-step-forward"></i>';
+    } else {
+        if (firstBtn) firstBtn.innerHTML = "First";
+        if (prevBtn) prevBtn.innerHTML = "Prev";
+        if (nextBtn) nextBtn.innerHTML = "Next";
+        if (lastBtn) lastBtn.innerHTML = "Last";
+    }
+}
+
+var mediaQuery = window.matchMedia("(max-width: 600px)");
+swapNavBTNContent(mediaQuery);
+mediaQuery.addListener(swapNavBTNContent);
+
 /*
  *  Navigate 'n' pages; 'n' is an integer
  *  Primarily used by 'nextBtn' and 'prevBtn', but may be used by others
