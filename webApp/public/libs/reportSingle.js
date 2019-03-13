@@ -49,7 +49,7 @@ function generateSingleReport(reportID, document) {
             generateSingleReportHelper(reportID, document, tagDict, tagColors);
         }
     };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.open("POST", "http://192.168.1.216:8080/api/reports/tags");
     request.send();
 }
 function generateSingleReportHelper(reportID, document, tags, tagColors) {
@@ -215,7 +215,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             modal.style.display = "block"; // Display the modal
         }
     };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
+    request.open("POST", "http://192.168.1.216:8080/api/reports/reportID");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id: reportID }));
 }
@@ -231,9 +231,8 @@ function insertTS(initialOpenTS, reportID, webID) {
     } else {
         insertNote(reportID, webID, "{Report marked as complete}"); // Code that adds a note for Complete.
     }
-
     const request = new XMLHttpRequest();
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/timestamp");
+    request.open("POST", "http://192.168.1.216:8080/api/reports/timestamp");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(
         JSON.stringify({
@@ -255,7 +254,7 @@ function removeTS(reportID, webID) {
     const request = new XMLHttpRequest();
     request.open(
         "POST",
-        "https://cruzsafe.appspot.com/api/reports/removeTimestamp"
+        "http://192.168.1.216:8080/api/reports/removeTimestamp"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(
@@ -303,7 +302,7 @@ function displayPrewrittenResponses(reportID, webID, tagID) {
     };
     request.open(
         "POST",
-        "https://cruzsafe.appspot.com/api/reports/prewrittenResponses"
+        "http://192.168.1.216:8080/api/reports/prewrittenResponses"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ tagID: tagID }));
@@ -316,7 +315,7 @@ function sendMessage(reportID, webID, message) {
     const request = new XMLHttpRequest();
     request.open(
         "POST",
-        "https://cruzsafe.appspot.com/api/messages/submitMessage"
+        "http://192.168.1.216:8080/api/messages/submitMessage"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(
@@ -378,7 +377,7 @@ function displayNotes(reportID) {
             }
         }
     };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/notes");
+    request.open("POST", "http://192.168.1.216:8080/api/reports/notes");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ reportID: reportID }));
 }
@@ -399,15 +398,24 @@ function submitNote(reportID) {
  Once done, refreshes the notes page by regathering displayNotes and displaying them.
  */
 function insertNote(reportID, webID, content) {
+    const request_ntf = new XMLHttpRequest("no-cors");
+    request_ntf.open("POST", "https://exp.host/--/api/v2/push/send");
+    request_ntf.setRequestHeader("Content-Type", "application/json");
+    request_ntf.send(
+        JSON.stringify({
+            to: "ExponentPushToken[_EdKi3JzZPVj5V8mYFtOOa]",
+            title: "NOTIFICATION",
+            body: "BODY",
+            sound: "default",
+            priority: "high"
+        })
+    );
     if (content != "") {
         const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             displayNotes(reportID);
         };
-        request.open(
-            "POST",
-            "https://cruzsafe.appspot.com/api/reports/newNote"
-        );
+        request.open("POST", "http://192.168.1.216:8080/api/reports/newNote");
         request.setRequestHeader(
             "Content-Type",
             "application/json;charset=UTF-8"

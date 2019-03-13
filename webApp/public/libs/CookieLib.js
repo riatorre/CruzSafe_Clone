@@ -8,7 +8,7 @@
  */
 function setCookie(name, val, num_days) {
     var d = new Date();
-    d.setTime(d.getTime() + (num_days * 24 * 60 * 60 * 1000));
+    d.setTime(d.getTime() + num_days * 24 * 60 * 60 * 1000);
     var expires = "expires=" + d.toUTCString();
     document.cookie = name + "=" + val + ";" + expires + ";path=/";
 }
@@ -21,10 +21,10 @@ function setCookie(name, val, num_days) {
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
+    var ca = decodedCookie.split(";");
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0) == ' ') {
+        while (c.charAt(0) == " ") {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
@@ -38,5 +38,5 @@ function getCookie(cname) {
  * As shown, simply uses setCookie();
  */
 function deleteCookie(cname) {
-    setCookie(cname, '', 0);
+    setCookie(cname, "", 0);
 }

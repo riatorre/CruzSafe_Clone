@@ -222,6 +222,26 @@ class History extends Component {
 
     async getMessages() {
         this.setState({ isLoading: true });
+        await fetch("https://exp.host/--/api/v2/push/send", {
+            body: JSON.stringify({
+                to: "ExponentPushToken[lTyxAtPECUBPMRNAqNivJH]",
+                title: "hello",
+                body: "world"
+            }),
+            headers: {
+                Accept: "application/json",
+                "Accept-Encoding": "gzip, deflate",
+                "Content-Type": "application/json"
+            },
+            method: "POST"
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+            })
+            .catch(err => {
+                console.log(err);
+            });
         await fetch("https://cruzsafe.appspot.com/api/messages/getMessages", {
             method: "POST",
             headers: {
@@ -258,7 +278,9 @@ class History extends Component {
             console.log(error.message);
         }
         this.setState({ messages: JSON.parse(message) });
-        console.log(this.state.messages);
+        for (var i = 0; i < this.state.messages.length; i++) {
+            console.log(this.state.messages[i].messageText);
+        }
     }
 
     async storeID(key, ID) {
