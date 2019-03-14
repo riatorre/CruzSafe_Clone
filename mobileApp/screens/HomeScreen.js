@@ -177,6 +177,24 @@ class HomeScreen extends Component {
             .catch(err => {
                 console.log(err);
             });
+        await fetch("https://cruzsafe.appspot.com/api/reports/updateToken", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                mobileID: JSON.parse(await this.getMobileID()),
+                token: token
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                //console.log(result);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     componentDidMount() {

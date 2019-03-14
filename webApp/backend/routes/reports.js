@@ -607,6 +607,27 @@ router.post("/reportTS", function(req, res) {
     });
 });
 
+router.post("/updateToken", function(req, res) {
+    myConsole.log("[Database] Attempting to set token for" + req.body.mobileID);
+    connection.query(
+        "UPDATE reports SET token = " +
+            JSON.stringify(req.body.token) +
+            " WHERE mobileID = " +
+            req.body.mobileID,
+        function(err, rows, fields) {
+            if (err) {
+                myConsole.error(err);
+                res.json({ message: "An Error has Occured" });
+            } else {
+                myConsole.log(
+                    "[Database] set token for mobileID = " + req.body.mobileID
+                );
+                res.json(rows);
+            }
+        }
+    );
+});
+
 /*
     Given a tag, return all prewritten responses
 */
