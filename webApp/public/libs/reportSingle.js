@@ -199,6 +199,16 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                 photo.style.display = "none";
             }
 
+            // Update the whitelist button.
+            const dropdown = document.getElementById("whitelistDropdown")
+                .children;
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].setAttribute(
+                    "onclick",
+                    "modifyExpireSingle(1," + reportID + ")"
+                );
+            }
+
             displayNotes(reportID);
 
             // Update add new note input

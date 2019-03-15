@@ -3,47 +3,113 @@
 */
 
 .row {
-  display: flex;
-  background: #113f67;
+    display: flex;
+    background: #113f67;
 }
 
 #column1 {
-  flex: 30%;
+    flex: 30%;
 }
 #column2 {
-  flex: 70%;
+    flex: 70%;
 }
 
 #userList {
-  margin-top: 20px;
-  margin-right: 20px;
-  margin-left: 20px;
-  padding: 10px;
-  height: 100%;
-  border: 2px solid black;
-  background: black;
-  overflow-y: auto;
+    margin-top: 20px;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 10px;
+    height: 100%;
+    border: 2px solid black;
+    background: black;
+    overflow-y: auto;
 }
 
 #selectUser {
-  width: 100%;
-  font-size: 15px;
-  background: #023c6b;
-  text-align: left;
+    width: 100%;
+    font-size: 15px;
+    background: #023c6b;
+    text-align: left;
 }
 #selectUser:hover {
-  /* background: turquoise; */
-  background: #1a4f77;
+    /* background: turquoise; */
+    background: #1a4f77;
 }
 
 .transbox {
-  /* margin-right: 10px; */
-  border: 1px solid black;
+    /* margin-right: 10px; */
+    border: 1px solid black;
 }
 
 #networkInfo {
-  margin-right: 20px;
-  padding: 20px;
-  /* border: 1px solid black; */
-  /* background: rgb(123, 123, 123, 0.9); */
+    margin-right: 20px;
+    padding: 20px;
+    /* border: 1px solid black; */
+    /* background: rgb(123, 123, 123, 0.9); */
+}
+.whitelistButton {
+    position: relative;
+    display: inline-block;
+}
+
+.whitelistButton-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.whitelistButton-content option {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.whitelistButton option:hover {
+    background-color: #ddd;
+}
+
+.Respondbtn {
+    cursor: pointer;
+}
+
+.Respondbtn:hover,
+.Respondbtn:focus {
+    background-color: #2980b9;
+}
+
+/*
+	Dropdown Code
+*/
+
+/* Show the dropdown menu (use JS to add this class to the .selectMessage-content container when the user clicks on the dropdown button) */
+.show {
+    display: block;
+}
+.dropbtn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
 }
