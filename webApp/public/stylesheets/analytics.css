@@ -1,41 +1,4 @@
-/*
-    Stylesheet for Analytics.html
-*/
-.row {
-  display: flex;
-  background: #113f67;
-}
-#column1 {
-  flex: 35%;
-}
-#column2 {
-  flex: 65%;
-}
-
-#analyticsGraph {
-  width: 90%;
-  margin-right: 5%;
-  margin-left: 5%;
-  margin-top: 30px;
-  margin-bottom: 5%;
-  height: auto;
-}
-
-#analyticsOptions {
-  margin-top: 30px;
-  margin-left: 40px;
-  margin-bottom: 5%;
-  flex: 15%;
-  margin-right: 40px;
-  height: 100%;
-  padding: 20px;
-  border: 3px solid black;
-}
-
-#analyticsOptions > p {
-  color: white;
-}
-
-#analyticsOptions > h1 {
-  color: white;
+html,
+body {
+    background-color: #113f67;
 }

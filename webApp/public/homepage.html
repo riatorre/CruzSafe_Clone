@@ -1,20 +1,8 @@
-<!--
-    Primary page of the application. Displayed 24/7 in operation. 
-    Designed to provide users with instant data coming from mobile application users. 
-    Contents:
-    - Map of UCSC + Costal Sciences Campus
-        - Pop-up icons of unopened/unsolved/solved reports
-    - List of tags showing color code
-    - Pie Chart displaying average response times/completion times
-    - Counter of unopened & counter of unsolved
-    - [Standardized] Bottom border
-    - [Standardized] Navagation bar - set to Dashboard
--->
-
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>CruzSafe: Home</title>
         <!--Imports Stylesheet-->
         <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
@@ -23,39 +11,13 @@
             type="text/css"
             rel="stylesheet"
         />
-        <!--Imports External Icon Font Library-->
-        <!--TODO: Install all needed Icons & remove external dependency-->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
     </head>
     <body>
-        <!--reportHomeRefresher code-->
-        <input type="hidden" id="storedTS" />
-        <script>
-            var tid = "";
-            document.addEventListener("DOMContentLoaded", function() {
-                // When DOM is loaded
-                var latestTS = document.getElementById("latestTS");
-                getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
-            });
-
-            // Sets up Timer to call function every 10 seconds;
-            // Time is in milliseconds
-            if (tid === "") {
-                tid = setInterval(checkTS, 5000);
-            }
-
-            function checkTS() {
-                // Process to test for a different timestamp.
-                getTS(document, "storedTS", 0);
-            }
-        </script>
-        <!--End reportHomeRefresher code-->
-
-        <center>
-            <!--Header-->
+        <header>
             <div class="topnav" id="topNav">
                 <a class="active" href="./homepage.html"
                     ><i class="fa fa-home" aria-hidden="true"></i> Home</a
@@ -75,223 +37,104 @@
                     ><i class="fa fa-sign-out" aria-hidden="true"></i>
                     Sign-Out</a
                 >
-                <a
-                    href="javascript:void(0);"
-                    class="icon"
-                    onclick="toggleTopNav()"
-                >
-                    <i class="fa fa-bars"></i>
+                <a class="icon" onclick="toggleTopNav()">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
                 </a>
             </div>
-            <!--Body-->
+        </header>
+        <main class="withHeader">
             <div class="row">
-                <div id="column1" class="thirdColumn">
-                    <img
-                        id="responseChart"
-                        src="./assets/images/response_chart.png"
-                        alt="mock resonse time chart"
-                    />
-                    <br />
-                    <img
-                        id="costalCampus"
-                        src="./assets/images/UCSC_Costal_Campus.png"
-                        alt="UCSC costal sciences campus map"
-                    />
+                <div class="column quarter">
+                    <div class="row third leaf">
+                        <img
+                            id="responseChart"
+                            src="./assets/images/response_chart.png"
+                            class="imgcontainer"
+                            alt="mock resonse time chart"
+                        />
+                    </div>
+                    <div class="row twoThirds leaf">
+                        <img
+                            id="costalCampus"
+                            src="./assets/images/UCSC_Costal_Campus.png"
+                            class="imgcontainer"
+                            alt="UCSC costal sciences campus map"
+                        />
+                    </div>
                 </div>
-                <div id="column2" class="thirdColumn">
+                <div class="column half leaf">
                     <img
                         id="mainCampus"
                         src="./assets/images/UCSC_Main_Campus.png"
+                        class="imgcontainer"
                         alt="UCSC main campus map"
                     />
                 </div>
-                <div id="column3" class="thirdColumn">
-                    <h1>
-                        ----Information such as tags will go here----
-                    </h1>
-                    <button onclick="displayReport(150)" id="latestReport">
-                        LATEST REPORT</button
-                    ><br />
-                    <button>User</button>
-                    <button>Dispatch</button>
-                    <button>Supervisor</button>
-                    <button>Admin</button>
-                    <button>Developer</button>
-                    <br />
-                    <h1>
-                        ----Counter of unopened/unresolved reports here----
-                    </h1>
-                </div>
-            </div>
-            <!--Footer-->
-            <!-- <div class="footer">
-                <section>
-                    <div>
-                    <p style="text-align: center">
-                        CruzSafe Made with <i id="heart" class="fa fa-heart-o"></i> by UCSC
-                        team
-                    </p>
-                    </div>
-                </section>
-            </div> -->
-            <script src="./libs/NavLib.js"></script>
-        </center>
-
-        <!--REPORT MODAL; USE WITH "report.js" METHODS!-->
-        <center>
-                <div id="report" class="modal">
-                    <form class="modal-content animate" method="POST">
-                        <div class="imgcontainer">
-                            <!--Close Button; closes Modal-->
-                            <span
-                                id = "closeReport"
-                                onclick="hideReport(0)"
-                                class="close"
-                                title="Close Modal"
-                                ><i class="fa fa-times"></i
-                            ></span>
-                            <!--Report Content-->
-                            <div id="reportContent" class="container">
-                                <div class="reportRow">
-                                    <div id="column1" class="reportColumn1">
-                                        <p>
-                                            <b>Incident:</b> #<span id = "incidentID"></span> <b id="resolvedUnresolved"></b>
-                                        </p>
-                                        <p><b>Date:</b> <span id="reportTS"></span></p>
-                                        <p><b>Time:</b> <span id="reportTS2"></span></p>
-                                        <p><b>Location:</b> <span id="location"></span> <span id="actualPinned"></span></p>
-                                        <p><b>Tag:</b> <span id="tag"></span></p>
-                                        <br />
-                                        <iframe id="reportMap"></iframe>
-                                        <br />
-                                        <img
-                                            id="reportPhoto"
-                                            alt="report photo"
-                                        />
-                                        <video 
-                                            width = "320" height = "240" controls = "controls" 
-                                            id="reportVideo" alt="report video" type = "video/mp4">
-                                        </video>
-                                    </div>
-                                    <div id="column2" class="reportColumn2">
-                                        <br />
-                                        <p><b>Name:</b> <span id="fullName" placeholder="FullName"></span> - #<span id="mobileID"></span></p>
-                                        <p><b>Phone:</b> <span id="phone"></span></p>
-                                        <p><b>Email:</b> <span id="email"></span></p>
-                                        <br />
-                                        <b>Report Body:</b> 
-                                        <br /><br />
-                                        <p id = "body"></p>
-                                        <br />
-                                        <b>Notes:</b> 
-                                        <br /><br />
-                                        <div id = "reportNotes"></div>
-                                        <br />
-                                        <input id = "reportNoteInput" placeholder = "Add Notes..."></input>
-                                        <a id = "submitNote" class="Respondbtn">Submit</a><br/>
-                                        <br /><br /><br />
-                                        <div class="selectMessage">
-                                            <a onclick="myFunction()" class="Respondbtn">Respond</a>
-                                            <div id="messageDropdown" class="selectMessage-content">
-                                                <option value="TrashSolved"> Trash from that location has been picked up. </option>
-                                                <option value="WaterLeakageSolved"> Water leakage from that location has been resolved.</option>
-                                                <option value="BrokenLightSolved"> Broken light from that location has been fixed.</option>
-                                                <option value="BrokenWindowSolved"> Broken Window from that location has been fixed.</option>
-                                                <option value="LightDeficiencySolved"> Light Deficiency from that location has been resolved. </option>
-                                                <option value="FixProblem1"> Someone will be there with in an hour. </option>
-                                                <option value="FixProblem2"> Someone will be there with in half-hour. </option>
-                                            </div>
-                                        </div>
-                                        <br /><br /><br /><br />
-                                        <div id="responseButtons">
-                                            <!-- <button id="reportRespond">
-                                                Respond
-                                            </button> -->
-                                            <a class="btn large"id="reportOther">
-                                                Other Options
-                                            </a>
-                                            <a class="btn large" id="reportResolve">
-    
-                                            </a>
-                                            <br />
-                                            <br />
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="column quarter">
+                    <div class="row half leaf">
+                        <div>
+                            <p>
+                                ----Information such as tags will go here----
+                            </p>
+                            <button
+                                onclick="displayReport(150)"
+                                id="latestReport"
+                            >
+                                LATEST REPORT
+                            </button>
+                            <div>
+                                <button>User</button>
+                                <button>Dispatch</button>
+                                <button>Supervisor</button>
+                                <button>Admin</button>
+                                <button>Developer</button>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="row half leaf">
+                        <p>
+                            ----Counter of unopened/unresolved reports here----
+                        </p>
+                    </div>
                 </div>
-            </center>
-            <script src="./libs/reportSingle.js"></script>
-            <script>
-                document.onkeydown = function (e) {
-                    e = e || window.event;
-                    var isEscape = false;
-                    if("key" in e){
-                        isEscape = (e.key === "Escape" || e.key === "Esc");
-                    } else{
-                        isEscape = (e.keyCode === 27);
-                    }
-                    if(isEscape){ // Exit out of report modal if applicable
-                        if(document.getElementById("report").style.display === "block"){ // only if it is showing.
-                            var span = document.getElementById("closeReport")
-                            var click = new Event('click');
-                            span.dispatchEvent(click);
-                        }
-                    }
-                    // TODO: Fix this space-to-play-video code!
-                    else{
-                        var isSpace = false;
-                        if("key" in e){
-                            isSpace = (e.key === "Space");
-                        } else{
-                            isSpace = (e.keyCode === 32);
-                        }
-                        if(isSpace){
-                            var video = document.getElementById("reportVideo");
-                            if(document.getElementById("report").style.display === "block"){ // If the modal is being shown
-                                if(video.paused){
-                                    video.play;
-                                } else{
-                                    video.pause;
-                                }
-                            }
-                        }
-                    }
-                    
-                };
-            </script>
-            <audio
-                id="incomingTag1"
-                src="./assets/sounds/Ball.wav"
-            ></audio>
-            <audio
-                id="incomingTag2"
-                src="./assets/sounds/Chime.wav"
-            ></audio>
-            <audio
-                id="incomingTag3"
-                src="./assets/sounds/Coins.wav"
-            ></audio>
-            <audio
-                id="incomingTag4"
-                src="./assets/sounds/Crunch.wav"
-            ></audio>
-            <audio
-                id="incomingTag5"
-                src="./assets/sounds/Maraca.wav"
-            ></audio>
-            <audio
-                id="incomingTag6"
-                src="./assets/sounds/Shuffle.wav"
-            ></audio>
-            <audio
-                id="incomingTag0"
-                src="./assets/sounds/Stapler.wav"
-            ></audio>
-            <!--END REPORT MODAL-->
+            </div>
+        </main>
+        <div id="modalTarget"></div>
+        <audio id="incomingTag1" src="./assets/sounds/Ball.wav"></audio>
+        <audio id="incomingTag2" src="./assets/sounds/Chime.wav"></audio>
+        <audio id="incomingTag3" src="./assets/sounds/Coins.wav"></audio>
+        <audio id="incomingTag4" src="./assets/sounds/Crunch.wav"></audio>
+        <audio id="incomingTag5" src="./assets/sounds/Maraca.wav"></audio>
+        <audio id="incomingTag6" src="./assets/sounds/Shuffle.wav"></audio>
+        <audio id="incomingTag0" src="./assets/sounds/Stapler.wav"></audio>
+        <script src="./libs/modalLib.js"></script>
+        <script src="./libs/NavLib.js"></script>
+        <script src="./libs/reportSingle.js"></script>
         <script src="./libs/reportHomeRefresher.js"></script>
         <script src="./libs/reportHome.js"></script>
+
+        <!--reportHomeRefresher code-->
+        <input type="hidden" id="storedTS" />
+        <script>
+            setupModal("modalTarget", createReportModal);
+
+            var tid = "";
+            document.addEventListener("DOMContentLoaded", function() {
+                // When DOM is loaded
+                getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
+            });
+
+            // Sets up Timer to call function every 10 seconds;
+            // Time is in milliseconds
+            if (tid === "") {
+                tid = setInterval(checkTS, 5000);
+            }
+
+            function checkTS() {
+                // Process to test for a different timestamp.
+                getTS(document, "storedTS", 0);
+            }
+        </script>
+        <!--End reportHomeRefresher code-->
     </body>
 </html>

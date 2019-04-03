@@ -120,33 +120,6 @@ Date.prototype.addDays = function(days) {
     return date;
 };
 
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function showWhitelistDropdown() {
-    document.getElementById("whitelistDropdown").classList.toggle("show");
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-    const dropdowns = [
-        "selectMessage-content",
-        "forwardButton-content",
-        "whitelistButton-content"
-    ];
-    if (!event.target.matches(".Respondbtn")) {
-        for (i = 0; i < dropdowns.length; i++) {
-            var dropdownElement = document.getElementsByClassName(dropdowns[i]);
-            var j;
-            for (j = 0; j < dropdownElement.length; j++) {
-                var openDropdown = dropdownElement[j];
-                if (openDropdown.classList.contains("show")) {
-                    openDropdown.classList.remove("show");
-                }
-            }
-        }
-    }
-};
-
 /*
     Helper function that converts a JS date into readable format (styling).
     Options are set to include hours,

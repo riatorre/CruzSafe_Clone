@@ -1,222 +1,22 @@
-/*
-	Stylesheet for reports.html
-*/
+html,
+body {
+    background-color: #113f67;
+}
 
-#column1 {
-    float: left;
-    width: 35%;
-    height: 100%;
+/*
+ *  Overwrite of Main
+ */
+.column.leaf,
+.row.leaf {
+    flex-direction: column;
+}
+
+.filterOptions {
     padding: 20px;
-}
-#column2 {
-    float: left;
-    width: 65%;
-    height: 100%;
-    padding: 20px;
-}
-
-.reportColumn1 {
-    flex: 35%;
-}
-
-.reportColumn2 {
-    flex: 65%;
-    border-style: groove;
-    border-left-width: 2px;
-    border-left-color: gray;
-}
-
-/*
-	BEGIN REPORT MODAL STYLING
-*/
-.reportRow {
-    display: flex;
-}
-
-#reportResolve {
-    background: green;
-}
-#reportResolve:hover {
-    background: limegreen;
-}
-
-#reportExpiration {
-    text-align: right;
-}
-
-#reportMap {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
-}
-#reportPhoto {
-    float: left;
-    height: auto;
-    width: 90%;
-    margin: 5%;
-    margin-top: 0%;
-}
-
-#responseButtons > button {
-    font-size: 20px;
-    margin-left: 50px;
-    margin-top: 50px;
-    padding: 10px 20px;
-    top: 50%;
-    size: large;
-}
-
-#reportNotes {
-    text-align: left;
-    margin: 10px;
-    border-width: 2px;
-    border-color: gray;
-    border-style: ridge;
-    overflow: auto;
-    min-height: 100px;
-    height: 12vh;
-}
-
-/**/
-.Respondbtn {
-    cursor: pointer;
-}
-
-.Respondbtn:hover,
-.Respondbtn:focus {
-    background-color: #2980b9;
-}
-
-.selectMessage {
-    position: relative;
-    display: inline-block;
-}
-
-.selectMessage-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.selectMessage-content option {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.selectMessage option:hover {
-    background-color: #ddd;
-}
-
-.forwardButton {
-    position: relative;
-    display: inline-block;
-}
-
-.forwardButton-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.forwardButton-content option {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.forwardButton option:hover {
-    background-color: #ddd;
-}
-
-.whitelistButton {
-    position: relative;
-    display: inline-block;
-}
-
-.whitelistButton-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    overflow: auto;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.whitelistButton-content option {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.whitelistButton option:hover {
-    background-color: #ddd;
-}
-
-/* Show the dropdown menu (use JS to add this class to the .selectMessage-content container when the user clicks on the dropdown button) */
-.show {
-    display: block;
-}
-/*
-	Dropdown Code
-*/
-.dropbtn {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-}
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
-
-input {
-    -webkit-appearance: textfield;
-    background-color: #b7b2b2;
-    -webkit-rtl-ordering: logical;
-    cursor: text;
-    padding: 0.3vw;
-    border-width: 1px;
-    border-style: inset;
-    border-color: initial;
-    border-image: initial;
-    width: 80%;
-    min-width: 150px;
-}
-
-/*
-	END REPORT MODAL STYLING
-*/
-
-#filterOptions {
+    -moz-border-radius: 8;
+    -webkit-border-radius: 8px;
+    border-radius: 12px;
+    color: #0d3c6c;
     width: 90%;
     height: 100%;
     margin: 0px;
@@ -225,46 +25,50 @@ input {
     background-color: black;
 }
 
-#filterOptions > p {
+.filterOptions p {
     display: inline;
     color: #095ea3;
 }
 
-#filterOptions > div > h3 {
+.filterOptions div h3 {
     color: #095ea3;
 }
 
-#filterOptions > div > a,
-#filterOptions > div > p {
+.filterOptions div a,
+.filterOptions div p {
     color: #095ea3;
 }
 
-#filterOptions > div > .icon {
+.filterOptions > div > .icon {
     display: none;
 }
 
-#reportList {
-    margin-top: 20px;
-    height: 70%;
-    border: 0px solid black;
-    background: black;
-    overflow: auto;
-    padding: 10px;
+.filterOptions i.fa-bars {
+    font-size: 1.8em;
+    font-weight: bold;
 }
 
-#navigationButtons {
-    margin-top: 20px;
-    margin-bottom: 20px;
+.filterInputs {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
-/*
-	Styling for report buttons called launchReport
-*/
-#reportHeader {
+.filterDropdowns {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    justify-content: space-between;
+}
+
+.reportHeader {
+    width: 90%;
+    justify-content: space-between;
     padding: 15px;
     color: #095ea3;
     background: Black;
-    overflow: auto;
     font-size: 15px;
     text-align: left;
     display: flex;
@@ -272,58 +76,92 @@ input {
     white-space: pre;
 }
 
-#launchReport {
-    height: 46;
+.reportList {
+    width: 90%;
+    border: 0px solid black;
+    background: black;
+    overflow: auto;
+    padding: 10px;
+}
+
+.report {
     width: 100%;
+    height: 44px;
+    justify-content: space-between;
     padding: 5px;
-    margin-bottom: 4px;
-    margin-top: 4px;
     font-size: 15px;
     text-align: left;
     display: flex;
+    white-space: pre;
+}
+
+.reportNotes {
+    text-align: left;
+    border-width: 2px;
+    border-color: gray;
+    border-style: ridge;
     overflow: auto;
+    min-height: 10vh;
+    height: 40%;
+    max-height: 40vh;
+    width: 90%;
 }
 
-#buttonResolvedUnresolved {
+.reportNotes > :nth-child(even) {
+    background-color: silver;
+}
+
+.dropdown {
+    display: inline-flex;
+}
+
+.dropdown select {
+    width: 90%;
+}
+
+.buttonResolvedUnresolved,
+.buttonReportIDText,
+.buttonIncidentIDText {
     width: 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#buttonIncidentIDText {
-    width: 5%;
-}
-
-#buttonReportTSText {
+.buttonReportTSText,
+.buttonTagText,
+.buttonFullNameText {
     width: 15%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#buttonTagText {
-    width: 15%;
+.buttonLocationText,
+.buttonBodyText {
+    width: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#buttonLocationText {
-    width: 15%;
-}
-
-#launchReport > #buttonLocationText {
+.report > .buttonLocationText {
     font-style: italic;
 }
 
-#buttonFullNameText {
-    width: 15%;
+.navigationButtons {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-#buttonBodyText {
-    width: 27%;
-}
-
-#navigationButtons > button {
+.navigationButtons > button {
     display: inline-block;
     font-size: 15px;
     padding-right: 20px;
     padding-left: 20px;
 }
 
-#navigationButtons > div {
+.navigationButtons > div {
     display: inline-block;
     font-size: 15px;
     padding-right: 20px;
@@ -331,42 +169,78 @@ input {
 }
 
 @media only screen and (max-width: 600px) {
-    #filterOptions {
+    .filterOptions {
         height: auto;
         width: 100%;
     }
-    #filterOptions :not(:first-child) {
+    .filterOptions :not(:first-child) {
         display: none;
     }
-    #filterOptions div a.icon {
+    .filterOptions div a.icon {
         float: right;
         display: block;
     }
-    #navigationButtons {
+    .navigationButtons {
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    #navigationButtons > div {
+    .navigationButtons > div {
         padding: 0px;
     }
-    #navigationButtons > button {
+    .navigationButtons > button {
         margin: 0px;
         padding: 5px 10px;
     }
-    .indicator {
-        padding: 3px 6px;
-        margin: 2px;
+
+    .buttonResolvedUnresolved,
+    .buttonReportIDText,
+    .buttonIncidentIDText {
+        width: 20%;
+    }
+
+    .buttonBodyText {
+        width: 40%;
+    }
+
+    .buttonTagText,
+    .buttonFullNameText,
+    .buttonLocationText,
+    .buttonReportTSText {
+        display: none;
+    }
+}
+
+@media all and (max-width: 599px) {
+    .filterOptions i.fa-bars {
+        font-size: 1.6em;
     }
 }
 
 @media screen and (max-width: 600px) {
-    #filterOptions.responsive {
+    .filterOptions.responsive {
         position: relative;
         height: 100%;
     }
-    #filterOptions.responsive * {
+    .filterOptions.responsive * {
         float: none;
         display: block;
         text-align: left;
     }
+    .reportList {
+        max-height: 250px;
+    }
+
+    /*
+     *  Convert all rows & columns into rows of a single
+     *  Column where the column is the screen itself.
+     *
+     *  overwrite of Main
+     */
+    /*.row,
+    .column {
+        display: block;
+        width: 100% !important;
+        min-height: 40px;
+        height: auto !important;
+    }*/
 }

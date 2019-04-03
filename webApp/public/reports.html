@@ -1,71 +1,24 @@
-<!--
-    Synopsis of all incoming reports from mobile users. Displays all information 
-    in a condensed fashion in an effective yet space-efficient design. Allows
-    the ability for detailed filtering of reports. 
-    Contents:
-    - Scrollable list of reports
-        - Icons displaying status of unopened/unsolved/solved
-        - Summary of data fields
-    - Page controls to manipulate list of reports
-    - Filtering options
-    - Search button to apply filters
-    - [Standardized] Bottom border
-    - [Standardized] Navagation bar - set to Dashboard
--->
-
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>CruzSafe: Reports</title>
-        <!--Import Stylesheet-->
-        <link
-            href="./stylesheets/main.css"
-            type="text/css"
-            rel="stylesheet"
-        />
+        <!--Imports Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
         <link
             href="./stylesheets/reports.css"
             type="text/css"
             rel="stylesheet"
         />
-        <!--Imports External Icon Font Library-->
-        <!--TODO: Install all needed Icons & remove external dependency-->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-
     </head>
     <body>
-        <script src="./libs/NavLib.js"></script>
-
-        <!--reportListRefresher code-->
-        <input type="hidden" id= "storedTS">
-        <script>
-            var tid = "";
-            document.addEventListener('DOMContentLoaded', function(){
-                // When DOM is loaded
-                setupReports(document); // Setup reports initially
-                var latestTS = document.getElementById("latestTS");
-                getTS(document, "storedTS", 1);// Gets the initial TS and sets up listener
-            });
-
-            // Sets up Timer to call function every 10 seconds;
-            // Time is in milliseconds
-            if(tid === ""){
-                tid = setInterval(checkTS,5000);
-            }
-
-            function checkTS(){
-                // Process to test for a different timestamp.
-                getTS(document, "storedTS", 0);
-            }
-        </script>
-        <!--End reportListRefresher code-->
-
-        <!--Header-->
-        <div class="topnav" id="topNav">
+        <header>
+            <div class="topnav" id="topNav">
                 <a href="./homepage.html"
                     ><i class="fa fa-home" aria-hidden="true"></i> Home</a
                 >
@@ -84,320 +37,318 @@
                     ><i class="fa fa-sign-out" aria-hidden="true"></i>
                     Sign-Out</a
                 >
-                <a
-                    href="javascript:void(0);"
-                    class="icon"
-                    onclick="toggleTopNav()"
-                >
-                    <i class="fa fa-bars"></i>
+                <a class="icon" onclick="toggleTopNav()">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
                 </a>
             </div>
-
-        <!--Body-->
-        <div class="row">
-            <div class="quarterColumn">
-                <div id="filterOptions" class="text_box">
-                    <div style="display:flex; justify-content: space-between">
-                        <h3>Filters:</h3>
-                            <a
-                                href="javascript:void(0);"
-                                class="icon"
-                                onclick="toggleFilters()"
-                            >
-                                <i class="fa fa-bars"></i>
+        </header>
+        <main class="withHeader">
+            <div class="column">
+                <div class="row quarter leaf">
+                    <div id="filterOptions" class="filterOptions">
+                        <div
+                            style="display:flex; justify-content: space-between"
+                        >
+                            <h3>Filters:</h3>
+                            <a class="icon" onclick="toggleFilters()">
+                                <i class="fa fa-bars" aria-hidden="true"></i>
                             </a>
-                    </div>
-                    <div>
-                        <input id = "filterTag" placeholder="Tag"></input>
-                        <input id = "filterIncidentID" placeholder="Incident id(s)"></input>
-                        <input id = "filterDate" placeholder="Report date (MM-DD-YYYY)"></input>
-                        <input id = "filterTime" placeholder="Report time (HH:MM)"></input>
-                        <input id = "filterBody" placeholder="Body contains"></input>
-                        <input id = "filterLocation" placeholder="Location"></input>
-                        <input id = "filterCoordinates" placeholder="Coordinates"></input>         
-                        <input id = "filterMobileID" placeholder="Mobile user id(s)"></input>
-                        <input id = "filterFirstName" placeholder="First name"></input>
-                        <input id = "filterLastName" placeholder="Last name"></input>
-                        <input id = "filterEmail" placeholder="Email (Enter xxx@ucsc.edu)"></input>
-                        <input id = "filterPhone" placeholder="Phone (Enter 555555555)"></input>
-                        <input id = "filterExpire" placeholder="Expiring within day"></input>
-                    </div>
-                    <div>
-                        <p>Location method: 
-                            <select id="filterUnchangedLocation" autocomplete="off">
-                                <option value="" selected="selected">Any</option>
-                                <option value="device reported">Device reported</option>
-                                <option value="pinned location">Pinned location</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div>
-                        <p>Status:
-                            <select id="filterStatus" autocomplete="off">
-                                <option value="" selected="selected">Any</option>
-                                <option value="New">New</option>
-                                <option value="Incomplete">Incomplete</option>
-                                <option value="Complete">Complete</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div>
-                        <p>Attachments: 
-                            <select id="filterAttachments" autocomplete="off">
-                                <option value="" selected="selected">Any</option>
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div>
-                        <button onclick = "applyFilters()" id = "applyFilters" class="btn navy rounded">Apply Filters</button> 
-                        <button onclick = "location.reload()" id = "resetPage" class="btn navy rounded">Reset</button>
-                    </div>
-                </div>
-            </div>
-
-            <!--Filter Code-->
-            <script>
-                /*
-                    Takes in button ID that initiates the dropdown; this button will have its text replaced by given text.
-                    This text will be read by report.js upon selecting of apply filters; 
-                    if it is (Not chosen), nothing is added to dictionary.
-                */
-                function applySelected(dropbtnID, btn){
-                    dropbtn = document.getElementById(dropbtnID);
-                    dropbtn.innerHTML = btn.innerHTML;
-                }
-
-                /*
-                    Grabs all of the text in filter fields and converts into a dictionary 
-                    which then sends to reports.js which calls API and modifies the list of reports.
-                */
-                function applyFilters(){
-                    // List of all ids of elements to grab text from. 
-                    const filterElements = ["filterTag","filterIncidentID","filterDate","filterTime","filterStatus","filterBody","filterLocation","filterCoordinates","filterUnchangedLocation","filterAttachments","filterMobileID","filterFirstName","filterLastName","filterEmail","filterPhone","filterExpire"];
-                    var filterDict = {};  // Create the dictionary. 
-                    for(i = 0; i < filterElements.length;i++) {// fill the dictionary
-                        element = document.getElementById(filterElements[i]);
-                        // With a proper dropdown menu, no longer need to check for the text of the old one
-                        // element.value should return the value of any input type elements (text fields + dropboxes qualify)
-                        var text = element.value; 
-                        if(text != ""){  // If not empty/not chosen for dropdown
-                            filterDict[filterElements[i]] = text; // filterElement:value
-                        }
-                        else{
-                            filterDict[filterElements[i]] = null;
-                        }
-                    }
-                    // Error checking area! Add more modules in the future.
-                    // NOte: this one is broken. 
-                    if((Number.isInteger(filterDict["filterIncidentID"] == false) && filterDict["filterIncidentID"] != null)){
-                        alert('Incident ID entry must be a number!');
-                    }
-                    // elif(){}
-                    else{
-                        filterReports(filterDict, document)// Else all items are good. Send to filterReports.
-                        toggleFilters();
-                    }
-                }
-            </script>
-            <!--Filter code end-->
-
-            <div id="reportColumn" class="threeQuartersColumn">
-                <div id= "reportHeader">
-                    <span id = buttonResolvedUnresolved>Status</span>
-                    <span id = buttonSplitText></span>
-                    <span id = buttonIncidentIDText> Inc#</span>
-                    <span id = buttonSplitText></span>
-                    <span id = buttonReportTSText>Date + Time</span>
-                    <span id = buttonSplitText></span>
-                    <span id = buttonTagText>Tag</span>
-                    <span id = buttonSplitText></span>
-                    <span id = buttonLocationText>Location</span>
-                    <span id = buttonSplitText></span>
-                    <span id = buttonFullNameText>Last, First name</span>
-                    <span id = buttonSplitText></span>
-                    <span id = buttonBodyText>Body</span>
-                </div>
-                <div id= "reportList"></div> <!--Div to be filled by setupReports()-->
-                <center>
-                    <div id= "navigationButtons">
-                        <button id="firstBtn" class="btn navy rounded" onClick="firstLast('first')">First</button>
-                        <button id="prevBtn" class="btn navy rounded" onClick="nextPrev(-1)">Prev</button>
-                        <div id="reportListIndicators"></div> <!--Div to be filled by setupReports()-->
-                        <button id="nextBtn" class="btn navy rounded" onClick="nextPrev(1)">Next</button>
-                        <button id="lastBtn" class="btn navy rounded" onClick="firstLast('last')">Last</button>
-                    </div>
-                </center>
-            </div>
-        </div>
-        <!--Footer-->
-        <!-- <div class="footer">
-            <div style="margin-top:5; margin-bottom:5">
-                <p style="text-align: center">CruzSafe</p>
-            </div>
-        </div> -->
-        <!--REPORT MODAL; USE WITH "report.js" METHODS!-->
-        <center>
-            <div id="report" class="modal">
-                <form class="modal-content animate" method="POST">
-                    <div class="imgcontainer">
-                        <!--Close Button; closes Modal-->
-                        <span
-                            id = "closeReport"
-                            onclick="hideReport(0)"
-                            class="close"
-                            title="Close Modal"
-                            ><i class="fa fa-times"></i
-                        ></span>
-                        <!--Report Content-->
-                        <div id="reportContent" class="container">
-                            <div class="reportRow">
-                                <div id="column1" class="reportColumn1">
-                                    <div>
-                                        <p>
-                                            <b>Incident:</b> #<span id = "incidentID"></span> <b id="resolvedUnresolved"></b>
-                                        </p>
-                                        <p><b>Date:</b> <span id="reportTS"></span></p>
-                                        <p><b>Time:</b> <span id="reportTS2"></span></p>
-                                        <p><b>Location:</b> <span id="location"></span> <span id="actualPinned"></span></p>
-                                        <p><b>Tag:</b> <span id="tag"></span></p>
-                                    </div>
-                                    <div>
-                                        <iframe id="reportMap"></iframe>
-                                        <br />
-                                        <img
-                                            id="reportPhoto"
-                                            alt="report photo"
-                                        />
-                                        <video 
-                                            width = "320" height = "240" controls = "controls" 
-                                            id="reportVideo" alt="report video" type = "video/mp4">
-                                        </video>
-                                    </div>
-                                </div>
-                                <div id="column2" class="reportColumn2">
-                                    <div style="margin:5px; background-color:lightgray;">
-                                        <p><b>Name:</b> <span id="fullName" placeholder="FullName"></span> - #<span id="mobileID"></span></p>
-                                        <p><b>Phone:</b> <span id="phone"></span></p>
-                                        <p><b>Email:</b> <span id="email"></span></p>
-                                    </div>
-                                    <div style="margin:5px;">
-                                        <b>Report Body:</b> 
-                                        <br /><br />
-                                        <p id = "body"></p>
-                                    </div>
-                                    <div style="margin:5px; background-color:lightgray; height:30%">
-                                        <b>Notes:</b>
-                                        <div id = "reportNotes"></div>
-                                        <input id = "reportNoteInput" placeholder = "Add Notes..."></input>
-                                        <a id = "submitNote" class="btn small rounded navy Respondbtn">Submit</a>
-                                    </div>
-                                    <div style="margin:5px;">
-                                        <span class="selectMessage">
-                                            <a onclick="showMessageDropdown()" class="btn rounded navy Respondbtn">Respond</a>
-                                            <div id="messageDropdown" class="selectMessage-content"></div>
-                                        </span>
-                                        <span class="forwardButton">
-                                            <a onclick = "showForwardDropdown()" class="btn rounded navy Respondbtn">Assign Report</a>
-                                            <div id="forwardDropdown" class="forwardButton-content">
-                                                <option value="forwardTaps">Assign report to designated TAPS Supervisor</option>
-                                                <option value="forwardTaps">Assign report to designated ITS Supervisor</option>
-                                                <option value="forwardTaps">Assign report to designated CHAS Supervisor</option>
-                                            </div>
-                                        </span>
-                                        <a class="btn rounded green Respondbtn" id="reportResolve"></a>
-                                    </div>
-                                    <div style="margin:5px; background-color:lightgray;">
-                                        <p><b>Expiration Date:</b> <span id="expireTS"></span></p>
-                                        <div class="whitelistButton">
-                                            <a onclick = "showWhitelistDropdown()" class="btn rounded navy Respondbtn">Whitelist Report (Supervisor/Admin Only!)</a>
-                                            <div id="whitelistDropdown" class="whitelistButton-content">
-                                                <option value="forwardTaps" onclick = "modifyExpireSingle(1)">Expire in 1(?) days from submission date</option>
-                                                <option value="forwardTaps" onclick = "modifyExpireSingle(3)">Expire in 3(?) days from submission date</option>
-                                                <option value="forwardTaps" onclick = "modifyExpireSingle(90)">Expire in 90 days from submission date</option>
-                                                <option value="forwardTaps" onclick = "modifyExpireSingle(180)">Expire in 180 days from submission date</option>
-                                                <option value="forwardTaps" onclick = "modifyExpireSingle(730)">Expire in 2 years from submission date</option>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
+                        <div class="filterInputs">
+                            <input
+                                id="filterReportID"
+                                placeholder="Report id(s)"
+                            />
+                            <input
+                                id="filterIncidentID"
+                                placeholder="Incident id(s)"
+                            />
+                            <input id="filterTag" placeholder="Tag" />
+                            <input
+                                id="filterMobileID"
+                                placeholder="Mobile user id(s)"
+                            />
+                            <input
+                                id="filterFirstName"
+                                placeholder="First name"
+                            />
+                            <input
+                                id="filterLastName"
+                                placeholder="Last name"
+                            />
+                            <input
+                                id="filterEmail"
+                                placeholder="Email (Enter xxx@ucsc.edu)"
+                            />
+                            <input
+                                id="filterPhone"
+                                placeholder="Phone (Enter 555555555)"
+                            />
+                            <input
+                                id="filterDate"
+                                placeholder="Report date (MM/DD/YYYY)"
+                            />
+                            <input
+                                id="filterTime"
+                                placeholder="Report time (HH:MM)"
+                            />
+                            <input
+                                id="filterBody"
+                                placeholder="Body contains"
+                            />
+                            <input id="filterLocation" placeholder="Location" />
+                            <input
+                                id="filterCoordinates"
+                                placeholder="Coordinates"
+                            />
+                            <input
+                                id="filterExpire"
+                                placeholder="Expiring within day"
+                            />
+                        </div>
+                        <div class="filterDropdowns">
+                            <p>
+                                Location method:
+                                <select
+                                    id="filterUnchangedLocation"
+                                    autocomplete="off"
+                                >
+                                    <option value="" selected="selected"
+                                        >Any</option
+                                    >
+                                    <option value="device reported"
+                                        >Device reported</option
+                                    >
+                                    <option value="pinned location"
+                                        >Pinned location</option
+                                    >
+                                </select>
+                            </p>
+                            <p>
+                                Status:
+                                <select id="filterStatus" autocomplete="off">
+                                    <option value="" selected="selected"
+                                        >Any</option
+                                    >
+                                    <option value="New">New</option>
+                                    <option value="Incomplete"
+                                        >Incomplete</option
+                                    >
+                                    <option value="Complete">Complete</option>
+                                </select>
+                            </p>
+                            <p>
+                                Attachments:
+                                <select
+                                    id="filterAttachments"
+                                    autocomplete="off"
+                                >
+                                    <option value="" selected="selected"
+                                        >Any</option
+                                    >
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div>
+                            <button
+                                onclick="applyFilters()"
+                                id="applyFilters"
+                                class="btn navy rounded"
+                            >
+                                Apply Filters
+                            </button>
+                            <button
+                                onclick="location.reload()"
+                                id="resetPage"
+                                class="btn navy rounded"
+                            >
+                                Reset
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
+                <div class="row threeQuarters">
+                    <div class="column full">
+                        <div class="row quarter leaf">
+                            <div class="reportHeader">
+                                <table>
+                                    <tr
+                                        onclick="console.log('Row has been clicked')"
+                                    >
+                                        <td class="buttonResolvedUnresolved">
+                                            Status
+                                        </td>
+                                        <td class="buttonReportIDText">
+                                            Report #
+                                        </td>
+                                        <td class="buttonIncidentIDText">
+                                            Inc #
+                                        </td>
+                                        <td class="buttonReportTSText">
+                                            Date & Time
+                                        </td>
+                                        <td class="buttonTagText">Tag</td>
+                                        <td class="buttonLocationText">
+                                            Location
+                                        </td>
+                                        <td class="buttonFullNameText">
+                                            Name (Last, First)
+                                        </td>
+                                        <td class="buttonBodyText">
+                                            Description
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row fiveEighths leaf">
+                            <!--Div to be filled by setupReports()-->
+                            <div id="reportList" class="reportList"></div>
+                        </div>
+                        <div class="row eighth leaf">
+                            <center>
+                                <div class="navigationButtons">
+                                    <button
+                                        id="firstBtn"
+                                        class="btn navy rounded"
+                                        onClick="firstLast('first')"
+                                    >
+                                        First
+                                    </button>
+                                    <button
+                                        id="prevBtn"
+                                        class="btn navy rounded"
+                                        onClick="nextPrev(-1)"
+                                    >
+                                        Prev
+                                    </button>
+                                    <div id="reportListIndicators"></div>
+                                    <!--Div to be filled by setupReports()-->
+                                    <button
+                                        id="nextBtn"
+                                        class="btn navy rounded"
+                                        onClick="nextPrev(1)"
+                                    >
+                                        Next
+                                    </button>
+                                    <button
+                                        id="lastBtn"
+                                        class="btn navy rounded"
+                                        onClick="firstLast('last')"
+                                    >
+                                        Last
+                                    </button>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </center>
-        <script src="./libs/reportSingle.js"></script>
-        <script src="./libs/adminCommands.js"></script>
-        <script>
-            document.onkeydown = function (e) {
-                e = e || window.event;
-                var isEscape = false;
-                if("key" in e){
-                    isEscape = (e.key === "Escape" || e.key === "Esc");
-                } else{
-                    isEscape = (e.keyCode === 27);
-                }
-                if(isEscape){ // Exit out of report modal if applicable
-                    if(document.getElementById("report").style.display === "inline-flex"){ // only if it is showing.
-                        var span = document.getElementById("closeReport")
-                        var click = new Event('click');
-                        span.dispatchEvent(click);
-                    }
-                }
-                // TODO: Fix this space-to-play-video code!
-                else{
-                    var isSpace = false;
-                    if("key" in e){
-                        isSpace = (e.key === "Space");
-                    } else{
-                        isSpace = (e.keyCode === 32);
-                    }
-                    if(isSpace){
-                        var video = document.getElementById("reportVideo");
-                        if(document.getElementById("report").style.display === "inline-flex"){ // If the modal is being shown
-                            if(video.paused){
-                                video.play;
-                            } else{
-                                video.pause;
-                            }
-                        }
-                    }
-                }
-            };
-        </script>
-        <audio
-            id="incomingTag1"
-            src="./assets/sounds/Ball.wav"
-        ></audio>
-        <audio
-            id="incomingTag2"
-            src="./assets/sounds/Chime.wav"
-        ></audio>
-        <audio
-            id="incomingTag3"
-            src="./assets/sounds/Coins.wav"
-        ></audio>
-        <audio
-            id="incomingTag4"
-            src="./assets/sounds/Crunch.wav"
-        ></audio>
-        <audio
-            id="incomingTag5"
-            src="./assets/sounds/Maraca.wav"
-        ></audio>
-        <audio
-            id="incomingTag6"
-            src="./assets/sounds/Shuffle.wav"
-        ></audio>
-        <audio
-            id="incomingTag0"
-            src="./assets/sounds/Stapler.wav"
-        ></audio>
-        <!--END REPORT MODAL-->
-        <script src="./libs/reportListRefresher.js"></script>
+        </main>
+        <div id="modalTarget"></div>
+        <audio id="incomingTag1" src="./assets/sounds/Ball.wav"></audio>
+        <audio id="incomingTag2" src="./assets/sounds/Chime.wav"></audio>
+        <audio id="incomingTag3" src="./assets/sounds/Coins.wav"></audio>
+        <audio id="incomingTag4" src="./assets/sounds/Crunch.wav"></audio>
+        <audio id="incomingTag5" src="./assets/sounds/Maraca.wav"></audio>
+        <audio id="incomingTag6" src="./assets/sounds/Shuffle.wav"></audio>
+        <audio id="incomingTag0" src="./assets/sounds/Stapler.wav"></audio>
+        <script src="./libs/modalLib.js"></script>
+        <script src="./libs/NavLib.js"></script>
         <script src="./libs/pagination.js"></script>
+        <script src="./libs/reportSingle.js"></script>
         <script src="./libs/reportList.js"></script>
+        <script src="./libs/reportListRefresher.js"></script>
+        <script src="./libs/adminCommands.js"></script>
+
+        <!--reportListRefresher code-->
+        <input type="hidden" id="storedTS" />
+        <script>
+            setupModal("modalTarget", createReportModal);
+
+            var tid = "";
+            document.addEventListener("DOMContentLoaded", function() {
+                // When DOM is loaded
+                setupReports(document); // Setup reports initially
+                getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
+            });
+
+            // Sets up Timer to call function every 10 seconds;
+            // Time is in milliseconds
+            if (tid === "") {
+                tid = setInterval(checkTS, 5000);
+            }
+
+            function checkTS() {
+                // Process to test for a different timestamp.
+                getTS(document, "storedTS", 0);
+            }
+            /*** End reportListRefresher code ***/
+            /*** Filter Code ***/
+            /*
+                Takes in button ID that initiates the dropdown; this button will have its text replaced by given text.
+                This text will be read by report.js upon selecting of apply filters; 
+                if it is (Not chosen), nothing is added to dictionary.
+            */
+            function applySelected(dropbtnID, btn) {
+                dropbtn = document.getElementById(dropbtnID);
+                dropbtn.innerHTML = btn.innerHTML;
+            }
+            /*
+                Grabs all of the text in filter fields and converts into a dictionary 
+                which then sends to reports.js which calls API and modifies the list of reports.
+            */
+            function applyFilters() {
+                // List of all ids of elements to grab text from.
+                const filterElements = [
+                    "filterTag",
+                    "filterIncidentID",
+                    "filterDate",
+                    "filterTime",
+                    "filterStatus",
+                    "filterBody",
+                    "filterLocation",
+                    "filterCoordinates",
+                    "filterUnchangedLocation",
+                    "filterAttachments",
+                    "filterMobileID",
+                    "filterFirstName",
+                    "filterLastName",
+                    "filterEmail",
+                    "filterPhone",
+                    "filterExpire"
+                ];
+                var filterDict = {}; // Create the dictionary.
+                for (i = 0; i < filterElements.length; i++) {
+                    // fill the dictionary
+                    element = document.getElementById(filterElements[i]);
+                    // With a proper dropdown menu, no longer need to check for the text of the old one
+                    // element.value should return the value of any input type elements (text fields + dropboxes qualify)
+                    var text = element.value;
+                    if (text != "") {
+                        // If not empty/not chosen for dropdown
+                        filterDict[filterElements[i]] = text; // filterElement:value
+                    } else {
+                        filterDict[filterElements[i]] = null;
+                    }
+                }
+                // Error checking area! Add more modules in the future.
+                // NOte: this one is broken.
+                if (
+                    Number.isInteger(filterDict["filterIncidentID"] == false) &&
+                    filterDict["filterIncidentID"] != null
+                ) {
+                    alert("Incident ID entry must be a number!");
+                }
+                // elif(){}
+                else {
+                    filterReports(filterDict, document); // Else all items are good. Send to filterReports.
+                    toggleFilters();
+                }
+            }
+            /*** Filter code end ***/
+        </script>
     </body>
 </html>

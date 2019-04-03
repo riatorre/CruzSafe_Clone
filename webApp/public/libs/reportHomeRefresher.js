@@ -14,7 +14,7 @@ function getTS(document, hiddenID, firstRun) {
             response = JSON.parse(request.response);
             //console.log("getTS responded: " + JSON.stringify(response));
             var maxTS = response[0]["MAX(reportTS)"];
-            console.log("getTS got maxTS of: " + maxTS);
+            //console.log("getTS got maxTS of: " + maxTS);
             var storedTS = document.getElementById(hiddenID);
             var previouslyStored = storedTS.value;
             storedTS.value = maxTS;
@@ -40,7 +40,7 @@ function getReportByTS(document, reportTS, sound) {
         if (this.readyState == 4 && this.status == 200) {
             report = JSON.parse(request.response);
             // Gotten report. Now do something.
-            console.log("Fresh ReportID = " + report[0]["reportID"]);
+            //console.log("Fresh ReportID = " + report[0]["reportID"]);
             if (sound) {
                 playSound(document, report[0]["tag"]);
             }
@@ -56,7 +56,7 @@ function getReportByTS(document, reportTS, sound) {
 */
 function playSound(document, tag) {
     var audio = document.getElementById("incomingTag" + tag);
-    console.log("Playing audio from " + audio.id);
+    //console.log("Playing audio from " + audio.id);
     audio.play();
 }
 

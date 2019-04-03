@@ -11,11 +11,17 @@ var numButtons = 20;
  */
 function createReportButton(report) {
     var button = document.createElement("BUTTON");
-    button.setAttribute("id", "launchReport");
+    const table = document.createElement("table");
+    const tableRow = document.createElement("tr");
     button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
+
     const resolvedUnresolved = report["resolvedUnresolved"];
+    const resolvedUnresolvedFinalText = document.createElement("td");
     var resolvedUnresolvedText = document.createElement("b");
-    resolvedUnresolvedText.setAttribute("id", "buttonResolvedUnresolved");
+    resolvedUnresolvedFinalText.setAttribute(
+        "class",
+        "buttonResolvedUnresolved"
+    );
     if (resolvedUnresolved.includes("N")) {
         // For resolvedUnresolved, gets status. If resolved, green. else, red.
         resolvedUnresolvedText.setAttribute("style", "color:red");
@@ -26,6 +32,40 @@ function createReportButton(report) {
     }
     resolvedUnresolvedText.appendChild(
         document.createTextNode(resolvedUnresolved)
+    );
+    resolvedUnresolvedFinalText.appendChild(resolvedUnresolvedText);
+
+    const reportIDText = document.createElement("td");
+    reportIDText.setAttribute("class", "buttonReportIDText");
+    reportIDText.innerHTML = "#" + report["reportID"];
+
+    const incidentIDText = document.createElement("td");
+    incidentIDText.setAttribute("class", "buttonIncidentIDText");
+    incidentIDText.innerHTML = "#" + report["incidentID"];
+
+    const reportTSText = document.createElement("td");
+    reportTSText.setAttribute("class", "buttonReportTSText");
+    reportTSText.innerHTML = report["reportTS"];
+
+    const tagText = document.createElement("td");
+    tagText.setAttribute("class", "buttonTagText");
+    tagText.innerHTML = report["tag"];
+
+    const locationText = document.createElement("td");
+    locationText.setAttribute("class", "buttonLocationText");
+    locationText.innerHTML = report["location"];
+
+    const fullNameText = document.createElement("td");
+    fullNameText.setAttribute("class", "buttonFullNameText");
+    fullNameText.innerHTML = report["fullName"];
+
+    const bodyText = document.createElement("td");
+    bodyText.setAttribute("class", "buttonBodyText");
+    bodyText.innerHTML = report["body"];
+    /*const reportIDText = addSpan(
+        "buttonReportIDText",
+        "#" + report["reportID"],
+        document
     );
     const incidentIDText = addSpan(
         "buttonIncidentIDText",
@@ -48,26 +88,19 @@ function createReportButton(report) {
         report["fullName"],
         document
     );
-    const bodyText = addSpan(
-        "buttonBodyText",
-        trimString(report["body"], 40),
-        document
-    );
-    button.setAttribute("class", "btn " + tagColors[report["tag"]]);
+    const bodyText = addSpan("buttonBodyText", report["body"], document);*/
 
-    button.appendChild(resolvedUnresolvedText);
-    addSpace(button);
-    button.appendChild(incidentIDText);
-    addSpace(button);
-    button.appendChild(reportTSText);
-    addSpace(button);
-    button.appendChild(tagText);
-    addSpace(button);
-    button.appendChild(locationText);
-    addSpace(button);
-    button.appendChild(fullNameText);
-    addSpace(button);
-    button.appendChild(bodyText);
+    tableRow.appendChild(resolvedUnresolvedFinalText);
+    tableRow.appendChild(reportIDText);
+    tableRow.appendChild(incidentIDText);
+    tableRow.appendChild(reportTSText);
+    tableRow.appendChild(tagText);
+    tableRow.appendChild(locationText);
+    tableRow.appendChild(fullNameText);
+    tableRow.appendChild(bodyText);
+    table.appendChild(tableRow);
+    button.appendChild(table);
+    button.setAttribute("class", "report btn " + tagColors[report["tag"]]);
     return button;
 }
 
@@ -256,13 +289,13 @@ function filterReportsHelper(
                 }
                 case "filterDate": {
                     var date = value.split("/");
-                    columnTitle = "MONTH (reportTS)"; // Expect XX-XX-XXXX
+                    columnTitle = "MONTH (reportTS)"; // Expect XX/XX/XXXX
                     value = date[0]; // Month
                     apiDict[columnTitle] = value; // Log this straight away
-                    columnTitle = "DAY (reportTS)"; // Expect XX-XX-XXXX
+                    columnTitle = "DAY (reportTS)"; // Expect XX/XX/XXXX
                     value = date[1]; // Day
                     apiDict[columnTitle] = value; // Log this straight away
-                    columnTitle = "YEAR(reportTS)"; // Expect XX-XX-XXXX
+                    columnTitle = "YEAR(reportTS)"; // Expect XX/XX/XXXX
                     value = date[2]; // Year
                     break;
                 }
@@ -370,19 +403,11 @@ function filterReportsHelper(
 }
 
 /*
- * Helper function to add spacing divs to button
- * NOTE: NOW DEFUNCT: GET RID OF ME.
- */
-function addSpace(button) {
-    button.appendChild(addSpan("buttonSplitText", "", document));
-}
-
-/*
  * Helper function to append divs to button
  */
 function addSpan(id, text, document) {
     var span = document.createElement("span");
-    span.setAttribute("id", id);
+    span.setAttribute("class", id);
     span.appendChild(document.createTextNode(text));
     return span;
 }

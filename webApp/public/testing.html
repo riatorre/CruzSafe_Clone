@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CruzSafe: Testing</title>
+        <!--Import Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+        <!--Imports External Icon Font Library-->
+        <!--TODO: Install all needed Icons & remove external dependency-->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+    </head>
+    <body>
+        <header>
+            <div class="topnav" id="topNav">
+                <a>Test 1</a>
+                <a class="active">Test 2</a>
+                <a>Test 3</a>
+                <a>Test 4</a>
+                <a
+                    href="javascript:void(0);"
+                    class="icon"
+                    onclick="toggleTopNav()"
+                >
+                    <i class="fa fa-bars" style="font-size:6vh"></i>
+                </a>
+            </div>
+        </header>
+        <main class="withHeaderAndFooter">
+            <div class="row bordered">
+                <div class="column quarter bordered">
+                    <div class="row third bordered leaf">
+                        <a class="btn" onclick="openModal()">Open Modal</a>
+                    </div>
+                    <div class="row twoThirds bordered leaf">
+                        <input
+                            type="text"
+                            placeholder="Testing input styling"
+                        />
+                    </div>
+                </div>
+                <div class="column half bordered">
+                    <div class="row quarter bordered leaf">Let's</div>
+                    <div class="row threeQuarters bordered">
+                        <div class="column quarter bordered leaf">Test</div>
+                        <div class="column quarter bordered leaf">All</div>
+                        <div class="column quarter bordered leaf">Leaves</div>
+                        <div class="column quarter bordered leaf">In</div>
+                    </div>
+                </div>
+                <div class="column quarter bordered">
+                    <div class="row half bordered leaf">The</div>
+                    <div class="row quarter bordered leaf">Grid</div>
+                    <div class="row quarter bordered leaf">Tree</div>
+                </div>
+            </div>
+        </main>
+        <footer style="background-color:black; color:white;">
+            <div class="center">
+                <div style="font-size: 6vh;">CruzSafe</div>
+            </div>
+        </footer>
+        <div id="modalTarget"></div>
+        <script src="./libs/NavLib.js"></script>
+        <script src="./libs/modalLib.js"></script>
+        <script>
+            setupModal("modalTarget", myHelloWorld);
+            function myHelloWorld() {
+                var div = document.createElement("DIV");
+                div.setAttribute("class", "row leaf");
+                div.innerHTML = "Hello World!";
+                return div;
+            }
+        </script>
+    </body>
+</html>

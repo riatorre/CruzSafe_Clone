@@ -1,81 +1,38 @@
 /*
-    Stylesheet for welcome.html
-*/
+ *  Welcome.html Stylesheet
+ *  Contains stylings and styling overrides unique to welcome.html
+ */
 
-* {
-    margin: 0;
-    padding: 0;
-}
-
-html,
-body {
-    min-width: 100px;
-    min-height: 100px;
-}
-
-#container {
-    min-height: 100%;
-}
-
-.topnavMain {
-    height: 10%;
-    min-height: 20px;
-    background-color: #0d3c6c;
-    overflow: hidden;
-    color: black;
-}
-
-/* Style the links inside the navigation bar */
-
-.topnavMain a {
-    float: left;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-#loginModalText > p {
-    text-align: center;
-}
-
-#universityLogo {
-    position: absolute;
-    right: 0;
-    top: 13%;
-    margin-top: 0;
-    height: 100px;
-    width: auto;
-}
-
-#policeLogo {
-    margin: -30;
-}
-
-#loginButton {
-    margin-top: 5;
-    background-color: #365899;
-    color: white;
-}
-#loginButton:hover {
-    background-color: #4f6999;
-}
-
-/* Footer code that also have hover effect for the heart */
-footer {
-    display: block;
-    width: 100%;
-    min-height: 20px;
-    height: 10%;
-}
-
-.footer {
-    display: flex;
-    width: 100%;
+.welcomeHeader,
+.welcomeFooter {
     background-color: #0d3c6c;
     color: #ffffff;
 }
-#heart:hover {
+
+h1 {
+    color: #0d3c6c;
+}
+
+.logoContainer {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.center > div {
+    text-align: center;
+    font-size: 3vh;
+}
+
+.modalText {
+    max-height: 90%;
+    padding: 5px;
+    text-align: center;
+    background-color: lightgray;
+    overflow: auto;
+}
+
+.fa-heart:hover {
     color: red;
 }

@@ -1,75 +1,53 @@
-<!--
-    Provides user the ability to view detailed statistics of mobile app users and reports.
-    Abilty to generate numerous customizable graphs, charts, and maps. 
-    Contents:
-    - Chart generation options
-    - Chart generation area
-    - [Standardized] Bottom border
-    - [Standardized] Navagation bar - set to Dashboard
--->
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>CruzSafe: Analytics</title>
-        <!--Imports StyleSheet-->
+        <!--Imports Stylesheet-->
         <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
         <link
             href="./stylesheets/analytics.css"
             type="text/css"
             rel="stylesheet"
         />
-        <!--Imports External Icon Font Library-->
-        <!--TODO: Install all needed Icons & remove external dependency-->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
     </head>
     <body>
-        <!--Header-->
-        <div class="topnav" id="topNav">
-            <a href="./homepage.html"
-                ><i class="fa fa-home" aria-hidden="true"></i> Home</a
-            >
-            <a href="./reports.html"
-                ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
-            >
-            <a class="active" href="./analytics.html"
-                ><i class="fa fa-pie-chart" aria-hidden="true"></i> Analytics</a
-            >
-            <a href="./admin.html">
-                <i class="fa fa-user-circle-o" aria-hidden="true"></i> Admin</a
-            >
-            <a href="./"
-                ><i class="fa fa-sign-out" aria-hidden="true"></i> Sign-Out</a
-            >
-            <a href="javascript:void(0);" class="icon" onclick="toggleTopNav()">
-                <i class="fa fa-bars"></i>
-            </a>
-        </div>
-        <!--Body-->
-        <div class="row">
-            <div id="column1" class="column">
-                <div id="analyticsOptions" class="transbox">
-                    <h1>Parameters:</h1>
-                    <br />
-                    <div id="analyticsButtons">
-                        <button>Graph</button>
-                        <button>Chart</button>
-                        <button>Map</button><br />
-                    </div>
-                </div>
+        <header>
+            <div class="topnav" id="topNav">
+                <a href="./homepage.html"
+                    ><i class="fa fa-home" aria-hidden="true"></i> Home</a
+                >
+                <a href="./reports.html"
+                    ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
+                >
+                <a class="active" href="./analytics.html"
+                    ><i class="fa fa-pie-chart" aria-hidden="true"></i>
+                    Analytics</a
+                >
+                <a href="./admin.html">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    Admin</a
+                >
+                <a href="./"
+                    ><i class="fa fa-sign-out" aria-hidden="true"></i>
+                    Sign-Out</a
+                >
+                <a class="icon" onclick="toggleTopNav()">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </a>
             </div>
-            <div id="column2" class="column">
-                <img
-                    id="analyticsGraph"
-                    src="./assets/images/analytics_graph.png"
-                    alt="placeholder graph"
-                />
+        </header>
+        <main class="withHeader">
+            <div class="row bordered">
+                <div class="column third bordered leaf"></div>
+                <div class="column twoThirds bordered leaf"></div>
             </div>
-        </div>
-
+        </main>
         <script src="./libs/NavLib.js"></script>
     </body>
 </html>

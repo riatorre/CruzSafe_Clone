@@ -5,6 +5,7 @@
 
 // Array of dictionary entries + tag ids.
 const reportFields = [
+    "reportID",
     "incidentID",
     "resolvedUnresolved",
     "reportTS",
@@ -23,6 +24,109 @@ const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
 const webID = 1;
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
+
+const defaultOption = document.createElement("option");
+defaultOption.setAttribute("value", "");
+defaultOption.innerHTML = "---Select Option---";
+
+// Function used to create a Modal ready to display Single Report Data
+function createReportModal() {
+    var div = document.createElement("DIV");
+    div.setAttribute("class", "column");
+
+    var metadataRow = document.createElement("DIV");
+    metadataRow.setAttribute("class", "row quarter");
+
+    var metadataFirstHalf = document.createElement("DIV");
+    metadataFirstHalf.setAttribute("class", "column twoFifths leaf");
+    metadataFirstHalf.innerHTML =
+        "<div class = 'name'><div><b>Name:</b> <span id='fullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
+    metadataFirstHalf.innerHTML +=
+        "<div class = 'phone'><div><b>Phone:</b> <span id='phone'></span></div></div>";
+    metadataFirstHalf.innerHTML +=
+        "<div class = 'email'><div><b>Email:</b> <span id='email'></span></div></div>";
+    metadataRow.appendChild(metadataFirstHalf);
+
+    var metadataSecondHalf = document.createElement("DIV");
+    metadataSecondHalf.setAttribute(
+        "class",
+        "column threeFifths borderedLeft leaf"
+    );
+    metadataSecondHalf.innerHTML =
+        "<div><b>Report:</b> #<span id = 'reportID'></span>, <b>Incident:</b> #<span id = 'incidentID'></span> <b id='resolvedUnresolved'></b></div>\n";
+    metadataSecondHalf.innerHTML +=
+        "<div><b>Date:</b> <span id='reportTS'></span></div>\n";
+    metadataSecondHalf.innerHTML +=
+        "<div><b>Time:</b> <span id='reportTS2'></span></div>\n";
+    metadataSecondHalf.innerHTML +=
+        "<div><b>Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
+    metadataSecondHalf.innerHTML +=
+        "<div><b>Tag:</b> <span id='tag'></span></div>\n";
+    metadataRow.appendChild(metadataSecondHalf);
+
+    div.appendChild(metadataRow);
+
+    var dataRow = document.createElement("DIV");
+    dataRow.setAttribute("class", "row threeQuarters");
+
+    var columnOne = document.createElement("DIV");
+    columnOne.setAttribute("class", "column twoFifths");
+
+    var row = document.createElement("DIV");
+    row.setAttribute("class", "row");
+
+    row.innerHTML =
+        "<iframe id='reportMap' class='column half leaf leftAlign'></iframe>";
+    row.innerHTML +=
+        "<div class='column half leaf'><img id='reportPhoto' class='imgcontainer' alt='report photo' />";
+    row.innerHTML +=
+        "<video width = '320' height = '240' controls = 'controls' id='reportVideo' alt='report video' type = 'video/mp4'> </video></div>";
+    columnOne.appendChild(row);
+    dataRow.appendChild(columnOne);
+
+    var columnTwo = document.createElement("DIV");
+    columnTwo.setAttribute("class", "column threeFifths borderedLeft");
+
+    var reportBody = document.createElement("DIV");
+    reportBody.setAttribute("class", "row fifth leaf leftAlign");
+    reportBody.innerHTML = "<b>Report Body:</b>";
+    reportBody.innerHTML += "<br /><br />";
+    reportBody.innerHTML += "<div id = 'body'></div>";
+    columnTwo.appendChild(reportBody);
+
+    var reportNotes = document.createElement("DIV");
+    reportNotes.setAttribute("class", "row leaf leftAlign");
+    reportNotes.setAttribute("style", "height:42.5%");
+    reportNotes.innerHTML = "<b>Notes:</b>";
+    reportNotes.innerHTML +=
+        "<div id = 'reportNotes' class='reportNotes'></div>";
+    reportNotes.innerHTML +=
+        "<div style=''><input id = 'reportNoteInput' placeholder = 'Add Notes...'></input><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
+    columnTwo.appendChild(reportNotes);
+
+    var optionBtns = document.createElement("DIV");
+    optionBtns.setAttribute("class", "row quarter leaf leftAlign");
+    optionBtns.innerHTML =
+        "<span class='dropdown'><select id='messageDropdown' autocomplete='off'></select><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
+    optionBtns.innerHTML +=
+        "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'><option value='forwardTaps'>Assign report to designated TAPS Supervisor</option><option value='forwardTaps'>Assign report to designated ITS Supervisor</option><option value='forwardTaps'>Assign report to designated CHAS Supervisor</option></select><a class='btn rounded navy'>Assign Report</a></span>";
+    optionBtns.innerHTML +=
+        "<a class='btn rounded green' id='reportResolve'></a>";
+    columnTwo.appendChild(optionBtns);
+
+    var expirationDiv = document.createElement("DIV");
+    expirationDiv.setAttribute("class", "row eighth leaf leftAlign");
+    expirationDiv.innerHTML =
+        "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
+    expirationDiv.innerHTML +=
+        "<span class='dropdown'><select id='whitelistDropdown'><option value='forwardTaps' onclick = 'modifyExpireSingle(1)'>Expire in 1(?) days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(3)'>Expire in 3(?) days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(90)'>Expire in 90 days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(180)'>Expire in 180 days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(730)'>Expire in 2 years from submission date</option></select><a class='btn rounded navy'>Whitelist Report (Supervisor/Admin Only!)</a></span>";
+    columnTwo.appendChild(expirationDiv);
+
+    dataRow.appendChild(columnTwo);
+    div.append(dataRow);
+
+    return div;
+}
 
 /*
     generateSingleReport: takes in a specific reportID and the document itself. 
@@ -59,6 +163,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             var productInfo = [];
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
 
+            productInfo["reportID"] = reportInfo["reportID"];
             // incidentID
             productInfo["incidentID"] = reportInfo["incidentID"];
             // resolved/unresolved
@@ -66,7 +171,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             if (!!reportInfo["completeTS"]) {
                 var resolvedUnresolved = "[Complete]"; // Completed; not null
                 document
-                    .getElementById("closeReport")
+                    .getElementById("close")
                     .setAttribute("onclick", "hideReport(0)");
                 // If it's completed, provide the option to re-open.
                 resolvedButton.setAttribute(
@@ -83,7 +188,7 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                 if (!!reportInfo["initialOpenTS"]) {
                     var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
                     document
-                        .getElementById("closeReport")
+                        .getElementById("close")
                         .setAttribute("onclick", "hideReport(0)");
                 } else {
                     // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
@@ -119,8 +224,18 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             tagValue = reportInfo["tag"];
             productInfo["tag"] = tags[tagValue];
             displayPrewrittenResponses(reportID, webID, tagValue);
+            document
+                .getElementById("respondBtn")
+                .setAttribute(
+                    "onClick",
+                    "sendMessage(" +
+                        reportID +
+                        ", " +
+                        webID +
+                        ", document.getElementById('messageDropdown').value)"
+                );
             // fullName
-            fullName = reportInfo["lastName"] + " " + reportInfo["firstName"];
+            fullName = reportInfo["lastName"] + ", " + reportInfo["firstName"];
             productInfo["fullName"] = fullName;
             // mobileID
             productInfo["mobileID"] = reportInfo["mobileID"];
@@ -139,9 +254,6 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
                 day: "2-digit",
                 hour12: false
             });
-
-            // All data has now been added into reportData
-            const modal = document.getElementById("report");
 
             if (productInfo["resolvedUnresolved"].includes("New")) {
                 // For resolvedUnresolved, gets status. If resolved, green. else, red.
@@ -218,11 +330,12 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             for (i = 0; i < reportFields.length; i++) {
                 // For all entries in reportFields
                 const field = reportFields[i];
+                //console.log(field);
                 const targetTag = document.getElementById(field);
                 targetTag.innerHTML = productInfo[field];
             }
             tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
-            modal.style.display = "inline-flex"; // Display the modal
+            openModal();
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
@@ -288,7 +401,7 @@ function insertTS(initialOpenTS, reportID, webID) {
             webID: webID
         })
     );
-    const closeReport = document.getElementById("closeReport");
+    const closeReport = document.getElementById("close");
     closeReport.setAttribute("onclick", "hideReport(1)");
 }
 
@@ -309,7 +422,7 @@ function removeTS(reportID, webID) {
             reportID: reportID
         })
     );
-    const closeReport = document.getElementById("closeReport");
+    const closeReport = document.getElementById("close");
     closeReport.setAttribute("onclick", "hideReport(1)");
 }
 
@@ -322,6 +435,7 @@ function displayPrewrittenResponses(reportID, webID, tagID) {
     while (messageDropdown.firstChild) {
         messageDropdown.removeChild(messageDropdown.firstChild);
     }
+    messageDropdown.appendChild(defaultOption);
 
     // Query the database for the responses.
     const request = new XMLHttpRequest();
@@ -333,16 +447,7 @@ function displayPrewrittenResponses(reportID, webID, tagID) {
                 const responseContent = response["content"];
                 var text = document.createTextNode(responseContent);
                 newOption.appendChild(text);
-                newOption.setAttribute(
-                    "onclick",
-                    "sendMessage(" +
-                        reportID +
-                        ", " +
-                        webID +
-                        ", '" +
-                        responseContent +
-                        "')"
-                ); // For each message, add sendMessage with given text.
+                newOption.setAttribute("value", responseContent); // For each message, add sendMessage with given text.
                 messageDropdown.appendChild(newOption);
             });
         }
@@ -359,51 +464,66 @@ function displayPrewrittenResponses(reportID, webID, tagID) {
  * Sends a message via the API.
  */
 function sendMessage(reportID, webID, message) {
-    const request = new XMLHttpRequest();
-    request.open(
-        "POST",
-        "https://cruzsafe.appspot.com/api/messages/submitMessage"
-    );
-    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(
-        JSON.stringify({
-            reportID: reportID,
-            webID: webID,
-            messageText: message
-        })
-    );
-    const request_token = new XMLHttpRequest();
-    request_token.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var token = JSON.parse(request_token.response)[0].token;
-            const request_ntf = new XMLHttpRequest("no-cors");
-            request_ntf.open("POST", "https://exp.host/--/api/v2/push/send");
-            request_ntf.setRequestHeader("Content-Type", "application/json");
-            request_ntf.send(
-                JSON.stringify({
-                    to: token,
-                    title: "You have a new message",
-                    body: message,
-                    sound: "default",
-                    priority: "high"
-                })
-            );
-        }
-    };
-    request_token.open(
-        "POST",
-        "https://cruzsafe.appspot.com/api/reports/getToken"
-    );
-    request_token.setRequestHeader(
-        "Content-Type",
-        "application/json;charset=UTF-8"
-    );
-    request_token.send(
-        JSON.stringify({
-            reportID: reportID
-        })
-    );
-    insertNote(reportID, webID, "{Sent pre-written response: " + message + "}"); // Adds note that a response has been sent.
+    if (message != "") {
+        const request = new XMLHttpRequest();
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/messages/submitMessage"
+        );
+        request.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request.send(
+            JSON.stringify({
+                reportID: reportID,
+                webID: webID,
+                messageText: message
+            })
+        );
+        const request_token = new XMLHttpRequest();
+        request_token.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var token = JSON.parse(request_token.response)[0].token;
+                const request_ntf = new XMLHttpRequest("no-cors");
+                request_ntf.open(
+                    "POST",
+                    "https://exp.host/--/api/v2/push/send"
+                );
+                request_ntf.setRequestHeader(
+                    "Content-Type",
+                    "application/json"
+                );
+                request_ntf.send(
+                    JSON.stringify({
+                        to: token,
+                        title: "You have a new message",
+                        body: message,
+                        sound: "default",
+                        priority: "high"
+                    })
+                );
+            }
+        };
+        request_token.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/getToken"
+        );
+        request_token.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request_token.send(
+            JSON.stringify({
+                reportID: reportID
+            })
+        );
+        insertNote(
+            reportID,
+            webID,
+            "{Sent pre-written response: " + message + "}"
+        ); // Adds note that a response has been sent.
+    }
 }
 
 /*
@@ -445,9 +565,11 @@ function displayNotes(reportID) {
             }
             //Add new notes
             for (i = 0; i < notesArray.length; i++) {
-                var newNote = document.createTextNode(notesArray[i]);
-                notesDiv.appendChild(newNote);
-                notesDiv.appendChild(document.createElement("br"));
+                var noteDiv = document.createElement("DIV");
+                var newNote = document.createElement("SPAN");
+                newNote.innerHTML = notesArray[i] + "<br>";
+                noteDiv.appendChild(newNote);
+                notesDiv.appendChild(noteDiv);
             }
             notesDiv.scrollTop = notesDiv.scrollHeight;
         }
@@ -495,45 +617,6 @@ function insertNote(reportID, webID, content) {
         );
     }
 }
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function showMessageDropdown() {
-    document.getElementById("messageDropdown").classList.toggle("show");
-}
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function showForwardDropdown() {
-    document.getElementById("forwardDropdown").classList.toggle("show");
-}
-
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function showWhitelistDropdown() {
-    document.getElementById("whitelistDropdown").classList.toggle("show");
-}
-
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-    const dropdowns = [
-        "selectMessage-content",
-        "forwardButton-content",
-        "whitelistButton-content"
-    ];
-    if (!event.target.matches(".Respondbtn")) {
-        for (i = 0; i < dropdowns.length; i++) {
-            var dropdownElement = document.getElementsByClassName(dropdowns[i]);
-            var j;
-            for (j = 0; j < dropdownElement.length; j++) {
-                var openDropdown = dropdownElement[j];
-                if (openDropdown.classList.contains("show")) {
-                    openDropdown.classList.remove("show");
-                }
-            }
-        }
-    }
-};
 
 /*
     Helper function that converts a JS date into readable format (styling).
@@ -592,7 +675,7 @@ function displayReport(id) {
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
 function hideReport(changes) {
-    document.getElementById("report").style.display = "none";
+    closeModal();
     reportNoteInput.value = ""; // Clear the input of notes.
     if (changes) {
         clearPages();
