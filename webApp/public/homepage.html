@@ -53,22 +53,15 @@
                             alt="mock resonse time chart"
                         />
                     </div>
-                    <div class="row twoThirds leaf">
-                        <img
-                            id="costalCampus"
-                            src="./assets/images/UCSC_Costal_Campus.png"
-                            class="imgcontainer"
-                            alt="UCSC costal sciences campus map"
-                        />
+                    <div class="row twoThirds">
+                        <iframe
+                            id="coastalCampusMap"
+                            class="column leaf"
+                        ></iframe>
                     </div>
                 </div>
-                <div class="column half leaf">
-                    <img
-                        id="mainCampus"
-                        src="./assets/images/UCSC_Main_Campus.png"
-                        class="imgcontainer"
-                        alt="UCSC main campus map"
-                    />
+                <div class="column half">
+                    <iframe id="mainCampusMap" class="row leaf"></iframe>
                 </div>
                 <div class="column quarter">
                     <div class="row half leaf">
@@ -112,6 +105,7 @@
         <script src="./libs/reportSingle.js"></script>
         <script src="./libs/reportHomeRefresher.js"></script>
         <script src="./libs/reportHome.js"></script>
+        <script src="./libs/dashboard.js"></script>
 
         <!--reportHomeRefresher code-->
         <input type="hidden" id="storedTS" />
