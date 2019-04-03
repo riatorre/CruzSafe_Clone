@@ -169,9 +169,10 @@ router.post("/checkFirstLogin", function(req, res) {
             myConsole.error(err);
             res.json({ message: "An Error has Occurred." });
         } else {
+            console.log(req.body.mobileID);
             connection.query(
                 "SELECT firstLogin FROM mobileUsers WHERE mobileID = ?",
-                req.body.mobileId,
+                req.body.mobileID,
                 function(err, rows, fields) {
                     if (err) {
                         myConsole.error(err);
@@ -198,7 +199,7 @@ router.post("/updateLogin", function(req, res) {
         } else {
             connection.query(
                 "UPDATE mobileUsers SET firstLogin = 0 WHERE mobileID = ?",
-                req.body.mobileId,
+                req.body.mobileID,
                 function(err, rows) {
                     if (err) {
                         myConsole.error(err);
