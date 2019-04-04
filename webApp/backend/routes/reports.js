@@ -49,6 +49,35 @@ var upload = multer({
         : storage
 });
 
+/*** Tags ***/
+
+// Get all tags
+router.post("/tags", function(req, res) {
+    myConsole.log("[Database] Attempting to select all tags");
+    connectionPool.getConnection(function(err, connection) {
+        if (err) {
+            myConsole.error(
+                "[Database] An error has occured retrieving a Connection"
+            );
+            myConsole.error(err);
+            res.json({ message: "An Error has Occurred." });
+        } else {
+            connection.query("SELECT * FROM tags", function(err, rows, fields) {
+                if (err) {
+                    myConsole.error(err);
+                    res.json({ message: "An Error has occured" });
+                } else {
+                    myConsole.log("[Database] Select all tags Successful");
+                    res.json(rows);
+                }
+            });
+            connection.release();
+        }
+    });
+});
+
+/*** Report Data ***/
+
 // Get all reports, Default request
 router.post("/", function(req, res) {
     myConsole.log(
@@ -171,31 +200,6 @@ router.post("/specifyReportIDs", function(req, res) {
     });
 });
 
-// Get all tags
-router.post("/tags", function(req, res) {
-    myConsole.log("[Database] Attempting to select all tags");
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query("SELECT * FROM tags", function(err, rows, fields) {
-                if (err) {
-                    myConsole.error(err);
-                    res.json({ message: "An Error has occured" });
-                } else {
-                    myConsole.log("[Database] Select all tags Successful");
-                    res.json(rows);
-                }
-            });
-            connection.release();
-        }
-    });
-});
-
 /*
     Get all of the reportIDs in the database.
 */
@@ -301,87 +305,6 @@ router.post("/incidentID", function(req, res) {
                                 message: "No report with given incidentID found"
                             });
                         }
-                    }
-                }
-            );
-            connection.release();
-        }
-    });
-});
-
-// Get notes joined with webID given a reportID.
-router.post("/notes", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select notes with reportID = " +
-            req.body.reportID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reportNotes LEFT JOIN webUsers ON reportNotes.webID = webUsers.webID WHERE reportID = ?",
-                req.body.reportID,
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select notes with reportID = " +
-                                req.body.reportID +
-                                " Sucessful"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
-        }
-    });
-});
-
-/*
-    Given a new note with reportID, webID, and content.
-*/
-router.post("/newNote", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to add note with reportID, webID, and content of " +
-            req.body.reportID +
-            ", " +
-            req.body.webID +
-            ", " +
-            req.body.content
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "INSERT INTO reportNotes (reportID, webID, content) VALUES (?,?,?)",
-                [req.body.reportID, req.body.webID, req.body.content],
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Successful in adding a note with reportID, webID, and content of " +
-                                req.body.reportID +
-                                ", " +
-                                req.body.webID +
-                                ", " +
-                                req.body.content
-                        );
-                        res.json(rows);
                     }
                 }
             );
@@ -513,9 +436,10 @@ router.post("/userReports", function(req, res) {
     });
 });
 
-router.post("/getToken", function(req, res) {
+router.post("/latestReports", function(req, res) {
+    var num_reports = 7;
     myConsole.log(
-        "[Database] Attempting to get token for reportID = " + req.body.reportID
+        "[Database] Attempting to select the latest " + num_reports + " reports"
     );
     connectionPool.getConnection(function(err, connection) {
         if (err) {
@@ -526,17 +450,17 @@ router.post("/getToken", function(req, res) {
             res.json({ message: "An Error has Occurred." });
         } else {
             connection.query(
-                "SELECT * FROM reports WHERE reportID=?",
-                req.body.reportID,
+                "SELECT * FROM reports ORDER BY reportTS DESC LIMIT ?",
+                num_reports,
                 function(err, rows, fields) {
                     if (err) {
                         myConsole.error(err);
                         res.json({ message: "An Error has Occured" });
                     } else {
                         myConsole.log(
-                            "[Database] token by reportID = " +
-                                req.body.reportID +
-                                " have been selected"
+                            "[Database] Select latest " +
+                                num_reports +
+                                " reports successful"
                         );
                         res.json(rows);
                     }
@@ -546,6 +470,130 @@ router.post("/getToken", function(req, res) {
         }
     });
 });
+
+/*** Report Notes ***/
+
+// Get notes joined with webID given a reportID.
+router.post("/notes", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to select notes with reportID = " +
+            req.body.reportID
+    );
+    connectionPool.getConnection(function(err, connection) {
+        if (err) {
+            myConsole.error(
+                "[Database] An error has occured retrieving a Connection"
+            );
+            myConsole.error(err);
+            res.json({ message: "An Error has Occurred." });
+        } else {
+            connection.query(
+                "SELECT * FROM reportNotes LEFT JOIN webUsers ON reportNotes.webID = webUsers.webID WHERE reportID = ?",
+                req.body.reportID,
+                function(err, rows) {
+                    if (err) {
+                        myConsole.error(err);
+                        res.json({ message: "An Error has occured" });
+                    } else {
+                        myConsole.log(
+                            "[Database] Select notes with reportID = " +
+                                req.body.reportID +
+                                " Sucessful"
+                        );
+                        res.json(rows);
+                    }
+                }
+            );
+            connection.release();
+        }
+    });
+});
+
+/*
+    Given a new note with reportID, webID, and content.
+*/
+router.post("/newNote", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to add note with reportID, webID, and content of " +
+            req.body.reportID +
+            ", " +
+            req.body.webID +
+            ", " +
+            req.body.content
+    );
+    connectionPool.getConnection(function(err, connection) {
+        if (err) {
+            myConsole.error(
+                "[Database] An error has occured retrieving a Connection"
+            );
+            myConsole.error(err);
+            res.json({ message: "An Error has Occurred." });
+        } else {
+            connection.query(
+                "INSERT INTO reportNotes (reportID, webID, content) VALUES (?,?,?)",
+                [req.body.reportID, req.body.webID, req.body.content],
+                function(err, rows) {
+                    if (err) {
+                        myConsole.error(err);
+                        res.json({ message: "An Error has occured" });
+                    } else {
+                        myConsole.log(
+                            "[Database] Successful in adding a note with reportID, webID, and content of " +
+                                req.body.reportID +
+                                ", " +
+                                req.body.webID +
+                                ", " +
+                                req.body.content
+                        );
+                        res.json(rows);
+                    }
+                }
+            );
+            connection.release();
+        }
+    });
+});
+
+/*
+    Given a tag, return all prewritten responses
+*/
+router.post("/prewrittenResponses", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to get all prewritten Responses with tagID: " +
+            req.body.tagID
+    );
+    connectionPool.getConnection(function(err, connection) {
+        if (err) {
+            myConsole.error(
+                "[Database] An error has occured retrieving a Connection"
+            );
+            myConsole.error(err);
+            res.json({ message: "An Error has Occurred." });
+        } else {
+            connection.query(
+                "SELECT * FROM prewrittenResponses WHERE tagID = ?",
+                req.body.tagID,
+                function(err, rows) {
+                    if (err) {
+                        myConsole.error(err);
+                        res.json({
+                            message: "An Error has Occured with query: " + query
+                        });
+                    } else {
+                        myConsole.log(
+                            "[Database] Found all prewritten Responses with tagID: " +
+                                req.body.tagID
+                        );
+                        res.json(rows);
+                    }
+                }
+            );
+            connection.release();
+        }
+    });
+});
+
+/*** Timestamp & Timestamp related APIs */
 
 /*
  * Inserts current time as a timestamp to either intialOpenTS or complete TS.
@@ -588,41 +636,6 @@ router.post("/timestamp", function(req, res) {
                                 req.body.reportID
                         );
                         res.json({ message: "Timestamp Update Successful" });
-                    }
-                }
-            );
-            connection.release();
-        }
-    });
-});
-
-router.post("/latestReports", function(req, res) {
-    var num_reports = 7;
-    myConsole.log(
-        "[Database] Attempting to select the latest " + num_reports + " reports"
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reports ORDER BY reportTS DESC LIMIT ?",
-                num_reports,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select latest " +
-                                num_reports +
-                                " reports successful"
-                        );
-                        res.json(rows);
                     }
                 }
             );
@@ -830,6 +843,42 @@ router.post("/reportTS", function(req, res) {
     });
 });
 
+/*** Tokens ***/
+
+router.post("/getToken", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to get token for reportID = " + req.body.reportID
+    );
+    connectionPool.getConnection(function(err, connection) {
+        if (err) {
+            myConsole.error(
+                "[Database] An error has occured retrieving a Connection"
+            );
+            myConsole.error(err);
+            res.json({ message: "An Error has Occurred." });
+        } else {
+            connection.query(
+                "SELECT * FROM reports WHERE reportID=?",
+                req.body.reportID,
+                function(err, rows, fields) {
+                    if (err) {
+                        myConsole.error(err);
+                        res.json({ message: "An Error has Occured" });
+                    } else {
+                        myConsole.log(
+                            "[Database] token by reportID = " +
+                                req.body.reportID +
+                                " have been selected"
+                        );
+                        res.json(rows);
+                    }
+                }
+            );
+            connection.release();
+        }
+    });
+});
+
 router.post("/updateToken", function(req, res) {
     myConsole.log("[Database] Attempting to set token for" + req.body.mobileID);
     connectionPool.getConnection(function(err, connection) {
@@ -853,45 +902,6 @@ router.post("/updateToken", function(req, res) {
                         myConsole.log(
                             "[Database] set token for mobileID = " +
                                 req.body.mobileID
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
-        }
-    });
-});
-
-/*
-    Given a tag, return all prewritten responses
-*/
-router.post("/prewrittenResponses", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to get all prewritten Responses with tagID: " +
-            req.body.tagID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM prewrittenResponses WHERE tagID = ?",
-                req.body.tagID,
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({
-                            message: "An Error has Occured with query: " + query
-                        });
-                    } else {
-                        myConsole.log(
-                            "[Database] Found all prewritten Responses with tagID: " +
-                                req.body.tagID
                         );
                         res.json(rows);
                     }

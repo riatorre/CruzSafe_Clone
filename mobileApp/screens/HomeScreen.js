@@ -159,24 +159,6 @@ class HomeScreen extends Component {
         // Get the token that uniquely identifies this device
         let token = await Notifications.getExpoPushTokenAsync();
         this.storeItem("token", token);
-        await fetch("https://cruzsafe.appspot.com/api/users/insertToken", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                mobileID: JSON.parse(await this.getMobileID()),
-                token: token
-            })
-        })
-            .then(res => res.json())
-            .then(result => {
-                //console.log(result);
-            })
-            .catch(err => {
-                console.log(err);
-            });
         await fetch("https://cruzsafe.appspot.com/api/reports/updateToken", {
             method: "POST",
             headers: {
