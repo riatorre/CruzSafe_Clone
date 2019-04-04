@@ -165,7 +165,6 @@ function generateSingleReportHelper(reportID, tags, tagColors) {
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
-
             populateReport(reportID, tags, tagColors, reportInfo); // Call populateReport
         }
     };
@@ -203,29 +202,35 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             "yellowgreen";
     }
 
-    // Edit the complete/incomplete button
+    // Edit the complete/incomplete button + close buttons
     var resolvedButton = document.getElementById("reportResolve");
     if (!!reportInfo["completeTS"]) {
+        // Completed Report Actions:
         document
             .getElementById("close")
-            .setAttribute("onclick", "hideReport(0)");
-        // If it's completed, provide the option to re-open.
+            .setAttribute("onclick", "hideReport(0)"); // Modify close button - standard
+        // INCOMPLETE button
         resolvedButton.setAttribute(
             "onclick",
             "markIncomplete(" + reportID + ", " + webID + ")"
-        ); // Add onclick function to button
+        );
         resolvedButton.innerHTML = "Mark Incomplete";
     } else {
-        // Incomplete
+        // Incomplete Report Actions:
+
+        // COMPLETE button
         resolvedButton.setAttribute(
             "onclick",
             "markComplete(" + reportID + "," + webID + ")"
-        ); // Add onclick function to button
+        );
         resolvedButton.innerHTML = "Mark Complete";
+
         if (!!reportInfo["initialOpenTS"]) {
+            // Was opened before.
+            insertNote(reportID, webID, "{Viewed report}"); // Note: viewing of report
             document
                 .getElementById("close")
-                .setAttribute("onclick", "hideReport(0)");
+                .setAttribute("onclick", "hideReport(0)"); // Modify close button - standard
         } else {
             // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
             insertTS(1, reportID, webID);
