@@ -20,8 +20,6 @@ const reportFields = [
     "body",
     "expireTS"
 ];
-// Options for whitelisting dates
-const whitelistDates = ["1", "3", "90", "180", "730"]; // 1, 3, 90, 180 days or 2 years.
 const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
 const webID = 1;
@@ -362,25 +360,32 @@ function generateProductInfo(reportInfo, tags) {
 
 /*
     Starts modifyExpireSingle after grabbing whitelist Option.
+    whiteList button has been pressed.
 */
 function initializeWhitelist(reportID) {
     var whitelistDropdownObj = document.getElementById("whitelistDropdown");
-    modifyExpireSingle(
-        whitelistDropdownObj.options[whitelistDropdownObj.selectedIndex].value,
-        reportID
+    const whitelistDays =
+        whitelistDropdownObj.options[whitelistDropdownObj.selectedIndex].value;
+    insertNote(
+        reportID,
+        webID,
+        "{[ADMIN] - Expiration date changed to " +
+            whitelistDays +
+            " days after submission}"
     );
+    modifyExpireSingle(whitelistDays, reportID);
 }
 
 /*
     Starts sendMessage after grabbing messageList Option.
+    Send message has been pressed.
 */
 function initializeMessage(reportID, webID) {
     var messageDropdownObj = document.getElementById("messageDropdown");
-    sendMessage(
-        reportID,
-        webID,
-        messageDropdownObj.options[messageDropdownObj.selectedIndex].value
-    );
+    const message =
+        messageDropdownObj.options[messageDropdownObj.selectedIndex].value;
+    insertNote(reportID, webID, "{Sent pre-written response: " + message + "}"); // Adds note that a response has been sent.
+    sendMessage(reportID, webID, message);
 }
 
 /*
@@ -558,11 +563,6 @@ function sendMessage(reportID, webID, message) {
                 reportID: reportID
             })
         );
-        insertNote(
-            reportID,
-            webID,
-            "{Sent pre-written response: " + message + "}"
-        ); // Adds note that a response has been sent.
     }
 }
 
