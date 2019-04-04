@@ -81,16 +81,18 @@ function setExpireDate(reportsDict) {
  * similar to modifyExpire but takes in numDays and a reportID.
  */
 function modifyExpireSingle(numDays, reportID) {
+    console.log("modifyExpireSingle called with " + numDays + " , " + reportID);
     currentDate = new Date();
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // Got a report.
-            var validReportIDS = {}; // DIct with ID and newExpireTS's.
-            var invalidReportIDS = [];
+            // Got a report matching reportID.
+            var validReportIDS = {}; // DIct with ID and newExpireTS's. (Only one for this iteration)
+            var invalidReportIDS = []; // DIct with invalid ID (Only one for this itration)
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
             var newExpireTS = toDateFormat(reportInfo["reportTS"]);
             newExpireTS = newExpireTS.addDays(numDays);
+            console.log("newExpireTS = " + newExpireTS);
             if (newExpireTS > currentDate) {
                 // Check if initialTS + numDays > currentDate.
                 validReportIDS[reportID] =

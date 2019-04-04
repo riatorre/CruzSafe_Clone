@@ -20,6 +20,8 @@ const reportFields = [
     "body",
     "expireTS"
 ];
+// Options for whitelisting dates
+const whitelistDates = ["1", "3", "90", "180", "730"]; // 1, 3, 90, 180 days or 2 years.
 const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
 const webID = 1;
@@ -119,7 +121,7 @@ function createReportModal() {
     expirationDiv.innerHTML =
         "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
     expirationDiv.innerHTML +=
-        "<span class='dropdown'><select id='whitelistDropdown'><option value='forwardTaps' onclick = 'modifyExpireSingle(1)'>Expire in 1(?) days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(3)'>Expire in 3(?) days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(90)'>Expire in 90 days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(180)'>Expire in 180 days from submission date</option><option value='forwardTaps' onclick = 'modifyExpireSingle(730)'>Expire in 2 years from submission date</option></select><a class='btn rounded navy'>Whitelist Report (Supervisor/Admin Only!)</a></span>";
+        "<span class='dropdown'><select id='whitelistDropdown' autocomplete = 'off'><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist Report (Supervisor/Admin Only!)</a></span>";
     columnTwo.appendChild(expirationDiv);
 
     dataRow.appendChild(columnTwo);
@@ -312,14 +314,25 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
             }
 
             // Update the whitelist button.
+            /*
             const dropdown = document.getElementById("whitelistDropdown")
                 .children;
             for (i = 0; i < dropdown.length; i++) {
                 dropdown[i].setAttribute(
                     "onclick",
-                    "modifyExpireSingle(1," + reportID + ")"
+                    "modifyExpireSingle(" +
+                        whitelistDates[i] +
+                        "," +
+                        reportID +
+                        ")"
                 );
-            }
+            }*/
+            document
+                .getElementById("whitelistBtn")
+                .setAttribute(
+                    "onClick",
+                    "initializeWhitelist(" + reportID + ")"
+                );
 
             displayNotes(reportID);
 
@@ -341,6 +354,17 @@ function generateSingleReportHelper(reportID, document, tags, tagColors) {
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id: reportID }));
+}
+
+/*
+    Starts modifyExpireSingle after grabbing whitelist Option.
+*/
+function initializeWhitelist(reportID) {
+    var whitelistDropdownObj = document.getElementById("whitelistDropdown");
+    modifyExpireSingle(
+        whitelistDropdownObj.options[whitelistDropdownObj.selectedIndex].value,
+        reportID
+    );
 }
 
 /*
