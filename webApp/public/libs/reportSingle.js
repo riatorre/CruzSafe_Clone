@@ -135,9 +135,8 @@ function createReportModal() {
     Assuming the report modal is in the document, makes two requests to the APIs. 
 
     First request is for tags. Passes it to helper function.
-    Helper function requests for all information and adds to modal, then makes modal visible.
 */
-function generateSingleReport(reportID, document) {
+function generateSingleReport(reportID) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -152,208 +151,208 @@ function generateSingleReport(reportID, document) {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateSingleReportHelper(reportID, document, tagDict, tagColors);
+            generateSingleReportHelper(reportID, tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function generateSingleReportHelper(reportID, document, tags, tagColors) {
+/*
+    Helper function that grabs all the information from the report.
+*/
+function generateSingleReportHelper(reportID, tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var productInfo = [];
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
 
-            productInfo["reportID"] = reportInfo["reportID"];
-            // incidentID
-            productInfo["incidentID"] = reportInfo["incidentID"];
-            // resolved/unresolved
-            var resolvedButton = document.getElementById("reportResolve");
-            if (!!reportInfo["completeTS"]) {
-                var resolvedUnresolved = "[Complete]"; // Completed; not null
-                document
-                    .getElementById("close")
-                    .setAttribute("onclick", "hideReport(0)");
-                // If it's completed, provide the option to re-open.
-                resolvedButton.setAttribute(
-                    "onclick",
-                    "markIncomplete(" + reportID + ", " + webID + ")"
-                ); // Add onclick function to button
-                resolvedButton.innerHTML = "Mark Incomplete";
-            } else {
-                resolvedButton.setAttribute(
-                    "onclick",
-                    "markComplete(" + reportID + "," + webID + ")"
-                ); // Add onclick function to button
-                resolvedButton.innerHTML = "Mark Complete";
-                if (!!reportInfo["initialOpenTS"]) {
-                    var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
-                    document
-                        .getElementById("close")
-                        .setAttribute("onclick", "hideReport(0)");
-                } else {
-                    // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
-                    insertTS(1, reportID, webID);
-                    var resolvedUnresolved = "[Incomplete]"; // Null
-                }
-            }
-            productInfo["resolvedUnresolved"] = resolvedUnresolved;
-            // reportTS
-            productInfo["reportTS"] = formatDate(reportInfo["reportTS"], {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                weekday: "long",
-                hour12: false
-            });
-            productInfo["reportTS2"] = formatDate(reportInfo["reportTS"], {
-                hour: "numeric",
-                minute: "numeric",
-                second: "numeric",
-                hour12: false
-            });
-            // location
-            productInfo["location"] = reportInfo["location"];
-            // actual/pinned
-            if (reportInfo["unchangedLocation"]) {
-                var actualPinned = "(Actual)";
-            } else {
-                var actualPinned = "(Pinned)";
-            }
-            productInfo["actualPinned"] = actualPinned;
-            // tag
-            tagValue = reportInfo["tag"];
-            productInfo["tag"] = tags[tagValue];
-            displayPrewrittenResponses(reportID, webID, tagValue);
-            document
-                .getElementById("respondBtn")
-                .setAttribute(
-                    "onClick",
-                    "sendMessage(" +
-                        reportID +
-                        ", " +
-                        webID +
-                        ", document.getElementById('messageDropdown').value)"
-                );
-            // fullName
-            fullName = reportInfo["lastName"] + ", " + reportInfo["firstName"];
-            productInfo["fullName"] = fullName;
-            // mobileID
-            productInfo["mobileID"] = reportInfo["mobileID"];
-            // phone
-            productInfo["phone"] = reportInfo["phone"];
-            // email
-            productInfo["email"] = reportInfo["email"];
-            // body
-            productInfo["body"] = reportInfo["body"];
-            // expireTS
-            productInfo["expireTS"] = formatDate(reportInfo["expireTS"], {
-                hour: "numeric",
-                minute: "numeric",
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour12: false
-            });
-
-            if (productInfo["resolvedUnresolved"].includes("New")) {
-                // For resolvedUnresolved, gets status. If resolved, green. else, red.
-                document.getElementById("resolvedUnresolved").style.color =
-                    "red";
-            } else if (
-                productInfo["resolvedUnresolved"].includes("Incomplete")
-            ) {
-                document.getElementById("resolvedUnresolved").style.color =
-                    "orange";
-            } else {
-                document.getElementById("resolvedUnresolved").style.color =
-                    "yellowgreen";
-            }
-
-            // Edit Location
-            const map = document.getElementById("reportMap");
-            map.setAttribute(
-                "src",
-                "https://www.google.com/maps/embed/v1/place?q=" +
-                    reportInfo["latitude"] +
-                    "," +
-                    reportInfo["longitude"] +
-                    "&key=" +
-                    aPIKey
-            );
-
-            // Edit photo
-            const photo = document.getElementById("reportPhoto");
-            const video = document.getElementById("reportVideo");
-            if (reportInfo["attachments"]) {
-                const filename = reportInfo["filename"];
-                const extension = filename.split(".").pop(); // Split by dots.
-                if (imageTypes.includes(extension)) {
-                    video.removeAttribute("src");
-                    video.style.display = "none";
-                    photo.setAttribute(
-                        "src",
-                        "https://storage.googleapis.com/cruzsafe.appspot.com/" +
-                            reportInfo["filename"]
-                    );
-                    photo.style.display = "block";
-                } else {
-                    photo.removeAttribute("src");
-                    photo.style.display = "none";
-                    video.setAttribute(
-                        "src",
-                        "https://storage.googleapis.com/cruzsafe.appspot.com/" +
-                            reportInfo["filename"]
-                    );
-                    video.style.display = "block";
-                }
-            } else {
-                video.style.display = "none";
-                photo.style.display = "none";
-            }
-
-            // Update the whitelist button.
-            /*
-            const dropdown = document.getElementById("whitelistDropdown")
-                .children;
-            for (i = 0; i < dropdown.length; i++) {
-                dropdown[i].setAttribute(
-                    "onclick",
-                    "modifyExpireSingle(" +
-                        whitelistDates[i] +
-                        "," +
-                        reportID +
-                        ")"
-                );
-            }*/
-            document
-                .getElementById("whitelistBtn")
-                .setAttribute(
-                    "onClick",
-                    "initializeWhitelist(" + reportID + ")"
-                );
-
-            displayNotes(reportID);
-
-            // Update add new note input
-            const submitNote = document.getElementById("submitNote");
-            submitNote.setAttribute("onclick", "submitNote(" + reportID + ")");
-
-            for (i = 0; i < reportFields.length; i++) {
-                // For all entries in reportFields
-                const field = reportFields[i];
-                //console.log(field);
-                const targetTag = document.getElementById(field);
-                targetTag.innerHTML = productInfo[field];
-            }
-            tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
-            openModal();
+            populateReport(reportID, tags, tagColors, reportInfo); // Call populateReport
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ id: reportID }));
+}
+
+/*
+    Populates the report modal. Takes in reportID, list of tags, list of tag colors, and
+    reportInfo; the dictionary that contains all of the report's information. 
+*/
+function populateReport(reportID, tags, tagColors, reportInfo) {
+    var productInfo = generateProductInfo(reportInfo, tags); // Generate ProductInfo
+    // Fills in the modal with productInfo
+    for (i = 0; i < reportFields.length; i++) {
+        // For all entries in reportFields
+        const field = reportFields[i];
+        //console.log(field);
+        const targetTag = document.getElementById(field);
+        targetTag.innerHTML = productInfo[field];
+    }
+
+    // Edit the color of the tag
+    tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
+
+    // Edit the color of resolvedUnresolved
+    if (productInfo["resolvedUnresolved"].includes("New")) {
+        // For resolvedUnresolved, gets status. If resolved, green. else, red.
+        document.getElementById("resolvedUnresolved").style.color = "red";
+    } else if (productInfo["resolvedUnresolved"].includes("Incomplete")) {
+        document.getElementById("resolvedUnresolved").style.color = "orange";
+    } else {
+        document.getElementById("resolvedUnresolved").style.color =
+            "yellowgreen";
+    }
+
+    // Edit the complete/incomplete button
+    var resolvedButton = document.getElementById("reportResolve");
+    if (!!reportInfo["completeTS"]) {
+        document
+            .getElementById("close")
+            .setAttribute("onclick", "hideReport(0)");
+        // If it's completed, provide the option to re-open.
+        resolvedButton.setAttribute(
+            "onclick",
+            "markIncomplete(" + reportID + ", " + webID + ")"
+        ); // Add onclick function to button
+        resolvedButton.innerHTML = "Mark Incomplete";
+    } else {
+        // Incomplete
+        resolvedButton.setAttribute(
+            "onclick",
+            "markComplete(" + reportID + "," + webID + ")"
+        ); // Add onclick function to button
+        resolvedButton.innerHTML = "Mark Complete";
+        if (!!reportInfo["initialOpenTS"]) {
+            document
+                .getElementById("close")
+                .setAttribute("onclick", "hideReport(0)");
+        } else {
+            // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
+            insertTS(1, reportID, webID);
+        }
+    }
+    // Edit Location
+    const map = document.getElementById("reportMap");
+    map.setAttribute(
+        "src",
+        "https://www.google.com/maps/embed/v1/place?q=" +
+            reportInfo["latitude"] +
+            "," +
+            reportInfo["longitude"] +
+            "&key=" +
+            aPIKey
+    );
+    // Edit photo/video
+    const photo = document.getElementById("reportPhoto");
+    const video = document.getElementById("reportVideo");
+    if (reportInfo["attachments"]) {
+        const filename = reportInfo["filename"];
+        const extension = filename.split(".").pop(); // Split by dots.
+        if (imageTypes.includes(extension)) {
+            video.removeAttribute("src");
+            video.style.display = "none";
+            photo.setAttribute(
+                "src",
+                "https://storage.googleapis.com/cruzsafe.appspot.com/" +
+                    reportInfo["filename"]
+            );
+            photo.style.display = "block";
+        } else {
+            photo.removeAttribute("src");
+            photo.style.display = "none";
+            video.setAttribute(
+                "src",
+                "https://storage.googleapis.com/cruzsafe.appspot.com/" +
+                    reportInfo["filename"]
+            );
+            video.style.display = "block";
+        }
+    } else {
+        video.style.display = "none";
+        photo.style.display = "none";
+    }
+    // Edit the prewritten responses + button
+    displayPrewrittenResponses(reportInfo["tag"]);
+    document
+        .getElementById("respondBtn")
+        .setAttribute(
+            "onClick",
+            "initializeMessage(" + reportID + "," + webID + ")"
+        );
+    // Edit the whitelist options + button
+    document
+        .getElementById("whitelistBtn")
+        .setAttribute("onClick", "initializeWhitelist(" + reportID + ")");
+    displayNotes(reportID);
+    // Edit submit note button
+    const submitNote = document.getElementById("submitNote");
+    submitNote.setAttribute("onclick", "submitNote(" + reportID + ")");
+
+    openModal();
+}
+
+/*
+    Generates productInfo from given reportInfo
+*/
+function generateProductInfo(reportInfo, tags) {
+    var productInfo = [];
+    productInfo["reportID"] = reportInfo["reportID"];
+    // incidentID
+    productInfo["incidentID"] = reportInfo["incidentID"];
+    // reportTS
+    productInfo["reportTS"] = formatDate(reportInfo["reportTS"], {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "long",
+        hour12: false
+    });
+    productInfo["reportTS2"] = formatDate(reportInfo["reportTS"], {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false
+    });
+    // location
+    productInfo["location"] = reportInfo["location"];
+    // actual/pinned
+    if (reportInfo["unchangedLocation"]) {
+        var actualPinned = "(Actual)";
+    } else {
+        var actualPinned = "(Pinned)";
+    }
+    productInfo["actualPinned"] = actualPinned;
+    // tag
+    productInfo["tag"] = tags[reportInfo["tag"]];
+    // fullName
+    fullName = reportInfo["lastName"] + ", " + reportInfo["firstName"];
+    productInfo["fullName"] = fullName;
+    // mobileID
+    productInfo["mobileID"] = reportInfo["mobileID"];
+    // phone
+    productInfo["phone"] = reportInfo["phone"];
+    // email
+    productInfo["email"] = reportInfo["email"];
+    // body
+    productInfo["body"] = reportInfo["body"];
+    // expireTS
+    productInfo["expireTS"] = formatDate(reportInfo["expireTS"], {
+        hour: "numeric",
+        minute: "numeric",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour12: false
+    });
+    // resolved/unresolved
+    if (!!reportInfo["completeTS"]) {
+        var resolvedUnresolved = "[Complete]"; // Completed; not null
+    } else {
+        var resolvedUnresolved = "[Incomplete]"; // no complete TS but a inital open TS
+    }
+    productInfo["resolvedUnresolved"] = resolvedUnresolved;
+
+    return productInfo;
 }
 
 /*
@@ -364,6 +363,18 @@ function initializeWhitelist(reportID) {
     modifyExpireSingle(
         whitelistDropdownObj.options[whitelistDropdownObj.selectedIndex].value,
         reportID
+    );
+}
+
+/*
+    Starts sendMessage after grabbing messageList Option.
+*/
+function initializeMessage(reportID, webID) {
+    var messageDropdownObj = document.getElementById("messageDropdown");
+    sendMessage(
+        reportID,
+        webID,
+        messageDropdownObj.options[messageDropdownObj.selectedIndex].value
     );
 }
 
@@ -453,7 +464,7 @@ function removeTS(reportID, webID) {
 /*
  * Function that takes in a tagID and populates the message dropdown div.
  */
-function displayPrewrittenResponses(reportID, webID, tagID) {
+function displayPrewrittenResponses(tagID) {
     // Clear the message dropdown.
     var messageDropdown = document.getElementById("messageDropdown");
     while (messageDropdown.firstChild) {
@@ -694,7 +705,7 @@ function markComplete(reportID, webID) {
 
 // A report has been selected!
 function displayReport(id) {
-    generateSingleReport(id, document); // Intializes report display
+    generateSingleReport(id); // Intializes report display
 }
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
