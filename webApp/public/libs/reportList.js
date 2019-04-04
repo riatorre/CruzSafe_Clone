@@ -109,8 +109,10 @@ function createReportButton(report) {
     Meant to set up the Reports page by first getting all tags from database,
     then calls gatherReportPage to get all of the reportIDs and to section off some IDs for a page.
     Then calls generateMultipleReports to get information for that page and populate the list with buttons. 
+
+    Takes in isIntake - a boolean that says whether or not to sort reports by webID.
 */
-function setupReports(document) {
+function setupReports(isIntake) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -125,14 +127,14 @@ function setupReports(document) {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            gatherReportPage(document, tagDict, tagColors);
+            gatherReportPage(isIntake, tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 // TODO: Implement page segregation with this helper function.
-function gatherReportPage(document, tags, tagColors) {
+function gatherReportPage(isIntake, tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -146,8 +148,26 @@ function gatherReportPage(document, tags, tagColors) {
             generateMultipleReports(reportIDs, document, tags, tagColors);
         }
     };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportIDs");
-    request.send();
+    // If intake, grab all assigned reports to webUser
+    if (isIntake) {
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/assignments"
+        );
+        request.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request.send(JSON.stringify({ webID: webID }));
+    }
+    // Otherwise grab all reports.
+    else {
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/reportIDs"
+        );
+        request.send();
+    }
 }
 /*
     Populates the list of reports

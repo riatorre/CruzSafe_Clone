@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>CruzSafe: Reports</title>
+        <title>CruzSafe: Intake</title>
         <!--Imports Stylesheet-->
         <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
         <link
@@ -279,7 +279,7 @@
             var tid = "";
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
-                setupReports(false); // Setup reports initially
+                setupReports(true); // Setup reports initially
                 getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
             });
 
@@ -349,9 +349,7 @@
                     filterDict["filterIncidentID"] != null
                 ) {
                     alert("Incident ID entry must be a number!");
-                }
-                // elif(){}
-                else {
+                } else {
                     filterReports(filterDict, document); // Else all items are good. Send to filterReports.
                     toggleFilters();
                 }

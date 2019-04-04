@@ -593,6 +593,43 @@ router.post("/prewrittenResponses", function(req, res) {
     });
 });
 
+/*** Assignment APIs */
+/*
+    Given a recieverWebID, grabs all of the reportIDs.
+*/
+router.post("/assignments", function(req, res) {
+    myConsole.log(
+        "[Database] Attempting to gather all assignments to webID = " +
+            req.body.webID
+    );
+    connectionPool.getConnection(function(err, connection) {
+        if (err) {
+            myConsole.error(
+                "[Database] An error occurred retreiving a connection"
+            );
+            myConsole.error(err);
+            res.json({ message: "An error has occured." });
+        } else {
+            connection.query(
+                "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = ? ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC",
+                req.body.webID,
+                function(err, rows, fields) {
+                    if (err) {
+                        myConsole.error(err);
+                        res.json({ message: "An Error has occured" });
+                    } else {
+                        myConsole.log(
+                            "[Database] Select all reportIDs from assignments successful"
+                        );
+                        res.json(rows);
+                    }
+                }
+            );
+            connection.release();
+        }
+    });
+});
+
 /*** Timestamp & Timestamp related APIs */
 
 /*
