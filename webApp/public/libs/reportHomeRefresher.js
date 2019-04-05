@@ -63,8 +63,8 @@ function playSound(document, tag) {
 /*
     Function that does something given an ID
 */
-function displayID(document, reportID) {
+function displayID(document, reportID, isIntake) {
     document
         .getElementById("latestReport")
-        .setAttribute("onClick", "displayReport(" + reportID + ")");
+        .setAttribute("onClick", "displayReport(" + reportID + "," + isIntake +")");
 }

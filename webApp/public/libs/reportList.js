@@ -9,11 +9,14 @@ var numButtons = 20;
  *  this is passed into createPages() from pagination.js
  *  To help create all the pages.
  */
-function createReportButton(report) {
+function createReportButton(report, isIntake) {
     var button = document.createElement("BUTTON");
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
-    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
+    button.setAttribute(
+        "onclick",
+        "displayReport(" + report["reportID"] + "," + isIntake + ")"
+    );
 
     const resolvedUnresolved = report["resolvedUnresolved"];
     const resolvedUnresolvedFinalText = document.createElement("td");
@@ -176,7 +179,7 @@ function gatherReportPage(isIntake, tags, tagColors) {
     This array is JSONified and  passed to the API using POST. 
     API returns array of dictionaries for each report etc. 
 */
-function generateMultipleReports(reportIDs, document, tags, tagColors) {
+function generateMultipleReports(reportIDs, tags) {
     // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -254,7 +257,7 @@ function generateMultipleReports(reportIDs, document, tags, tagColors) {
     filterReports gets tags.
     filterReportsHelper does the rest.
 */
-function filterReports(filterDict, document) {
+function filterReports(filterDict, isIntake) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -282,7 +285,8 @@ function filterReports(filterDict, document) {
                 document,
                 tagDict,
                 reverseTagDict,
-                tagColors
+                tagColors,
+                isIntake
             );
         }
     };
@@ -294,7 +298,8 @@ function filterReportsHelper(
     document,
     tags,
     reverseTags,
-    tagColors
+    tagColors,
+    isIntake
 ) {
     var apiDict = {};
     for (key in filterDict) {
@@ -411,7 +416,10 @@ function filterReportsHelper(
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
             clearPages();
-            generateMultipleReports(reportIDs, document, tags, tagColors);
+            /*if (isIntake) {  TODO RIGHT HERE ====================================================================
+                reportIDs = excludeFilterResults(reportIDs);
+            }*/
+            generateMultipleReports(reportIDs, tags);
         }
     };
     request.open(
@@ -420,6 +428,34 @@ function filterReportsHelper(
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ dict: JSON.stringify(apiDict) }));
+}
+
+/*
+    Function that, given a list of reportIDs,  TOD OR GIHT HERE==================================================================
+*/
+function excludeFilterResults(reportIDs) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            reportIDsArray = JSON.parse(request.response);
+            // Gotten array of IDs.
+            reportIDs = [];
+            if (reportIDsArray != null) {
+                Array.from(reportIDsArray).forEach(function(reportID) {
+                    reportIDs.push(reportID["reportID"]);
+                });
+            }
+            // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
+            clearPages();
+            if (isIntake) {
+                reportIDs = excludeFilterResults(reportIDs);
+            }
+            generateMultipleReports(reportIDs, tags);
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ id: JSON.stringify(reportIDs) }));
 }
 
 /*
