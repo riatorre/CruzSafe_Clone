@@ -132,9 +132,9 @@ class WelcomeScreen extends Component {
             })
         })
             .then(response => response.json())
-            .then(json => {
+            .then(async json => {
                 console.log("ReponseJSON = " + json[0]["LAST_INSERT_ID()"]);
-                this.setID(JSON.stringify(json[0]["LAST_INSERT_ID()"]));
+                await this.setID(JSON.stringify(json[0]["LAST_INSERT_ID()"]));
             })
             // Unsuccessful Call to API
             .catch(err => {
@@ -152,7 +152,7 @@ class WelcomeScreen extends Component {
                 " and " +
                 this.state.userEmail
         );
-        this.handleLogin(
+        await this.handleLogin(
             this.state.userFirstName,
             this.state.userLastName,
             this.state.userEmail
