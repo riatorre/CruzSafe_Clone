@@ -719,6 +719,6 @@ function hideReport(changes) {
     reportNoteInput.value = ""; // Clear the input of notes.
     if (changes) {
         clearPages();
-        setupReports(document);
+        setupReports(false);
     }
 }
