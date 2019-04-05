@@ -110,6 +110,63 @@ class HomeScreen extends Component {
         }
     }
 
+    //actually launches tutorial
+    async launchTutorial() {
+        console.log("launching tutorial: ");
+        mobileID = await this.getMobileID();
+        await fetch("https://cruzsafe.appspot.com/api/users/updateLogin", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                mobileID: mobileID
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log("Result has been returned: ");
+                console.log(result);
+                //this.storeMessages("Messages", JSON.stringify(result));
+                console.log("Messages stored: " + result);
+                this.props.navigation.navigate("Swiper");
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    //launch tutorial if user's first login
+    async checkLogin() {
+        console.log("Checking login for ");
+        console.log(await this.getMobileID());
+        await fetch("https://cruzsafe.appspot.com/api/users/checkFirstLogin", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                mobileID: await this.getMobileID()
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log("Result = ");
+                console.log(result);
+                if (
+                    result.message === undefined &&
+                    result[0].firstLogin === 1
+                ) {
+                    this.launchTutorial();
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
     // When the user create a report, start detecting previous unsubmitted report
     async handleReport(visible) {
         this.delay = setTimeout(() => {
@@ -179,8 +236,9 @@ class HomeScreen extends Component {
             });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this._isMounted = true;
+        await this.checkLogin();
         this.getNotificationPermission();
     }
 
