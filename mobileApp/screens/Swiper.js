@@ -23,11 +23,11 @@ export default class Screen extends React.Component {
                     <View style={[styles.slideOuterContainer, styles.slidetan]}>
                         <View style={[styles.slideTextContainer]}>
                             <Text style={styles.slideText}>
-                                Have you witnessed non-emergency issues on
-                                campus which cause inconvenience or a safety
-                                hazard? Perhaps a hallway with inadequate
-                                lighting, a broken window, or a road partially
-                                blocked by trash?
+                                Have you seen non-emergency issues on campus
+                                which cause inconvenience or a safety hazard?
+                                Perhaps a hallway with inadequate lighting, a
+                                broken window, or a road partially blocked by
+                                trash?
                             </Text>
                         </View>
                         <View style={[styles.slideImageContainer]}>
@@ -61,11 +61,10 @@ export default class Screen extends React.Component {
                         <View style={[styles.slideTextContainer]}>
                             <Text style={styles.slideText}>
                                 Some cities have a number to call for such
-                                issues, often 211, but many do not, particularly
-                                on college campuses. The CruzSafe app was
-                                created as a way to address this oversight by
-                                giving students a way to text reports of
-                                non-emergency issues on campus.
+                                issues, often 211, but many do not. The CruzSafe
+                                app was created as a way to address this
+                                oversight by giving students a way to text
+                                reports of non-emergency issues on campus.
                             </Text>
                         </View>
                         <View style={[styles.slideImageContainer]}>
@@ -144,9 +143,9 @@ export default class Screen extends React.Component {
                             </Text>
                             <Text style={styles.slideText4}>
                                 - A medical emergency, such as difficulty
-                                speaking or breathing, chest pain, fainting,
-                                numbness, poisoning, heavy bleeding, sudden
-                                intense pain, severe burns, or suicidality
+                                breathing, chest pain, fainting, numbness,
+                                poisoning, heavy bleeding, severe burns, or
+                                suicidality
                             </Text>
                             <Text style={styles.slideText4}>
                                 - A crime in progress or imminently possible
@@ -154,8 +153,8 @@ export default class Screen extends React.Component {
                                 suspicious person lurking
                             </Text>
                             <Text style={styles.slideText4}>
-                                - A car crash, particularly if it is at higher
-                                speeds or someone feels dizzy or unwell
+                                - A car crash, particularly if at higher speeds
+                                or someone feels dizzy/unwell
                             </Text>
                         </View>
                         <View style={[styles.slideImageContainer]}>
@@ -228,7 +227,7 @@ export default class Screen extends React.Component {
                             <Text style={styles.slideText}>
                                 If you become aware of a completed crime or an
                                 urgent problem on campus that not merit a call
-                                to emergency services, it is still not
+                                to emergency services, it is still NOT
                                 appropriate to report it through this app.
                                 Responses to reports from this app can take 24
                                 hours or more and the reporting system is not
@@ -284,7 +283,7 @@ export default class Screen extends React.Component {
                                 drivers
                             </Text>
                             <Text style={styles.slideText7}>
-                                -Illegal parking or abandoned vehicles
+                                -Illegally parked or abandoned vehicles
                             </Text>
                             <Text style={styles.slideText7}>
                                 -Non-emergency related questions for the police

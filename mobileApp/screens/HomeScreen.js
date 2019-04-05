@@ -140,7 +140,7 @@ class HomeScreen extends Component {
     //launch tutorial if user's first login
     async checkLogin() {
         console.log("Checking login for ");
-        console.log(await this.getMobileID());
+        console.log(await this.getMobileID()); //sometimes returns null?
         await fetch("https://cruzsafe.appspot.com/api/users/checkFirstLogin", {
             method: "POST",
             headers: {
