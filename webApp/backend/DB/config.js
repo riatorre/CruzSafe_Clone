@@ -47,8 +47,9 @@ connectionPool.getConnection(function(err, connection) {
     connection.release();
 });
 
+// Handles all possible queries; takes in a query as a string and a callback function to be executed on success
 connectionPool.connectionQuery = (query, callback) => {
-    myConsole.log("[Database] Attempting to Execute Query: '" + query + "'");
+    myConsole.log('[Database] Attempting to Execute Query: "' + query + '"');
     connectionPool.getConnection(function(err, connection) {
         if (err) {
             myConsole.error(
@@ -60,17 +61,17 @@ connectionPool.connectionQuery = (query, callback) => {
             connection.query(query, function(err, rows, fields) {
                 if (err) {
                     myConsole.error(
-                        "[Database] An error has occured Executing Query: '" +
+                        '[Database] An Error has occured Executing Query: "' +
                             query +
-                            "'"
+                            '"'
                     );
                     myConsole.error(err);
                     callback({ message: "An Error has occured" });
                 } else {
                     myConsole.log(
-                        "[Database] Executed Query: '" +
+                        '[Database] Successfully Executed Query: "' +
                             query +
-                            "' Successfully"
+                            '"'
                     );
                     callback(rows);
                 }
@@ -80,10 +81,12 @@ connectionPool.connectionQuery = (query, callback) => {
     });
 };
 
+// Helper function
 connectionPool.verifyInt = val => {
     return val != null && !isNaN(parseInt(val));
 };
 
+// Verifies ALL contents of parameter is an Int
 connectionPool.verifyIntArray = val => {
     if (connectionPool.isArray(val)) {
         for (i = 0; i < val.length; i++) {
@@ -97,10 +100,17 @@ connectionPool.verifyIntArray = val => {
     }
 };
 
+// Sanitizes a string for use by MySQL; Needed in order to avoid SQL Injection
+connectionPool.sanitizeString = str => {
+    return mysql.escape(str);
+};
+
+// Determines if parameter is an Array
 connectionPool.isArray = array => {
     return !!array && array.constructor === Array;
 };
 
+// Error reporting for invalid Values
 connectionPool.invalidValues = (vals, numValsExpected, callback) => {
     if (numValsExpected === -1) {
         myConsole.error(
@@ -126,8 +136,38 @@ connectionPool.invalidValues = (vals, numValsExpected, callback) => {
     callback();
 };
 
-connectionPool.sanitizeString = str => {
-    return mysql.escape(str);
+/* Handles API by checking id all int values are truly ints
+ * Takes in ints and other values, number of expected ints and number of total expected values,
+ * query string itself, callback to be executed on success and an error CallBack to be called on failure
+ */
+connectionPool.handleAPI = (
+    ints,
+    otherVals,
+    expectedNumInts,
+    expectedNumVals,
+    query,
+    callback,
+    errorCB
+) => {
+    if (expectedNumInts === 0 || connectionPool.verifyIntArray(ints)) {
+        connectionPool.connectionQuery(query, callback);
+    } else {
+        var valArray = [];
+        if (ints && otherVals) {
+            const intsArray = connectionPool.isArray(ints) ? ints : [ints];
+            const otherValsArray = connectionPool.isArray(otherVals)
+                ? otherVals
+                : [otherVals];
+            valArray = intsArray.concat(otherValsArray);
+        } else if (ints) {
+            valArray = connectionPool.isArray(ints) ? ints : [ints];
+        } else if (otherVals) {
+            valArray = connectionPool.isArray(otherVals)
+                ? otherVals
+                : [otherVals];
+        }
+        connectionPool.invalidValues(valArray, expectedNumVals, errorCB);
+    }
 };
 
 module.exports = connectionPool;

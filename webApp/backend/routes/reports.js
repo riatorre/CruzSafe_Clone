@@ -1,16 +1,12 @@
 /*
  * reports.js
  * Routing for Reports API
- * MUST CONVERT TO "POST" AT SOME POINT
- * POST allows more data to be transfered, and does not allow
- * page to be bookmarked or cached.
  */
 
 const express = require("express");
 const path = require("path");
 const router = express.Router();
 const connectionPool = require("../DB/config");
-const myConsole = require("../utilities/customConsole");
 const multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
 
@@ -53,70 +49,52 @@ var upload = multer({
 
 // Get all tags
 router.post("/tags", function(req, res) {
-    myConsole.log("[Database] Attempting to select all tags");
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query("SELECT * FROM tags", function(err, rows, fields) {
-                if (err) {
-                    myConsole.error(err);
-                    res.json({ message: "An Error has occured" });
-                } else {
-                    myConsole.log("[Database] Select all tags Successful");
-                    res.json(rows);
-                }
-            });
-            connection.release();
+    const query = "SELECT * FROM tags";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
         }
-    });
+    );
 });
 
 /*** Report Data ***/
 
 // Get all reports, Default request
 router.post("/", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select reports with ids = " + req.body.id
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
+    var reportIDs = JSON.parse(req.body.id);
+    var query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ";
+    for (i = 0; i < reportIDs.length; i++) {
+        if (i == 0) {
+            query = query + reportIDs[i];
         } else {
-            // Convert string of reportIDs into an array and complete query.
-            var reportIDs = JSON.parse(req.body.id);
-            var query =
-                "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ";
-            for (i = 0; i < reportIDs.length; i++) {
-                if (i == 0) {
-                    query = query + reportIDs[i];
-                } else {
-                    query = query + " OR reportID = " + reportIDs[i];
-                }
-            }
-            query =
-                query +
-                " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"; // Ordering clause
-            connection.query(query, function(err, rows, fields) {
-                if (err) {
-                    myConsole.error(err);
-                    res.json({ message: "An Error has occured" });
-                } else {
-                    myConsole.log("[Database] Select all reports Successful");
-                    res.json(rows);
-                }
-            });
-            connection.release();
+            query = query + " OR reportID = " + reportIDs[i];
         }
-    });
+    }
+    query =
+        query +
+        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"; // Ordering clause
+    connectionPool.handleAPI(
+        reportIDs,
+        null,
+        -1,
+        -1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
 });
 
 /*
@@ -126,13 +104,70 @@ router.post("/", function(req, res) {
     Requires dict to be passed in body.
 */
 router.post("/specifyReportIDs", function(req, res) {
-    myConsole.log(
+    // Interpret passed JSON string to dictionary
+    var filters = {};
+    var dictionary = JSON.parse(req.body.dict);
+    for (var key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+            var value = dictionary[key];
+            filters[key] = value;
+        }
+    }
+
+    // Dictionary populated, construct query.
+    var query =
+        "SELECT reportID FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID";
+    if (Object.keys(filters).length != 0) {
+        // If anything in dictionary
+        query = query + " WHERE "; // Add an initial where clause
+        var firstItem = true;
+        for (var key in filters) {
+            const value = "" + filters[key];
+            // For each item in dictionary
+            if (!firstItem) {
+                query = query + " AND "; // If not first item, etc.
+            }
+            if (value.startsWith("LIKE ")) {
+                query = query + key + " " + value; // EX) SELECT reportID FROM reports WHERE column LIKE '${$needle}$'
+                firstItem = false;
+            } else if (value.startsWith("IS ")) {
+                query = query + key + " " + value; // EX) SELECT reportID FROM reports WHERE column IS NOT NULL'
+                firstItem = false;
+            } else {
+                query = query + key + " = " + value;
+                firstItem = false;
+            }
+        }
+        query =
+            query +
+            " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC;"; // Ordering clause
+        connectionPool.handleAPI(
+            null,
+            null,
+            0,
+            0,
+            query,
+            val => {
+                res.json(val);
+            },
+            () => {
+                res.json({
+                    message: "[Database] An Error has occurred"
+                });
+            }
+        );
+    } else {
+        res.json({
+            message: "[Database] Nothing found!"
+        });
+    }
+    /*myConsole.log(
         "[Database] Attempting to select reportIDs adhering to specific values"
     );
     connectionPool.getConnection(function(err, connection) {
         if (err) {
             myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
+                "[Database] An error has occurred retrieving a Connection"
             );
             myConsole.error(err);
             res.json({ message: "An Error has Occurred." });
@@ -179,7 +214,7 @@ router.post("/specifyReportIDs", function(req, res) {
                         myConsole.error(err);
                         res.json({
                             message:
-                                "[Database] An Error has occured: query = " +
+                                "[Database] An Error has occurred: query = " +
                                 query
                         });
                     } else {
@@ -197,120 +232,78 @@ router.post("/specifyReportIDs", function(req, res) {
             }
             connection.release();
         }
-    });
+    });*/
 });
 
 /*
     Get all of the reportIDs in the database.
 */
 router.post("/reportIDs", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select all reportIDs ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query =
+        "SELECT reportID FROM reports ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT reportID FROM reports ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC",
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select all reportIDs Successful"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 // Get Report by internal ID #, should return either 0 or 1 entry
 router.post("/reportID", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select report with reportID = " + req.body.id
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ?",
-                req.body.id,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select by reportID Successful"
-                        );
-                        if (rows.length > 0) {
-                            res.json(rows);
-                        } else {
-                            res.json({
-                                message: "No report with given reportID found"
-                            });
-                        }
-                    }
-                }
-            );
-            connection.release();
+    const query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = " +
+        req.body.id;
+    connectionPool.handleAPI(
+        req.body.id,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            if (val.length > 0) {
+                res.json(val);
+            } else {
+                res.json({
+                    message: "No report with given reportID found"
+                });
+            }
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
         }
-    });
+    );
 });
 
 // Get Report By Incident ID #, may return 0+ entries
 router.post("/incidentID", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select report with incidentID = " +
-            req.body.id
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reports WHERE incidentID = ?",
-                req.body.id,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select by incidentID Successful"
-                        );
-                        if (rows.length > 0) {
-                            res.json(rows);
-                        } else {
-                            res.json({
-                                message: "No report with given incidentID found"
-                            });
-                        }
-                    }
-                }
-            );
-            connection.release();
+    const query = "SELECT * FROM reports WHERE incidentID = " + req.body.id;
+    connectionPool.handleAPI(
+        req.body.id,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            if (val.length > 0) {
+                res.json(val);
+            } else {
+                res.json({
+                    message: "No report with given incidentID found"
+                });
+            }
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
         }
-    });
+    );
 });
 
 /*
@@ -321,11 +314,74 @@ router.post("/incidentID", function(req, res) {
  *  But it may be easier to just store the file name in the DB alongside the other Report elements.
  */
 router.post("/submitReport", upload.single("media"), function(req, res) {
-    myConsole.log("[Database] Attempting to submit a new report");
+    const attachment = req.file ? req.file.filename : null;
+    const hasAttachment = attachment ? 1 : 0;
+    const values = [
+        [
+            req.body.mobileID,
+            req.body.incidentDesc,
+            req.body.incidentLocationDesc,
+            req.body.incidentCategory,
+            req.body.incidentLatitude,
+            req.body.incidentLongitude,
+            req.body.incidentUnchangedLocation,
+            hasAttachment,
+            attachment,
+            req.body.token
+        ]
+    ];
+    const query =
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES " +
+        [values];
+    connectionPool.handleAPI(
+        values[0],
+        [values[1], values[2], values[3], values[8], values[9]],
+        1,
+        6,
+        query,
+        val => {
+            connectionPool.handleAPI(
+                null,
+                null,
+                0,
+                0,
+                "SELECT reportTS FROM reports WHERE reportID = " + val.insertId,
+                row => {
+                    const expireTS = row[0].reportTS;
+                    expireTS.setDate(expireTS.getDate() + numDays);
+                    connectionPool.handleAPI(
+                        null,
+                        null,
+                        0,
+                        0,
+                        "UPDATE reports SET incidentID = " +
+                            val.insertId +
+                            ", expireTS = " +
+                            expireTS +
+                            " WHERE reportID = " +
+                            val.insertId,
+                        () => {
+                            res.json({ incidentID: val.insertId });
+                        },
+                        () => {
+                            res.json({ message: "An Error has Occurred." });
+                        }
+                    );
+                },
+                () => {
+                    res.json({ message: "An Error has Occurred." });
+                }
+            );
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+    /*myConsole.log("[Database] Attempting to submit a new report");
     connectionPool.getConnection(function(err, connection) {
         if (err) {
             myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
+                "[Database] An error has occurred retrieving a Connection"
             );
             myConsole.error(err);
             res.json({ message: "An Error has Occurred." });
@@ -352,7 +408,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                 [values],
                 function(err, result) {
                     if (err) {
-                        // An error has occured during insertion.
+                        // An error has occurred during insertion.
                         // Details are logged into console while user is given a generic message
                         myConsole.error(err);
                         res.json({ message: "An Error has Occurred" });
@@ -395,202 +451,119 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
             );
             connection.release();
         }
-    });
+    });*/
 });
 
 /*
  *  Function that grabs all reports made by given user
  */
 router.post("/userReports", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to get all reports for mobileID = " +
-            req.body.mobileID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reports WHERE mobileID=? ORDER BY reportTS DESC",
-                req.body.mobileID,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] All reports by mobileID = " +
-                                req.body.mobileID +
-                                " have been selected"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
+    const query =
+        "SELECT * FROM reports WHERE mobileID = " +
+        req.body.mobileID +
+        " ORDER BY reportTS DESC";
+    connectionPool.handleAPI(
+        req.body.mobileID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
         }
-    });
+    );
 });
 
 router.post("/latestReports", function(req, res) {
-    var num_reports = 7;
-    myConsole.log(
-        "[Database] Attempting to select the latest " + num_reports + " reports"
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reports ORDER BY reportTS DESC LIMIT ?",
-                num_reports,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select latest " +
-                                num_reports +
-                                " reports successful"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
+    const num_reports = 7;
+    const query =
+        "SELECT * FROM reports ORDER BY reportTS DESC LIMIT " + num_reports;
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
         }
-    });
+    );
 });
 
 /*** Report Notes ***/
 
 // Get notes joined with webID given a reportID.
 router.post("/notes", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select notes with reportID = " +
-            req.body.reportID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query =
+        "SELECT * FROM reportNotes LEFT JOIN webUsers ON reportNotes.webID = webUsers.webID WHERE reportID = " +
+        req.body.reportID;
+    connectionPool.handleAPI(
+        req.body.reportID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reportNotes LEFT JOIN webUsers ON reportNotes.webID = webUsers.webID WHERE reportID = ?",
-                req.body.reportID,
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select notes with reportID = " +
-                                req.body.reportID +
-                                " Sucessful"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 /*
     Given a new note with reportID, webID, and content.
 */
 router.post("/newNote", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to add note with reportID, webID, and content of " +
-            req.body.reportID +
-            ", " +
-            req.body.webID +
-            ", " +
-            req.body.content
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query =
+        "INSERT INTO reportNotes (reportID, webID, content) VALUES (" +
+        req.body.reportID +
+        "," +
+        req.body.webID +
+        "," +
+        connectionPool.sanitizeString(req.body.content) +
+        ")";
+    connectionPool.handleAPI(
+        [req.body.reportID, req.body.webID],
+        req.body.content,
+        2,
+        3,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "INSERT INTO reportNotes (reportID, webID, content) VALUES (?,?,?)",
-                [req.body.reportID, req.body.webID, req.body.content],
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Successful in adding a note with reportID, webID, and content of " +
-                                req.body.reportID +
-                                ", " +
-                                req.body.webID +
-                                ", " +
-                                req.body.content
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 /*
     Given a tag, return all prewritten responses
 */
 router.post("/prewrittenResponses", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to get all prewritten Responses with tagID: " +
-            req.body.tagID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query =
+        "SELECT * FROM prewrittenResponses WHERE tagID = " + req.body.tagID;
+    connectionPool.handleAPI(
+        req.body.tagID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM prewrittenResponses WHERE tagID = ?",
-                req.body.tagID,
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({
-                            message: "An Error has Occured with query: " + query
-                        });
-                    } else {
-                        myConsole.log(
-                            "[Database] Found all prewritten Responses with tagID: " +
-                                req.body.tagID
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 /*** Assignment APIs */
@@ -598,36 +571,23 @@ router.post("/prewrittenResponses", function(req, res) {
     Given a recieverWebID, grabs all of the reportIDs.
 */
 router.post("/assignments", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to gather all assignments to webID = " +
-            req.body.webID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error occurred retreiving a connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An error has occured." });
-        } else {
-            connection.query(
-                "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = ? ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC",
-                req.body.webID,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select all reportIDs from assignments successful"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
+    const query =
+        "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = " +
+        req.body.webID +
+        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC";
+    connectionPool.handleAPI(
+        req.body.webID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
         }
-    });
+    );
 });
 
 /*** Timestamp & Timestamp related APIs */
@@ -638,90 +598,107 @@ router.post("/assignments", function(req, res) {
  * Takes in id as well.
  */
 router.post("/timestamp", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to update timestamp(s) for reportID = " +
-            req.body.reportID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    var query = "";
+    if (req.body.initialOpenTS == 1) {
+        query =
+            "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = " +
+            req.body.webID +
+            " WHERE reportID = " +
+            req.body.reportID;
+    } else {
+        query =
+            "UPDATE reports SET completeTS = current_timestamp(), completeWebID = " +
+            req.body.webID +
+            " WHERE reportID = " +
+            req.body.reportID;
+    }
+    connectionPool.handleAPI(
+        [req.body.webID, req.body.reportID],
+        null,
+        2,
+        2,
+        query,
+        () => {
+            res.json({ message: "Timestamp Update Successful" });
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            if (req.body.initialOpenTS == 1) {
-                query =
-                    "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = ? WHERE reportID = ?";
-            } else {
-                query =
-                    "UPDATE reports SET completeTS = current_timestamp(), completeWebID = ? WHERE reportID = ?";
-            }
-            connection.query(
-                query,
-                [req.body.webID, req.body.reportID],
-                function(err, results) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({
-                            message:
-                                "An Error has occured. Please try again later."
-                        });
-                    } else {
-                        myConsole.log(
-                            "[Database] Report(s) Timestamp(s) has been updated for incidentID = " +
-                                req.body.reportID
-                        );
-                        res.json({ message: "Timestamp Update Successful" });
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 /*
     Grab the reportIDs and TSs of all reports.
 */
 router.post("/allReportTS", function(req, res) {
-    myConsole.log("[Database] Attempting to select all reports by ID and TS.");
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query = "SELECT reportID, reportTS FROM reports";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query("SELECT reportID, reportTS FROM reports", function(
-                err,
-                rows
-            ) {
-                if (err) {
-                    myConsole.error(err);
-                    res.json({ message: "An Error has Occured" });
-                } else {
-                    myConsole.log(
-                        "[Database] Select all reports by ID and TS successful"
-                    );
-                    res.json(rows);
-                }
-            });
-            connection.release();
         }
-    });
+    );
 });
 
 /*
     Sets expire TS given reportDict. (ID:newExpireTS)
 */
 router.post("/setExpire", function(req, res) {
-    myConsole.log("[Database] Attempting to insert dict of reports.");
+    // Interpret passed JSON string to dictionary
+    var reportsDict = {};
+    var dictionary = JSON.parse(req.body.reportsDict);
+    for (var key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+            var value = dictionary[key];
+            reportsDict[key] = value;
+        }
+    }
+    //res.json({ message: "Dict = " + reportsDict });
+    if (reportsDict != {}) {
+        // Dictionary populated. Now construct the query.
+        var query = "UPDATE reports SET expireTS = CASE ";
+        for (key in reportsDict) {
+            var expireTS = reportsDict[key];
+            query =
+                query + "WHEN reportID = " + key + " THEN " + expireTS + " ";
+        }
+        query = query + "END WHERE reportID IN (";
+        var firstValue = true;
+        for (key in reportsDict) {
+            if (firstValue) {
+                query = query + key;
+                firstValue = false;
+            } else {
+                query = query + "," + key;
+            }
+        }
+        query = query + ")";
+        connectionPool.handleAPI(
+            null,
+            null,
+            0,
+            0,
+            query,
+            val => {
+                res.json(val);
+            },
+            () => {
+                res.json({ message: "An Error has Occurred." });
+            }
+        );
+    }
+    /*myConsole.log("[Database] Attempting to insert dict of reports.");
     connectionPool.getConnection(function(err, connection) {
         if (err) {
             myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
+                "[Database] An error has occurred retrieving a Connection"
             );
             myConsole.error(err);
             res.json({ message: "An Error has Occurred." });
@@ -763,7 +740,7 @@ router.post("/setExpire", function(req, res) {
                 connection.query(query, function(err, rows) {
                     if (err) {
                         myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
+                        res.json({ message: "An Error has occurred" });
                     } else {
                         myConsole.log(
                             "[Database] Inserting dict of reports successful."
@@ -774,154 +751,116 @@ router.post("/setExpire", function(req, res) {
             }
             connection.release();
         }
-    });
+    });*/
 });
 
 /*
     Remove TS given reportID.
 */
 router.post("/removeTimestamp", function(req, res) {
-    myConsole.log(
-        "[Database] Removing completion of report with ID " + req.body.reportID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query =
+        "UPDATE reports SET completeTS = NULL AND completeWebID = NULL WHERE reportID = " +
+        req.body.reportID;
+    connectionPool.handleAPI(
+        req.body.reportID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "UPDATE reports SET completeTS = NULL AND completeWebID = NULL WHERE reportID = ?",
-                req.body.reportID,
-                function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Removing of report completion with ID" +
-                                req.body.reportID +
-                                "successful"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 /*
     Grab latest TS in database.
 */
 router.post("/latestTS", function(req, res) {
-    myConsole.log("[Database] Attempting to select the latest report TS");
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query = "SELECT MAX(reportTS) FROM reports";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query("SELECT MAX(reportTS) FROM reports", function(
-                err,
-                rows
-            ) {
-                if (err) {
-                    myConsole.error(err);
-                    res.json({ message: "An Error has Occured" });
-                } else {
-                    myConsole.log("[Database] Select latest TS successful.");
-                    res.json(rows);
-                }
-            });
-            connection.release();
         }
-    });
+    );
 });
 
 /*
     Given a TS, return a report.
 */
 router.post("/reportTS", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to select the with TS: " + req.body.reportTS
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    var query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportTS = ";
+    query = query + connectionPool.sanitizeString(req.body.reportTS);
+    connectionPool.handleAPI(
+        null,
+        req.body.reportTS,
+        0,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            query =
-                "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportTS = ";
-            query = query + '"' + req.body.reportTS + '"';
-            connection.query(query, function(err, rows) {
-                if (err) {
-                    myConsole.error(err);
-                    res.json({
-                        message: "An Error has Occured with query: " + query
-                    });
-                } else {
-                    myConsole.log(
-                        "[Database] Found report with TS" + req.body.reportTS
-                    );
-                    res.json(rows);
-                }
-            });
-            connection.release();
         }
-    });
+    );
 });
 
 /*** Tokens ***/
 
 router.post("/getToken", function(req, res) {
-    myConsole.log(
-        "[Database] Attempting to get token for reportID = " + req.body.reportID
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
-            );
-            myConsole.error(err);
+    const query = "SELECT * FROM reports WHERE reportID = " + req.body.reportID;
+    connectionPool.handleAPI(
+        req.body.reportID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
             res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "SELECT * FROM reports WHERE reportID=?",
-                req.body.reportID,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
-                    } else {
-                        myConsole.log(
-                            "[Database] token by reportID = " +
-                                req.body.reportID +
-                                " have been selected"
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
         }
-    });
+    );
 });
 
 router.post("/updateToken", function(req, res) {
-    myConsole.log("[Database] Attempting to set token for" + req.body.mobileID);
+    const query =
+        "UPDATE reports SET token = " +
+        JSON.stringify(req.body.token) +
+        " WHERE mobileID = " +
+        req.body.mobileID;
+    connectionPool.handleAPI(
+        req.body.mobileID,
+        JSON.stringify(req.body.token),
+        1,
+        2,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+    /*myConsole.log("[Database] Attempting to set token for" + req.body.mobileID);
     connectionPool.getConnection(function(err, connection) {
         if (err) {
             myConsole.error(
-                "[Database] An error has occured retrieving a Connection"
+                "[Database] An error has occurred retrieving a Connection"
             );
             myConsole.error(err);
             res.json({ message: "An Error has Occurred." });
@@ -934,7 +873,7 @@ router.post("/updateToken", function(req, res) {
                 function(err, rows, fields) {
                     if (err) {
                         myConsole.error(err);
-                        res.json({ message: "An Error has Occured" });
+                        res.json({ message: "An Error has occurred" });
                     } else {
                         myConsole.log(
                             "[Database] set token for mobileID = " +
@@ -946,7 +885,7 @@ router.post("/updateToken", function(req, res) {
             );
             connection.release();
         }
-    });
+    });*/
 });
 
 /*
