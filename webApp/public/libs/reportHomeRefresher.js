@@ -34,7 +34,7 @@ function getTS(document, hiddenID, firstRun) {
 /*
     Function that requests a report based on timestamp. 
 */
-function getReportByTS(document, reportTS, sound) {
+function getReportByTS(document, reportTS, sound, isIntake) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -44,7 +44,7 @@ function getReportByTS(document, reportTS, sound) {
             if (sound) {
                 playSound(document, report[0]["tag"]);
             }
-            displayID(document, report[0]["reportID"]);
+            displayID(document, report[0]["reportID"], isIntake);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportTS");
@@ -66,5 +66,8 @@ function playSound(document, tag) {
 function displayID(document, reportID, isIntake) {
     document
         .getElementById("latestReport")
-        .setAttribute("onClick", "displayReport(" + reportID + "," + isIntake +")");
+        .setAttribute(
+            "onClick",
+            "displayReport(" + reportID + "," + isIntake + ")"
+        );
 }

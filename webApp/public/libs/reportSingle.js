@@ -206,7 +206,7 @@ function populateReport(reportID, tags, tagColors, reportInfo, isIntake) {
         // Completed Report Actions:
         document
             .getElementById("close")
-            .setAttribute("onclick", "hideReport(0)"); // Modify close button - standard
+            .setAttribute("onclick", "hideReport(0," + isIntake + ")"); // Modify close button - standard
         // INCOMPLETE button
         resolvedButton.setAttribute(
             "onclick",
@@ -219,7 +219,7 @@ function populateReport(reportID, tags, tagColors, reportInfo, isIntake) {
         // COMPLETE button
         resolvedButton.setAttribute(
             "onclick",
-            "markComplete(" + reportID + "," + webID + "," + isIntake +")"
+            "markComplete(" + reportID + "," + webID + "," + isIntake + ")"
         );
         resolvedButton.innerHTML = "Mark Complete";
 
@@ -705,16 +705,16 @@ function markIncomplete(reportID, webID) {
 
 function markComplete(isIntake, reportID, webID) {
     insertTS(0, reportID, webID);
-    hideReport(1,isIntake); // Close the modal
+    hideReport(1, isIntake); // Close the modal
 }
 
 // A report has been selected!
-function displayReport(id, isIntake) {
-    generateSingleReport(id,isIntake); // Intializes report display
+function displayReport(id) {
+    generateSingleReport(id); // Intializes report display
 }
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
-function hideReport(changes,isIntake) {
+function hideReport(changes, isIntake) {
     closeModal();
     reportNoteInput.value = ""; // Clear the input of notes.
     if (changes) {

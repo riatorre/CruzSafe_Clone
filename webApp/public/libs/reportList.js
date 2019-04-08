@@ -9,14 +9,11 @@ var numButtons = 20;
  *  this is passed into createPages() from pagination.js
  *  To help create all the pages.
  */
-function createReportButton(report, isIntake) {
+function createReportButton(report) {
     var button = document.createElement("BUTTON");
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
-    button.setAttribute(
-        "onclick",
-        "displayReport(" + report["reportID"] + "," + isIntake + ")"
-    );
+    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
 
     const resolvedUnresolved = report["resolvedUnresolved"];
     const resolvedUnresolvedFinalText = document.createElement("td");
@@ -416,10 +413,11 @@ function filterReportsHelper(
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
             clearPages();
-            /*if (isIntake) {  TODO RIGHT HERE ====================================================================
+            if (isIntake) {
                 reportIDs = excludeFilterResults(reportIDs);
-            }*/
-            generateMultipleReports(reportIDs, tags);
+            } else {
+                generateMultipleReports(reportIDs, tags);
+            }
         }
     };
     request.open(
@@ -431,7 +429,7 @@ function filterReportsHelper(
 }
 
 /*
-    Function that, given a list of reportIDs,  TOD OR GIHT HERE==================================================================
+    Function that, given a list of reportIDs, returns only the reportIDS that have been assigned to a webID. 
 */
 function excludeFilterResults(reportIDs) {
     const request = new XMLHttpRequest();
@@ -447,15 +445,17 @@ function excludeFilterResults(reportIDs) {
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
             clearPages();
-            if (isIntake) {
-                reportIDs = excludeFilterResults(reportIDs);
-            }
             generateMultipleReports(reportIDs, tags);
         }
     };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/");
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/isolateAssignments"
+    );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    request.send(JSON.stringify({ id: JSON.stringify(reportIDs) }));
+    request.send(
+        JSON.stringify({ id: JSON.stringify(reportIDs), webID: webID })
+    );
 }
 
 /*
