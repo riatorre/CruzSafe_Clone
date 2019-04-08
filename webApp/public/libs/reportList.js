@@ -148,7 +148,7 @@ function gatherReportPage(isIntake, tags, tagColors) {
                 reportIDs.push(reportID["reportID"]);
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateMultipleReports(reportIDs, document, tags, tagColors);
+            generateMultipleReports(reportIDs, tags, tagColors);
         }
     };
     // If intake, grab all assigned reports to webUser
@@ -179,7 +179,7 @@ function gatherReportPage(isIntake, tags, tagColors) {
     This array is JSONified and  passed to the API using POST. 
     API returns array of dictionaries for each report etc. 
 */
-function generateMultipleReports(reportIDs, tags) {
+function generateMultipleReports(reportIDs, tags, tagColors) {
     // TODO: Implement a single-query implementation so you don't query the database for ALL reports.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
