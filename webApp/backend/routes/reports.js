@@ -9,6 +9,7 @@ const router = express.Router();
 const connectionPool = require("../DB/config");
 const multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
+const myConsole = require("../utilities/customConsole");
 
 const numDays = 90; // number of days before a report expires
 
@@ -87,6 +88,24 @@ router.post("/", function(req, res) {
         null,
         -1,
         -1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
+// Get all reports
+router.post("/allReports", function(req, res) {
+    var query = "SELECT * FROM reports";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
         query,
         val => {
             res.json(val);

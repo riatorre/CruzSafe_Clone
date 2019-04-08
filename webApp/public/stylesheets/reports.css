@@ -12,16 +12,16 @@ body {
 }
 
 .filterOptions {
+    position: relative;
     padding: 20px;
     -moz-border-radius: 8;
     -webkit-border-radius: 8px;
     border-radius: 12px;
     color: #0d3c6c;
     width: 90%;
-    height: 100%;
+    height: auto;
     margin: 0px;
     border: 0px solid black;
-    overflow: auto;
     background-color: black;
 }
 
@@ -39,13 +39,41 @@ body {
     color: #095ea3;
 }
 
-.filterOptions > div > .icon {
+.filterOptions :not(:first-child) {
     display: none;
 }
 
-.filterOptions i.fa-bars {
+.filterOptions div a.icon {
+    float: right;
+    display: block;
+}
+
+.filterOptions .btn {
+    margin: 0px;
+}
+
+.filterOptions .btn:hover {
+    background-color: slategray;
+}
+
+/*.filterOptions i.fa-bars {
     font-size: 1.8em;
     font-weight: bold;
+}*/
+
+.filterOptions.responsive {
+    position: relative;
+    height: auto;
+}
+
+.filterOptions.responsive * {
+    float: none;
+    display: inline-flex;
+    text-align: left;
+}
+
+.filterFix {
+    justify-content: flex-start;
 }
 
 .filterInputs {
@@ -77,6 +105,7 @@ body {
 
 .reportList {
     width: 90%;
+    height: 100%;
     border: 0px solid black;
     background: black;
     overflow: auto;
@@ -168,17 +197,6 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-    .filterOptions {
-        height: auto;
-        width: 100%;
-    }
-    .filterOptions :not(:first-child) {
-        display: none;
-    }
-    .filterOptions div a.icon {
-        float: right;
-        display: block;
-    }
     .navigationButtons {
         margin-top: 10px;
         margin-bottom: 10px;
@@ -210,21 +228,12 @@ body {
 }
 
 @media all and (max-width: 599px) {
-    .filterOptions i.fa-bars {
+    /*.filterOptions i.fa-bars {
         font-size: 1.6em;
-    }
+    }*/
 }
 
 @media screen and (max-width: 600px) {
-    .filterOptions.responsive {
-        position: relative;
-        height: 100%;
-    }
-    .filterOptions.responsive * {
-        float: none;
-        display: block;
-        text-align: left;
-    }
     .reportList {
         max-height: 250px;
     }
