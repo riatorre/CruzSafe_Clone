@@ -12,16 +12,16 @@ body {
 }
 
 .filterOptions {
+    position: relative;
     padding: 20px;
     -moz-border-radius: 8;
     -webkit-border-radius: 8px;
     border-radius: 12px;
     color: #0d3c6c;
     width: 90%;
-    height: 100%;
+    height: auto;
     margin: 0px;
     border: 0px solid black;
-    overflow: auto;
     background-color: black;
 }
 
@@ -39,13 +39,41 @@ body {
     color: #095ea3;
 }
 
-.filterOptions > div > .icon {
+.filterOptions :not(:first-child) {
     display: none;
 }
 
-.filterOptions i.fa-bars {
+.filterOptions div a.icon {
+    float: right;
+    display: block;
+}
+
+.filterOptions .btn {
+    margin: 0px;
+}
+
+.filterOptions .btn:hover {
+    background-color: slategray;
+}
+
+/*.filterOptions i.fa-bars {
     font-size: 1.8em;
     font-weight: bold;
+}*/
+
+.filterOptions.responsive {
+    position: relative;
+    height: auto;
+}
+
+.filterOptions.responsive * {
+    float: none;
+    display: inline-flex;
+    text-align: left;
+}
+
+.filterFix {
+    justify-content: flex-start;
 }
 
 .filterInputs {
@@ -210,9 +238,9 @@ body {
 }
 
 @media all and (max-width: 599px) {
-    .filterOptions i.fa-bars {
+    /*.filterOptions i.fa-bars {
         font-size: 1.6em;
-    }
+    }*/
 }
 
 @media screen and (max-width: 600px) {

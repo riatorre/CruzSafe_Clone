@@ -719,6 +719,11 @@ td {
     color: #111111;
 }
 
+.clear {
+    background: #ffffff00;
+    color: #111111;
+}
+
 /*** helpers ***/
 
 .rounded {
