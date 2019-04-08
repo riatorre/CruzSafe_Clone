@@ -7,7 +7,6 @@ import { createDrawerNavigator, DrawerItems } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import History from "../screens/History";
 import LinksScreen from "../screens/LinksScreen";
-import AdditionalInfoScreen from "../screens/AdditionalInfoScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import AboutUs from "../screens/AboutUs";
 // import ReportDetail from "../screens/ReportDetail";
@@ -43,7 +42,6 @@ export default createDrawerNavigator(
         Home: HomeScreen,
         History: History,
         Links: LinksScreen,
-        AdditionalInfo: AdditionalInfoScreen,
         Settings: SettingsScreen,
         AboutUs: AboutUs
         // ReportDetail: ReportDetail

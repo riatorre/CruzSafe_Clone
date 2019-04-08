@@ -1,3 +1,0 @@
-/*
-    Code to load reports into a map. Currently just crappy placeholder stuff.
-*/
