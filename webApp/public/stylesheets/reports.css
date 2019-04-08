@@ -105,6 +105,7 @@ body {
 
 .reportList {
     width: 90%;
+    height: 100%;
     border: 0px solid black;
     background: black;
     overflow: auto;
@@ -196,17 +197,6 @@ body {
 }
 
 @media only screen and (max-width: 600px) {
-    .filterOptions {
-        height: auto;
-        width: 100%;
-    }
-    .filterOptions :not(:first-child) {
-        display: none;
-    }
-    .filterOptions div a.icon {
-        float: right;
-        display: block;
-    }
     .navigationButtons {
         margin-top: 10px;
         margin-bottom: 10px;
@@ -244,15 +234,6 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-    .filterOptions.responsive {
-        position: relative;
-        height: 100%;
-    }
-    .filterOptions.responsive * {
-        float: none;
-        display: block;
-        text-align: left;
-    }
     .reportList {
         max-height: 250px;
     }
