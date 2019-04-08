@@ -270,16 +270,21 @@
         <script src="./libs/reportList.js"></script>
         <script src="./libs/reportListRefresher.js"></script>
         <script src="./libs/adminCommands.js"></script>
+        <script src="./libs/reportFilter.js"></script>
 
         <!--reportListRefresher code-->
         <input type="hidden" id="storedTS" />
         <script>
+            // Global Variables
             const isIntake = false;
+            const isList = true;
+
             setupModal("modalTarget", createReportModal);
 
             var tid = "";
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
+
                 setupReports(); // Setup reports initially
                 getTS("storedTS", 1); // Gets the initial TS and sets up listener
             });

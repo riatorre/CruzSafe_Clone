@@ -388,6 +388,8 @@ function initializeMessage(reportID, webID) {
     sendMessage(reportID, webID, message);
 }
 
+// function initializeAssignment(reportID, ) TODO
+
 /*
  * Calls an API that inserts a timestamp into either comletedTS or initialOpenTS
  * Whenever the timestamp is modified, add an event in notes.
@@ -709,7 +711,7 @@ function displayReport(reportID) {
 function hideReport(changes) {
     closeModal();
     reportNoteInput.value = ""; // Clear the input of notes.
-    if (changes) {
+    if (changes && isList) {
         clearPages();
         setupReports();
     }
