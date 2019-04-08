@@ -1,26 +1,42 @@
-var customLabel = {
-    1: {
-        label: "1"
-    },
-    2: {
-        label: "2"
-    },
-    3: {
-        label: "3"
-    },
-    4: {
-        label: "4"
-    },
-    5: {
-        label: "5"
-    }
-};
 function MainMap() {
     var map = new google.maps.Map(document.getElementById("MainMap"), {
         center: new google.maps.LatLng(36.9916, -122.0583),
         zoom: 15,
         mapTypeId: "hybrid"
     });
+    var iconBase = "http://maps.google.com/mapfiles/kml/paddle/";
+    var customIcon = {
+        1: {
+            icon: {
+                url: iconBase + "blu-circle.png",
+                scaledSize: new google.maps.Size(30, 30)
+            }
+        },
+        2: {
+            icon: {
+                url: iconBase + "grn-circle.png",
+                scaledSize: new google.maps.Size(30, 30)
+            }
+        },
+        3: {
+            icon: {
+                url: iconBase + "pink-circle.png",
+                scaledSize: new google.maps.Size(30, 30)
+            }
+        },
+        4: {
+            icon: {
+                url: iconBase + "ylw-circle.png",
+                scaledSize: new google.maps.Size(30, 30)
+            }
+        },
+        5: {
+            icon: {
+                url: iconBase + "ltblu-circle.png",
+                scaledSize: new google.maps.Size(30, 30)
+            }
+        }
+    };
 
     // Change this depending on the name of your PHP or XML file
     downloadUrl("https://cruzsafe.appspot.com/api/reports/allReports", function(
@@ -35,11 +51,11 @@ function MainMap() {
                     parseFloat(report["latitude"]),
                     parseFloat(report["longitude"])
                 );
-                var icon = customLabel[tag] || {};
+                var Cicon = customIcon[tag] || {};
                 var marker = new google.maps.Marker({
                     map: map,
                     position: point,
-                    label: icon.label
+                    icon: Cicon.icon
                 });
                 marker.addListener("click", function() {
                     displayReport(id, false);
