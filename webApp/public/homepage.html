@@ -15,6 +15,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <script src="./libs/dashboard.js"></script>
     </head>
     <body>
         <header>
@@ -65,8 +66,9 @@
                     </div>
                 </div>
                 <div class="column half">
-                    <iframe id="mainCampusMap" class="row leaf"></iframe>
+                    <div id="MainMap" style="width:80%;height:90%;"></div>
                 </div>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY&callback=MainMap"></script>
                 <div class="column quarter">
                     <div class="row half leaf">
                         <div>
@@ -109,7 +111,6 @@
         <script src="./libs/reportSingle.js"></script>
         <script src="./libs/reportHomeRefresher.js"></script>
         <script src="./libs/reportHome.js"></script>
-        <script src="./libs/dashboard.js"></script>
 
         <!--reportHomeRefresher code-->
         <input type="hidden" id="storedTS" />
