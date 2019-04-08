@@ -48,13 +48,16 @@
         </header>
         <main class="withHeader">
             <div class="column">
-                <div class="row quarter leaf">
+                <div class="row quarter leaf filterFix">
                     <div id="filterOptions" class="filterOptions">
                         <div
                             style="display:flex; justify-content: space-between"
                         >
                             <h3>Filters:</h3>
-                            <a class="icon" onclick="toggleFilters()">
+                            <a
+                                class="btn clear rounded icon"
+                                onclick="toggleFilters()"
+                            >
                                 <i class="fa fa-bars" aria-hidden="true"></i>
                             </a>
                         </div>
