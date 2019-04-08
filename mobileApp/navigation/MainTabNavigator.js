@@ -10,7 +10,6 @@ import LinksScreen from "../screens/LinksScreen";
 import AdditionalInfoScreen from "../screens/AdditionalInfoScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import AboutUs from "../screens/AboutUs";
-import Tutorial from "../screens/Tutorial";
 // import ReportDetail from "../screens/ReportDetail";
 
 const CustomDrawerComponent = props => (
@@ -46,8 +45,7 @@ export default createDrawerNavigator(
         Links: LinksScreen,
         AdditionalInfo: AdditionalInfoScreen,
         Settings: SettingsScreen,
-        AboutUs: AboutUs,
-        Tutorial: Tutorial
+        AboutUs: AboutUs
         // ReportDetail: ReportDetail
     },
     {
