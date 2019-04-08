@@ -94,6 +94,29 @@ class ReportScreen extends Component {
         submitting: false
     };
 
+    runTutorial() {
+        if (tutorialMode == true) {
+            Alert.alert(
+                "Tour",
+                "You are currently in tour mode, so the emergency and non-emergency buttons will not actually call dispatch services and generated reports will not actually be submitted.",
+                [
+                    {
+                        text: "got it",
+                        onPress: () => {
+                            console.log("in tour mode");
+                        }
+                    },
+                    {
+                        text: "stop showing tips",
+                        onPress: () => {
+                            this.tutorialMode = false;
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
     returnFromCamera(newImage) {
         this.getUnsubReport().then(pre_report => {
             pre_report.imageURI = newImage;
