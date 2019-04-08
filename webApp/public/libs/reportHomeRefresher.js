@@ -7,7 +7,7 @@
     Function that request the latest TS from database and sets that as latestTS hidden input in page.
     Also takes in a firstRun; if 1, create a listener. else, don't.
 */
-function getTS(document, hiddenID, firstRun) {
+function getTS(document, hiddenID, firstRun, isIntake) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -20,10 +20,10 @@ function getTS(document, hiddenID, firstRun) {
             storedTS.value = maxTS;
             if (!firstRun) {
                 if (previouslyStored != maxTS) {
-                    getReportByTS(document, maxTS, 1);
+                    getReportByTS(document, maxTS, 1, isIntake);
                 }
             } else {
-                getReportByTS(document, maxTS, 0);
+                getReportByTS(document, maxTS, 0, isIntake);
             }
         }
     };
@@ -39,8 +39,6 @@ function getReportByTS(document, reportTS, sound, isIntake) {
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             report = JSON.parse(request.response);
-            // Gotten report. Now do something.
-            //console.log("Fresh ReportID = " + report[0]["reportID"]);
             if (sound) {
                 playSound(document, report[0]["tag"]);
             }

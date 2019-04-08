@@ -280,7 +280,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
                 setupReports(true); // Setup reports initially
-                getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
+                getTS(document, "storedTS", 1, true); // Gets the initial TS and sets up listener
             });
 
             // Sets up Timer to call function every 10 seconds;
@@ -291,7 +291,7 @@
 
             function checkTS() {
                 // Process to test for a different timestamp.
-                getTS(document, "storedTS", 0);
+                getTS(document, "storedTS", 0, true);
             }
             /*** End reportListRefresher code ***/
             /*** Filter Code ***/

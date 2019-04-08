@@ -709,8 +709,8 @@ function markComplete(isIntake, reportID, webID) {
 }
 
 // A report has been selected!
-function displayReport(id) {
-    generateSingleReport(id); // Intializes report display
+function displayReport(id, isIntake) {
+    generateSingleReport(id, isIntake); // Intializes report display
 }
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
