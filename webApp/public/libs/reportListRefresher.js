@@ -6,7 +6,7 @@
     Function that request the latest TS from database and sets that as latestTS hidden input in page.
     Also takes in a firstRun; if 1, create a listener. else, don't.
 */
-function getTS(document, hiddenID, firstRun, isIntake) {
+function getTS(document, hiddenID, firstRun) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -20,7 +20,7 @@ function getTS(document, hiddenID, firstRun, isIntake) {
             if (!firstRun) {
                 if (previouslyStored != maxTS) {
                     getReportByTS(document, maxTS);
-                    determineSetup(isIntake);
+                    determineSetup();
                 }
             }
         }
@@ -50,7 +50,7 @@ function getReportByTS(document, reportTS) {
 /*
     REPORTS PAGE CODE
 */
-function determineSetup(isIntake) {
+function determineSetup() {
     const filterElements = [
         "filterTag",
         "filterIncidentID",
@@ -79,7 +79,7 @@ function determineSetup(isIntake) {
     // Will prevent auto-refresh of list when user is attempting to search for something
     if (!filtersSet && currentTab == 0) {
         clearPages();
-        setupReports(isIntake);
+        setupReports();
     }
 }
 

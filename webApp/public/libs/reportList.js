@@ -109,10 +109,8 @@ function createReportButton(report) {
     Meant to set up the Reports page by first getting all tags from database,
     then calls gatherReportPage to get all of the reportIDs and to section off some IDs for a page.
     Then calls generateMultipleReports to get information for that page and populate the list with buttons. 
-
-    Takes in isIntake - a boolean that says whether or not to sort reports by webID.
 */
-function setupReports(isIntake) {
+function setupReports() {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -127,14 +125,14 @@ function setupReports(isIntake) {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            gatherReportPage(isIntake, tagDict, tagColors);
+            gatherReportPage(tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 // TODO: Implement page segregation with this helper function.
-function gatherReportPage(isIntake, tags, tagColors) {
+function gatherReportPage(tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -254,7 +252,7 @@ function generateMultipleReports(reportIDs, tags, tagColors) {
     filterReports gets tags.
     filterReportsHelper does the rest.
 */
-function filterReports(filterDict, isIntake) {
+function filterReports(filterDict) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -282,8 +280,7 @@ function filterReports(filterDict, isIntake) {
                 document,
                 tagDict,
                 reverseTagDict,
-                tagColors,
-                isIntake
+                tagColors
             );
         }
     };
@@ -295,8 +292,7 @@ function filterReportsHelper(
     document,
     tags,
     reverseTags,
-    tagColors,
-    isIntake
+    tagColors
 ) {
     var apiDict = {};
     for (key in filterDict) {

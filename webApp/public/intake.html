@@ -279,8 +279,8 @@
             var tid = "";
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
-                setupReports(true); // Setup reports initially
-                getTS(document, "storedTS", 1, true); // Gets the initial TS and sets up listener
+                setupReports(); // Setup reports initially
+                getTS(document, "storedTS", 1); // Gets the initial TS and sets up listener
             });
 
             // Sets up Timer to call function every 10 seconds;
@@ -291,7 +291,7 @@
 
             function checkTS() {
                 // Process to test for a different timestamp.
-                getTS(document, "storedTS", 0, true);
+                getTS(document, "storedTS", 0);
             }
             /*** End reportListRefresher code ***/
             /*** Filter Code ***/
@@ -350,7 +350,7 @@
                 ) {
                     alert("Incident ID entry must be a number!");
                 } else {
-                    filterReports(filterDict, true); // Else all items are good. Send to filterReports.
+                    filterReports(filterDict); // Else all items are good. Send to filterReports.
                     toggleFilters();
                 }
             }

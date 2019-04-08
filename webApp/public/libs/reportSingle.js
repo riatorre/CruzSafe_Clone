@@ -134,7 +134,7 @@ function createReportModal() {
 
     First request is for tags. Passes it to helper function.
 */
-function generateSingleReport(reportID, isIntake) {
+function generateSingleReport(reportID) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -149,7 +149,7 @@ function generateSingleReport(reportID, isIntake) {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            generateSingleReportHelper(reportID, tagDict, tagColors, isIntake);
+            generateSingleReportHelper(reportID, tagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
@@ -158,12 +158,12 @@ function generateSingleReport(reportID, isIntake) {
 /*
     Helper function that grabs all the information from the report.
 */
-function generateSingleReportHelper(reportID, tags, tagColors, isIntake) {
+function generateSingleReportHelper(reportID, tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             reportInfo = JSON.parse(request.response)[0]; // Returns an array containing a single row as an object
-            populateReport(reportID, tags, tagColors, reportInfo, isIntake); // Call populateReport
+            populateReport(reportID, tags, tagColors, reportInfo); // Call populateReport
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportID");
@@ -175,7 +175,7 @@ function generateSingleReportHelper(reportID, tags, tagColors, isIntake) {
     Populates the report modal. Takes in reportID, list of tags, list of tag colors, and
     reportInfo; the dictionary that contains all of the report's information. 
 */
-function populateReport(reportID, tags, tagColors, reportInfo, isIntake) {
+function populateReport(reportID, tags, tagColors, reportInfo) {
     var productInfo = generateProductInfo(reportInfo, tags); // Generate ProductInfo
     // Fills in the modal with productInfo
     for (i = 0; i < reportFields.length; i++) {
@@ -206,7 +206,7 @@ function populateReport(reportID, tags, tagColors, reportInfo, isIntake) {
         // Completed Report Actions:
         document
             .getElementById("close")
-            .setAttribute("onclick", "hideReport(0," + isIntake + ")"); // Modify close button - standard
+            .setAttribute("onclick", "hideReport(0)"); // Modify close button - standard
         // INCOMPLETE button
         resolvedButton.setAttribute(
             "onclick",
@@ -219,7 +219,7 @@ function populateReport(reportID, tags, tagColors, reportInfo, isIntake) {
         // COMPLETE button
         resolvedButton.setAttribute(
             "onclick",
-            "markComplete(" + reportID + "," + webID + "," + isIntake + ")"
+            "markComplete(" + reportID + "," + webID + ")"
         );
         resolvedButton.innerHTML = "Mark Complete";
 
@@ -692,33 +692,25 @@ function convertUTCDateToLocalDate(date) {
 
 function markIncomplete(reportID, webID) {
     removeTS(reportID, webID);
-    const resolvedUnresolved = document.getElementById("resolvedUnresolved");
-    resolvedUnresolved.innerHTML = "[Incomplete]";
-    resolvedUnresolved.style.color = "orange";
-    var resolvedButton = document.getElementById("reportResolve");
-    resolvedButton.setAttribute(
-        "onclick",
-        "markComplete(" + reportID + "," + webID + ")"
-    ); // Add onclick function to button
-    resolvedButton.innerHTML = "Mark Complete";
+    hideReport(1); // Close the modal.
 }
 
-function markComplete(isIntake, reportID, webID) {
+function markComplete(reportID, webID) {
     insertTS(0, reportID, webID);
-    hideReport(1, isIntake); // Close the modal
+    hideReport(1); // Close the modal
 }
 
-// A report has been selected!
-function displayReport(id, isIntake) {
-    generateSingleReport(id, isIntake); // Intializes report display
+// A report has been selected! (External linking function)
+function displayReport(reportID) {
+    generateSingleReport(reportID); // Intializes report display
 }
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
-function hideReport(changes, isIntake) {
+function hideReport(changes) {
     closeModal();
     reportNoteInput.value = ""; // Clear the input of notes.
     if (changes) {
         clearPages();
-        setupReports(isIntake);
+        setupReports();
     }
 }
