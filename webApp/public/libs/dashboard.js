@@ -21,7 +21,6 @@ function MainMap() {
         zoom: 15,
         mapTypeId: "hybrid"
     });
-    var infoWindow = new google.maps.InfoWindow();
 
     // Change this depending on the name of your PHP or XML file
     downloadUrl("https://cruzsafe.appspot.com/api/reports/allReports", function(
@@ -31,23 +30,11 @@ function MainMap() {
         if (reportInfo != null) {
             Array.prototype.forEach.call(reportInfo, function(report) {
                 var id = report["reportID"];
-                var location = report["location"];
-                var body = report["body"];
                 var tag = report["tag"];
                 var point = new google.maps.LatLng(
                     parseFloat(report["latitude"]),
                     parseFloat(report["longitude"])
                 );
-
-                var infowincontent = document.createElement("div");
-                var strong = document.createElement("strong");
-                strong.textContent = location;
-                infowincontent.appendChild(strong);
-                infowincontent.appendChild(document.createElement("br"));
-
-                var text = document.createElement("text");
-                text.textContent = body;
-                infowincontent.appendChild(text);
                 var icon = customLabel[tag] || {};
                 var marker = new google.maps.Marker({
                     map: map,
@@ -55,8 +42,7 @@ function MainMap() {
                     label: icon.label
                 });
                 marker.addListener("click", function() {
-                    infoWindow.setContent(infowincontent);
-                    infoWindow.open(map, marker);
+                    displayReport(id, false);
                 });
             });
         }
