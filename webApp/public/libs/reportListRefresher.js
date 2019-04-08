@@ -6,7 +6,7 @@
     Function that request the latest TS from database and sets that as latestTS hidden input in page.
     Also takes in a firstRun; if 1, create a listener. else, don't.
 */
-function getTS(document, hiddenID, firstRun) {
+function getTS(hiddenID, firstRun) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -19,7 +19,7 @@ function getTS(document, hiddenID, firstRun) {
             storedTS.value = maxTS;
             if (!firstRun) {
                 if (previouslyStored != maxTS) {
-                    getReportByTS(document, maxTS);
+                    getReportByTS(maxTS);
                     determineSetup();
                 }
             }
@@ -32,14 +32,14 @@ function getTS(document, hiddenID, firstRun) {
 /*
     Function that requests a report based on timestamp.
 */
-function getReportByTS(document, reportTS) {
+function getReportByTS(reportTS) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             report = JSON.parse(request.response);
             // Gotten report. Now do something.
             console.log("Fresh ReportID = " + report[0]["reportID"]);
-            playSound(document, report[0]["tag"]);
+            playSound(report[0]["tag"]);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/reportTS");
@@ -86,7 +86,7 @@ function determineSetup() {
 /*
     Function that plays a sound given a tagID.
 */
-function playSound(document, tag) {
+function playSound(tag) {
     var audio = document.getElementById("incomingTag" + tag);
     console.log("Playing audio from " + audio.id);
     audio.play();

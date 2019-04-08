@@ -62,33 +62,6 @@ function createReportButton(report) {
     const bodyText = document.createElement("td");
     bodyText.setAttribute("class", "buttonBodyText");
     bodyText.innerHTML = report["body"];
-    /*const reportIDText = addSpan(
-        "buttonReportIDText",
-        "#" + report["reportID"],
-        document
-    );
-    const incidentIDText = addSpan(
-        "buttonIncidentIDText",
-        "#" + report["incidentID"],
-        document
-    );
-    const reportTSText = addSpan(
-        "buttonReportTSText",
-        report["reportTS"],
-        document
-    );
-    const tagText = addSpan("buttonTagText", report["tag"], document);
-    const locationText = addSpan(
-        "buttonLocationText",
-        report["location"],
-        document
-    );
-    const fullNameText = addSpan(
-        "buttonFullNameText",
-        report["fullName"],
-        document
-    );
-    const bodyText = addSpan("buttonBodyText", report["body"], document);*/
 
     tableRow.appendChild(resolvedUnresolvedFinalText);
     tableRow.appendChild(reportIDText);
@@ -275,25 +248,13 @@ function filterReports(filterDict) {
                 tagColors[tag["tagName"]] = tag["color"];
             });*/
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            filterReportsHelper(
-                filterDict,
-                document,
-                tagDict,
-                reverseTagDict,
-                tagColors
-            );
+            filterReportsHelper(filterDict, tagDict, reverseTagDict, tagColors);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function filterReportsHelper(
-    filterDict,
-    document,
-    tags,
-    reverseTags,
-    tagColors
-) {
+function filterReportsHelper(filterDict, tags, reverseTags, tagColors) {
     var apiDict = {};
     for (key in filterDict) {
         if (filterDict[key] != null) {
@@ -410,7 +371,7 @@ function filterReportsHelper(
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
             clearPages();
             if (isIntake) {
-                reportIDs = excludeFilterResults(reportIDs);
+                excludeFilterResults(reportIDs, tags);
             } else {
                 generateMultipleReports(reportIDs, tags);
             }
@@ -427,7 +388,7 @@ function filterReportsHelper(
 /*
     Function that, given a list of reportIDs, returns only the reportIDS that have been assigned to a webID. 
 */
-function excludeFilterResults(reportIDs) {
+function excludeFilterResults(reportIDs, tags) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -440,7 +401,6 @@ function excludeFilterResults(reportIDs) {
                 });
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
-            clearPages();
             generateMultipleReports(reportIDs, tags);
         }
     };
@@ -452,16 +412,6 @@ function excludeFilterResults(reportIDs) {
     request.send(
         JSON.stringify({ id: JSON.stringify(reportIDs), webID: webID })
     );
-}
-
-/*
- * Helper function to append divs to button
- */
-function addSpan(id, text, document) {
-    var span = document.createElement("span");
-    span.setAttribute("class", id);
-    span.appendChild(document.createTextNode(text));
-    return span;
 }
 
 /*
