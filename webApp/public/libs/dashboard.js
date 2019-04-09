@@ -88,6 +88,54 @@ function downloadUrl(url, callback) {
 }
 
 function renderChart() {
+    // Gather the data; initialTS versus initialOpenTS (ignoring ones that don't have any initialOpenTS's)
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            reports = JSON.parse(request.response);
+            data = [0, 0, 0, 0, 0, 0];
+            Array.from(reports).forEach(function(report) {
+                var reportTS = toDateFormat(report["reportTS"]);
+                var initialOpenTS = toDateFormat(report["initialOpenTS"]);
+                var miliDiff = initialOpenTS - reportTS;
+                // < 1 min
+                if (miliDiff < 60000) {
+                    data[0]++;
+                }
+                // 1 to 5 min
+                else if (miliDiff < 300000) {
+                    data[1]++;
+                }
+                // 6 to 30 min
+                else if (miliDiff < 1.8e6) {
+                    data[2]++;
+                }
+                // 31 to 60 min
+                else if (miliDiff < 3.6e6) {
+                    data[3]++;
+                }
+                // 1 to 3 hours
+                else if (miliDiff < 1.08e7) {
+                    data[4]++;
+                }
+                // > 3 hours
+                else {
+                    data[5]++;
+                }
+            });
+            renderChartHelper(data);
+        }
+    };
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/allOpenedReports"
+    );
+    request.send();
+}
+/* 
+    Takes in data; an array of size 6 gotten from renderChart().
+*/
+function renderChartHelper(data) {
     var ctx = document.getElementById("performanceChart").getContext("2d");
     var performanceChart = new Chart(ctx, {
         type: "pie",
@@ -97,13 +145,12 @@ function renderChart() {
                 "1 to 5 min",
                 "6 to 30 min",
                 "31 to 60 min",
-                "2 hours",
-                "> 2 hours"
+                "1 to 3 hours",
+                "> 3 hours"
             ],
             datasets: [
                 {
-                    label: "# of Votes",
-                    data: [12, 19, 3, 5, 2, 3],
+                    data: data,
                     backgroundColor: [
                         "rgba(255, 99, 132, 1)",
                         "rgba(54, 162, 235, 1)",
@@ -127,8 +174,30 @@ function renderChart() {
         options: {
             title: {
                 display: true,
-                text: "Report Response Time"
+                text: "Report First Opened Delay"
             }
         }
     });
+}
+
+/*
+    The following is imported code to convert MySQL TS to JS date.
+*/
+function toDateFormat(mySQLDate) {
+    return convertUTCDateToLocalDate(
+        new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8))
+    );
+}
+
+function convertUTCDateToLocalDate(date) {
+    return new Date(
+        Date.UTC(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            date.getHours(),
+            date.getMinutes(),
+            date.getSeconds()
+        )
+    );
 }

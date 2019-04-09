@@ -115,6 +115,24 @@ router.post("/allReports", function(req, res) {
     );
 });
 
+// Get all reports that have been opened
+router.post("/allOpenedReports", function(req, res) {
+    var query = "SELECT * FROM reports WHERE initialOpenTS IS NOT NULL";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 /*
     Given a dictionary of key: value = columnTitle:value,
     returns all reportIDs adhering to those constraints.
