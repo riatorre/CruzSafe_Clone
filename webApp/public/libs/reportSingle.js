@@ -21,16 +21,6 @@ const reportFields = [
     "expireTS"
 ];
 const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
-// WebID (In the future, will be replaced by actual webID from Shibboleth!)
-/*** Cookie PLACEHOLDERS */
-
-setCookie("cruzsafe_webID", 1, 1);
-const webID = getCookie("cruzsafe_webID");
-if (webID == "") {
-    window.location.href = "./"; // Returns to homepage if no webID cookie is present.
-}
-
-/*** Cookie PLACEHOLDERS */
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 
 const defaultOptionText = "---Select Option---";
@@ -431,6 +421,7 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
             if (this.readyState == 4 && this.status == 200) {
                 response = JSON.parse(request.response)[0];
                 if (response == null) {
+                    forwardReport(reportID, webID, facilityID);
                     insertNote(
                         reportID,
                         webID,
@@ -438,7 +429,9 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
                             facilityName +
                             "}"
                     );
-                    forwardReport(reportID, webID, facilityID);
+                    alert(
+                        "Report successfully forwarded to " + facilityName + "."
+                    );
                 } else {
                     alert(
                         "ERROR - This report has already been forwarded to " +
