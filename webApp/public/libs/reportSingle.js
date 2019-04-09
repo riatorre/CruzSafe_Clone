@@ -22,7 +22,15 @@ const reportFields = [
 ];
 const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 // WebID (In the future, will be replaced by actual webID from Shibboleth!)
-const webID = 1;
+/*** Cookie PLACEHOLDERS */
+
+setCookie("cruzsafe_webID", 1, 1);
+const webID = getCookie("cruzsafe_webID");
+if (webID == "") {
+    window.location.href = "./"; // Returns to homepage if no webID cookie is present.
+}
+
+/*** Cookie PLACEHOLDERS */
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 
 const defaultOptionText = "---Select Option---";

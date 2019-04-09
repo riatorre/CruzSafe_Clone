@@ -54,7 +54,12 @@
         </header>
         <main class="withHeader">
             <div class="row bordered">
-                <div class="column quarter bordered leaf"></div>
+                <div class="column quarter bordered leaf">
+                    <a href="./"
+                        ><i class="fa fa-sign-out" aria-hidden="true"></i>
+                        Sign-Out</a
+                    >
+                </div>
                 <div class="column threeQuarters bordered">
                     <div class="row third bordered leaf"></div>
                     <div class="row third bordered leaf"></div>
@@ -73,8 +78,18 @@
             </div>
         </main>
         <script src="./libs/navLib.js"></script>
+        <script src="./libs/cookieLib.js"></script>
         <script>
-            const webID = 1; // TODO: Implement cookies!
+            /*** Cookie PLACEHOLDERS */
+
+            setCookie("cruzsafe_webID", 1, 1);
+            const webID = getCookie("cruzsafe_webID");
+            if (webID == "") {
+                window.location.href = "./"; // Returns to homepage if no webID cookie is present.
+            }
+
+            /*** Cookie PLACEHOLDERS */
+
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
                 // Placeholder code... Div will be replaced in the future.
@@ -112,6 +127,9 @@
 
             const defaultOptionText = "---Select Option---";
 
+            /*
+                Changes the facility of a webID using what's been selected.
+            */
             function changeFacility(webID) {
                 var forwardDropdownObj = document.getElementById(
                     "forwardDropdown"
