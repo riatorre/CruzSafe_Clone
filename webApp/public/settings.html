@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CruzSafe: Settings</title>
+        <!--Imports Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+        <link href="./stylesheets/admin.css" type="text/css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <!--Get rid of me!-->
+        <link
+            href="./stylesheets/reports.css"
+            type="text/css"
+            rel="stylesheet"
+        />
+        <!--End get rid of me!-->
+    </head>
+    <body>
+        <header>
+            <div class="topnav" id="topNav">
+                <a href="./homepage.html"
+                    ><i class="fa fa-home" aria-hidden="true"></i> Home</a
+                >
+                <a href="./intake.html"
+                    ><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    Intake</a
+                >
+                <a href="./reports.html"
+                    ><i class="fa fa-folder" aria-hidden="true"></i> Reports</a
+                >
+                <a href="./analytics.html"
+                    ><i class="fa fa-pie-chart" aria-hidden="true"></i>
+                    Analytics</a
+                >
+                <a href="./admin.html">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    Admin</a
+                >
+                <a class="active" href="./settings.html"
+                    ><i class="fa fa-cog" aria-hidden="true"></i> Settings</a
+                >
+                <a href="./"
+                    ><i class="fa fa-sign-out" aria-hidden="true"></i>
+                    Sign-Out</a
+                >
+                <a class="icon" onclick="toggleTopNav()">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </a>
+            </div>
+        </header>
+        <main class="withHeader">
+            <div class="row bordered">
+                <div class="column quarter bordered leaf"></div>
+                <div class="column threeQuarters bordered">
+                    <div class="row third bordered leaf"></div>
+                    <div class="row third bordered leaf"></div>
+                    <div class="row third bordered leaf">
+                        <span class="dropdown"
+                            ><select
+                                id="forwardDropdown"
+                                autocomplete="off"
+                            ></select
+                            ><a id="forwardBtn" class="btn rounded navy"
+                                >Change Facility</a
+                            ></span
+                        >
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script src="./libs/navLib.js"></script>
+        <script>
+            const webID = 1; // TODO: Implement cookies!
+            document.addEventListener("DOMContentLoaded", function() {
+                // When DOM is loaded
+                // Placeholder code... Div will be replaced in the future.
+                const divs = document.getElementsByClassName(
+                    "row third bordered leaf"
+                );
+                const request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        response = JSON.parse(request.response)[0];
+                        // Got all of user information as well as facility information.
+                        divs[0].innerHTML +=
+                            "SIGNED IN AS: " +
+                            response["title"] +
+                            ", " +
+                            response["firstName"] +
+                            " " +
+                            response["lastName"];
+                        divs[1].innerHTML +=
+                            "CURRENT FACILITY: " + response["facilityName"];
+                    }
+                };
+                request.open("POST", "https://cruzsafe.appspot.com/api/users/");
+                request.setRequestHeader(
+                    "Content-Type",
+                    "application/json;charset=UTF-8"
+                );
+                request.send(JSON.stringify({ webID: webID }));
+
+                displayFacilities();
+                document
+                    .getElementById("forwardBtn")
+                    .setAttribute("onClick", "changeFacility(" + webID + ")");
+            });
+
+            const defaultOptionText = "---Select Option---";
+
+            function changeFacility(webID) {
+                var forwardDropdownObj = document.getElementById(
+                    "forwardDropdown"
+                );
+                const facilityID =
+                    forwardDropdownObj.options[forwardDropdownObj.selectedIndex]
+                        .value;
+                const facilityName = getLastWord(
+                    forwardDropdownObj.options[forwardDropdownObj.selectedIndex]
+                        .text
+                );
+                const request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        location.reload();
+                    }
+                };
+                request.open(
+                    "POST",
+                    "https://cruzsafe.appspot.com/api/users/updateFacility"
+                );
+                request.setRequestHeader(
+                    "Content-Type",
+                    "application/json;charset=UTF-8"
+                );
+                request.send(
+                    JSON.stringify({
+                        webID: webID,
+                        facilityID: facilityID
+                    })
+                );
+            }
+
+            /*
+                Function that populates the forwardDropdown from the database.
+            */
+            function displayFacilities() {
+                var forwardDropdown = document.getElementById(
+                    "forwardDropdown"
+                );
+                while (forwardDropdown.firstChild) {
+                    forwardDropdown.removeChild(forwardDropdown.firstChild);
+                }
+                const defaultOption = document.createElement("option");
+                defaultOption.setAttribute("value", "");
+                defaultOption.innerHTML = defaultOptionText;
+                forwardDropdown.appendChild(defaultOption);
+
+                const request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        facilities = JSON.parse(request.response);
+                        Array.from(facilities).forEach(function(facility) {
+                            var newFacility = document.createElement("option");
+                            const facilityID = facility["facilityID"];
+                            const facilityName = facility["facilityName"];
+                            const facilityEmail = facility["facilityEmail"];
+                            var text = document.createTextNode(
+                                "Change to " + facilityName
+                            );
+                            newFacility.appendChild(text);
+                            newFacility.setAttribute("value", facilityID);
+                            forwardDropdown.appendChild(newFacility);
+                        });
+                    }
+                };
+                request.open(
+                    "POST",
+                    "https://cruzsafe.appspot.com/api/facilities"
+                );
+                request.send();
+            }
+            function getLastWord(string) {
+                var seperated = string.split(" ");
+                return seperated[seperated.length - 1];
+            }
+        </script>
+    </body>
+</html>

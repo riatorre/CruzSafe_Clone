@@ -9,18 +9,45 @@ const connectionPool = require("../DB/config");
 /*
  * Given a webID, returns the user privilege level.
  */
-router.post("/checkPrivilege", function(req, res) {
-    const query = "SELECT role FROM webUsers WHERE webID = " + req.body.webID;
+router.post("/", function(req, res) {
+    const query =
+        "SELECT * FROM webUsers LEFT JOIN facilities ON webUsers.facilityID = facilities.facilityID WHERE webUsers.webID = " +
+        req.body.webID;
     connectionPool.handleAPI(
         req.body.webID,
         null,
+        1,
         1,
         query,
         val => {
             res.json(val);
         },
         () => {
-            res.json({ message: "An Error has Occured" });
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+});
+
+/*
+ * Given a facilityID and webID, changes facilityID of a webID.
+ */
+router.post("/updateFacility", function(req, res) {
+    const query =
+        "UPDATE webUsers SET facilityID = " +
+        req.body.facilityID +
+        " WHERE webID = " +
+        req.body.webID;
+    connectionPool.handleAPI(
+        [req.body.facilityID, req.body.webID],
+        null,
+        2,
+        2,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
         }
     );
 });
