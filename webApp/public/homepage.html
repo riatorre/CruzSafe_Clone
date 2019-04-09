@@ -76,7 +76,7 @@
                                 ----Information such as tags will go here----
                             </p>
                             <button
-                                onclick="displayReport(150)"
+                                onclick="displayReport(350)"
                                 id="latestReport"
                             >
                                 LATEST REPORT
@@ -109,13 +109,15 @@
         <script src="./libs/modalLib.js"></script>
         <script src="./libs/NavLib.js"></script>
         <script src="./libs/reportSingle.js"></script>
-        <script src="./libs/reportHomeRefresher.js"></script>
-        <script src="./libs/reportHome.js"></script>
-        <script src="./libs/reportFilter.js"></script>
+        <script src="./libs/reportListRefresher.js"></script>
 
         <!--reportHomeRefresher code-->
         <input type="hidden" id="storedTS" />
         <script>
+            // Global Variables
+            const isIntake = false;
+            const isList = false;
+
             setupModal("modalTarget", createReportModal);
 
             var tid = "";

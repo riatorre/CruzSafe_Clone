@@ -4,23 +4,23 @@
 
 /*
     Function that request the latest TS from database and sets that as latestTS hidden input in page.
-    Also takes in a firstRun; if 1, create a listener. else, don't.
+    Also takes in a firstRun; if not the first time running it, and we get somethign that's different, change.
 */
 function getTS(hiddenID, firstRun) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             response = JSON.parse(request.response);
-            //console.log("getTS responded: " + JSON.stringify(response));
             var maxTS = response[0]["MAX(reportTS)"];
-            //console.log("getTS got maxTS of: " + maxTS);
             var storedTS = document.getElementById(hiddenID);
             var previouslyStored = storedTS.value;
             storedTS.value = maxTS;
             if (!firstRun) {
                 if (previouslyStored != maxTS) {
                     getReportByTS(maxTS);
-                    determineSetup();
+                    if (isList) {
+                        determineSetup();
+                    }
                 }
             }
         }
