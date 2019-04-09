@@ -34,6 +34,8 @@ const myConsole = require("./backend/utilities/customConsole");
 const users = require("./backend/routes/users");
 const reports = require("./backend/routes/reports");
 const messages = require("./backend/routes/messages");
+const facilities = require("./backend/routes/facilities");
+const assignments = require("./backend/routes/assignments");
 
 const app = express();
 
@@ -46,6 +48,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/users", users);
 app.use("/api/reports", reports);
 app.use("/api/messages", messages);
+app.use("/api/facilities", facilities);
+app.use("/api/assignments", assignments);
 
 // Sets default page to welcome.html
 app.get("/", function(req, res) {

@@ -25,9 +25,7 @@ const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 const webID = 1;
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 
-const defaultOption = document.createElement("option");
-defaultOption.setAttribute("value", "");
-defaultOption.innerHTML = "---Select Option---";
+const defaultOptionText = "---Select Option---";
 
 // Function used to create a Modal ready to display Single Report Data
 function createReportModal() {
@@ -119,7 +117,9 @@ function createReportModal() {
     expirationDiv.innerHTML =
         "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
     expirationDiv.innerHTML +=
-        "<span class='dropdown'><select id='whitelistDropdown' autocomplete = 'off'><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist Report (Supervisor/Admin Only!)</a></span>";
+        "<span class='dropdown'><select id='whitelistDropdown' autocomplete = 'off'><option value = ''>" +
+        defaultOptionText +
+        "</option><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist Report (Supervisor/Admin Only!)</a></span>";
     columnTwo.appendChild(expirationDiv);
 
     dataRow.appendChild(columnTwo);
@@ -504,8 +504,10 @@ function displayPrewrittenResponses(tagID) {
     while (messageDropdown.firstChild) {
         messageDropdown.removeChild(messageDropdown.firstChild);
     }
+    const defaultOption = document.createElement("option");
+    defaultOption.setAttribute("value", "");
+    defaultOption.innerHTML = defaultOptionText;
     messageDropdown.appendChild(defaultOption);
-
     // Query the database for the responses.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -537,7 +539,11 @@ function displayFacilities() {
     while (forwardDropdown.firstChild) {
         forwardDropdown.removeChild(forwardDropdown.firstChild);
     }
+    const defaultOption = document.createElement("option");
+    defaultOption.setAttribute("value", "");
+    defaultOption.innerHTML = defaultOptionText;
     forwardDropdown.appendChild(defaultOption);
+
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {

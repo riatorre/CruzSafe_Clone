@@ -11,7 +11,7 @@ const connectionPool = require("../DB/config");
 */
 router.post("/", function(req, res) {
     const query =
-        "SELECT assignments.reportID FROM assignments LEFT JOIN webUsers ON assignments.recieverFacilityID = webUsers.facilityID WHERE webUsers.webID = " +
+        "SELECT assignments.reportID FROM assignments, webUsers, reports WHERE assignments.recieverFacilityID = webUsers.facilityID AND webUsers.webID = " +
         req.body.webID +
         " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC";
     connectionPool.handleAPI(
@@ -35,7 +35,7 @@ router.post("/", function(req, res) {
 router.post("/isolateAssignments", function(req, res) {
     var reportIDs = JSON.parse(req.body.id);
     var query =
-        "SELECT assignments.reportID FROM assignments LEFT JOIN webUsers ON assignments.recieverFacilityID = webUsers.facilityID WHERE webUsers.webID = " +
+        "SELECT assignments.reportID FROM assignments, webUsers, reports WHERE assignments.recieverFacilityID = webUsers.facilityID AND webUsers.webID = " +
         req.body.webID +
         " AND assignments.reportID = ";
     for (i = 0; i < reportIDs.length; i++) {
