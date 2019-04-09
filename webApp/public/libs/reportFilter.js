@@ -27,15 +27,9 @@ function filterReports(filterDict) {
                 reverseTagDict[tag["tagName"].toLowerCase()] = tag["tagID"];
             });
             tagColors = [];
-            tagColors["Water Leak"] = "blue";
-            tagColors["Broken Light"] = "lime";
-            tagColors["Broken Window"] = "navy";
-            tagColors["Lighting Deficiency"] = "aqua";
-            tagColors["Excess Trash"] = "olive";
-            tagColors["undefined"] = "black";
-            /*Array.from(tags).forEach(function(tag) {
+            Array.from(tags).forEach(function(tag) {
                 tagColors[tag["tagName"]] = tag["color"];
-            });*/
+            });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
             filterReportsHelper(filterDict, tagDict, reverseTagDict, tagColors);
         }
@@ -43,7 +37,7 @@ function filterReports(filterDict) {
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-function filterReportsHelper(filterDict, tags, reverseTags, tagColors) {
+function filterReportsHelper(filterDict, tags, reverseTags) {
     var apiDict = {};
     for (key in filterDict) {
         if (filterDict[key] != null) {
@@ -202,15 +196,6 @@ function excludeFilterResults(reportIDs, tags) {
     request.send(
         JSON.stringify({ id: JSON.stringify(reportIDs), webID: webID })
     );
-}
-
-/*
- * Helper function that trims a length of a string and adds ... if longer.
- */
-function trimString(string, length) {
-    return string.length > length
-        ? string.substring(0, length - 3).trim() + "..."
-        : string;
 }
 
 /*
