@@ -30,6 +30,7 @@ function getLatestTS(hiddenID, firstRun) {
                     // Homepage
                     else if (pageID == 0) {
                         renderReportsOverview(); // Refresh the map TODO - DO NOT REFRESH ENTIRE PAGE; ONLY REFRESH NECESSARY COMPONENTS
+                        MainMap();
                     }
                 }
             }
