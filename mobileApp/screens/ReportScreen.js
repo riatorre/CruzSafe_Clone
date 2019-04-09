@@ -31,11 +31,11 @@ import SelectableListScene from "./SelectableListScene";
 import styles from "../components/styles.js";
 
 const tagsList = [
-    "Trash",
     "Water Leak",
     "Broken Light",
     "Broken Window",
-    "Lighting deficiency"
+    "Lighting Deficiency",
+    "Excess Trash"
 ];
 
 const LATITUDE = "36.9916";
@@ -337,10 +337,10 @@ class ReportScreen extends Component {
         // Must convert the Tag from a string to a Int for DB
         //this._isMounted && this.setState({ submitting: true });
         this.getUnsubReport().then(async pre_report => {
-            var incidentTagID = 0;
+            var incidentTagID = 6;
             for (i = 0; i < tagsList.length; i++) {
                 if (tagsList[i] === pre_report.incidentCategory) {
-                    incidentTagID = i;
+                    incidentTagID = i + 1;
                     break;
                 }
             }
