@@ -591,64 +591,6 @@ router.post("/prewrittenResponses", function(req, res) {
     );
 });
 
-/*** Assignment APIs */
-/*
-    Given a recieverWebID, grabs all of the reportIDs.
-*/
-router.post("/assignments", function(req, res) {
-    const query =
-        "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = " +
-        req.body.webID +
-        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC";
-    connectionPool.handleAPI(
-        req.body.webID,
-        null,
-        1,
-        1,
-        query,
-        val => {
-            res.json(val);
-        },
-        () => {
-            res.json({ message: "An Error has Occurred." });
-        }
-    );
-});
-
-/*
-    Given a list of reportIDS, returns only a list of reportIDS that have been assigned to a given webID.
-*/
-router.post("/isolateAssignments", function(req, res) {
-    var reportIDs = JSON.parse(req.body.id);
-    var query =
-        "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = " +
-        req.body.webID +
-        " AND assignments.reportID = ";
-    for (i = 0; i < reportIDs.length; i++) {
-        if (i == 0) {
-            query = query + reportIDs[i];
-        } else {
-            query = query + " OR assignments.reportID = " + reportIDs[i];
-        }
-    }
-    query =
-        query +
-        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"; // Ordering clause
-    connectionPool.handleAPI(
-        reportIDs,
-        null,
-        -1,
-        -1,
-        query,
-        val => {
-            res.json(val);
-        },
-        () => {
-            res.json({ message: "An Error has occurred" });
-        }
-    );
-});
-
 /*** Timestamp & Timestamp related APIs */
 
 /*

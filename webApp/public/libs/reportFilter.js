@@ -190,7 +190,7 @@ function excludeFilterResults(reportIDs, tags) {
     };
     request.open(
         "POST",
-        "https://cruzsafe.appspot.com/api/reports/isolateAssignments"
+        "https://cruzsafe.appspot.com/api/assignments/isolateAssignments"
     );
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(

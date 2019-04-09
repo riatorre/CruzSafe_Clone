@@ -109,7 +109,7 @@ function createReportModal() {
     optionBtns.innerHTML =
         "<span class='dropdown'><select id='messageDropdown' autocomplete='off'></select><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
     optionBtns.innerHTML +=
-        "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'><option value='forwardTaps'>Assign report to designated TAPS Supervisor</option><option value='forwardTaps'>Assign report to designated ITS Supervisor</option><option value='forwardTaps'>Assign report to designated CHAS Supervisor</option></select><a class='btn rounded navy'>Assign Report</a></span>";
+        "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'></select><a id='forwardBtn' class='btn rounded navy'>Assign Report</a></span>";
     optionBtns.innerHTML +=
         "<a class='btn rounded green' id='reportResolve'></a>";
     columnTwo.appendChild(optionBtns);
@@ -213,6 +213,7 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             "markIncomplete(" + reportID + ", " + webID + ")"
         );
         resolvedButton.innerHTML = "Mark Incomplete";
+        resolvedButton.setAttribute("class", "btn rounded red");
     } else {
         // Incomplete Report Actions:
 
@@ -222,6 +223,7 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             "markComplete(" + reportID + "," + webID + ")"
         );
         resolvedButton.innerHTML = "Mark Complete";
+        resolvedButton.setAttribute("class", "btn rounded green");
 
         if (!!reportInfo["initialOpenTS"]) {
             // Was opened before.
@@ -286,10 +288,18 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
     document
         .getElementById("whitelistBtn")
         .setAttribute("onClick", "initializeWhitelist(" + reportID + ")");
+    // Edit the notes
     displayNotes(reportID);
-    // Edit submit note button
     const submitNote = document.getElementById("submitNote");
     submitNote.setAttribute("onclick", "submitNote(" + reportID + ")");
+    // Edit the forward ptions + button
+    displayFacilities();
+    document
+        .getElementById("forwardBtn")
+        .setAttribute(
+            "onClick",
+            "initializeForward(" + reportID + "," + webID + ")"
+        );
 
     openModal();
 }
@@ -388,7 +398,19 @@ function initializeMessage(reportID, webID) {
     sendMessage(reportID, webID, message);
 }
 
-// function initializeAssignment(reportID, ) TODO
+/*
+    Starts Forward Report
+*/
+function initializeForward(reportID, webID) {
+    var forwardDropdownObj = document.getElementById("forwardDropdown");
+    const facilityID =
+        forwardDropdownObj.options[forwardDropdownObj.selectedIndex].value;
+    const facilityName =
+        forwardDropdownObj.options[forwardDropdownObj.selectedIndex].text;
+    // First check if the forwarding circumstances is valid.
+    insertNote(reportID, webID, "{Forwarded to" + facilityName + "}");
+    forwardReport(reportID, webID, facilityID);
+}
 
 /*
  * Calls an API that inserts a timestamp into either comletedTS or initialOpenTS
@@ -508,6 +530,37 @@ function displayPrewrittenResponses(tagID) {
 }
 
 /*
+    Function that populates the forwardDropdown from the database.
+*/
+function displayFacilities() {
+    var forwardDropdown = document.getElementById("forwardDropdown");
+    while (forwardDropdown.firstChild) {
+        forwardDropdown.removeChild(forwardDropdown.firstChild);
+    }
+    forwardDropdown.appendChild(defaultOption);
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            facilities = JSON.parse(request.response);
+            Array.from(facilities).forEach(function(facility) {
+                var newFacility = document.createElement("option");
+                const facilityID = facility["facilityID"];
+                const facilityName = facility["facilityName"];
+                const facilityEmail = facility["facilityEmail"];
+                var text = document.createTextNode(
+                    "Forward to " + facilityName
+                );
+                newFacility.appendChild(text);
+                newFacility.setAttribute("value", facilityID);
+                forwardDropdown.appendChild(newFacility);
+            });
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/facilities");
+    request.send();
+}
+
+/*
  * Sends a message via the API.
  */
 function sendMessage(reportID, webID, message) {
@@ -566,6 +619,28 @@ function sendMessage(reportID, webID, message) {
             })
         );
     }
+}
+
+/*
+    Creates an assignment given reportID, webID, and facilityID.
+*/
+function forwardReport(reportID, webID, facilityID) {
+    // Query the database for the responses.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Report sent!
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/assignments/assign");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(
+        JSON.stringify({
+            reportID: reportID,
+            webID: webID,
+            facilityID: facilityID
+        })
+    );
 }
 
 /*

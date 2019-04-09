@@ -48,10 +48,7 @@ function gatherReportPage(tags) {
     };
     // If intake, grab all assigned reports to webUser
     if (pageID == 1) {
-        request.open(
-            "POST",
-            "https://cruzsafe.appspot.com/api/reports/assignments"
-        );
+        request.open("POST", "https://cruzsafe.appspot.com/api/assignments");
         request.setRequestHeader(
             "Content-Type",
             "application/json;charset=UTF-8"
