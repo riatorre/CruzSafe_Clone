@@ -8,38 +8,38 @@ function MainMap() {
     var customIcon = {
         1: {
             icon: {
-                url: iconBase + "blue_1.png",
-                scaledSize: new google.maps.Size(65, 65)
+                url: iconBase + "blue.png",
+                scaledSize: new google.maps.Size(18, 28)
             }
         },
         2: {
             icon: {
-                url: iconBase + "lime_1.png",
-                scaledSize: new google.maps.Size(65, 65)
+                url: iconBase + "lime.png",
+                scaledSize: new google.maps.Size(18, 28)
             }
         },
         3: {
             icon: {
-                url: iconBase + "navy_1.png",
-                scaledSize: new google.maps.Size(65, 65)
+                url: iconBase + "navy.png",
+                scaledSize: new google.maps.Size(18, 28)
             }
         },
         4: {
             icon: {
-                url: iconBase + "aqua_1.png",
-                scaledSize: new google.maps.Size(65, 65)
+                url: iconBase + "aqua.png",
+                scaledSize: new google.maps.Size(18, 28)
             }
         },
         5: {
             icon: {
-                url: iconBase + "olive_1.png",
-                scaledSize: new google.maps.Size(65, 65)
+                url: iconBase + "olive.png",
+                scaledSize: new google.maps.Size(18, 28)
             }
         },
         6: {
             icon: {
-                url: iconBase + "black_1.png",
-                scaledSize: new google.maps.Size(65, 65)
+                url: iconBase + "black.png",
+                scaledSize: new google.maps.Size(18, 28)
             }
         }
     };
