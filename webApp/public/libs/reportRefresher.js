@@ -3,10 +3,13 @@
 */
 
 /*
-    Function that request the latest TS from database and sets that as latestTS hidden input in page.
+    Function that request the latest TS from database and does something with that information depending on pageID.
     Also takes in a firstRun; if not the first time running it, and we get somethign that's different, change.
+
+    hiddenID - where the latestTS is being stored
+    firstRun - 0 = no, 1 = yes.
 */
-function getTS(hiddenID, firstRun) {
+function getLatestTS(hiddenID, firstRun) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -17,8 +20,8 @@ function getTS(hiddenID, firstRun) {
             storedTS.value = maxTS;
             if (!firstRun) {
                 if (previouslyStored != maxTS) {
-                    getReportByTS(maxTS);
                     // Determined that there's a new report with a new maxTS.
+                    getReportByTS(maxTS);
                     // Intake or Reports
                     if ((pageID == 1) | (pageID == 2)) {
                         determineListSetup();
@@ -47,7 +50,7 @@ function getReportByTS(reportTS) {
         if (this.readyState == 4 && this.status == 200) {
             report = JSON.parse(request.response);
             // Gotten report. Now do something.
-            console.log("Fresh ReportID = " + report[0]["reportID"]);
+            // console.log("Fresh ReportID = " + report[0]["reportID"]);
             playSound(report[0]["tag"]);
         }
     };
@@ -57,7 +60,7 @@ function getReportByTS(reportTS) {
 }
 
 /*
-    REPORTS PAGE CODE
+    calls setupListReports and applies filters if applicable.
 */
 function determineListSetup() {
     const filterElements = [
