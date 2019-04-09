@@ -57,7 +57,7 @@
                 <div class="column quarter">
                     <div class="row third leaf"></div>
                     <div class="row twoThirds">
-                        <canvas id="performanceChart"></canvas>
+                        <canvas id="firstOpenedDelayChart"></canvas>
                     </div>
                 </div>
                 <div class="column half">
@@ -65,24 +65,9 @@
                 </div>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY&callback=MainMap"></script>
                 <div class="column quarter">
+                    <div class="row half leaf"></div>
                     <div class="row half leaf">
-                        <div>
-                            <p>
-                                ----Information such as tags will go here----
-                            </p>
-                            <button
-                                onclick="displayReport(369)"
-                                id="latestReport"
-                            >
-                                LATEST REPORT
-                            </button>
-                            <div></div>
-                        </div>
-                    </div>
-                    <div class="row half leaf">
-                        <p>
-                            ----Counter of unopened/unresolved reports here----
-                        </p>
+                        <canvas id="reportsOverviewChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -141,7 +126,11 @@
             /*
                 Rendering of performanceChart
             */
-            renderChart();
+            renderfirstOpenedDelay();
+            /*
+                Rendering of reportOverviewChart
+            */
+            renderReportsOverview();
         </script>
     </body>
 </html>

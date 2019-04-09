@@ -87,7 +87,75 @@ function downloadUrl(url, callback) {
     request.send(null);
 }
 
-function renderChart() {
+/*
+    Code to render reportsOverviewChart. Gathers information and then renders chart using helper function.
+*/
+function renderReportsOverview() {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            reports = JSON.parse(request.response);
+            data = [0, 0, 0];
+            Array.from(reports).forEach(function(report) {
+                if (report["initialOpenWebID"] == null) {
+                    // Number of Unread reports
+                    data[0]++;
+                } else if (report["completeWebID"] == null) {
+                    // Number of Read but not completed reports
+                    data[1]++;
+                } else {
+                    // Number of completed reports
+                    data[2]++;
+                }
+            });
+            renderReportsOverviewHelper(data);
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/allReports");
+    request.send();
+}
+function renderReportsOverviewHelper(data) {
+    var ctx = document.getElementById("reportsOverviewChart").getContext("2d");
+    var firstOpenedDelayChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["New", "Incomplete", "Complete"],
+            datasets: [
+                {
+                    label: "Report Statuses",
+                    data: data,
+                    backgroundColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(255, 206, 86, 1)"
+                    ],
+                    borderColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(255, 206, 86, 1)"
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        }
+    });
+}
+
+/*
+    Code to render firstOpenedDelay Chart. Gathers information and then renders chart using helper function.
+*/
+function renderfirstOpenedDelay() {
     // Gather the data; initialTS versus initialOpenTS (ignoring ones that don't have any initialOpenTS's)
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -123,7 +191,7 @@ function renderChart() {
                     data[5]++;
                 }
             });
-            renderChartHelper(data);
+            renderfirstOpenedDelayHelper(data);
         }
     };
     request.open(
@@ -135,9 +203,9 @@ function renderChart() {
 /* 
     Takes in data; an array of size 6 gotten from renderChart().
 */
-function renderChartHelper(data) {
-    var ctx = document.getElementById("performanceChart").getContext("2d");
-    var performanceChart = new Chart(ctx, {
+function renderfirstOpenedDelayHelper(data) {
+    var ctx = document.getElementById("firstOpenedDelayChart").getContext("2d");
+    var firstOpenedDelayChart = new Chart(ctx, {
         type: "pie",
         data: {
             labels: [
