@@ -10,6 +10,7 @@
     firstRun - 0 = no, 1 = yes.
 */
 function getLatestTS(hiddenID, firstRun) {
+    // TODO- whenever a report is CHANGED (i.e. complete vs incomplete, etc.), refresh.
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
