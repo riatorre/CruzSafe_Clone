@@ -9,7 +9,6 @@ const router = express.Router();
 const connectionPool = require("../DB/config");
 const multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
-const myConsole = require("../utilities/customConsole");
 
 const numDays = 90; // number of days before a report expires
 
@@ -338,24 +337,30 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
     const values = [
         [
             req.body.mobileID,
-            req.body.incidentDesc,
-            req.body.incidentLocationDesc,
+            connectionPool.sanitizeString(req.body.incidentDesc),
+            connectionPool.sanitizeString(req.body.incidentLocationDesc),
             req.body.incidentCategory,
             req.body.incidentLatitude,
             req.body.incidentLongitude,
             req.body.incidentUnchangedLocation,
             hasAttachment,
-            attachment,
-            req.body.token
+            connectionPool.sanitizeString(attachment),
+            connectionPool.sanitizeString(req.body.token)
         ]
     ];
     const query =
-        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES " +
-        [values];
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
+        [values] +
+        ")";
     connectionPool.handleAPI(
-        values[0],
-        [values[1], values[2], values[3], values[8], values[9]],
-        1,
+        [req.body.mobileID, req.body.incidentCategory],
+        [
+            req.body.incidentDesc,
+            req.body.incidentLocationDesc,
+            attachment,
+            req.body.token
+        ],
+        2,
         6,
         query,
         val => {
@@ -368,6 +373,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                 row => {
                     const expireTS = row[0].reportTS;
                     expireTS.setDate(expireTS.getDate() + numDays);
+                    expireTS.toMysqlFormat();
                     connectionPool.handleAPI(
                         null,
                         null,
@@ -376,7 +382,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                         "UPDATE reports SET incidentID = " +
                             val.insertId +
                             ", expireTS = " +
-                            expireTS +
+                            connectionPool.sanitizeString(expireTS) +
                             " WHERE reportID = " +
                             val.insertId,
                         () => {
