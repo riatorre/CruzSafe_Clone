@@ -18,8 +18,14 @@ function getTS(hiddenID, firstRun) {
             if (!firstRun) {
                 if (previouslyStored != maxTS) {
                     getReportByTS(maxTS);
-                    if (isList) {
-                        determineSetup();
+                    // Determined that there's a new report with a new maxTS.
+                    // Intake or Reports
+                    if ((pageID == 1) | (pageID == 2)) {
+                        determineListSetup();
+                    }
+                    // Homepage
+                    else if (pageID == 0) {
+                        // Refresh the map
                     }
                 }
             }
@@ -31,6 +37,9 @@ function getTS(hiddenID, firstRun) {
 
 /*
     Function that requests a report based on timestamp.
+
+    Once that has been gotten, does something with that reportID. (?)
+    Plays a sound based on ID.
 */
 function getReportByTS(reportTS) {
     const request = new XMLHttpRequest();
@@ -50,7 +59,7 @@ function getReportByTS(reportTS) {
 /*
     REPORTS PAGE CODE
 */
-function determineSetup() {
+function determineListSetup() {
     const filterElements = [
         "filterTag",
         "filterIncidentID",
@@ -79,7 +88,7 @@ function determineSetup() {
     // Will prevent auto-refresh of list when user is attempting to search for something
     if (!filtersSet && currentTab == 0) {
         clearPages();
-        setupReports();
+        setupListReports();
     }
 }
 

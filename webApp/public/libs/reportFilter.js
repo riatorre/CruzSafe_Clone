@@ -3,7 +3,7 @@
 */
 
 /*
-    filterReports; A modified version of setupReports. Activated from reports.html when filter button is clicked.
+    filterReports; A modified version of setupListReports. Activated from reports.html when filter button is clicked.
 
     Grabs a dictionary of key:value = filterOption:value taken from filter fields. 
     Converts said dictionary into key:value = columnName:value (i.e. TagValue -> TagKey)
@@ -159,7 +159,8 @@ function filterReportsHelper(filterDict, tags, reverseTags, tagColors) {
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
             clearPages();
-            if (isIntake) {
+            // If intake page
+            if (pageID == 1) {
                 excludeFilterResults(reportIDs, tags);
             } else {
                 generateMultipleReports(reportIDs, tags);

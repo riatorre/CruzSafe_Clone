@@ -215,7 +215,7 @@
                             </div>
                         </div>
                         <div class="row fiveEighths leaf">
-                            <!--Div to be filled by setupReports()-->
+                            <!--Div to be filled by setupListReports()-->
                             <div id="reportList" class="reportList"></div>
                         </div>
                         <div class="row eighth leaf">
@@ -236,7 +236,7 @@
                                         Prev
                                     </button>
                                     <div id="reportListIndicators"></div>
-                                    <!--Div to be filled by setupReports()-->
+                                    <!--Div to be filled by setupListReports()-->
                                     <button
                                         id="nextBtn"
                                         class="btn navy rounded"
@@ -278,15 +278,14 @@
         <input type="hidden" id="storedTS" />
         <script>
             // Global Variables
-            const isIntake = true;
-            const isList = true;
+            const pageID = 0; // pageID tells getTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
 
             setupModal("modalTarget", createReportModal);
 
             var tid = "";
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
-                setupReports(); // Setup reports initially
+                setupListReports(); // Setup reports initially
                 getTS("storedTS", 1); // Gets the initial TS and sets up listener
             });
 

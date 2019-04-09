@@ -78,12 +78,12 @@ function createReportButton(report) {
 }
 
 /*
-    setupReports; has two helper functions. 
-    Meant to set up the Reports page by first getting all tags from database,
+    setupListReports; lists all of the reports. Has two helper functions. 
+    Meant to set up the Reports/Intake page by first getting all tags from database,
     then calls gatherReportPage to get all of the reportIDs and to section off some IDs for a page.
     Then calls generateMultipleReports to get information for that page and populate the list with buttons. 
 */
-function setupReports() {
+function setupListReports() {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -104,7 +104,7 @@ function setupReports() {
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
-// TODO: Implement page segregation with this helper function.
+// Get a list of reportIDs to generate reports from.
 function gatherReportPage(tags, tagColors) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
@@ -120,7 +120,7 @@ function gatherReportPage(tags, tagColors) {
         }
     };
     // If intake, grab all assigned reports to webUser
-    if (isIntake) {
+    if (pageID == 1) {
         request.open(
             "POST",
             "https://cruzsafe.appspot.com/api/reports/assignments"

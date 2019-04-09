@@ -711,8 +711,8 @@ function displayReport(reportID) {
 function hideReport(changes) {
     closeModal();
     reportNoteInput.value = ""; // Clear the input of notes.
-    if (changes && isList) {
+    if (changes && (pageID == 1) | (pageID == 2)) {
         clearPages();
-        setupReports();
+        setupListReports();
     }
 }

@@ -115,8 +115,7 @@
         <input type="hidden" id="storedTS" />
         <script>
             // Global Variables
-            const isIntake = false;
-            const isList = false;
+            const pageID = 0; // pageID tells getTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
 
             setupModal("modalTarget", createReportModal);
 
