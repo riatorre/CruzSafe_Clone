@@ -198,7 +198,7 @@
         // Grabs library containing functions related to cookies
         // Updates form to include remembered username, if a cookie for it exists.
         // Throws an error if somehow unable to grab the file
-        $.getScript('./libs/CookieLib.js')
+        $.getScript('./libs/cookieLib.js')
             .done(function() {
                 usernameInput.setAttribute('value', getCookie('username'));
                 if (getCookie('username') !== '') remCheck.setAttribute('checked', 'true');

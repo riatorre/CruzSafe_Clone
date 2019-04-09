@@ -107,22 +107,22 @@
         <audio id="incomingTag6" src="./assets/sounds/Shuffle.wav"></audio>
         <audio id="incomingTag0" src="./assets/sounds/Stapler.wav"></audio>
         <script src="./libs/modalLib.js"></script>
-        <script src="./libs/NavLib.js"></script>
+        <script src="./libs/navLib.js"></script>
         <script src="./libs/reportSingle.js"></script>
-        <script src="./libs/reportListRefresher.js"></script>
+        <script src="./libs/reportRefresher.js"></script>
 
         <!--reportHomeRefresher code-->
         <input type="hidden" id="storedTS" />
         <script>
             // Global Variables
-            const pageID = 0; // pageID tells getTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
+            const pageID = 0; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
 
             setupModal("modalTarget", createReportModal);
 
             var tid = "";
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
-                getTS("storedTS", 1); // Gets the initial TS and sets up listener
+                getLatestTS("storedTS", 1); // Gets the initial TS and sets up listener
             });
 
             // Sets up Timer to call function every 10 seconds;
@@ -133,7 +133,7 @@
 
             function checkTS() {
                 // Process to test for a different timestamp.
-                getTS("storedTS", 0);
+                getLatestTS("storedTS", 0);
             }
         </script>
         <!--End reportHomeRefresher code-->
