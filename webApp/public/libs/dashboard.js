@@ -4,36 +4,42 @@ function MainMap() {
         zoom: 15,
         mapTypeId: "hybrid"
     });
-    var iconBase = "http://maps.google.com/mapfiles/kml/paddle/";
+    var iconBase = "https://storage.googleapis.com/cruzsafe.appspot.com/";
     var customIcon = {
         1: {
             icon: {
-                url: iconBase + "blu-circle.png",
-                scaledSize: new google.maps.Size(30, 30)
+                url: iconBase + "blue_1.png",
+                scaledSize: new google.maps.Size(65, 65)
             }
         },
         2: {
             icon: {
-                url: iconBase + "grn-circle.png",
-                scaledSize: new google.maps.Size(30, 30)
+                url: iconBase + "lime_1.png",
+                scaledSize: new google.maps.Size(65, 65)
             }
         },
         3: {
             icon: {
-                url: iconBase + "pink-circle.png",
-                scaledSize: new google.maps.Size(30, 30)
+                url: iconBase + "navy_1.png",
+                scaledSize: new google.maps.Size(65, 65)
             }
         },
         4: {
             icon: {
-                url: iconBase + "ylw-circle.png",
-                scaledSize: new google.maps.Size(30, 30)
+                url: iconBase + "aqua_1.png",
+                scaledSize: new google.maps.Size(65, 65)
             }
         },
         5: {
             icon: {
-                url: iconBase + "ltblu-circle.png",
-                scaledSize: new google.maps.Size(30, 30)
+                url: iconBase + "olive_1.png",
+                scaledSize: new google.maps.Size(65, 65)
+            }
+        },
+        6: {
+            icon: {
+                url: iconBase + "black_1.png",
+                scaledSize: new google.maps.Size(65, 65)
             }
         }
     };
