@@ -298,7 +298,13 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
         .getElementById("forwardBtn")
         .setAttribute(
             "onClick",
-            "initializeForward(" + reportID + "," + webID + ")"
+            "initializeForward(" +
+                reportID +
+                "," +
+                webID +
+                ",'" +
+                productInfo["resolvedUnresolved"] +
+                "')"
         );
 
     openModal();
@@ -399,17 +405,58 @@ function initializeMessage(reportID, webID) {
 }
 
 /*
-    Starts Forward Report
+    Starts Forward Report; the button has been pressed. 
 */
-function initializeForward(reportID, webID) {
-    var forwardDropdownObj = document.getElementById("forwardDropdown");
-    const facilityID =
-        forwardDropdownObj.options[forwardDropdownObj.selectedIndex].value;
-    const facilityName =
-        forwardDropdownObj.options[forwardDropdownObj.selectedIndex].text;
-    // First check if the forwarding circumstances is valid.
-    insertNote(reportID, webID, "{Forwarded to" + facilityName + "}");
-    forwardReport(reportID, webID, facilityID);
+function initializeForward(reportID, webID, resolvedUnresolved) {
+    if (resolvedUnresolved == "[Incomplete]") {
+        var forwardDropdownObj = document.getElementById("forwardDropdown");
+        const facilityID =
+            forwardDropdownObj.options[forwardDropdownObj.selectedIndex].value;
+        const facilityName = getLastWord(
+            forwardDropdownObj.options[forwardDropdownObj.selectedIndex].text
+        );
+        // First check if the forwarding circumstances is valid.
+        // If the task has been completed, reject.
+        // Query the database for the responses.
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                response = JSON.parse(request.response)[0];
+                if (response == null) {
+                    insertNote(
+                        reportID,
+                        webID,
+                        "{ Report has been successfully forwarded to " +
+                            facilityName +
+                            "}"
+                    );
+                    forwardReport(reportID, webID, facilityID);
+                } else {
+                    alert(
+                        "ERROR - This report has already been forwarded to " +
+                            facilityName +
+                            " and has not been read yet!"
+                    );
+                }
+            }
+        };
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/assignments/check"
+        );
+        request.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+        );
+        request.send(
+            JSON.stringify({
+                reportID: reportID,
+                facilityID: facilityID
+            })
+        );
+    } else {
+        alert("ERROR - Cannot forward a completed report!");
+    }
 }
 
 /*
@@ -799,4 +846,9 @@ function hideReport(changes) {
             setupListReports();
         }
     }
+}
+
+function getLastWord(string) {
+    var seperated = string.split(" ");
+    return seperated[seperated.length - 1];
 }

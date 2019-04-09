@@ -91,3 +91,27 @@ router.post("/assign", function(req, res) {
 });
 
 module.exports = router;
+
+/*
+    given a reportID and a recieverFacilityID, returns an assignmentID if there are any matches in assignments.
+*/
+router.post("/check", function(req, res) {
+    const query =
+        "SELECT assignmentID FROM assignments WHERE reportID = " +
+        req.body.reportID +
+        " AND recieverFacilityID = " +
+        req.body.facilityID;
+    connectionPool.handleAPI(
+        [req.body.reportID, req.body.facilityID],
+        null,
+        2,
+        2,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+});
