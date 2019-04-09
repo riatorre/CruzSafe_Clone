@@ -15,6 +15,8 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <!--TODO: Actually get Chart.js working without importing it-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
     </head>
     <body>
         <header>
@@ -52,7 +54,73 @@
         <main class="withHeader">
             <div class="row bordered">
                 <div class="column third bordered leaf"></div>
-                <div class="column twoThirds bordered leaf"></div>
+                <div class="column twoThirds bordered leaf">
+                    <!--Placeholder chart-->
+                    <canvas id="myChart"></canvas>
+                    <script>
+                        var ctx = document
+                            .getElementById("myChart")
+                            .getContext("2d");
+                        var myChart = new Chart(ctx, {
+                            type: "line",
+                            data: {
+                                labels: [
+                                    "January",
+                                    "February",
+                                    "March",
+                                    "April",
+                                    "May",
+                                    "June",
+                                    "July",
+                                    "August",
+                                    "September",
+                                    "October",
+                                    "November",
+                                    "December"
+                                ],
+                                datasets: [
+                                    {
+                                        label: "# of Users",
+                                        data: [
+                                            12,
+                                            19,
+                                            3,
+                                            5,
+                                            2,
+                                            3,
+                                            22,
+                                            1,
+                                            31,
+                                            12,
+                                            23,
+                                            30
+                                        ],
+                                        backgroundColor: [
+                                            "rgba(255, 99, 132, 0.5)"
+                                        ],
+                                        borderColor: ["rgba(255, 99, 132, 1)"],
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [
+                                        {
+                                            ticks: {
+                                                beginAtZero: true
+                                            }
+                                        }
+                                    ]
+                                },
+                                title: {
+                                    display: true,
+                                    text: "Users Over Time"
+                                }
+                            }
+                        });
+                    </script>
+                </div>
             </div>
         </main>
         <script src="./libs/navLib.js"></script>
