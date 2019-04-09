@@ -1,3 +1,7 @@
+/*
+    Code to setup primary elements on homepage.html.
+*/
+
 function MainMap() {
     var map = new google.maps.Map(document.getElementById("MainMap"), {
         center: new google.maps.LatLng(36.9916, -122.0583),
@@ -81,4 +85,50 @@ function downloadUrl(url, callback) {
 
     request.open("POST", url);
     request.send(null);
+}
+
+function renderChart() {
+    var ctx = document.getElementById("performanceChart").getContext("2d");
+    var performanceChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: [
+                "< 1 min",
+                "1 to 5 min",
+                "6 to 30 min",
+                "31 to 60 min",
+                "2 hours",
+                "> 2 hours"
+            ],
+            datasets: [
+                {
+                    label: "# of Votes",
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(255, 206, 86, 1)",
+                        "rgba(75, 192, 192, 1)",
+                        "rgba(153, 102, 255, 1)",
+                        "rgba(255, 159, 64, 1)"
+                    ],
+                    borderColor: [
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)",
+                        "rgba(255, 206, 86, 1)",
+                        "rgba(75, 192, 192, 1)",
+                        "rgba(153, 102, 255, 1)",
+                        "rgba(255, 159, 64, 1)"
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Report Response Time"
+            }
+        }
+    });
 }
