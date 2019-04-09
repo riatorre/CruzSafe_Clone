@@ -25,14 +25,14 @@ function setupListReports() {
                 tagColors[tag["tagName"]] = tag["color"];
             });
             // gotten list of all IDs. Calls generateMultipleReports for given index.
-            gatherReportPage(tagDict, tagColors);
+            gatherReportPage(tagDict);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
     request.send();
 }
 // Get a list of reportIDs to generate reports from.
-function gatherReportPage(tags, tagColors) {
+function gatherReportPage(tags) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
