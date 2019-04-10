@@ -9,7 +9,6 @@ const router = express.Router();
 const connectionPool = require("../DB/config");
 const multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
-const myConsole = require("../utilities/customConsole");
 
 const numDays = 90; // number of days before a report expires
 
@@ -101,6 +100,24 @@ router.post("/", function(req, res) {
 // Get all reports
 router.post("/allReports", function(req, res) {
     var query = "SELECT * FROM reports";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
+// Get all reports that have been opened
+router.post("/allOpenedReports", function(req, res) {
+    var query = "SELECT * FROM reports WHERE initialOpenTS IS NOT NULL";
     connectionPool.handleAPI(
         null,
         null,
@@ -338,24 +355,30 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
     const values = [
         [
             req.body.mobileID,
-            req.body.incidentDesc,
-            req.body.incidentLocationDesc,
+            connectionPool.sanitizeString(req.body.incidentDesc),
+            connectionPool.sanitizeString(req.body.incidentLocationDesc),
             req.body.incidentCategory,
             req.body.incidentLatitude,
             req.body.incidentLongitude,
             req.body.incidentUnchangedLocation,
             hasAttachment,
-            attachment,
-            req.body.token
+            connectionPool.sanitizeString(attachment),
+            connectionPool.sanitizeString(req.body.token)
         ]
     ];
     const query =
-        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES " +
-        [values];
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
+        [values] +
+        ")";
     connectionPool.handleAPI(
-        values[0],
-        [values[1], values[2], values[3], values[8], values[9]],
-        1,
+        [req.body.mobileID, req.body.incidentCategory],
+        [
+            req.body.incidentDesc,
+            req.body.incidentLocationDesc,
+            attachment,
+            req.body.token
+        ],
+        2,
         6,
         query,
         val => {
@@ -368,6 +391,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                 row => {
                     const expireTS = row[0].reportTS;
                     expireTS.setDate(expireTS.getDate() + numDays);
+                    expireTS.toMysqlFormat();
                     connectionPool.handleAPI(
                         null,
                         null,
@@ -376,7 +400,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                         "UPDATE reports SET incidentID = " +
                             val.insertId +
                             ", expireTS = " +
-                            expireTS +
+                            connectionPool.sanitizeString(expireTS) +
                             " WHERE reportID = " +
                             val.insertId,
                         () => {
@@ -581,64 +605,6 @@ router.post("/prewrittenResponses", function(req, res) {
         },
         () => {
             res.json({ message: "An Error has Occurred." });
-        }
-    );
-});
-
-/*** Assignment APIs */
-/*
-    Given a recieverWebID, grabs all of the reportIDs.
-*/
-router.post("/assignments", function(req, res) {
-    const query =
-        "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = " +
-        req.body.webID +
-        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC";
-    connectionPool.handleAPI(
-        req.body.webID,
-        null,
-        1,
-        1,
-        query,
-        val => {
-            res.json(val);
-        },
-        () => {
-            res.json({ message: "An Error has Occurred." });
-        }
-    );
-});
-
-/*
-    Given a list of reportIDS, returns only a list of reportIDS that have been assigned to a given webID.
-*/
-router.post("/isolateAssignments", function(req, res) {
-    var reportIDs = JSON.parse(req.body.id);
-    var query =
-        "SELECT assignments.reportID FROM assignments LEFT JOIN reports ON assignments.reportID = reports.reportID WHERE recieverWebID = " +
-        req.body.webID +
-        " AND assignments.reportID = ";
-    for (i = 0; i < reportIDs.length; i++) {
-        if (i == 0) {
-            query = query + reportIDs[i];
-        } else {
-            query = query + " OR assignments.reportID = " + reportIDs[i];
-        }
-    }
-    query =
-        query +
-        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"; // Ordering clause
-    connectionPool.handleAPI(
-        reportIDs,
-        null,
-        -1,
-        -1,
-        query,
-        val => {
-            res.json(val);
-        },
-        () => {
-            res.json({ message: "An Error has occurred" });
         }
     );
 });

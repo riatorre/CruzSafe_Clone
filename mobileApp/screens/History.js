@@ -29,11 +29,11 @@ import styles from "../components/styles.js";
 
 // Temporary Definition of tagsList; should move to somewhere more global in scale
 var tagsList = [
-    "Trash",
     "Water Leak",
     "Broken Light",
     "Broken Window",
-    "Lighting deficiency",
+    "Lighting Deficiency",
+    "Excess Trash",
     "UNDEFINED"
 ];
 

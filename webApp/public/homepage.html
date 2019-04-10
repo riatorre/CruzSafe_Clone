@@ -15,6 +15,8 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <!--TODO: Actually get Chart.js working without importing it-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
         <script src="./libs/dashboard.js"></script>
     </head>
     <body>
@@ -38,6 +40,9 @@
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                     Admin</a
                 >
+                <a href="./settings.html"
+                    ><i class="fa fa-cog" aria-hidden="true"></i> Settings</a
+                >
                 <a href="./"
                     ><i class="fa fa-sign-out" aria-hidden="true"></i>
                     Sign-Out</a
@@ -50,52 +55,21 @@
         <main class="withHeader">
             <div class="row">
                 <div class="column quarter">
-                    <div class="row third leaf">
-                        <img
-                            id="responseChart"
-                            src="./assets/images/response_chart.png"
-                            class="imgcontainer"
-                            alt="mock resonse time chart"
-                        />
-                    </div>
+                    <div class="row third leaf"></div>
                     <div class="row twoThirds">
-                        <iframe
-                            id="coastalCampusMap"
-                            class="column leaf"
-                        ></iframe>
+                        <canvas id="firstOpenedDelayChart"></canvas>
                     </div>
                 </div>
-                <div class="column half">
-                    <div id="MainMap" style="width:80%;height:90%;"></div>
+                <div class="column threeQuarters">
+                    <div id="MainMap" style="width:100%;height:100%;"></div>
                 </div>
                 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY&callback=MainMap"></script>
-                <div class="column quarter">
+                <!--<div class="column quarter">
+                    <div class="row half leaf"></div>
                     <div class="row half leaf">
-                        <div>
-                            <p>
-                                ----Information such as tags will go here----
-                            </p>
-                            <button
-                                onclick="displayReport(150)"
-                                id="latestReport"
-                            >
-                                LATEST REPORT
-                            </button>
-                            <div>
-                                <button>User</button>
-                                <button>Dispatch</button>
-                                <button>Supervisor</button>
-                                <button>Admin</button>
-                                <button>Developer</button>
-                            </div>
-                        </div>
+                        <canvas id="reportsOverviewChart"></canvas>
                     </div>
-                    <div class="row half leaf">
-                        <p>
-                            ----Counter of unopened/unresolved reports here----
-                        </p>
-                    </div>
-                </div>
+                </div>-->
             </div>
         </main>
         <div id="modalTarget"></div>
@@ -107,21 +81,32 @@
         <audio id="incomingTag6" src="./assets/sounds/Shuffle.wav"></audio>
         <audio id="incomingTag0" src="./assets/sounds/Stapler.wav"></audio>
         <script src="./libs/modalLib.js"></script>
-        <script src="./libs/NavLib.js"></script>
+        <script src="./libs/navLib.js"></script>
         <script src="./libs/reportSingle.js"></script>
-        <script src="./libs/reportHomeRefresher.js"></script>
-        <script src="./libs/reportHome.js"></script>
-        <script src="./libs/reportFilter.js"></script>
+        <script src="./libs/reportRefresher.js"></script>
+        <script src="./libs/cookieLib.js"></script>
 
         <!--reportHomeRefresher code-->
         <input type="hidden" id="storedTS" />
         <script>
+            // Global Variables
+            const pageID = 0; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
+            /*** Cookie PLACEHOLDERS */
+
+            setCookie("cruzsafe_webID", 1, 1);
+            const webID = getCookie("cruzsafe_webID");
+            if (webID == "") {
+                window.location.href = "./"; // Returns to homepage if no webID cookie is present.
+            }
+
+            /*** Cookie PLACEHOLDERS */
+
             setupModal("modalTarget", createReportModal);
 
             var tid = "";
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
-                getTS("storedTS", 1); // Gets the initial TS and sets up listener
+                getLatestTS("storedTS", 1); // Gets the initial TS and sets up listener
             });
 
             // Sets up Timer to call function every 10 seconds;
@@ -132,9 +117,20 @@
 
             function checkTS() {
                 // Process to test for a different timestamp.
-                getTS("storedTS", 0);
+                getLatestTS("storedTS", 0);
             }
         </script>
         <!--End reportHomeRefresher code-->
+
+        <script>
+            /*
+                Rendering of performanceChart
+            */
+            renderfirstOpenedDelay();
+            /*
+                Rendering of reportOverviewChart
+            */
+            renderReportsOverview();
+        </script>
     </body>
 </html>

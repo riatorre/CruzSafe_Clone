@@ -1,5 +1,5 @@
 /*
- * CookieLib.js
+ * cookieLib.js
  * A Library of functions used to manage cookies
  */
 

@@ -538,6 +538,16 @@ td {
     height: attr(measurement);
 }
 
+.leftAlign {
+    display: block;
+    float: left;
+}
+
+.rightAlign {
+    display: block;
+    float: right;
+}
+
 /*** Modal Styling ***/
 
 .modal {
@@ -866,6 +876,11 @@ td {
     /*** Re-enable centering of content of all leaves ***/
     .leaf {
         display: inline-flex !important;
+    }
+
+    .leftAlign,
+    .rightAlign {
+        display: block !important;
     }
 
     .row.full {

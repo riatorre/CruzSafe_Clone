@@ -26,11 +26,11 @@ import {
 import styles from "../components/styles.js";
 
 const tagsList = [
-    "Trash",
     "Water Leak",
     "Broken Light",
     "Broken Window",
-    "Lighting deficiency"
+    "Lighting Deficiency",
+    "Excess Trash"
 ];
 
 class ReportDetail extends Component {
