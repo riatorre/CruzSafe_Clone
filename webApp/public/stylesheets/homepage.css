@@ -6,3 +6,29 @@ body {
 p {
     color: white;
 }
+#goBoth,
+#goMain,
+#goCostal {
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    float: top;
+    margin-top: 22px;
+    text-align: center;
+}
+#goBothText,
+#goMainText,
+#goCostalText {
+    color: rgb(25, 25, 25);
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 25px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#goMain,
+#goCostal {
+    margin-top: 12px;
+}

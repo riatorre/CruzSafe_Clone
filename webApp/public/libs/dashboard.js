@@ -1,10 +1,76 @@
 /*
     Code to setup primary elements on homepage.html.
 */
+var map;
+var both = { lat: 36.975681, lng: -122.05285 };
+var Main = { lat: 36.991468, lng: -122.05924 };
+var Costal = { lat: 36.953909, lng: -122.06099 };
+function CenterControl(controlDiv, map, center) {
+    // We set up a variable for this since we're adding event listeners
+    // later.
+    var control = this;
+
+    // Set the center property upon construction
+    control.center_ = center;
+    controlDiv.style.clear = "both";
+
+    // Set CSS for the control border
+    var goBoth = document.createElement("div");
+    goBoth.id = "goBoth";
+    goBoth.title = "Focus on entire campus";
+    controlDiv.appendChild(goBoth);
+
+    // Set CSS for the control interior
+    var goBothText = document.createElement("div");
+    goBothText.id = "goBothText";
+    goBothText.innerHTML = "Entire Campus";
+    goBoth.appendChild(goBothText);
+
+    // Set CSS for the setCenter control border
+    var goMain = document.createElement("div");
+    goMain.id = "goMain";
+    goMain.title = "Focus on main campus";
+    controlDiv.appendChild(goMain);
+
+    // Set CSS for the control interior
+    var goMainText = document.createElement("div");
+    goMainText.id = "goMainText";
+    goMainText.innerHTML = "Main Campus";
+    goMain.appendChild(goMainText);
+
+    var goCostal = document.createElement("div");
+    goCostal.id = "goCostal";
+    goCostal.title = "Focus on costal campus";
+    controlDiv.appendChild(goCostal);
+
+    // Set CSS for the control interior
+    var goCostalText = document.createElement("div");
+    goCostalText.id = "goCostalText";
+    goCostalText.innerHTML = "Costal Campus";
+    goCostal.appendChild(goCostalText);
+
+    // Set up the click event listener for 'Center Map': Set the center of
+    // the map
+    // to the current center of the control.
+    goBoth.addEventListener("click", function() {
+        map.setCenter(both);
+        map.setZoom(14);
+    });
+
+    goMain.addEventListener("click", function() {
+        map.setCenter(Main);
+        map.setZoom(15);
+    });
+
+    goCostal.addEventListener("click", function() {
+        map.setCenter(Costal);
+        map.setZoom(15);
+    });
+}
 
 function MainMap() {
-    var map = new google.maps.Map(document.getElementById("MainMap"), {
-        center: new google.maps.LatLng(36.975681, -122.05285),
+    map = new google.maps.Map(document.getElementById("MainMap"), {
+        center: both,
         zoom: 14,
         mapTypeId: "hybrid",
         styles: [
@@ -13,9 +79,33 @@ function MainMap() {
                 elementType: "labels",
                 stylers: [{ visibility: "off" }]
             }
-        ]
+        ],
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false
     });
+    // Create the DIV to hold the control and call the CenterControl()
+    // constructor
+    // passing in this DIV.
+    var centerControlDiv = document.createElement("div");
+    var centerControl = new CenterControl(centerControlDiv, map, both);
+
+    centerControlDiv.index = 1;
+    centerControlDiv.style["padding-top"] = "10px";
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
+    var infoWindow = new google.maps.InfoWindow();
     var iconBase = "https://storage.googleapis.com/cruzsafe.appspot.com/";
+    var tagList = {
+        1: "Water Leak",
+        2: "Broken Light",
+        3: "Broken Window",
+        4: "Lighting Deficiency",
+        5: "Excess Trash",
+        6: "Undefined"
+    };
     var customIcon = {
         1: {
             icon: {
@@ -62,13 +152,41 @@ function MainMap() {
         reportInfo = JSON.parse(data.response); // Returns an array
         if (reportInfo != null) {
             Array.prototype.forEach.call(reportInfo, function(report) {
-                var id = report["reportID"];
+                var id = report["incidentID"];
                 var tag = report["tag"];
+                var time = report["reportTS"];
+                var location = report["location"];
+                var body = report["body"];
                 var point = new google.maps.LatLng(
                     parseFloat(report["latitude"]),
                     parseFloat(report["longitude"])
                 );
                 var Cicon = customIcon[tag] || {};
+                var infowincontent = document.createElement("div");
+                var tagName = tagList[tag];
+                var tag_text = document.createElement("strong");
+                tag_text.textContent = tagName;
+                infowincontent.appendChild(tag_text);
+                infowincontent.appendChild(document.createElement("br"));
+
+                var location_text = document.createElement("text");
+                location_text.textContent = "Location: " + location;
+                infowincontent.appendChild(location_text);
+                infowincontent.appendChild(document.createElement("br"));
+
+                var body_text = document.createElement("text");
+                body_text.textContent = "Description: " + body;
+                infowincontent.appendChild(body_text);
+                infowincontent.appendChild(document.createElement("br"));
+
+                var time_text = document.createElement("text");
+                body_text.textContent = "Report time: " + time;
+                infowincontent.appendChild(time_text);
+
+                var id_text = document.createElement("text");
+                id_text.textContent = "Incident #: " + id;
+                infowincontent.appendChild(id_text);
+
                 var marker = new google.maps.Marker({
                     map: map,
                     position: point,
@@ -76,6 +194,10 @@ function MainMap() {
                 });
                 marker.addListener("click", function() {
                     displayReport(id, false);
+                });
+                marker.addListener("mouseover", function() {
+                    infoWindow.setContent(infowincontent);
+                    infoWindow.open(map, marker);
                 });
             });
         }
