@@ -133,8 +133,7 @@ class WelcomeScreen extends Component {
         })
             .then(response => response.json())
             .then(async json => {
-                console.log("ReponseJSON = " + json[0]["LAST_INSERT_ID()"]);
-                await this.setID(JSON.stringify(json[0]["LAST_INSERT_ID()"]));
+                await this.setID(JSON.stringify(json.insertId));
             })
             // Unsuccessful Call to API
             .catch(err => {
