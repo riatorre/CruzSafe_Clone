@@ -27,103 +27,100 @@ const defaultOptionText = "---Select Option---";
 
 // Function used to create a Modal ready to display Single Report Data
 function createReportModal() {
-    var div = document.createElement("DIV");
-    div.setAttribute("class", "column");
+    const report = document.createElement("DIV");
+    report.setAttribute("class", "row");
 
-    var metadataRow = document.createElement("DIV");
-    metadataRow.setAttribute("class", "row quarter");
+    const column1 = document.createElement("DIV");
+    column1.setAttribute("class", "column half reportColumn");
 
-    var metadataFirstHalf = document.createElement("DIV");
-    metadataFirstHalf.setAttribute("class", "column twoFifths leaf");
-    metadataFirstHalf.innerHTML =
+    // Info about the reporting Civilian
+    const civilianInfo = document.createElement("DIV");
+    civilianInfo.setAttribute("class", "row eighth leaf leftAlign");
+    civilianInfo.innerHTML =
         "<div class = 'name'><div><b>Name:</b> <span id='fullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
-    metadataFirstHalf.innerHTML +=
+    civilianInfo.innerHTML +=
         "<div class = 'phone'><div><b>Phone:</b> <span id='phone'></span></div></div>";
-    metadataFirstHalf.innerHTML +=
+    civilianInfo.innerHTML +=
         "<div class = 'email'><div><b>Email:</b> <span id='email'></span></div></div>";
-    metadataRow.appendChild(metadataFirstHalf);
 
-    var metadataSecondHalf = document.createElement("DIV");
-    metadataSecondHalf.setAttribute(
-        "class",
-        "column threeFifths borderedLeft leaf"
-    );
-    metadataSecondHalf.innerHTML =
-        "<div><b>Report:</b> #<span id = 'reportID'></span>, <b>Incident:</b> #<span id = 'incidentID'></span> <b id='resolvedUnresolved'></b></div>\n";
-    metadataSecondHalf.innerHTML +=
+    // Metadata involving the specific report
+    const reportMetadata = document.createElement("DIV");
+    reportMetadata.setAttribute("class", "row quarter leaf leftAlign");
+    reportMetadata.innerHTML =
+        "<div><b>Report:</b> #<span id = 'reportID'></span></div><div><b>Incident:</b> #<span id = 'incidentID'></span> <b id='resolvedUnresolved'></b></div>\n";
+    reportMetadata.innerHTML +=
         "<div><b>Date:</b> <span id='reportTS'></span></div>\n";
-    metadataSecondHalf.innerHTML +=
+    reportMetadata.innerHTML +=
         "<div><b>Time:</b> <span id='reportTS2'></span></div>\n";
-    metadataSecondHalf.innerHTML +=
-        "<div><b>Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
-    metadataSecondHalf.innerHTML +=
+    reportMetadata.innerHTML +=
         "<div><b>Tag:</b> <span id='tag'></span></div>\n";
-    metadataRow.appendChild(metadataSecondHalf);
 
-    div.appendChild(metadataRow);
+    // Location Info
+    const locationInfo = document.createElement("DIV");
+    locationInfo.setAttribute("class", "row eighth leaf leftAlign");
+    locationInfo.innerHTML +=
+        "<div><b>Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
 
-    var dataRow = document.createElement("DIV");
-    dataRow.setAttribute("class", "row threeQuarters");
-
-    var columnOne = document.createElement("DIV");
-    columnOne.setAttribute("class", "column twoFifths");
-
-    var row = document.createElement("DIV");
-    row.setAttribute("class", "row");
-
-    row.innerHTML =
+    // Map and Media
+    const media = document.createElement("DIV");
+    media.setAttribute("class", "row half");
+    media.innerHTML =
         "<iframe id='reportMap' class='column half leaf leftAlign'></iframe>";
-    row.innerHTML +=
-        "<div class='column half leaf'><img id='reportPhoto' class='imgcontainer' alt='report photo' />";
-    row.innerHTML +=
+    media.innerHTML +=
+        "<div class='column half leaf' id='media'><img id='reportPhoto' class='imgcontainer' alt='report photo' />";
+    media.innerHTML +=
         "<video width = '320' height = '240' controls = 'controls' id='reportVideo' alt='report video' type = 'video/mp4'> </video></div>";
-    columnOne.appendChild(row);
-    dataRow.appendChild(columnOne);
 
-    var columnTwo = document.createElement("DIV");
-    columnTwo.setAttribute("class", "column threeFifths borderedLeft");
+    column1.appendChild(civilianInfo);
+    column1.appendChild(reportMetadata);
+    column1.appendChild(locationInfo);
+    column1.appendChild(media);
 
-    var reportBody = document.createElement("DIV");
-    reportBody.setAttribute("class", "row fifth leaf leftAlign");
-    reportBody.innerHTML = "<b>Report Body:</b>";
-    reportBody.innerHTML += "<br /><br />";
-    reportBody.innerHTML += "<div id = 'body'></div>";
-    columnTwo.appendChild(reportBody);
+    const column2 = document.createElement("DIV");
+    column2.setAttribute("class", "column half reportColumn");
 
-    var reportNotes = document.createElement("DIV");
-    reportNotes.setAttribute("class", "row leaf leftAlign");
-    reportNotes.setAttribute("style", "height:42.5%");
-    reportNotes.innerHTML = "<b>Notes:</b>";
-    reportNotes.innerHTML +=
-        "<div id = 'reportNotes' class='reportNotes'></div>";
-    reportNotes.innerHTML +=
-        "<div style=''><input id = 'reportNoteInput' placeholder = 'Add Notes...'></input><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
-    columnTwo.appendChild(reportNotes);
+    // Expiration details
+    const expiration = document.createElement("DIV");
+    expiration.setAttribute("class", "row eighth leaf leftAlign");
+    expiration.innerHTML =
+        "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
+    expiration.innerHTML +=
+        "<span class='dropdown'><select id='whitelistDropdown' autocomplete = 'off'><option value = ''>" +
+        defaultOptionText +
+        "</option><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist Report</a></span>";
 
-    var optionBtns = document.createElement("DIV");
-    optionBtns.setAttribute("class", "row quarter leaf leftAlign");
+    // Description of the Incident
+    const reportDesc = document.createElement("DIV");
+    reportDesc.setAttribute("class", "row eighth leaf leftAlign");
+    reportDesc.innerHTML = "<b>Report Body:</b>";
+    reportDesc.innerHTML += "<div id = 'body'></div>";
+
+    // Notes regarding the specific report
+    const notesDiv = document.createElement("DIV");
+    notesDiv.setAttribute("class", "row threeEighths leaf leftAlign");
+    notesDiv.innerHTML = "<b>Notes:</b>";
+    notesDiv.innerHTML += "<div id = 'reportNotes' class='reportNotes'></div>";
+    notesDiv.innerHTML +=
+        "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'></input><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
+
+    // All options that do not fit elsewhere
+    const optionBtns = document.createElement("DIV");
+    optionBtns.setAttribute("class", "row threeEighths leaf leftAlign");
     optionBtns.innerHTML =
         "<span class='dropdown'><select id='messageDropdown' autocomplete='off'></select><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
     optionBtns.innerHTML +=
         "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'></select><a id='forwardBtn' class='btn rounded navy'>Assign Report</a></span>";
     optionBtns.innerHTML +=
         "<a class='btn rounded green' id='reportResolve'></a>";
-    columnTwo.appendChild(optionBtns);
 
-    var expirationDiv = document.createElement("DIV");
-    expirationDiv.setAttribute("class", "row eighth leaf leftAlign");
-    expirationDiv.innerHTML =
-        "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
-    expirationDiv.innerHTML +=
-        "<span class='dropdown'><select id='whitelistDropdown' autocomplete = 'off'><option value = ''>" +
-        defaultOptionText +
-        "</option><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist Report (Supervisor/Admin Only!)</a></span>";
-    columnTwo.appendChild(expirationDiv);
+    column2.appendChild(expiration);
+    column2.appendChild(reportDesc);
+    column2.appendChild(notesDiv);
+    column2.appendChild(optionBtns);
 
-    dataRow.appendChild(columnTwo);
-    div.append(dataRow);
-
-    return div;
+    report.appendChild(column1);
+    report.appendChild(column2);
+    return report;
 }
 
 /*
@@ -211,7 +208,10 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             "markIncomplete(" + reportID + ", " + webID + ")"
         );
         resolvedButton.innerHTML = "Mark Incomplete";
-        resolvedButton.setAttribute("class", "btn rounded red");
+        resolvedButton.setAttribute(
+            "class",
+            "btn rounded red reportCompletebtn"
+        );
     } else {
         // Incomplete Report Actions:
 
@@ -221,7 +221,10 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             "markComplete(" + reportID + "," + webID + ")"
         );
         resolvedButton.innerHTML = "Mark Complete";
-        resolvedButton.setAttribute("class", "btn rounded green");
+        resolvedButton.setAttribute(
+            "class",
+            "btn rounded green reportCompletebtn"
+        );
 
         if (!!reportInfo["initialOpenTS"]) {
             // Was opened before.
@@ -248,7 +251,10 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
     // Edit photo/video
     const photo = document.getElementById("reportPhoto");
     const video = document.getElementById("reportVideo");
+    const media = document.getElementById("media");
     if (reportInfo["attachments"]) {
+        media.setAttribute("style", "");
+        map.setAttribute("style", "");
         const filename = reportInfo["filename"];
         const extension = filename.split(".").pop(); // Split by dots.
         if (imageTypes.includes(extension)) {
@@ -271,6 +277,8 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             video.style.display = "block";
         }
     } else {
+        media.setAttribute("style", "display:none");
+        map.setAttribute("style", "width:100%;");
         video.style.display = "none";
         photo.style.display = "none";
     }
