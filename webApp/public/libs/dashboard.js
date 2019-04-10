@@ -12,38 +12,38 @@ function MainMap() {
     var customIcon = {
         1: {
             icon: {
-                url: iconBase + "blue.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "blue_num.png",
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         2: {
             icon: {
-                url: iconBase + "lime.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "lime_num.png",
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         3: {
             icon: {
-                url: iconBase + "navy.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "navy_num.png",
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         4: {
             icon: {
-                url: iconBase + "aqua.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "aqua_num.png",
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         5: {
             icon: {
-                url: iconBase + "olive.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "olive_num.png",
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         6: {
             icon: {
-                url: iconBase + "black.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "black_num.png",
+                scaledSize: new google.maps.Size(23, 36)
             }
         }
     };
