@@ -101,13 +101,13 @@ function createReportModal() {
     notesDiv.innerHTML = "<b>Notes:</b>";
     notesDiv.innerHTML += "<div id = 'reportNotes' class='reportNotes'></div>";
     notesDiv.innerHTML +=
-        "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'></input><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
+        "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'/><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
 
     // All options that do not fit elsewhere
     const optionBtns = document.createElement("DIV");
     optionBtns.setAttribute("class", "row threeEighths leaf leftAlign");
     optionBtns.innerHTML =
-        "<span class='dropdown'><select id='messageDropdown' autocomplete='off'></select><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
+        "<span class='dropdown'><select id='messageDropdown' autocomplete='off' onchange='checkCustom()'></select><input id='customResponse' style='display:none' placeholder='Enter a Custom Response'/><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
     optionBtns.innerHTML +=
         "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'></select><a id='forwardBtn' class='btn rounded navy'>Assign Report</a></span>";
     optionBtns.innerHTML +=
@@ -121,6 +121,16 @@ function createReportModal() {
     report.appendChild(column1);
     report.appendChild(column2);
     return report;
+}
+
+function checkCustom() {
+    const messageDropdown = document.getElementById("messageDropdown");
+    const customResponse = document.getElementById("customResponse");
+    if (messageDropdown.value === "custom") {
+        customResponse.setAttribute("style", "display:block;");
+    } else {
+        customResponse.setAttribute("style", "display:none;");
+    }
 }
 
 /*
@@ -403,11 +413,21 @@ function initializeWhitelist(reportID) {
     Send message has been pressed.
 */
 function initializeMessage(reportID, webID) {
-    var messageDropdownObj = document.getElementById("messageDropdown");
-    const message =
+    const messageDropdownObj = document.getElementById("messageDropdown");
+    var message =
         messageDropdownObj.options[messageDropdownObj.selectedIndex].value;
-    insertNote(reportID, webID, "{Sent pre-written response: " + message + "}"); // Adds note that a response has been sent.
-    sendMessage(reportID, webID, message);
+    if (message === "custom") {
+        message = document.getElementById("customResponse").value;
+    }
+    if (message != "") {
+        insertNote(
+            reportID,
+            webID,
+            "{Sent pre-written response: " + message + "}"
+        ); // Adds note that a response has been sent.
+        sendMessage(reportID, webID, message);
+        document.getElementById("customResponse").value = "";
+    }
 }
 
 /*
@@ -577,6 +597,10 @@ function displayPrewrittenResponses(tagID) {
                 newOption.setAttribute("value", responseContent); // For each message, add sendMessage with given text.
                 messageDropdown.appendChild(newOption);
             });
+            const customResponse = document.createElement("option");
+            customResponse.setAttribute("value", "custom");
+            customResponse.innerHTML = "---Enter Custom Response---";
+            messageDropdown.appendChild(customResponse);
         }
     };
     request.open(
@@ -848,6 +872,10 @@ function displayReport(reportID) {
 function hideReport(changes) {
     closeModal();
     reportNoteInput.value = ""; // Clear the input of notes.
+    const customResponse = document.getElementById("customResponse");
+    customResponse.setAttribute("style", "display: none");
+    customResponse.value = "";
+
     // When changes have been made
     if (changes) {
         if ((pageID == 1) | (pageID == 2)) {
