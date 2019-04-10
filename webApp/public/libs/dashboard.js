@@ -6,44 +6,51 @@ function MainMap() {
     var map = new google.maps.Map(document.getElementById("MainMap"), {
         center: new google.maps.LatLng(36.9916, -122.0583),
         zoom: 15,
-        mapTypeId: "hybrid"
+        mapTypeId: "hybrid",
+        styles: [
+            {
+                featureType: "all",
+                elementType: "labels",
+                stylers: [{ visibility: "off" }]
+            }
+        ]
     });
     var iconBase = "https://storage.googleapis.com/cruzsafe.appspot.com/";
     var customIcon = {
         1: {
             icon: {
-                url: iconBase + "blue.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "blue_num.png",
+                scaledSize: new google.maps.Size(25, 38)
             }
         },
         2: {
             icon: {
-                url: iconBase + "lime.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "lime_num.png",
+                scaledSize: new google.maps.Size(25, 38)
             }
         },
         3: {
             icon: {
-                url: iconBase + "navy.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "navy_num.png",
+                scaledSize: new google.maps.Size(25, 38)
             }
         },
         4: {
             icon: {
-                url: iconBase + "aqua.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "aqua_num.png",
+                scaledSize: new google.maps.Size(25, 38)
             }
         },
         5: {
             icon: {
-                url: iconBase + "olive.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "olive_num.png",
+                scaledSize: new google.maps.Size(25, 38)
             }
         },
         6: {
             icon: {
-                url: iconBase + "black.png",
-                scaledSize: new google.maps.Size(18, 28)
+                url: iconBase + "black_num.png",
+                scaledSize: new google.maps.Size(25, 38)
             }
         }
     };
