@@ -3,7 +3,7 @@
 */
 var map;
 var both = { lat: 36.975681, lng: -122.05285 };
-var Main = { lat: 36.991468, lng: -122.05924 };
+var Main = { lat: 36.990468, lng: -122.05824 };
 var Costal = { lat: 36.953909, lng: -122.06099 };
 function CenterControl(controlDiv, map, center) {
     // We set up a variable for this since we're adding event listeners
@@ -95,7 +95,7 @@ function MainMap() {
 
     centerControlDiv.index = 1;
     centerControlDiv.style["padding-top"] = "10px";
-    map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(centerControlDiv);
     var infoWindow = new google.maps.InfoWindow();
     var iconBase = "https://storage.googleapis.com/cruzsafe.appspot.com/";
     var tagList = {
