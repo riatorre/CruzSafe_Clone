@@ -158,6 +158,13 @@ class WelcomeScreen extends Component {
             this.state.userEmail
         );
         this.props.navigation.navigate("App");
+
+        //will contain boolean of whether the user wants tips and whether they have viewed certain parts of the app
+        var tutorialParams = { reportOnboarding: true, tips: true };
+        await AsyncStorage.setItem(
+            "tutorialParams",
+            JSON.stringify(tutorialParams)
+        );
     };
 
     async setID(id) {

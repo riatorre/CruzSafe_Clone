@@ -28,6 +28,7 @@ import {
 } from "native-base";
 import { Permissions, Notifications } from "expo";
 import styles from "../components/styles.js";
+import tutorialParams from "../navigation/AppNavigator";
 
 const LATITUDE = "36.9916";
 const LONGITUDE = "-122.0583";
@@ -49,7 +50,9 @@ class HomeScreen extends Component {
             pre_report = newPre_report;
             this.storeItem("unsub_report", pre_report);
         }
-        if (tutorialMode == true) {
+        console.log("tutorialParams: " + tutorialParams);
+        console.log("reportOnboarding: " + tutorialParams.reportOnboarding);
+        if (tutorialParams.reportOnboarding == true) {
             Alert.alert(
                 "Tour",
                 "Would you like to take a tour of how to create a report?",
@@ -64,7 +67,7 @@ class HomeScreen extends Component {
                     {
                         text: "No",
                         onPress: () => {
-                            this.tutorialMode = false;
+                            tutorialParams.reportOnboarding = false;
                         }
                     }
                 ]

@@ -50,6 +50,7 @@ const newPre_report = {
     imageURI: null
 };
 
+var tutorialParams = { reportOnboarding: true, tips: true };
 function createIncidentTypePicker(props) {
     return (
         <TouchableOpacity
@@ -95,7 +96,11 @@ class ReportScreen extends Component {
     };
 
     runTutorial() {
-        if (tutorialMode == true) {
+        console.log(tutorialParams);
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
             Alert.alert(
                 "Tour",
                 "You are currently in tour mode, so the emergency and non-emergency buttons will not actually call dispatch services and generated reports will not actually be submitted.",
@@ -109,7 +114,7 @@ class ReportScreen extends Component {
                     {
                         text: "stop showing tips",
                         onPress: () => {
-                            this.tutorialMode = false;
+                            tutorialParams.tips = false;
                         }
                     }
                 ]
@@ -155,6 +160,12 @@ class ReportScreen extends Component {
                 "Incompatible File Type Encountered; object must be .jpg, .mp4, or .mov"
             );
         }
+    }
+
+    async getTutorialParams() {
+        tutorialParams = JSON.parse(
+            await AsyncStorage.getItem("tutorialParams")
+        );
     }
 
     async getUnsubReport() {
@@ -503,6 +514,7 @@ class ReportScreen extends Component {
 
     componentDidMount() {
         this._isMounted = true;
+        this.getTutorialParams();
         this.getUnsubReport().then(pre_report => {
             this._isMounted &&
                 this.setState({
@@ -516,6 +528,7 @@ class ReportScreen extends Component {
             this.getCameraPermission();
         });
         AppState.addEventListener("change", this._handleAppStateChange);
+        this.runTutorial();
     }
 
     componentWillUnmount() {
