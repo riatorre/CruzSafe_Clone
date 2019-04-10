@@ -79,22 +79,22 @@ router.post("/checkID", function(req, res) {
  * Returns mobileID.
  */
 router.post("/newID", function(req, res) {
-    const firstName = connectionPool.sanitizeString(req.body.firstName);
-    const lastName = connectionPool.sanitizeString(req.body.lastName);
-    const email = connectionPool.sanitizeString(req.body.email);
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
     const query =
         "INSERT INTO mobileUsers (firstName, lastName, email) VALUES (" +
-        firstName +
+        connectionPool.sanitizeString(firstName) +
         ", " +
-        lastName +
+        connectionPool.sanitizeString(lastName) +
         ", " +
-        email +
+        connectionPool.sanitizeString(email) +
         ") ON DUPLICATE KEY UPDATE mobileID =LAST_INSERT_ID(mobileID), firstName = " +
-        firstName +
+        connectionPool.sanitizeString(firstName) +
         ", lastName = " +
-        lastName +
+        connectionPool.sanitizeString(lastName) +
         ", email = " +
-        email;
+        connectionPool.sanitizeString(email);
     connectionPool.handleAPI(
         null,
         [firstName, lastName, email],
@@ -102,7 +102,7 @@ router.post("/newID", function(req, res) {
         3,
         query,
         val => {
-            res.json(val.insertId);
+            res.json(val);
         },
         () => {
             res.json({ message: "An Error has Occurred." });
