@@ -20,37 +20,37 @@ function MainMap() {
         1: {
             icon: {
                 url: iconBase + "blue_num.png",
-                scaledSize: new google.maps.Size(25, 38)
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         2: {
             icon: {
                 url: iconBase + "lime_num.png",
-                scaledSize: new google.maps.Size(25, 38)
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         3: {
             icon: {
                 url: iconBase + "navy_num.png",
-                scaledSize: new google.maps.Size(25, 38)
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         4: {
             icon: {
                 url: iconBase + "aqua_num.png",
-                scaledSize: new google.maps.Size(25, 38)
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         5: {
             icon: {
                 url: iconBase + "olive_num.png",
-                scaledSize: new google.maps.Size(25, 38)
+                scaledSize: new google.maps.Size(23, 36)
             }
         },
         6: {
             icon: {
                 url: iconBase + "black_num.png",
-                scaledSize: new google.maps.Size(25, 38)
+                scaledSize: new google.maps.Size(23, 36)
             }
         }
     };
