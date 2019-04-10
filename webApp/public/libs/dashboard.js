@@ -199,6 +199,9 @@ function MainMap() {
                     infoWindow.setContent(infowincontent);
                     infoWindow.open(map, marker);
                 });
+                marker.addListener("mouseout", function() {
+                    infoWindow.close();
+                });
             });
         }
     });
