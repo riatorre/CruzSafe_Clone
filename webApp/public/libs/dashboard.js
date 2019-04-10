@@ -4,8 +4,8 @@
 
 function MainMap() {
     var map = new google.maps.Map(document.getElementById("MainMap"), {
-        center: new google.maps.LatLng(36.9916, -122.0583),
-        zoom: 15,
+        center: new google.maps.LatLng(36.975681, -122.05285),
+        zoom: 14,
         mapTypeId: "hybrid",
         styles: [
             {
