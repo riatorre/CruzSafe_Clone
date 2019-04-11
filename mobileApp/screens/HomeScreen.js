@@ -28,11 +28,9 @@ import {
 } from "native-base";
 import { Permissions, Notifications } from "expo";
 import styles from "../components/styles.js";
-import tutorialParams from "../navigation/AppNavigator";
 
 const LATITUDE = "36.9916";
 const LONGITUDE = "-122.0583";
-var tutorialMode = true;
 const newPre_report = {
     incidentDesc: "",
     incidentCategory: "",
@@ -42,6 +40,13 @@ const newPre_report = {
     unchangedLocation: true,
     imageURI: null
 };
+//Initialize tutorialParams. We will later pull the proper parameters.
+var tutorialParams = {
+    tips: false,
+    reportOnboarding: false,
+    historyOnboarding: false,
+    sidebarOnboarding: false
+};
 
 class HomeScreen extends Component {
     async continue() {
@@ -49,29 +54,6 @@ class HomeScreen extends Component {
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeItem("unsub_report", pre_report);
-        }
-        console.log("tutorialParams: " + tutorialParams);
-        console.log("reportOnboarding: " + tutorialParams.reportOnboarding);
-        if (tutorialParams.reportOnboarding == true) {
-            Alert.alert(
-                "Tour",
-                "Would you like to take a tour of how to create a report?",
-                [
-                    {
-                        text: "Yes",
-                        onPress: () => {
-                            //enter tutorial
-                            console.log("entering tutorial");
-                        }
-                    },
-                    {
-                        text: "No",
-                        onPress: () => {
-                            tutorialParams.reportOnboarding = false;
-                        }
-                    }
-                ]
-            );
         }
         if (
             pre_report.incidentCategory !== "" ||
@@ -170,6 +152,30 @@ class HomeScreen extends Component {
             });
     }
 
+    async askReport() {
+        if (tutorialParams.reportOnboarding == true) {
+            Alert.alert(
+                "Tip",
+                "To get started, press the green report button.",
+                [
+                    {
+                        text: "Got it",
+                        onPress: () => {
+                            //enter tutorial
+                            console.log("Got it");
+                        }
+                    },
+                    {
+                        text: "Stop showing tips",
+                        onPress: () => {
+                            tutorialParams.reportOnboarding = false;
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
     // When the user create a report, start detecting previous unsubmitted report
     async handleReport(visible) {
         this.delay = setTimeout(() => {
@@ -184,6 +190,12 @@ class HomeScreen extends Component {
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    async getTutorialParams() {
+        tutorialParams = JSON.parse(
+            await AsyncStorage.getItem("tutorialParams")
+        );
     }
 
     async getMobileID() {
@@ -242,6 +254,8 @@ class HomeScreen extends Component {
     async componentDidMount() {
         this._isMounted = true;
         await this.checkLogin();
+        await this.getTutorialParams();
+        await this.askReport();
         this.getNotificationPermission();
     }
 

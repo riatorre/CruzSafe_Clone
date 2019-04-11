@@ -50,7 +50,13 @@ const newPre_report = {
     imageURI: null
 };
 
-var tutorialParams = { reportOnboarding: true, tips: true };
+//Initialize tutorialParams. We will later pull the proper parameters.
+var tutorialParams = {
+    tips: false,
+    reportOnboarding: false,
+    historyOnboarding: false,
+    sidebarOnboarding: false
+};
 function createIncidentTypePicker(props) {
     return (
         <TouchableOpacity

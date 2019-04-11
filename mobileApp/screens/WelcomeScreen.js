@@ -158,8 +158,13 @@ class WelcomeScreen extends Component {
         );
         this.props.navigation.navigate("App");
 
-        //will contain boolean of whether the user wants tips and whether they have viewed certain parts of the app
-        var tutorialParams = { reportOnboarding: true, tips: true };
+        //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
+        var tutorialParams = {
+            tips: true,
+            reportOnboarding: true,
+            historyOnboarding: true,
+            sidebarOnboarding: true
+        };
         await AsyncStorage.setItem(
             "tutorialParams",
             JSON.stringify(tutorialParams)
