@@ -121,6 +121,7 @@ class ReportScreen extends Component {
                         text: "No",
                         onPress: () => {
                             tutorialParams.reportOnboarding = false;
+                            this.setTutorialParams();
                         }
                     }
                 ]
@@ -147,6 +148,7 @@ class ReportScreen extends Component {
                         text: "Stop showing tips",
                         onPress: () => {
                             tutorialParams.tips = false;
+                            this.setTutorialParams();
                         }
                     }
                 ]
@@ -202,7 +204,10 @@ class ReportScreen extends Component {
 
     async setTutorialParams() {
         try {
-            await AsyncStorage.setItem(tutorialParams);
+            await AsyncStorage.setItem(
+                "tutorialParams",
+                JSON.stringify(tutorialParams)
+            );
         } catch (error) {
             console.log(error.message);
         }
