@@ -109,16 +109,42 @@ class ReportScreen extends Component {
         ) {
             Alert.alert(
                 "Tour",
-                "You are currently in tour mode, so the emergency and non-emergency buttons will not actually call dispatch services and generated reports will not actually be submitted.",
+                "Would you like to take a tour of how to create a report?",
                 [
                     {
-                        text: "got it",
+                        text: "Yes",
+                        onPress: () => {
+                            this.tourWarning();
+                        }
+                    },
+                    {
+                        text: "No",
+                        onPress: () => {
+                            tutorialParams.reportOnboarding = false;
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    tourWarning() {
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Tour",
+                "You are currently in tour mode, so this first report will not actually be submitted.",
+                [
+                    {
+                        text: "Got it",
                         onPress: () => {
                             console.log("in tour mode");
                         }
                     },
                     {
-                        text: "stop showing tips",
+                        text: "Stop showing tips",
                         onPress: () => {
                             tutorialParams.tips = false;
                         }
@@ -172,6 +198,14 @@ class ReportScreen extends Component {
         tutorialParams = JSON.parse(
             await AsyncStorage.getItem("tutorialParams")
         );
+    }
+
+    async setTutorialParams() {
+        try {
+            await AsyncStorage.setItem(tutorialParams);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     async getUnsubReport() {
@@ -518,9 +552,10 @@ class ReportScreen extends Component {
         });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this._isMounted = true;
-        this.getTutorialParams();
+        await this.getTutorialParams();
+        console.log("tutorial params are" + tutorialParams.reportOnboarding);
         this.getUnsubReport().then(pre_report => {
             this._isMounted &&
                 this.setState({

@@ -168,7 +168,7 @@ class HomeScreen extends Component {
                     {
                         text: "Stop showing tips",
                         onPress: () => {
-                            tutorialParams.reportOnboarding = false;
+                            tutorialParams.tips = false;
                         }
                     }
                 ]
