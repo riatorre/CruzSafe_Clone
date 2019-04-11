@@ -406,6 +406,12 @@ function renderfirstOpenedDelayHelper(data) {
 /*
     The following is imported code to convert MySQL TS to JS date.
 */
+
+function formatDate(mySQLDate, options) {
+    var jsDate = toDateFormat(mySQLDate);
+    return jsDate.toLocaleString("en-US", options);
+}
+
 function toDateFormat(mySQLDate) {
     return convertUTCDateToLocalDate(
         new Date(mySQLDate.substr(0, 10) + "T" + mySQLDate.substr(11, 8))
