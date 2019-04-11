@@ -31,7 +31,6 @@ if (localTest) {
     if (process.env.DB_INSTANCE_NAME && process.env.NODE_ENV === "production") {
         config.socketPath = "/cloudsql/" + process.env.DB_INSTANCE_NAME;
     }
-
     var connectionPool = mysql.createPool(config);
 }
 
