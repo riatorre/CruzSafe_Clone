@@ -5,6 +5,10 @@ var map;
 var both = { lat: 36.975681, lng: -122.05285 };
 var Main = { lat: 36.990468, lng: -122.05824 };
 var Costal = { lat: 36.953909, lng: -122.06099 };
+var height = window.innerHeight;
+var D_Zoom = height < 937 ? 14 : 15;
+D_Zoom = D_Zoom == 14 ? (height < 637 ? 13 : 14) : 15;
+
 function CenterControl(controlDiv, map, center) {
     // We set up a variable for this since we're adding event listeners
     // later.
@@ -54,24 +58,24 @@ function CenterControl(controlDiv, map, center) {
     // to the current center of the control.
     goBoth.addEventListener("click", function() {
         map.setCenter(both);
-        map.setZoom(14);
+        map.setZoom(D_Zoom - 1);
     });
 
     goMain.addEventListener("click", function() {
         map.setCenter(Main);
-        map.setZoom(15);
+        map.setZoom(D_Zoom);
     });
 
     goCostal.addEventListener("click", function() {
         map.setCenter(Costal);
-        map.setZoom(15);
+        map.setZoom(D_Zoom);
     });
 }
 
 function MainMap() {
     map = new google.maps.Map(document.getElementById("MainMap"), {
         center: both,
-        zoom: 14,
+        zoom: D_Zoom - 1,
         mapTypeId: "hybrid",
         styles: [
             {
@@ -87,6 +91,14 @@ function MainMap() {
         rotateControl: false,
         fullscreenControl: false
     });
+    var onresize = function(e) {
+        //note i need to pass the event as an argument to the function
+        height = e.target.outerHeight;
+        D_Zoom = height < 1040 ? 14 : 15;
+        D_Zoom = D_Zoom == 14 ? (height < 637 ? 13 : 14) : 15;
+        map.setZoom(D_Zoom - 1);
+    };
+    window.addEventListener("resize", onresize);
     // Create the DIV to hold the control and call the CenterControl()
     // constructor
     // passing in this DIV.
@@ -143,7 +155,6 @@ function MainMap() {
             }
         }
     };
-
     // Change this depending on the name of your PHP or XML file
     downloadUrl("https://cruzsafe.appspot.com/api/reports/allReports", function(
         data
