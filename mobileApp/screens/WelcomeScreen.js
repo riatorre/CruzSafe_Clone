@@ -60,7 +60,7 @@ class WelcomeScreen extends Component {
                                 UCSC CruzSafe: Credentials
                             </Text>
                             <TextInput
-                                style={styles.textInput}
+                                style={styles.textInputWelcome}
                                 autoCapitalize="words"
                                 placeholder="First Name"
                                 onChangeText={userFirstName =>
@@ -69,7 +69,7 @@ class WelcomeScreen extends Component {
                                 value={this.state.userFirstName}
                             />
                             <TextInput
-                                style={styles.textInput}
+                                style={styles.textInputWelcome}
                                 autoCapitalize="words"
                                 placeholder="Last Name"
                                 onChangeText={userLastName =>
@@ -78,7 +78,7 @@ class WelcomeScreen extends Component {
                                 value={this.state.userLastName}
                             />
                             <TextInput
-                                style={styles.textInput}
+                                style={styles.textInputWelcome}
                                 autoCapitalize="none"
                                 placeholder="Email"
                                 onChangeText={userEmail =>

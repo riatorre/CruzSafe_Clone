@@ -92,6 +92,13 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#EEE",
         borderRadius: 5
     },
+    textInputWelcome: {
+        width: "90%",
+        margin: 1,
+        padding: 5,
+        backgroundColor: "#EEE",
+        borderRadius: 5
+    },
     picker: {
         padding: 2
     },

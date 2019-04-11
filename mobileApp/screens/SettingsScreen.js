@@ -3,7 +3,7 @@ import {
     Text,
     AsyncStorage,
     SafeAreaView,
-    Button,
+    TouchableOpacity,
     Platform
 } from "react-native";
 import {
@@ -64,7 +64,12 @@ class SettingsScreen extends Component {
                         <Right />
                     </Header>
                     <Content contentContainerStyle={styles.container}>
-                        <Button title="Sign Out" onPress={this._signOutAsync} />
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={this._signOutAsync}
+                        >
+                            <Text style={{ color: "white" }}>Sign Out</Text>
+                        </TouchableOpacity>
                     </Content>
                     <Footer style={styles.footer}>
                         <Left
