@@ -12,6 +12,48 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
+    reportContainer: {
+        flex: 0.95,
+        justifyContent: "center",
+        width: "90%"
+    },
+    reportBtnFull: {
+        marginTop: 5,
+        padding: 5,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#E8E5E5",
+        borderRadius: 10
+    },
+    reportBtnHalf: {
+        marginTop: 5,
+        padding: 5,
+        flex: 0.49,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#E8E5E5",
+        borderRadius: 10
+    },
+    reportBtnCancel: {
+        marginTop: 5,
+        padding: 5,
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#F26860"
+    },
+    reportBtnSubmit: {
+        marginTop: 5,
+        padding: 5,
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#7BCC53"
+    },
     header: {
         marginTop: StatusBar.currentHeight,
         backgroundColor: "#303060"
@@ -45,13 +87,10 @@ export default (styles = StyleSheet.create({
         padding: 10
     },
     textInput: {
-        margin: 5,
+        margin: 1,
         padding: 5,
-        width: "80%",
         backgroundColor: "#EEE",
-        borderColor: "gray",
-        borderWidth: 1,
-        marginTop: 8
+        borderRadius: 5
     },
     picker: {
         padding: 2
@@ -65,7 +104,7 @@ export default (styles = StyleSheet.create({
         marginTop: 2
     },
     btn: {
-        margin: 5,
+        margin: 1,
         padding: 5,
         flexDirection: "column",
         justifyContent: "center",
@@ -90,13 +129,12 @@ export default (styles = StyleSheet.create({
     dropdown_menu: {
         padding: 5,
         marginLeft: 5,
-        marginRight: 5,
+        flex: 1,
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
         backgroundColor: "#EEE",
-        borderColor: "gray",
-        borderWidth: 1
+        borderRadius: 5
     },
     itemContainer: {
         flex: 1,

@@ -613,129 +613,147 @@ class ReportScreen extends Component {
                         {/* Report Body goes here. Currently has
                                 a dropdown menu & a text field
                             */}
-                        <View style={{ flexDirection: "row" }}>
-                            <Text style={{ fontSize: 24 }}>Incident Type:</Text>
-                            <IncidentTypePicker homeScreen={this} />
-                        </View>
-                        <Text style={{ fontSize: 24 }}>
-                            Incident Description
-                        </Text>
-
-                        <TextInput
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            multiline={true}
-                            numberOfLines={6}
-                            placeholder="Please enter a description of the incident"
-                            onChangeText={incidentDesc => {
-                                var pre_report = this.state.pre_report;
-                                pre_report.incidentDesc = incidentDesc;
-                                this._isMounted &&
-                                    this.setState({
-                                        incidentDesc: incidentDesc,
-                                        pre_report: pre_report
-                                    });
-                                this.storeUnsubReport(pre_report);
-                            }}
-                            value={this.state.incidentDesc}
-                        />
-
-                        <Text style={{ fontSize: 24 }}>
-                            Description of Location
-                        </Text>
-
-                        <TextInput
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            multiline={true}
-                            numberOfLines={4}
-                            placeholder="Please describe the location of the Incident. (Floor #, room #, etc)"
-                            onChangeText={incidentLocationDesc => {
-                                var pre_report = this.state.pre_report;
-                                pre_report.incidentLocationDesc = incidentLocationDesc;
-                                this._isMounted &&
-                                    this.setState({
-                                        incidentLocationDesc: incidentLocationDesc,
-                                        pre_report: pre_report
-                                    });
-                                this.storeUnsubReport(pre_report);
-                            }}
-                            value={this.state.incidentLocationDesc}
-                        />
-                        {image && (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.Media();
+                        <View style={styles.reportContainer}>
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between"
                                 }}
                             >
-                                <View
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: "grey",
-                                        marginTop: 8,
-                                        marginBottom: 8
+                                <Text style={{ fontSize: 24 }}>
+                                    Incident Type:
+                                </Text>
+                                <IncidentTypePicker homeScreen={this} />
+                            </View>
+                            <Text style={{ fontSize: 24 }}>
+                                Incident Description:
+                            </Text>
+
+                            <TextInput
+                                style={styles.textInput}
+                                autoCapitalize="none"
+                                multiline={true}
+                                numberOfLines={4}
+                                placeholder="Please enter a description of the incident"
+                                onChangeText={incidentDesc => {
+                                    var pre_report = this.state.pre_report;
+                                    pre_report.incidentDesc = incidentDesc;
+                                    this._isMounted &&
+                                        this.setState({
+                                            incidentDesc: incidentDesc,
+                                            pre_report: pre_report
+                                        });
+                                    this.storeUnsubReport(pre_report);
+                                }}
+                                value={this.state.incidentDesc}
+                            />
+
+                            <Text style={{ fontSize: 24 }}>
+                                Description of Location:
+                            </Text>
+
+                            <TextInput
+                                style={styles.textInput}
+                                autoCapitalize="none"
+                                multiline={true}
+                                numberOfLines={2}
+                                placeholder="Please describe the location of the Incident. (Floor #, room #, etc)"
+                                onChangeText={incidentLocationDesc => {
+                                    var pre_report = this.state.pre_report;
+                                    pre_report.incidentLocationDesc = incidentLocationDesc;
+                                    this._isMounted &&
+                                        this.setState({
+                                            incidentLocationDesc: incidentLocationDesc,
+                                            pre_report: pre_report
+                                        });
+                                    this.storeUnsubReport(pre_report);
+                                }}
+                                value={this.state.incidentLocationDesc}
+                            />
+                            {image && (
+                                <View style={{ flex: 1 }}>
+                                    <Text style={{ fontSize: 24 }}>
+                                        Attachment:
+                                    </Text>
+                                    <TouchableOpacity
+                                        style={{
+                                            flex: 1,
+                                            marginTop: 5,
+                                            backgroundColor: "#E8E5E5",
+                                            borderRadius: 5
+                                        }}
+                                        onPress={() => {
+                                            this.Media();
+                                        }}
+                                    >
+                                        <Image
+                                            style={{
+                                                flex: 1,
+                                                height: undefined,
+                                                width: undefined
+                                            }}
+                                            source={{ uri: image }}
+                                            resizeMode="contain"
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            )}
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between"
+                                }}
+                            >
+                                {/* Button that allows Camera (Modal) to be opened */}
+                                <TouchableOpacity
+                                    style={styles.reportBtnHalf}
+                                    onPress={() => {
+                                        if (this.state.hasCameraPermission) {
+                                            this.props.navigation.navigate(
+                                                "Camera",
+                                                {
+                                                    callBack: this.returnFromCamera.bind(
+                                                        this
+                                                    )
+                                                }
+                                            );
+                                        } else {
+                                            alert(
+                                                "This feature requires Camera Permission to be Enabled"
+                                            );
+                                        }
                                     }}
                                 >
-                                    <Image
-                                        source={{ uri: image }}
-                                        style={{
-                                            width: 125,
-                                            height: 75
-                                        }}
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-camera`}
+                                        style={{ color: "black" }}
                                     />
-                                </View>
-                            </TouchableOpacity>
-                        )}
-                        <View style={{ flexDirection: "row" }}>
-                            {/* Button that allows Camera (Modal) to be opened */}
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    if (this.state.hasCameraPermission) {
-                                        this.props.navigation.navigate(
-                                            "Camera",
-                                            {
-                                                callBack: this.returnFromCamera.bind(
-                                                    this
-                                                )
-                                            }
-                                        );
-                                    } else {
-                                        alert(
-                                            "This feature requires Camera Permission to be Enabled"
-                                        );
-                                    }
-                                }}
-                            >
-                                <Icon
-                                    name={`${
-                                        Platform.OS === "ios" ? "ios" : "md"
-                                    }-camera`}
-                                    style={{ color: "white" }}
-                                />
-                                <Text style={{ color: "white" }}>
-                                    Open Camera
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.pickImage();
-                                }}
-                            >
-                                <Icon
-                                    name={`${
-                                        Platform.OS === "ios" ? "ios" : "md"
-                                    }-image`}
-                                    style={{ color: "white" }}
-                                />
-                                <Text style={{ color: "white" }}>
-                                    Open Gallery
-                                </Text>
-                            </TouchableOpacity>
+                                    <Text style={{ color: "black" }}>
+                                        Camera
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.reportBtnHalf}
+                                    onPress={() => {
+                                        this.pickImage();
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-image`}
+                                        style={{ color: "black" }}
+                                    />
+                                    <Text style={{ color: "black" }}>
+                                        Gallery
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                             {/* Button that allows Location (Modal) to be opened */}
                             <TouchableOpacity
-                                style={styles.btn}
+                                style={styles.reportBtnFull}
                                 onPress={() => {
                                     if (this.state.hasLocationPermission) {
                                         this.props.navigation.navigate(
@@ -757,68 +775,79 @@ class ReportScreen extends Component {
                                     name={`${
                                         Platform.OS === "ios" ? "ios" : "md"
                                     }-pin`}
-                                    style={{ color: "white" }}
+                                    style={{ color: "black" }}
                                 />
-                                <Text style={{ color: "white" }}>
+                                <Text style={{ color: "black" }}>
                                     Mark on Map
                                 </Text>
                             </TouchableOpacity>
-                        </View>
-                        <View style={{ flexDirection: "row" }}>
-                            {/* Button that allows Modal to be closed */}
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    goBack();
+                            <View
+                                style={{
+                                    flexDirection: "row",
+                                    justifyContent: "space-between"
                                 }}
                             >
-                                <Icon
-                                    name={`${
-                                        Platform.OS === "ios" ? "ios" : "md"
-                                    }-close`}
-                                    style={{ color: "white" }}
-                                />
-                                <Text style={{ color: "white" }}>Cancel</Text>
-                            </TouchableOpacity>
-                            {/* Button that allows report to be sent */}
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    if (
-                                        this.state.incidentCategory != "" &&
-                                        this.state.incidentDesc != "" &&
-                                        this.state.incidentLocationDesc != ""
-                                    ) {
-                                        this.handleSubmit();
-                                    } else {
-                                        Alert.alert(
-                                            "Empty report",
-                                            "Please select an Incident Type and provide a Description of the Incident and Location.",
-                                            [
-                                                {
-                                                    text: "Back to edit",
-                                                    onPress: () => {}
-                                                },
-                                                {
-                                                    text: "Cancel the report",
-                                                    onPress: () => {
-                                                        goBack();
+                                {/* Button that allows Modal to be closed */}
+                                <TouchableOpacity
+                                    style={styles.reportBtnCancel}
+                                    onPress={() => {
+                                        goBack();
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-close`}
+                                        style={{ color: "white" }}
+                                    />
+                                    <Text style={{ color: "white" }}>
+                                        Cancel
+                                    </Text>
+                                </TouchableOpacity>
+                                {/* Button that allows report to be sent */}
+                                <TouchableOpacity
+                                    style={styles.reportBtnSubmit}
+                                    onPress={() => {
+                                        if (
+                                            this.state.incidentCategory != "" &&
+                                            this.state.incidentDesc != "" &&
+                                            this.state.incidentLocationDesc !=
+                                                ""
+                                        ) {
+                                            this.handleSubmit();
+                                        } else {
+                                            Alert.alert(
+                                                "Empty report",
+                                                "Please select an Incident Type and provide a Description of the Incident and Location.",
+                                                [
+                                                    {
+                                                        text: "Back to edit",
+                                                        onPress: () => {}
+                                                    },
+                                                    {
+                                                        text:
+                                                            "Cancel the report",
+                                                        onPress: () => {
+                                                            goBack();
+                                                        }
                                                     }
-                                                }
-                                            ],
-                                            { cancelable: false }
-                                        );
-                                    }
-                                }}
-                            >
-                                <Icon
-                                    name={`${
-                                        Platform.OS === "ios" ? "ios" : "md"
-                                    }-send`}
-                                    style={{ color: "white" }}
-                                />
-                                <Text style={{ color: "white" }}>Submit</Text>
-                            </TouchableOpacity>
+                                                ],
+                                                { cancelable: false }
+                                            );
+                                        }
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-send`}
+                                        style={{ color: "white" }}
+                                    />
+                                    <Text style={{ color: "white" }}>
+                                        Submit
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </Content>
                     <Footer style={styles.footer}>
