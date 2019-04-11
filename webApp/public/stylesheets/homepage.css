@@ -2,9 +2,13 @@ html,
 body {
     background-color: #113f67;
 }
-
-p {
-    color: white;
+hr {
+    border: 0.3px solid grey;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.gm-style .gm-style-iw {
+    color: #113f67;
 }
 #goBoth,
 #goMain,

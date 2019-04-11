@@ -92,11 +92,10 @@ function MainMap() {
     // passing in this DIV.
     var centerControlDiv = document.createElement("div");
     var centerControl = new CenterControl(centerControlDiv, map, both);
-
+    var infoWindow = new google.maps.InfoWindow();
     centerControlDiv.index = 1;
     centerControlDiv.style["padding-top"] = "10px";
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(centerControlDiv);
-    var infoWindow = new google.maps.InfoWindow();
     var iconBase = "https://storage.googleapis.com/cruzsafe.appspot.com/";
     var tagList = {
         1: "Water Leak",
@@ -154,7 +153,19 @@ function MainMap() {
             Array.prototype.forEach.call(reportInfo, function(report) {
                 var id = report["incidentID"];
                 var tag = report["tag"];
-                var time = report["reportTS"];
+                var reportTS = report["reportTS"];
+                var date = formatDate(reportTS, {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour12: false
+                });
+                var time = formatDate(reportTS, {
+                    hour: "numeric",
+                    minute: "numeric",
+                    second: "numeric",
+                    hour12: false
+                });
                 var location = report["location"];
                 var body = report["body"];
                 var point = new google.maps.LatLng(
@@ -162,36 +173,37 @@ function MainMap() {
                     parseFloat(report["longitude"])
                 );
                 var Cicon = customIcon[tag] || {};
-                var infowincontent = document.createElement("div");
                 var tagName = tagList[tag];
-                var tag_text = document.createElement("strong");
-                tag_text.textContent = tagName;
-                infowincontent.appendChild(tag_text);
-                infowincontent.appendChild(document.createElement("br"));
-
-                var location_text = document.createElement("text");
-                location_text.textContent = "Location: " + location;
-                infowincontent.appendChild(location_text);
-                infowincontent.appendChild(document.createElement("br"));
-
-                var body_text = document.createElement("text");
-                body_text.textContent = "Description: " + body;
-                infowincontent.appendChild(body_text);
-                infowincontent.appendChild(document.createElement("br"));
-
-                var time_text = document.createElement("text");
-                body_text.textContent = "Report time: " + time;
-                infowincontent.appendChild(time_text);
-
-                var id_text = document.createElement("text");
-                id_text.textContent = "Incident #: " + id;
-                infowincontent.appendChild(id_text);
+                var infowincontent =
+                    '<div id="content">' +
+                    "<hr>" +
+                    '<h5 style="font-size:20px">' +
+                    tagName +
+                    "</h5>" +
+                    "<hr>" +
+                    '<p style="font-size:15px"><b>Location: </b>' +
+                    location +
+                    "</p>" +
+                    '<p style="font-size:15px"><b>Description: </b>' +
+                    body +
+                    "</p>" +
+                    '<p style="font-size:15px"><b>Date: </b>' +
+                    date +
+                    "</p>" +
+                    '<p style="font-size:15px"><b>Time: </b>' +
+                    time +
+                    "</p>" +
+                    '<p style="font-size:15px"><b>Incident #: </b>' +
+                    id +
+                    "</p>" +
+                    "</div>";
 
                 var marker = new google.maps.Marker({
                     map: map,
                     position: point,
                     icon: Cicon.icon
                 });
+
                 marker.addListener("click", function() {
                     displayReport(id, false);
                 });
