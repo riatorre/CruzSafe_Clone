@@ -12,7 +12,6 @@ body {
 }
 
 .filterOptions {
-    position: relative;
     padding: 20px;
     -moz-border-radius: 8;
     -webkit-border-radius: 8px;
@@ -55,11 +54,6 @@ body {
 .filterOptions .btn:hover {
     background-color: slategray;
 }
-
-/*.filterOptions i.fa-bars {
-    font-size: 1.8em;
-    font-weight: bold;
-}*/
 
 .filterOptions.responsive {
     position: relative;
@@ -121,59 +115,6 @@ body {
     text-align: left;
     display: flex;
     white-space: pre;
-}
-
-.reportColumn {
-    padding: 10px;
-    background-clip: content-box;
-    background-color: slategray;
-}
-
-.modal-content .row.leaf,
-.modal-content .column.leaf {
-    min-height: auto;
-}
-
-.reportCompletebtn {
-    width: 100%;
-    margin: 0px;
-    display: flex;
-    justify-content: center;
-}
-
-.reportNotes {
-    text-align: left;
-    border-width: 2px;
-    border-color: gray;
-    border-style: ridge;
-    background-color: white;
-    overflow: auto;
-    min-height: 10vh;
-    height: 60%;
-    max-height: 40vh;
-    width: 100%;
-}
-
-.reportNotes > :nth-child(even) {
-    background-color: silver;
-}
-
-.notesInput {
-    display: inline-flex;
-    width: 100%;
-}
-
-.notesInput input {
-    width: 90%;
-}
-
-.dropdown {
-    width: 100%;
-    display: inline-flex;
-}
-
-.dropdown select {
-    width: 90%;
 }
 
 .buttonResolvedUnresolved,
@@ -256,18 +197,8 @@ body {
     }
 }
 
-@media all and (max-width: 599px) {
-    /*.filterOptions i.fa-bars {
-        font-size: 1.6em;
-    }*/
-}
-
 @media screen and (max-width: 600px) {
     .reportList {
         max-height: 250px;
-    }
-    .reportColumn {
-        padding: 0px;
-        background-clip: initial;
     }
 }

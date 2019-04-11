@@ -106,7 +106,10 @@ function createReportModal() {
     // All options that do not fit elsewhere
     const optionBtns = document.createElement("DIV");
     optionBtns.setAttribute("class", "row threeEighths leaf leftAlign");
+
     optionBtns.innerHTML =
+        "<span><input id='workOrderNum' placeholder='Assign a workorder #'/><a id='workOrderBtn' class='btn rounded navy'>Assign Workorder #</a></span>";
+    optionBtns.innerHTML +=
         "<span class='dropdown'><select id='messageDropdown' autocomplete='off' onchange='checkCustom()'></select><input id='customResponse' style='display:none' placeholder='Enter a Custom Response'/><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
     optionBtns.innerHTML +=
         "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'></select><a id='forwardBtn' class='btn rounded navy'>Assign Report</a></span>";
