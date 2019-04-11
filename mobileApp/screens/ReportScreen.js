@@ -114,7 +114,7 @@ class ReportScreen extends Component {
                     {
                         text: "Yes",
                         onPress: () => {
-                            this.tourWarning();
+                            this.tourTip();
                         }
                     },
                     {
@@ -129,7 +129,7 @@ class ReportScreen extends Component {
         }
     }
 
-    tourWarning() {
+    tourTip() {
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
@@ -141,7 +141,142 @@ class ReportScreen extends Component {
                     {
                         text: "Got it",
                         onPress: () => {
-                            console.log("in tour mode");
+                            this.selectionTip();
+                        }
+                    },
+                    {
+                        text: "Stop showing tips",
+                        onPress: () => {
+                            tutorialParams.tips = false;
+                            this.setTutorialParams();
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    selectionTip() {
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Tip",
+                "Select the type of issue you want to report. For example, if you think the area is too dark, select  “Lighting Deficiency”.",
+                [
+                    {
+                        text: "Got it",
+                        onPress: () => {
+                            this.descriptionTip();
+                        }
+                    },
+                    {
+                        text: "Stop showing tips",
+                        onPress: () => {
+                            tutorialParams.tips = false;
+                            this.setTutorialParams();
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    descriptionTip() {
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Tip",
+                "Enter a detailed description of the incident. Eg, “I almost tripped in the hall because it is very dark.”",
+                [
+                    {
+                        text: "Got it",
+                        onPress: () => {
+                            this.locationTip();
+                        }
+                    },
+                    {
+                        text: "Stop showing tips",
+                        onPress: () => {
+                            tutorialParams.tips = false;
+                            this.setTutorialParams();
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    locationTip() {
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Tip",
+                "Enter a clear description of the location. Eg, “Hallway outside Baskin 116.”",
+                [
+                    {
+                        text: "Got it",
+                        onPress: () => {
+                            this.cameraTip();
+                        }
+                    },
+                    {
+                        text: "Stop showing tips",
+                        onPress: () => {
+                            tutorialParams.tips = false;
+                            this.setTutorialParams();
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    cameraTip() {
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Tip",
+                "If you wish to take a photo or video to add to the report, press the “Open Camera” button. If you would prefer to select one from the gallery, press “Open Gallery”.",
+                [
+                    {
+                        text: "Got it",
+                        onPress: () => {
+                            this.photoViewTip();
+                        }
+                    },
+                    {
+                        text: "Stop showing tips",
+                        onPress: () => {
+                            tutorialParams.tips = false;
+                            this.setTutorialParams();
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    photoViewTip() {
+        if (
+            tutorialParams.reportOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Tip",
+                "You can click on the photo/video above if you wish to view the full-size image.",
+                [
+                    {
+                        text: "Got it",
+                        onPress: () => {
+                            console.log("all the tips for now");
                         }
                     },
                     {
