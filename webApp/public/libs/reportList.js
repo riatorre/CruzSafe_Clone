@@ -148,6 +148,22 @@ function createReportButton(report) {
     const tableRow = document.createElement("tr");
     button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
 
+    const box = document.createElement("td");
+    box.setAttribute("class", "checkbox");
+
+    const label = document.createElement("label");
+    label.setAttribute("class", "container");
+
+    const check = document.createElement("input");
+    check.setAttribute("type", "checkbox");
+
+    const span = document.createElement("span");
+    span.setAttribute("class", "checkmark");
+
+    label.appendChild(check);
+    label.appendChild(span);
+    box.appendChild(label);
+
     const resolvedUnresolved = report["resolvedUnresolved"];
     const resolvedUnresolvedFinalText = document.createElement("td");
     var resolvedUnresolvedText = document.createElement("b");
@@ -195,7 +211,7 @@ function createReportButton(report) {
     const bodyText = document.createElement("td");
     bodyText.setAttribute("class", "buttonBodyText");
     bodyText.innerHTML = report["body"];
-
+    tableRow.appendChild(box);
     tableRow.appendChild(resolvedUnresolvedFinalText);
     tableRow.appendChild(reportIDText);
     tableRow.appendChild(incidentIDText);
