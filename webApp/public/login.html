@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CruzSafe: Login</title>
+        <!--Import Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+        <!--Imports External Icon Font Library-->
+        <!--TODO: Install all needed Icons & remove external dependency-->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+    </head>
+    <body>
+        <div class="column leaf">
+            <form action="/login.html" method="POST">
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                    autocomplete="off"
+                />
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    autocomplete="off"
+                />
+                <button class="btn large rounded navy" type="submit">
+                    Login
+                </button>
+            </form>
+        </div>
+    </body>
+    <script>
+        function _handleLogin() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            console.log(username + " " + password);
+            if (username != "" && password != "") {
+                const request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                    }
+                };
+                request.open("POST", "http://localhost:8080/login");
+                request.send(
+                    JSON.stringify({ username: username, password: password })
+                );
+            }
+        }
+    </script>
+</html>

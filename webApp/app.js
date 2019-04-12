@@ -7,9 +7,12 @@
 
 const express = require("express");
 const passport = require("passport");
+const session = require("express-session");
 const passport_SAML = require("passport-saml").Strategy;
+const localStrategy = require("passport-local").Strategy;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const connectionPool = require("./backend/DB/config");
 
 /*passport.use(
     new passport_SAML(
@@ -39,6 +42,77 @@ const assignments = require("./backend/routes/assignments");
 
 const app = express();
 
+app.use(express.static(__dirname + "/public/static"));
+
+app.use(
+    session({
+        secret: "REEEEEE",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }
+    })
+);
+
+// Sets Default to public folder; allows for transfer of all files in public folder
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user);
+});
+
+passport.deserializeUser(function(id, cb) {
+    findById(id, function(err, user) {
+        cb(err, user);
+    });
+});
+
+function findById(id, cb) {
+    const query = "SELECT * FROM webUsers WHERE webID = " + id;
+    connectionPool.handleAPI(
+        id,
+        null,
+        1,
+        1,
+        query,
+        user => {
+            cb(null, user);
+        },
+        err => {
+            cb(err, null);
+        }
+    );
+}
+
+passport.use(
+    new localStrategy(function(username, password, done) {
+        const query =
+            "SELECT webID FROM webUsers WHERE username = '" +
+            username +
+            "' AND PW = '" +
+            password +
+            "'";
+        connectionPool.handleAPI(
+            null,
+            null,
+            0,
+            0,
+            query,
+            val => {
+                if (val) {
+                    return done(null, val[0].webID);
+                } else {
+                    return done(null, false);
+                }
+            },
+            err => {
+                return done(err);
+            }
+        );
+    })
+);
+
 app.use(cors());
 // Sets up app to allow for JSON parsing
 app.use(bodyParser.json());
@@ -63,12 +137,36 @@ app.get("/welcome.html", function(req, res) {
     res.redirect("/");
 });
 
+app.get("/login.html", function(req, res) {
+    res.sendFile("login.html", {
+        root: __dirname + "/public"
+    });
+});
+
+app.post("/login.html", function(req, res, next) {
+    passport.authenticate(
+        "local",
+        function(err, user, info) {
+            if (err) {
+            } else if (info) {
+            } else {
+                req.login(user, function(err) {
+                    if (err) {
+                    } else {
+                        res.redirect("/homepage.html");
+                    }
+                });
+            }
+        },
+        { successRedirect: "/homepage.html", failureRedirect: "/login.html" }
+    )(req, res, next);
+});
+
 // Sets up Access Control for any page that is not the welcome page
 // Only affects html pages; should not affect APIs, images, css, js, etc pages/files
 // Uncomment out portion below in order to enable Authentication Verification
-//app.use("/*.html", verifyAuthentication);
+app.use(/^\/(.*)\.html\/?$/i, verifyAuthentication);
 
-// Sets Default to public folder; allows for transfer of all files in public folder
 app.use(express.static(__dirname + "/public"));
 
 // Arthur's attempt at making gae work
@@ -90,12 +188,9 @@ setInterval(clearExpiredReports, 86400000);
 // Utilizes a function from Passport.js to determine if user is Authenticated
 function verifyAuthentication(req, res, next) {
     if (req.isAuthenticated()) {
-        myConsole.log("User is Verified");
         return next();
-    } else {
-        myConsole.log("User is Not Verified; redirecting to Welcome page");
-        res.redirect("/");
     }
+    res.redirect("/");
 }
 /*
  *  Function used to clear all reports that have passed their expiry date
