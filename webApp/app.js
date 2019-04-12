@@ -12,27 +12,9 @@ const passport_SAML = require("passport-saml").Strategy;
 const localStrategy = require("passport-local").Strategy;
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const connectionPool = require("./backend/DB/config");
-
-/*passport.use(
-    new passport_SAML(
-        {
-            path: "",
-            entryPoint: "https://login.ucsc.edu/idp/shibboleth",
-            issuer: "https://cruzsafe.appspot.com/shibboleth"
-        },
-        function(profile, done) {
-            findByEmail(profile.email, function(err, user) {
-                if (err) {
-                    return done(err);
-                }
-                return done(null, user);
-            });
-        }
-    )
-);*/
 
 // Imports of our files
+const connectionPool = require("./backend/DB/config");
 const myConsole = require("./backend/utilities/customConsole");
 const users = require("./backend/routes/users");
 const reports = require("./backend/routes/reports");
@@ -41,22 +23,6 @@ const facilities = require("./backend/routes/facilities");
 const assignments = require("./backend/routes/assignments");
 
 const app = express();
-
-app.use(express.static(__dirname + "/public/static"));
-
-app.use(
-    session({
-        secret: "REEEEEE",
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false }
-    })
-);
-
-// Sets Default to public folder; allows for transfer of all files in public folder
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 passport.serializeUser(function(user, cb) {
     cb(null, user);
@@ -85,6 +51,56 @@ function findById(id, cb) {
     );
 }
 
+// Allow for Cross Origin Requests
+app.use(cors());
+// Sets up app to allow for JSON parsing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/favicon.ico", function(req, res) {
+    res.sendFile("favicon.ico", { root: __dirname + "/public" });
+});
+app.use(express.static(__dirname + "/public/static"));
+
+//Use the Router on the sub routes
+app.use("/api/users", users);
+app.use("/api/reports", reports);
+app.use("/api/messages", messages);
+app.use("/api/facilities", facilities);
+app.use("/api/assignments", assignments);
+
+app.use(
+    session({
+        secret: "REEEEEE",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// SAML Strategy for Passport; Utilizes Shibboleth
+/*passport.use(
+    new passport_SAML(
+        {
+            path: "",
+            entryPoint: "https://login.ucsc.edu/idp/shibboleth",
+            issuer: "https://cruzsafe.appspot.com/shibboleth"
+        },
+        function(profile, done) {
+            findByEmail(profile.email, function(err, user) {
+                if (err) {
+                    return done(err);
+                }
+                return done(null, user);
+            });
+        }
+    )
+);*/
+
+// Local Strategy for Passport
 passport.use(
     new localStrategy(function(username, password, done) {
         const query =
@@ -113,18 +129,6 @@ passport.use(
     })
 );
 
-app.use(cors());
-// Sets up app to allow for JSON parsing
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-//Use the Router on the sub routes
-app.use("/api/users", users);
-app.use("/api/reports", reports);
-app.use("/api/messages", messages);
-app.use("/api/facilities", facilities);
-app.use("/api/assignments", assignments);
-
 // Sets default page to welcome.html
 app.get("/", function(req, res) {
     res.sendFile("welcome.html", {
@@ -137,21 +141,26 @@ app.get("/welcome.html", function(req, res) {
     res.redirect("/");
 });
 
+// Catch for login.html; allows for user to navigate here w/o authentication
 app.get("/login.html", function(req, res) {
     res.sendFile("login.html", {
         root: __dirname + "/public"
     });
 });
 
+// Handles form data for login.html; Logs user in
 app.post("/login.html", function(req, res, next) {
     passport.authenticate(
         "local",
         function(err, user, info) {
             if (err) {
+                myConsole.error(err);
             } else if (info) {
+                myConsole.log(info);
             } else {
                 req.login(user, function(err) {
                     if (err) {
+                        myConsole.error(err);
                     } else {
                         res.redirect("/homepage.html");
                     }
@@ -167,7 +176,12 @@ app.post("/login.html", function(req, res, next) {
 // Uncomment out portion below in order to enable Authentication Verification
 app.use(/^\/(.*)\.html\/?$/i, verifyAuthentication);
 
+// Serves the rest of the HTML files as static files
 app.use(express.static(__dirname + "/public"));
+
+app.get("*", function(req, res) {
+    res.status(404).sendFile("404.html", { root: __dirname });
+});
 
 // Arthur's attempt at making gae work
 if (module == require.main) {
