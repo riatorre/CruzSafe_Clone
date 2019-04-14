@@ -133,6 +133,24 @@ router.post("/allOpenedReports", function(req, res) {
     );
 });
 
+// Get all reportIDs, initialOpenTS and completeTS.
+router.post("/reportAllTS", function(req, res) {
+    var query = "SELECT reportID, initialOpenTS, completeTS FROM reports";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 /*
     Given a dictionary of key: value = columnTitle:value,
     returns all reportIDs adhering to those constraints.

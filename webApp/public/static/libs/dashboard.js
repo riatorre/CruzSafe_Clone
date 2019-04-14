@@ -250,25 +250,85 @@ function renderReportsOverview() {
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             reports = JSON.parse(request.response);
-            data = [0, 0, 0];
-            Array.from(reports).forEach(function(report) {
-                if (report["initialOpenWebID"] == null) {
-                    // Number of Unread reports
-                    data[0]++;
-                } else if (report["completeWebID"] == null) {
-                    // Number of Read but not completed reports
-                    data[1]++;
-                } else {
-                    // Number of completed reports
-                    data[2]++;
-                }
-            });
-            renderReportsOverviewHelper(data);
+            renderReportsOverviewFacilities(reports);
         }
     };
-    request.open("POST", "https://cruzsafe.appspot.com/api/reports/allReports");
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/reportAllTS"
+    );
     request.send();
 }
+/*
+    Now that we have all of the report IDs, we will cross-reference that list with the assignments that have been made. 
+*/
+function renderReportsOverviewFacilities(reports) {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            assignments = Array.from(JSON.parse(request.response));
+
+            var facilityDict = {
+                0: {
+                    facilityName: "Unassigned",
+                    new: 0,
+                    incomplete: 0,
+                    complete: 0
+                }
+            }; // Intialzied with empty.
+            var assignedReports = []; // Keeping track of what reports to skip over
+            // Create a dictionary of key:value = facilityID:facilityObject
+            assignments.forEach(function(assignment) {
+                const facilityID = assignment["facilityID"];
+                if (!(facilityID in facilityDict)) {
+                    var newFacility = {
+                        facilityName: assignment["facilityName"],
+                        new: 0,
+                        incomplete: 0,
+                        complete: 0
+                    };
+                    facilityDict[facilityID] = newFacility;
+                }
+                // Increment the information.
+                if (assignment["completeTS"]) {
+                    // Complete
+                    facilityDict[facilityID].complete++;
+                } else if (assignment["initialOpenTS"]) {
+                    // Incomplete
+                    facilityDict[facilityID].incomplete++;
+                } else {
+                    // New
+                    facilityDict[facilityID].new++;
+                }
+            });
+            Array.from(reports).forEach(function(report) {
+                if (!assignedReports.includes(report["reportID"])) {
+                    // Has not been assigned
+                    if (report["completeTS"]) {
+                        // Complete
+                        facilityDict[0].complete++;
+                    } else if (report["initialOpenTS"]) {
+                        // Incomplete
+                        facilityDict[0].incomplete++;
+                    } else {
+                        // New
+                        facilityDict[0].new++;
+                    }
+                }
+            });
+            console.log(facilityDict);
+            //renderReportsOverviewHelper(facilityDict);
+        }
+    };
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/assignments/facilityAssignments"
+    );
+    request.send();
+}
+/*
+    Takes in filled facilityDict with facilityID:facilityObj {facilityName, complete, incomplete, new}
+*/
 function renderReportsOverviewHelper(data) {
     var ctx = document.getElementById("reportsOverviewChart").getContext("2d");
     var firstOpenedDelayChart = new Chart(ctx, {
