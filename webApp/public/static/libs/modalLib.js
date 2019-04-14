@@ -24,7 +24,8 @@ document.onkeydown = function(e) {
         if (modalGlobal) {
             // Checks to see if modal is open
             if (modalGlobal.style.display === "inline-flex") {
-                closeModal();
+                document.getElementById("close").click();
+                closeModal(); // If the abovecode doesn't work, just closes.
             }
         }
     }
