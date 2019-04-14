@@ -160,7 +160,7 @@ class WelcomeScreen extends Component {
 
         //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
         var tutorialParams = {
-            tips: true,
+            tips: false,
             reportOnboarding: true,
             historyOnboarding: true,
             sidebarOnboarding: true

@@ -153,7 +153,8 @@ class HomeScreen extends Component {
     }
 
     async askReport() {
-        if (tutorialParams.reportOnboarding == true) {
+        console.log(tutorialParams);
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             Alert.alert(
                 "Tip",
                 "To get started, press the green report button.",
@@ -252,10 +253,11 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
+        console.log("HS did mount");
         this._isMounted = true;
         await this.checkLogin();
-        await this.getTutorialParams();
         await this.askReport();
+        await this.getTutorialParams();
         this.getNotificationPermission();
     }
 
