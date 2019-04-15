@@ -270,10 +270,9 @@ function renderReportsOverviewFacilities(reports) {
 
             var facilityDict = {
                 0: {
-                    facilityName: "Unassigned",
-                    new: 0,
-                    incomplete: 0,
-                    complete: 0
+                    label: "Unassigned",
+                    data: [0, 0, 0],
+                    fillColor: "blue" // NOTE THIS IS HARD CODED.
                 }
             }; // Intialzied with empty.
             var assignedReports = []; // Keeping track of what reports to skip over
@@ -282,23 +281,22 @@ function renderReportsOverviewFacilities(reports) {
                 const facilityID = assignment["facilityID"];
                 if (!(facilityID in facilityDict)) {
                     var newFacility = {
-                        facilityName: assignment["facilityName"],
-                        new: 0,
-                        incomplete: 0,
-                        complete: 0
+                        label: assignment["facilityName"],
+                        data: [0, 0, 0],
+                        fillColor: assignment["color"]
                     };
                     facilityDict[facilityID] = newFacility;
                 }
                 // Increment the information.
                 if (assignment["completeTS"]) {
                     // Complete
-                    facilityDict[facilityID].complete++;
+                    facilityDict[facilityID].data[2]++;
                 } else if (assignment["initialOpenTS"]) {
                     // Incomplete
-                    facilityDict[facilityID].incomplete++;
+                    facilityDict[facilityID].data[1]++;
                 } else {
                     // New
-                    facilityDict[facilityID].new++;
+                    facilityDict[facilityID].data[0]++;
                 }
             });
             Array.from(reports).forEach(function(report) {
@@ -306,18 +304,18 @@ function renderReportsOverviewFacilities(reports) {
                     // Has not been assigned
                     if (report["completeTS"]) {
                         // Complete
-                        facilityDict[0].complete++;
+                        facilityDict[0].data[2]++;
                     } else if (report["initialOpenTS"]) {
                         // Incomplete
-                        facilityDict[0].incomplete++;
+                        facilityDict[0].data[1]++;
                     } else {
                         // New
-                        facilityDict[0].new++;
+                        facilityDict[0].data[0]++;
                     }
                 }
             });
             console.log(facilityDict);
-            //renderReportsOverviewHelper(facilityDict);
+            renderReportsOverviewHelper(facilityDict);
         }
     };
     request.open(
@@ -329,31 +327,43 @@ function renderReportsOverviewFacilities(reports) {
 /*
     Takes in filled facilityDict with facilityID:facilityObj {facilityName, complete, incomplete, new}
 */
-function renderReportsOverviewHelper(data) {
+function renderReportsOverviewHelper(facilityDict) {
     var ctx = document.getElementById("reportsOverviewChart").getContext("2d");
+    // From facilityDict, create an array with all of the color values.
+    var datasets = [];
+    for (key in facilityDict) {
+        if (facilityDict.hasOwnProperty(key)) {
+            const facility = facilityDict[key];
+            datasets.push({
+                label: facility.label,
+                data: facility.data,
+                /* backgroundColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)"
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)"
+                ],*/
+                backgroundColor: facility.fillColor
+            });
+        }
+    }
     var firstOpenedDelayChart = new Chart(ctx, {
         type: "bar",
         data: {
             labels: ["New", "Incomplete", "Complete"],
-            datasets: [
-                {
-                    label: "Report Statuses",
-                    data: data,
-                    backgroundColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)"
-                    ],
-                    borderColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)"
-                    ],
-                    borderWidth: 1
-                }
-            ]
+            datasets: datasets
         },
         options: {
+            legend: {
+                labels: {
+                    fontColor: "grey",
+                    fontSize: 12
+                }
+            },
             scales: {
                 yAxes: [
                     {
