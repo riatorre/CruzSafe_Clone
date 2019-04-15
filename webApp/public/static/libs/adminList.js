@@ -67,7 +67,7 @@ function createUserButton(userList, user) {
     Function that populates the forwardDropdown from the database.
 */
 function displayFacilitiesAdmin() {
-    var forwardDropdown = document.getElementById("forwardDropdown");
+    var forwardDropdown = document.getElementById("forwardDropdownAdmin");
     while (forwardDropdown.firstChild) {
         forwardDropdown.removeChild(forwardDropdown.firstChild);
     }
@@ -104,7 +104,7 @@ function getLastWord(string) {
 }
 
 function refreshPage() {
-    var forwardDropdownObj = document.getElementById("forwardDropdown");
+    var forwardDropdownObj = document.getElementById("forwardDropdownAdmin");
     const facilityID =
         forwardDropdownObj.options[forwardDropdownObj.selectedIndex].value;
     // Got facultyID.
