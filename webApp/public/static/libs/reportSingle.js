@@ -890,7 +890,7 @@ function hideReport(changes) {
     // When changes have been made
     if (changes) {
         if ((pageID == 1) | (pageID == 2)) {
-            clearPages();
+            clearPages("reportList");
             setupListReports();
         }
     }

@@ -152,7 +152,7 @@ function filterReportsHelper(filterDict, tags, reverseTags) {
                 });
             }
             // gotten list of all IDs. Calls generateMultipleReports with gotten reportIDs.
-            clearPages();
+            clearPages("reportList");
             // If intake page
             if (pageID == 1) {
                 excludeFilterResults(reportIDs, tags);
