@@ -114,7 +114,6 @@ function refreshPage() {
             var webIDs = JSON.parse(request.response);
             webID = webIDs[0]["webID"];
             setupListReports();
-            displayFacilitiesAdmin();
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/facilities/webIDs");
