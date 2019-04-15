@@ -47,14 +47,84 @@
         </header>
         <main class="withHeader">
             <div class="row bordered">
-                <div class="column quarter bordered leaf"></div>
-                <div class="column threeQuarters bordered">
-                    <div class="row third bordered leaf"></div>
-                    <div class="row third bordered leaf"></div>
-                    <div class="row third bordered leaf"></div>
+                <div class="column half bordered leaf">
+                    <div class="row eighth bordered leaf">
+                        <div class="reportHeader">
+                            <table>
+                                <tbody>
+                                        <td class="buttonFirstNameText">
+                                            First
+                                        </td>
+                                        <td class="buttonlastNameText">
+                                            Last
+                                        </td>
+                                        <td class="buttonTitleText">
+                                            Title
+                                        </td>
+                                        <td class="buttonFacilityNameText">
+                                            Facility
+                                        </td>
+                                        <td class="buttonRoleText">Role</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row sixEights bordered leaf">
+                        <div id="userList"></div>
+                    </div>
+                    <div class="row eighth leaf">
+                        <center>
+                            <div class="navigationButtons">
+                                <button
+                                    id="firstBtn"
+                                    class="btn navy rounded"
+                                    onClick="firstLast('first')"
+                                >
+                                    First
+                                </button>
+                                <button
+                                    id="prevBtn"
+                                    class="btn navy rounded"
+                                    onClick="nextPrev(-1)"
+                                >
+                                    Prev
+                                </button>
+                                <div id="userListIndicators"></div>
+                                <!--Div to be filled by setupListReports()-->
+                                <button
+                                    id="nextBtn"
+                                    class="btn navy rounded"
+                                    onClick="nextPrev(1)"
+                                >
+                                    Next
+                                </button>
+                                <button
+                                    id="lastBtn"
+                                    class="btn navy rounded"
+                                    onClick="firstLast('last')"
+                                >
+                                    Last
+                                </button>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+                <div class="column half bordered leaf">
+                    <div class="row twoEights bordered leaf"></div>
+                    <div class="row sixEighths bordered leaf"></div>
                 </div>
             </div>
         </main>
         <script src="./libs/navLib.js"></script>
+        <script src="./libs/adminList.js"></script>
+        <script src="./libs/pagination.js"></script>
+        <!--User Refreshing code-->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // When DOM is loaded
+                setupUsersList();
+            });
+        </script>
     </body>
 </html>

@@ -148,4 +148,23 @@ router.post("/updateLogin", function(req, res) {
     );
 });
 
+// Grab all facilities with all assignments and reports.
+router.post("/allWebUsers", function(req, res) {
+    const query =
+        "SELECT webUsers.firstName, webUsers.lastName, webUsers.title, webUsers.facilityID, facilities.facilityName, webUsers.role FROM webUsers LEFT JOIN facilities ON webUsers.facilityID = facilities.facilityID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 module.exports = router;
