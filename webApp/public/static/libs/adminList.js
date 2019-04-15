@@ -29,6 +29,9 @@ function setupUsersList() {
 
 function createUserButton(userList, user) {
     var button = document.createElement("BUTTON");
+
+    button.setAttribute("onclick", "displayUser(" + user["webID"] + ")");
+
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
     //button.setAttribute("onclick", "displayUser(" + report["reportID"] + ")"); TODO+++++++++++++
@@ -84,7 +87,6 @@ function displayFacilitiesAdmin() {
                 var newFacility = document.createElement("option");
                 const facilityID = facility["facilityID"];
                 const facilityName = facility["facilityName"];
-                const facilityEmail = facility["facilityEmail"];
                 var text = document.createTextNode(
                     "Display " + facilityName + " assignments"
                 );
@@ -120,3 +122,5 @@ function refreshPage() {
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ facilityID: facilityID }));
 }
+
+function displayUser(webID) {}
