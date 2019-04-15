@@ -4,6 +4,7 @@ import {
     View,
     Image,
     Text,
+    AsyncStorage,
     TouchableOpacity
 } from "react-native";
 import Swiper from "react-native-swiper";
@@ -451,10 +452,16 @@ export default class Screen extends React.Component {
                             <TouchableOpacity
                                 style={styles.btn}
                                 onPress={() => {
-                                    this.getTutorialParams();
-                                    tutorialParams.tips = true;
-                                    this.setTutorialParams();
-                                    this.props.navigation.navigate("Home");
+                                    this.getTutorialParams().then(results => {
+                                        tutorialParams.tips = true;
+                                        this.setTutorialParams().then(
+                                            results2 => {
+                                                this.props.navigation.navigate(
+                                                    "Home"
+                                                );
+                                            }
+                                        );
+                                    });
                                 }}
                             >
                                 <Text
