@@ -167,4 +167,23 @@ router.post("/allWebUsers", function(req, res) {
     );
 });
 
+// Gets all of the reports information + user information
+router.post("/reportsUsers", function(req, res) {
+    const query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON mobileUsers.mobileID = reports.mobileID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 module.exports = router;

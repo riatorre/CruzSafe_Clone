@@ -65,6 +65,24 @@ router.post("/tags", function(req, res) {
     );
 });
 
+router.post("/reportsTags", function(req, res) {
+    const query =
+        "SELECT * FROM reports LEFT JOIN tags ON reports.tag = tags.tagID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 /*** Report Data ***/
 
 // Get all reports from a list of reportIDs
