@@ -321,7 +321,7 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
                 "')"
         );
 
-    openModal();
+    openModal("reportModal");
 }
 
 /*
@@ -881,7 +881,7 @@ function displayReport(reportID) {
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
 function hideReport(changes) {
-    closeModal();
+    closeModal("reportModal");
     reportNoteInput.value = ""; // Clear the input of notes.
     const customResponse = document.getElementById("customResponse");
     customResponse.setAttribute("style", "display: none");

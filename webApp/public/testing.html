@@ -33,13 +33,18 @@
             <div class="row bordered">
                 <div class="column quarter bordered">
                     <div class="row third bordered leaf">
-                        <a class="btn" onclick="openModal()">Open Modal</a>
+                        <a class="btn" onclick="openModal('helloWorld')"
+                            >Open Modal</a
+                        >
                     </div>
                     <div class="row twoThirds bordered leaf">
                         <input
                             type="text"
                             placeholder="Testing input styling"
                         />
+                        <a class="btn" onclick="openModal('secondModal')"
+                            >Open 2nd Modal</a
+                        >
                     </div>
                 </div>
                 <div class="column half bordered">
@@ -64,14 +69,22 @@
             </div>
         </footer>
         <div id="modalTarget"></div>
+        <div id="modalTarget2"></div>
         <script src="./libs/navLib.js"></script>
         <script src="./libs/modalLib.js"></script>
         <script>
-            setupModal("modalTarget", myHelloWorld);
+            setupModal("modalTarget", "helloWorld", myHelloWorld);
+            setupModal("modalTarget2", "secondModal", secondModal);
             function myHelloWorld() {
                 var div = document.createElement("DIV");
                 div.setAttribute("class", "row leaf");
                 div.innerHTML = "Hello World!";
+                return div;
+            }
+            function secondModal() {
+                var div = document.createElement("DIV");
+                div.setAttribute("class", "row leaf");
+                div.innerHTML = "Hello 2nd Modal!";
                 return div;
             }
         </script>

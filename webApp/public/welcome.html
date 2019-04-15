@@ -42,7 +42,7 @@
                         <a
                             id="loginButton"
                             class="btn navy rounded"
-                            onclick="openModal()"
+                            onclick="openModal('welcomeModal')"
                             >Login
                         </a>
                     </div>
@@ -60,7 +60,7 @@
         <div id="modalTarget"></div>
         <script src="./libs/modalLib.js"></script>
         <script>
-            setupModal("modalTarget", welcomeModalRenderer);
+            setupModal("modalTarget", "welcomeModal", welcomeModalRenderer);
             function welcomeModalRenderer() {
                 var div = document.createElement("DIV");
                 div.setAttribute("class", "column modalContent");
@@ -80,7 +80,7 @@
                 div.appendChild(textDiv);
                 var cancelBtn = document.createElement("a");
                 cancelBtn.setAttribute("class", "btn red rounded");
-                cancelBtn.setAttribute("onClick", "closeModal()");
+                cancelBtn.setAttribute("onClick", "closeModal('welcomeModal')");
                 cancelBtn.innerHTML = "Cancel";
                 var confirmBtn = document.createElement("a");
                 confirmBtn.setAttribute("class", "btn green rounded");
