@@ -448,48 +448,54 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
         const facilityName = getLastWord(
             forwardDropdownObj.options[forwardDropdownObj.selectedIndex].text
         );
-        // First check if the forwarding circumstances is valid.
-        // If the task has been completed, reject.
-        // Query the database for the responses.
-        const request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                response = JSON.parse(request.response)[0];
-                if (response == null) {
-                    forwardReport(reportID, webID, facilityID);
-                    insertNote(
-                        reportID,
-                        webID,
-                        "{ Report has been successfully forwarded to " +
-                            facilityName +
-                            "}"
-                    );
-                    alert(
-                        "Report successfully forwarded to " + facilityName + "."
-                    );
-                } else {
-                    alert(
-                        "ERROR - This report has already been forwarded to " +
-                            facilityName +
-                            " and has not been read yet!"
-                    );
+        if (facilityID != "") {
+            // First check if the forwarding circumstances is valid.
+            // If the task has been completed, reject.
+            // Query the database for the responses.
+            const request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(request.response)[0];
+                    if (response == null) {
+                        forwardReport(reportID, webID, facilityID);
+                        insertNote(
+                            reportID,
+                            webID,
+                            "{ Report has been successfully forwarded to " +
+                                facilityName +
+                                "}"
+                        );
+                        alert(
+                            "Report successfully forwarded to " +
+                                facilityName +
+                                "."
+                        );
+                    } else {
+                        alert(
+                            "ERROR - This report has already been forwarded to " +
+                                facilityName +
+                                " and has not been read yet!"
+                        );
+                    }
                 }
-            }
-        };
-        request.open(
-            "POST",
-            "https://cruzsafe.appspot.com/api/assignments/check"
-        );
-        request.setRequestHeader(
-            "Content-Type",
-            "application/json;charset=UTF-8"
-        );
-        request.send(
-            JSON.stringify({
-                reportID: reportID,
-                facilityID: facilityID
-            })
-        );
+            };
+            request.open(
+                "POST",
+                "https://cruzsafe.appspot.com/api/assignments/check"
+            );
+            request.setRequestHeader(
+                "Content-Type",
+                "application/json;charset=UTF-8"
+            );
+            request.send(
+                JSON.stringify({
+                    reportID: reportID,
+                    facilityID: facilityID
+                })
+            );
+        } else {
+            alert("ERROR - No report selected!");
+        }
     } else {
         alert("ERROR - Cannot forward a completed report!");
     }
