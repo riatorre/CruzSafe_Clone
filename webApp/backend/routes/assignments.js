@@ -115,3 +115,22 @@ router.post("/check", function(req, res) {
         }
     );
 });
+
+// Grab all facilities with all assignments and reports.
+router.post("/facilityAssignments", function(req, res) {
+    const query =
+        "SELECT facilities.facilityID, facilities.facilityName, assignments.reportID, reports.completeTS, reports.initialOpenTS, facilities.color FROM assignments, reports, facilities WHERE assignments.recieverFacilityID = facilities.facilityID AND assignments.reportID = reports.reportID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});

@@ -6,7 +6,16 @@
         <title>CruzSafe: Admin</title>
         <!--Imports Stylesheet-->
         <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
-        <link href="./stylesheets/admin.css" type="text/css" rel="stylesheet" />
+        <link
+            href="./stylesheets/reports.css"
+            type="text/css"
+            rel="stylesheet"
+        />
+        <link
+            href="./stylesheets/reportSingle.css"
+            type="text/css"
+            rel="stylesheet"
+        />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -46,15 +55,231 @@
             </div>
         </header>
         <main class="withHeader">
-            <div class="row bordered">
-                <div class="column quarter bordered leaf"></div>
-                <div class="column threeQuarters bordered">
-                    <div class="row third bordered leaf"></div>
-                    <div class="row third bordered leaf"></div>
-                    <div class="row third bordered leaf"></div>
+            <div class="row">
+                <div class="column half leaf">
+                    <div class="row eighth bordered leaf">
+                        <div class="reportHeader">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td class="buttonFirstNameText">
+                                            First
+                                        </td>
+                                        <td class="buttonlastNameText">
+                                            Last
+                                        </td>
+                                        <td class="buttonTitleText">
+                                            Title
+                                        </td>
+                                        <td class="buttonFacilityNameText">
+                                            Facility
+                                        </td>
+                                        <td class="buttonRoleText">Role</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row sevenEights bordered leaf">
+                        <div id="userList"></div>
+                    </div>
+                </div>
+                <div class="column half leaf">
+                    <div class="row eighth bordered leaf">
+                        <span class="dropdown"
+                            ><select
+                                id="forwardDropdownAdmin"
+                                autocomplete="off"
+                                onchange="refreshPage()"
+                            ></select
+                        ></span>
+                    </div>
+                    <div class="row eighth bordered leaf">
+                        <div class="reportHeader">
+                            <table>
+                                <tbody>
+                                    <tr
+                                        onclick="console.log('Row has been clicked')"
+                                    >
+                                        <td class="checkbox">
+                                            <label class="container">
+                                                <input
+                                                    type="checkbox"
+                                                    class="check"
+                                                />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td class="buttonResolvedUnresolved">
+                                            Status
+                                        </td>
+                                        <td class="buttonReportIDText">
+                                            Report #
+                                        </td>
+                                        <td class="buttonIncidentIDText">
+                                            Inc #
+                                        </td>
+                                        <td class="buttonReportTSText">
+                                            Date & Time
+                                        </td>
+                                        <td class="buttonTagText">Tag</td>
+                                        <td class="buttonLocationText">
+                                            Location
+                                        </td>
+                                        <td class="buttonFullNameText">
+                                            Name (Last, First)
+                                        </td>
+                                        <td class="buttonBodyText">
+                                            Description
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row fiveEighths bordered leaf">
+                        <div id="reportList" class="reportList"></div>
+                    </div>
+                    <div class="row eighth bordered leaf">
+                        <center>
+                            <div class="navigationButtons">
+                                <button
+                                    id="firstBtn"
+                                    class="btn navy rounded"
+                                    onClick="firstLast('first')"
+                                >
+                                    First
+                                </button>
+                                <button
+                                    id="prevBtn"
+                                    class="btn navy rounded"
+                                    onClick="nextPrev(-1)"
+                                >
+                                    Prev
+                                </button>
+                                <div id="reportListIndicators"></div>
+                                <!--Div to be filled by setupListReports()-->
+                                <button
+                                    id="nextBtn"
+                                    class="btn navy rounded"
+                                    onClick="nextPrev(1)"
+                                >
+                                    Next
+                                </button>
+                                <button
+                                    id="lastBtn"
+                                    class="btn navy rounded"
+                                    onClick="firstLast('last')"
+                                >
+                                    Last
+                                </button>
+                            </div>
+                        </center>
+                    </div>
                 </div>
             </div>
         </main>
+        <div id="modalTarget"></div>
+        <!--PLACEHOLDER USER MODAL; NOT USABALE-->
+        <center>
+            <div id="userModal" class="modal">
+                <form class="modal-content animate" method="POST">
+                    <div class="imgcontainer">
+                        <!--Close Button; closes Modal-->
+                        <span
+                            onclick="hideReport()"
+                            class="close"
+                            title="Close Modal"
+                            ><i class="fa fa-times"></i
+                        ></span>
+                        <!--Report Content-->
+                        <div id="reportContent" class="container">
+                            <div class="reportRow">
+                                <div id="column1" class="reportColumn1">
+                                    <p>
+                                        <b>Report:</b> #<span
+                                            id="incidentID"
+                                        ></span>
+                                        <b id="resolvedUnresolved"></b>
+                                    </p>
+                                    <p>
+                                        <b>Time:</b> <span id="reportTS"></span>
+                                    </p>
+                                    <p>
+                                        <b>Location:</b>
+                                        <span id="location"></span>
+                                        <span id="actualPinned"></span>
+                                    </p>
+                                    <p><b>Tag:</b> <span id="tag"></span></p>
+                                    <br />
+                                    <img
+                                        id="reportMap"
+                                        src="./assets/images/report_map.png"
+                                        alt="report map"
+                                    />
+                                    <br />
+                                    <img
+                                        id="reportPhoto"
+                                        src="./assets/images/report_photo.png"
+                                        alt="report photo"
+                                    />
+                                </div>
+                                <div id="column2" class="reportColumn2">
+                                    <br />
+                                    <p>
+                                        <b>Name:</b>
+                                        <span id="fullName"></span> - #<span
+                                            id="mobileID"
+                                        ></span>
+                                    </p>
+                                    <p>
+                                        <b>Phone:</b> <span id="phone"></span>
+                                    </p>
+                                    <p>
+                                        <b>Email:</b> <span id="email"></span>
+                                    </p>
+                                    <br />
+                                    <b>Report Body:</b>
+                                    <br /><br />
+                                    <p id="body"></p>
+                                    <br />
+                                    <div id="responseButtons">
+                                        <button id="reportRespond">
+                                            Respond
+                                        </button>
+                                        <button id="reportOther">
+                                            Other Options
+                                        </button>
+                                        <button id="reportResolve">
+                                            Resolved
+                                        </button>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </center>
+        <script src="./libs/modalLib.js"></script>
         <script src="./libs/navLib.js"></script>
+        <script src="./libs/adminList.js"></script>
+        <script src="./libs/pagination.js"></script>
+        <script src="./libs/reportSingle.js"></script>
+        <script src="./libs/reportList.js"></script>
+        <script src="./libs/adminCommands.js"></script>
+        <!--User Refreshing code-->
+        <script>
+            const pageID = 1; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
+            var webID = 1;
+            setupModal("modalTarget", createReportModal);
+            document.addEventListener("DOMContentLoaded", function() {
+                // When DOM is loaded
+                setupUsersList();
+                setupListReports();
+                displayFacilitiesAdmin();
+            });
+        </script>
     </body>
 </html>

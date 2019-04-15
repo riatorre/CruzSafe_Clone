@@ -189,7 +189,6 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
     for (i = 0; i < reportFields.length; i++) {
         // For all entries in reportFields
         const field = reportFields[i];
-        //console.log(field);
         const targetTag = document.getElementById(field);
         targetTag.innerHTML = productInfo[field];
     }
@@ -211,10 +210,8 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
     // Edit the complete/incomplete button + close buttons
     var resolvedButton = document.getElementById("reportResolve");
     if (!!reportInfo["completeTS"]) {
-        // Completed Report Actions:
-        document
-            .getElementById("close")
-            .setAttribute("onclick", "hideReport(0)"); // Modify close button - standard
+        // Has a completed TS.
+        setClose(0);
         // INCOMPLETE button
         resolvedButton.setAttribute(
             "onclick",
@@ -242,9 +239,7 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
         if (!!reportInfo["initialOpenTS"]) {
             // Was opened before.
             insertNote(reportID, webID, "{Viewed report}"); // Note: viewing of report
-            document
-                .getElementById("close")
-                .setAttribute("onclick", "hideReport(0)"); // Modify close button - standard
+            setClose(0);
         } else {
             // If it is a new, then it is now incomplete! Set the data in the database. Apply web ID.
             insertTS(1, reportID, webID);
@@ -327,6 +322,15 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
         );
 
     openModal();
+}
+
+/*
+    Small helper function that applies hideReport with either 0 or 1 to refresh the page or not. 
+*/
+function setClose(changes) {
+    document
+        .getElementById("close")
+        .setAttribute("onclick", "hideReport(" + changes + ")");
 }
 
 /*
@@ -444,48 +448,54 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
         const facilityName = getLastWord(
             forwardDropdownObj.options[forwardDropdownObj.selectedIndex].text
         );
-        // First check if the forwarding circumstances is valid.
-        // If the task has been completed, reject.
-        // Query the database for the responses.
-        const request = new XMLHttpRequest();
-        request.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                response = JSON.parse(request.response)[0];
-                if (response == null) {
-                    forwardReport(reportID, webID, facilityID);
-                    insertNote(
-                        reportID,
-                        webID,
-                        "{ Report has been successfully forwarded to " +
-                            facilityName +
-                            "}"
-                    );
-                    alert(
-                        "Report successfully forwarded to " + facilityName + "."
-                    );
-                } else {
-                    alert(
-                        "ERROR - This report has already been forwarded to " +
-                            facilityName +
-                            " and has not been read yet!"
-                    );
+        if (facilityID != "") {
+            // First check if the forwarding circumstances is valid.
+            // If the task has been completed, reject.
+            // Query the database for the responses.
+            const request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    response = JSON.parse(request.response)[0];
+                    if (response == null) {
+                        forwardReport(reportID, webID, facilityID);
+                        insertNote(
+                            reportID,
+                            webID,
+                            "{ Report has been successfully forwarded to " +
+                                facilityName +
+                                "}"
+                        );
+                        alert(
+                            "Report successfully forwarded to " +
+                                facilityName +
+                                "."
+                        );
+                    } else {
+                        alert(
+                            "ERROR - This report has already been forwarded to " +
+                                facilityName +
+                                " and has not been read yet!"
+                        );
+                    }
                 }
-            }
-        };
-        request.open(
-            "POST",
-            "https://cruzsafe.appspot.com/api/assignments/check"
-        );
-        request.setRequestHeader(
-            "Content-Type",
-            "application/json;charset=UTF-8"
-        );
-        request.send(
-            JSON.stringify({
-                reportID: reportID,
-                facilityID: facilityID
-            })
-        );
+            };
+            request.open(
+                "POST",
+                "https://cruzsafe.appspot.com/api/assignments/check"
+            );
+            request.setRequestHeader(
+                "Content-Type",
+                "application/json;charset=UTF-8"
+            );
+            request.send(
+                JSON.stringify({
+                    reportID: reportID,
+                    facilityID: facilityID
+                })
+            );
+        } else {
+            alert("ERROR - No report selected!");
+        }
     } else {
         alert("ERROR - Cannot forward a completed report!");
     }
@@ -497,6 +507,7 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
  */
 function insertTS(initialOpenTS, reportID, webID) {
     // Code that adds a note for initial Open.
+    setClose(1);
     if (initialOpenTS) {
         insertNote(reportID, webID, "{Report initially opened}");
     } else {
@@ -549,8 +560,6 @@ function insertTS(initialOpenTS, reportID, webID) {
             webID: webID
         })
     );
-    const closeReport = document.getElementById("close");
-    closeReport.setAttribute("onclick", "hideReport(1)");
 }
 
 /*
@@ -570,8 +579,7 @@ function removeTS(reportID, webID) {
             reportID: reportID
         })
     );
-    const closeReport = document.getElementById("close");
-    closeReport.setAttribute("onclick", "hideReport(1)");
+    setClose(1);
 }
 
 /*

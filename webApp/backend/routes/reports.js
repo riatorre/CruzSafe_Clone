@@ -65,6 +65,24 @@ router.post("/tags", function(req, res) {
     );
 });
 
+router.post("/reportsTags", function(req, res) {
+    const query =
+        "SELECT * FROM reports LEFT JOIN tags ON reports.tag = tags.tagID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 /*** Report Data ***/
 
 // Get all reports from a list of reportIDs
@@ -118,6 +136,24 @@ router.post("/allReports", function(req, res) {
 // Get all reports that have been opened
 router.post("/allOpenedReports", function(req, res) {
     var query = "SELECT * FROM reports WHERE initialOpenTS IS NOT NULL";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
+// Get all reportIDs, initialOpenTS and completeTS.
+router.post("/reportAllTS", function(req, res) {
+    var query = "SELECT reportID, initialOpenTS, completeTS FROM reports";
     connectionPool.handleAPI(
         null,
         null,

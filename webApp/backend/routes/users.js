@@ -148,4 +148,42 @@ router.post("/updateLogin", function(req, res) {
     );
 });
 
+// Grab all facilities with all assignments and reports.
+router.post("/allWebUsers", function(req, res) {
+    const query =
+        "SELECT webUsers.webID, webUsers.firstName, webUsers.lastName, webUsers.title, webUsers.facilityID, facilities.facilityName, webUsers.role FROM webUsers LEFT JOIN facilities ON webUsers.facilityID = facilities.facilityID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
+// Gets all of the reports information + user information
+router.post("/reportsUsers", function(req, res) {
+    const query =
+        "SELECT * FROM reports LEFT JOIN mobileUsers ON mobileUsers.mobileID = reports.mobileID";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 module.exports = router;

@@ -53,76 +53,20 @@
         </header>
         <main class="withHeader">
             <div class="row bordered">
-                <div class="column third bordered leaf"></div>
-                <div class="column twoThirds bordered leaf">
-                    <!--Placeholder chart-->
-                    <canvas id="myChart"></canvas>
-                    <script>
-                        var ctx = document
-                            .getElementById("myChart")
-                            .getContext("2d");
-                        var myChart = new Chart(ctx, {
-                            type: "line",
-                            data: {
-                                labels: [
-                                    "January",
-                                    "February",
-                                    "March",
-                                    "April",
-                                    "May",
-                                    "June",
-                                    "July",
-                                    "August",
-                                    "September",
-                                    "October",
-                                    "November",
-                                    "December"
-                                ],
-                                datasets: [
-                                    {
-                                        label: "# of Users",
-                                        data: [
-                                            12,
-                                            19,
-                                            3,
-                                            5,
-                                            2,
-                                            3,
-                                            22,
-                                            1,
-                                            31,
-                                            12,
-                                            23,
-                                            30
-                                        ],
-                                        backgroundColor: [
-                                            "rgba(255, 99, 132, 0.5)"
-                                        ],
-                                        borderColor: ["rgba(255, 99, 132, 1)"],
-                                        borderWidth: 1
-                                    }
-                                ]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [
-                                        {
-                                            ticks: {
-                                                beginAtZero: true
-                                            }
-                                        }
-                                    ]
-                                },
-                                title: {
-                                    display: true,
-                                    text: "Users Over Time"
-                                }
-                            }
-                        });
-                    </script>
+                <div class="column third bordered leaf">
+                    <button onclick="renderReportByTag()">
+                        Reports By Tag
+                    </button>
+                    <button onclick="renderReportByUser()">
+                        Reports By User
+                    </button>
+                </div>
+                <div class="column twoThirds bordered leaf" id="chartDiv">
+                    <h1 style="color:crimson">Please select a chart</h1>
                 </div>
             </div>
         </main>
         <script src="./libs/navLib.js"></script>
+        <script src="./libs/analytics.js"></script>
     </body>
 </html>
