@@ -2,8 +2,6 @@
  * Administrative page setup
  */
 
-var numButtons = 20;
-
 /*
     Grabs a list of all users and populates userList div in admin page. 
  */
@@ -20,21 +18,16 @@ function setupUsersList() {
 
             // Inject all user information into an array
             // Each user contains firstName, lastName, title, facilityID, facilityName, role
-            var allInfo = [];
             Array.from(users).forEach(function(user) {
-                allInfo.push(user);
+                createUserButton(userList, user);
             });
-            console.log(users);
-            createPages("userList", numButtons, allInfo, createUserButton);
-            currentTab = 0;
-            showTab(0);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/users/allWebUsers");
     request.send();
 }
 
-function createUserButton(user) {
+function createUserButton(userList, user) {
     var button = document.createElement("BUTTON");
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
@@ -67,5 +60,64 @@ function createUserButton(user) {
     tableRow.appendChild(roleText);
     table.appendChild(tableRow);
     button.appendChild(table);
-    return button;
+    userList.appendChild(button);
+}
+
+/*
+    Function that populates the forwardDropdown from the database.
+*/
+function displayFacilitiesAdmin() {
+    var forwardDropdown = document.getElementById("forwardDropdown");
+    while (forwardDropdown.firstChild) {
+        forwardDropdown.removeChild(forwardDropdown.firstChild);
+    }
+    const defaultOption = document.createElement("option");
+    defaultOption.setAttribute("value", "");
+    defaultOption.innerHTML = defaultOptionText;
+    forwardDropdown.appendChild(defaultOption);
+
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            facilities = JSON.parse(request.response);
+            Array.from(facilities).forEach(function(facility) {
+                var newFacility = document.createElement("option");
+                const facilityID = facility["facilityID"];
+                const facilityName = facility["facilityName"];
+                const facilityEmail = facility["facilityEmail"];
+                var text = document.createTextNode(
+                    "Display " + facilityName + " assignments"
+                );
+                newFacility.appendChild(text);
+                newFacility.setAttribute("value", facilityID);
+                forwardDropdown.appendChild(newFacility);
+            });
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/facilities");
+    request.send();
+}
+
+function getLastWord(string) {
+    var seperated = string.split(" ");
+    return seperated[seperated.length - 1];
+}
+
+function refreshPage() {
+    var forwardDropdownObj = document.getElementById("forwardDropdown");
+    const facilityID =
+        forwardDropdownObj.options[forwardDropdownObj.selectedIndex].value;
+    // Got facultyID.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var webIDs = JSON.parse(request.response);
+            webID = webIDs[0]["webID"];
+            setupListReports();
+            displayFacilitiesAdmin();
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/facilities/webIDs");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ facilityID: facilityID }));
 }

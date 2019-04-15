@@ -195,6 +195,14 @@ function createPages(id, maxElemPerPage, elementArray, renderFunc) {
             "<p>No reports found. If filters are present, please revise your filters. Otherwise, please contact technical support.</p>";
     }
     document.getElementById(id).appendChild(totalPages);
+
+    /*
+        Clear Indicators
+    */
+    var indicators = document.getElementById(id + "Indicators");
+    while (indicators.firstChild) {
+        indicators.removeChild(indicators.firstChild);
+    }
     document.getElementById(id + "Indicators").appendChild(totalIndicators);
 }
 
