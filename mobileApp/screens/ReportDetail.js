@@ -106,84 +106,66 @@ class ReportDetail extends Component {
             <View
                 style={{
                     justifyContent: "center",
+                    flex: 0.8,
                     width: "80%",
-                    padding: 5
+                    padding: 10,
+                    backgroundColor: "#FFFFFF80",
+                    borderRadius: 10
                 }}
             >
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between"
-                    }}
-                >
+                <View style={{ flex: 0.2 }}>
                     <Text
                         style={{
-                            fontSize: 20,
-                            fontWeight: "bold",
-                            textDecorationLine: "underline"
+                            fontSize: 20
                         }}
                     >
-                        Report ID: {report.reportID}
+                        <Text style={{ fontWeight: "bold" }}>Report ID: </Text>
+                        {report.reportID}
                     </Text>
                     <Text
                         style={{
-                            fontSize: 20,
-                            fontWeight: "bold",
-                            textDecorationLine: "underline"
+                            fontSize: 20
                         }}
                     >
-                        Incident #{report.incidentID}
+                        <Text style={{ fontWeight: "bold" }}>
+                            Incident ID:{" "}
+                        </Text>
+                        {report.incidentID}
                     </Text>
                 </View>
-                <View
-                    style={{
-                        padding: 5,
-                        borderTopWidth: 2,
-                        borderBottomWidth: 2,
-                        borderColor: "#303060"
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: "row"
-                        }}
-                    >
+                <View style={{ flex: 0.3 }}>
+                    <Text style={{ fontSize: 20 }}>
                         <Text
                             style={{
-                                fontSize: 20,
-                                fontWeight: "bold",
-                                textDecorationLine: "underline"
+                                fontWeight: "bold"
                             }}
                         >
                             Incident Category:
-                        </Text>
-                        <Text style={{ fontSize: 20 }}>
-                            {" "}
-                            {tagsList[report.tag]}
-                        </Text>
-                    </View>
-                    <Text
-                        style={{
-                            fontSize: 20,
-                            fontWeight: "bold",
-                            textDecorationLine: "underline"
-                        }}
-                    >
-                        Incident Description:
+                        </Text>{" "}
+                        {tagsList[report.tag]}
                     </Text>
-                    <Text style={{ fontSize: 20, paddingHorizontal: 15 }}>
+                </View>
+                <View style={{ flex: 0.3 }}>
+                    <Text style={{ fontSize: 20 }}>
+                        <Text
+                            style={{
+                                fontWeight: "bold"
+                            }}
+                        >
+                            Incident Description:
+                        </Text>{" "}
                         {report.body}
                     </Text>
-                    <Text
-                        style={{
-                            fontSize: 20,
-                            fontWeight: "bold",
-                            textDecorationLine: "underline"
-                        }}
-                    >
-                        Description of Location:
-                    </Text>
-                    <Text style={{ fontSize: 20, paddingHorizontal: 15 }}>
+                </View>
+                <View style={{ flex: 0.2 }}>
+                    <Text style={{ fontSize: 20 }}>
+                        <Text
+                            style={{
+                                fontWeight: "bold"
+                            }}
+                        >
+                            Description of Location:
+                        </Text>{" "}
                         {report.location}
                     </Text>
                 </View>

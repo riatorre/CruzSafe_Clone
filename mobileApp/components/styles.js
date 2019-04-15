@@ -150,12 +150,18 @@ export default (styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderColor: "#4488A7"
     },
+    historyContainer: {
+        flex: 0.44,
+        padding: 10,
+        backgroundColor: "#FFFFFF80",
+        borderRadius: 10
+    },
     reportBtn: {
         flex: 1,
         padding: 10,
+        marginTop: 2,
+        marginBottom: 2,
         backgroundColor: "#303060",
-        borderColor: "#D4AF37",
-        borderWidth: 0.5,
         borderRadius: 10
     },
     slideOuterContainer: {
@@ -194,5 +200,15 @@ export default (styles = StyleSheet.create({
     slidegreen: {
         padding: 10,
         backgroundColor: "rgba(0,204,0,0.2)"
+    },
+    refreshBtn: {
+        flex: 0.09,
+        margin: 1,
+        padding: 5,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        backgroundColor: "#9BC378"
     }
 }));
