@@ -115,7 +115,7 @@ function MainMap() {
         3: "Broken Window",
         4: "Lighting Deficiency",
         5: "Excess Trash",
-        6: "Undefined"
+        6: "UNDEFINED"
     };
     var customIcon = {
         1: {
@@ -156,78 +156,79 @@ function MainMap() {
         }
     };
     // Change this depending on the name of your PHP or XML file
-    downloadUrl("https://cruzsafe.appspot.com/api/reports/allReports", function(
-        data
-    ) {
-        reportInfo = JSON.parse(data.response); // Returns an array
-        if (reportInfo != null) {
-            Array.prototype.forEach.call(reportInfo, function(report) {
-                var id = report["incidentID"];
-                var tag = report["tag"];
-                var reportTS = report["reportTS"];
-                var date = formatDate(reportTS, {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric",
-                    hour12: false
-                });
-                var time = formatDate(reportTS, {
-                    hour: "numeric",
-                    minute: "numeric",
-                    second: "numeric",
-                    hour12: false
-                });
-                var location = report["location"];
-                var body = report["body"];
-                var point = new google.maps.LatLng(
-                    parseFloat(report["latitude"]),
-                    parseFloat(report["longitude"])
-                );
-                var Cicon = customIcon[tag] || {};
-                var tagName = tagList[tag];
-                var infowincontent =
-                    '<div id="content">' +
-                    "<hr>" +
-                    '<h5 style="font-size:20px">' +
-                    tagName +
-                    "</h5>" +
-                    "<hr>" +
-                    '<p style="font-size:15px"><b>Location: </b>' +
-                    location +
-                    "</p>" +
-                    '<p style="font-size:15px"><b>Description: </b>' +
-                    body +
-                    "</p>" +
-                    '<p style="font-size:15px"><b>Date: </b>' +
-                    date +
-                    "</p>" +
-                    '<p style="font-size:15px"><b>Time: </b>' +
-                    time +
-                    "</p>" +
-                    '<p style="font-size:15px"><b>Incident #: </b>' +
-                    id +
-                    "</p>" +
-                    "</div>";
+    downloadUrl(
+        "https://cruzsafe.appspot.com/api/reports/incompleteReports",
+        function(data) {
+            reportInfo = JSON.parse(data.response); // Returns an array
+            if (reportInfo != null) {
+                Array.prototype.forEach.call(reportInfo, function(report) {
+                    var id = report["incidentID"];
+                    var tag = report["tag"];
+                    var reportTS = report["reportTS"];
+                    var date = formatDate(reportTS, {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour12: false
+                    });
+                    var time = formatDate(reportTS, {
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric",
+                        hour12: false
+                    });
+                    var location = report["location"];
+                    var body = report["body"];
+                    var point = new google.maps.LatLng(
+                        parseFloat(report["latitude"]),
+                        parseFloat(report["longitude"])
+                    );
+                    var Cicon = customIcon[tag] || {};
+                    var tagName = tagList[tag];
+                    var infowincontent =
+                        '<div id="content">' +
+                        "<hr>" +
+                        '<h5 style="font-size:20px">' +
+                        tagName +
+                        "</h5>" +
+                        "<hr>" +
+                        '<p style="font-size:15px"><b>Location: </b>' +
+                        location +
+                        "</p>" +
+                        '<p style="font-size:15px"><b>Description: </b>' +
+                        body +
+                        "</p>" +
+                        '<p style="font-size:15px"><b>Date: </b>' +
+                        date +
+                        "</p>" +
+                        '<p style="font-size:15px"><b>Time: </b>' +
+                        time +
+                        "</p>" +
+                        '<p style="font-size:15px"><b>Incident #: </b>' +
+                        id +
+                        "</p>" +
+                        "</div>";
 
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: point,
-                    icon: Cicon.icon
-                });
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: point,
+                        icon: Cicon.icon
+                    });
 
-                marker.addListener("click", function() {
-                    displayReport(id, false);
+                    marker.addListener("click", function() {
+                        displayReport(id, false);
+                    });
+                    marker.addListener("mouseover", function() {
+                        infoWindow.setContent(infowincontent);
+                        infoWindow.open(map, marker);
+                    });
+                    marker.addListener("mouseout", function() {
+                        infoWindow.close();
+                    });
                 });
-                marker.addListener("mouseover", function() {
-                    infoWindow.setContent(infowincontent);
-                    infoWindow.open(map, marker);
-                });
-                marker.addListener("mouseout", function() {
-                    infoWindow.close();
-                });
-            });
+            }
         }
-    });
+    );
 }
 
 function downloadUrl(url, callback) {

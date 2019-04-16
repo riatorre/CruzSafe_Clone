@@ -133,6 +133,24 @@ router.post("/allReports", function(req, res) {
     );
 });
 
+// Get all incomplete reports
+router.post("/incompleteReports", function(req, res) {
+    var query = "SELECT * FROM reports where completeTS is null";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+});
+
 // Get all reports that have been opened
 router.post("/allOpenedReports", function(req, res) {
     var query = "SELECT * FROM reports WHERE initialOpenTS IS NOT NULL";

@@ -10,7 +10,7 @@
 const mysql = require("mysql");
 const myConsole = require("../utilities/customConsole");
 const numConnections = 64;
-const localTest = false; // Global variable for debugging purposes.
+const localTest = true; // Global variable for debugging purposes.
 
 if (localTest) {
     var connectionPool = mysql.createPool({
