@@ -130,7 +130,7 @@ class History extends Component {
                                         color: "white"
                                     }}
                                 >
-                                    Type: {tagsList[item.tag]}
+                                    Type: {tagsList[item.tag - 1]}
                                 </Text>
                                 <View>
                                     <Text style={{ color: "white" }}>
