@@ -194,6 +194,7 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
     }
 
     // Edit the color of the tag
+    const tag = document.getElementById("tag");
     tag.setAttribute("style", "color:" + tagColors[productInfo["tag"]]);
 
     // Edit the color of resolvedUnresolved
