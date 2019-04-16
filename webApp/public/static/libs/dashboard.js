@@ -208,7 +208,7 @@ function MainMap() {
                         id +
                         "</p>" +
                         "</div>";
-
+                    console.log(report["completeTS"]);
                     var marker = new google.maps.Marker({
                         map: map,
                         position: point,
