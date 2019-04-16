@@ -10,16 +10,19 @@
  */
 
 // Definition of variables needed
-var currentTab = 0;
-var absoluteParent = "";
+var currentTabs = [];
+var absoluteParents = [];
+var pageKeys = [];
+var paginations = [];
+var indicatorSets = [];
 
 // --- Navigation & Display Functions ---
 
 // Shows tab at number n; numering is based off of array index
-function showTab(n) {
-    var x = document.getElementsByClassName("tab");
-    var y = document.getElementsByClassName("indicator");
-    var z = document.getElementById(absoluteParent);
+function showTab(key, n) {
+    var x = paginations[key].children;
+    var y = indicatorSets[key].children;
+    var z = document.getElementById(absoluteParents[key]);
     if (x != null && x.length > 0) {
         x[n].style.display = "block";
         /*// Hides btns depending if on first or last page
@@ -94,50 +97,50 @@ mediaQuery.addListener(swapNavBTNContent);
  *  Navigate 'n' pages; 'n' is an integer
  *  Primarily used by 'nextBtn' and 'prevBtn', but may be used by others
  */
-function nextPrev(n) {
-    var x = document.getElementsByClassName("tab");
+function nextPrev(key, n) {
+    var x = paginations[key].getElementsByClassName("tab");
     if (x != null && x.length > 0) {
-        x[currentTab].style.display = "none";
-        currentTab = currentTab + n;
-        if (currentTab < 0) {
+        x[currentTabs[key]].style.display = "none";
+        currentTabs[key] = currentTabs[key] + n;
+        if (currentTabs[key] < 0) {
             // fixes currentTab if value somehow ends up below index 0
-            currentTab = 0;
-        } else if (currentTab >= x.length) {
+            currentTabs[key] = 0;
+        } else if (currentTabs[key] >= x.length) {
             // fixes currentTab if value ends up above number of pages that exist
-            currentTab = x.length - 1;
+            currentTabs[key] = x.length - 1;
         }
-        showTab(currentTab);
+        showTab(key, currentTabs[key]);
     }
 }
 
 /*
  *  function used to navigate to the very first or very last page
  */
-function firstLast(target) {
-    var x = document.getElementsByClassName("tab");
+function firstLast(key, target) {
+    var x = paginations[key].getElementsByClassName("tab");
     if (x != null && x.length > 0) {
-        x[currentTab].style.display = "none";
+        x[currentTabs[key]].style.display = "none";
         if (target === "first") {
-            currentTab = 0;
+            currentTabs[key] = 0;
         } else if (target === "last") {
-            currentTab = x.length - 1;
+            currentTabs[key] = x.length - 1;
         } else {
             console.log("[ERROR] input invalid");
             return -1;
         }
-        showTab(currentTab);
+        showTab(key, currentTabs[key]);
     }
 }
 
 /*
  *  Jump to page number if it is within bounds
  */
-function jumpTo(target) {
-    var x = document.getElementsByClassName("tab");
+function jumpTo(key, target) {
+    var x = paginations[key].getElementsByClassName("tab");
     if (x != null && x.length > 0 && target >= 0 && target < x.length) {
-        x[currentTab].style.display = "none";
-        currentTab = target;
-        showTab(currentTab);
+        x[currentTabs[key]].style.display = "none";
+        currentTabs[key] = target;
+        showTab(key, currentTabs[key]);
     }
 }
 
@@ -157,12 +160,15 @@ function createList(start, end, elementArray, renderFunc) {
 // Create a set of tabs, with number of reports set to a max of maxElemPerPage for each tab
 // accepts element ID as id, all elements & their information passed as an array of objects, and
 // a function used to define how to render the info (renderFunc)
-function createPages(id, maxElemPerPage, elementArray, renderFunc) {
+function createPages(id, key, maxElemPerPage, elementArray, renderFunc) {
+    if (paginations[key] != null && paginations[key].parentNode.id != id) {
+        clearPages(key);
+    }
     var upperBound = 0;
     var totalPages = document.createElement("DIV");
     var totalIndicators = document.createElement("DIV");
     var numElem = elementArray.length;
-    absoluteParent = id;
+
     totalPages.setAttribute("id", "totalPages");
     totalIndicators.setAttribute("id", "totalIndicators");
     if (numElem > 0) {
@@ -183,7 +189,7 @@ function createPages(id, maxElemPerPage, elementArray, renderFunc) {
             indicator.innerHTML = lowerBound / maxElemPerPage + 1;
             indicator.setAttribute(
                 "onClick",
-                "jumpTo(" + lowerBound / maxElemPerPage + ")"
+                "jumpTo('" + key + "'," + lowerBound / maxElemPerPage + ")"
             );
             totalPages.appendChild(
                 createList(lowerBound, upperBound, elementArray, renderFunc)
@@ -194,6 +200,13 @@ function createPages(id, maxElemPerPage, elementArray, renderFunc) {
         totalPages.innerHTML =
             "<p>No reports found. If filters are present, please revise your filters. Otherwise, please contact technical support.</p>";
     }
+
+    absoluteParents[key] = id;
+    currentTabs[key] = 0;
+    paginations[key] = totalPages;
+    indicatorSets[key] = totalIndicators;
+    pageKeys.push(key);
+
     document.getElementById(id).appendChild(totalPages);
 
     /*
@@ -210,7 +223,15 @@ function createPages(id, maxElemPerPage, elementArray, renderFunc) {
  *  Function used to clear all pages and indicators from the page.
  *  Used to ensure pages are properly maintained.
  */
-function clearPages() {
-    document.getElementById("totalPages").remove();
-    document.getElementById("totalIndicators").remove();
+function clearPages(key) {
+    paginations[key].parentNode.removeChild(paginations[key]);
+    paginations[key] = null;
+    indicatorSets[key].parentNode.removeChild(indicatorSets[key]);
+    indicatorSets[key] = null;
+    currentTabs[key] = null;
+    absoluteParents[key] = null;
+    var index = pageKeys.indexOf(key);
+    pageKeys.splice(index, 1);
+    /*document.getElementById("totalPages").remove();
+    document.getElementById("totalIndicators").remove();*/
 }

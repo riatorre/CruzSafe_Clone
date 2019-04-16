@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CruzSafe: Testing</title>
+        <!--Import Stylesheet-->
+        <link href="./stylesheets/main.css" type="text/css" rel="stylesheet" />
+        <!--Imports External Icon Font Library-->
+        <!--TODO: Install all needed Icons & remove external dependency-->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <style>
+            .grid {
+                display: -moz-grid;
+                display: grid;
+                width: 100%;
+                height: 100%;
+                grid-template-columns: repeat(4, 1fr);
+                grid-template-rows: repeat(4, 1fr);
+                grid-auto-columns: 1fr;
+                grid-auto-rows: 1fr;
+                background-color: blue !important;
+            }
+
+            .sub_grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                grid-auto-columns: 1fr;
+                grid-auto-rows: 1fr;
+            }
+
+            .grid > div:nth-child(even) {
+                background-color: white;
+                color: black;
+            }
+
+            .grid > div:nth-child(odd) {
+                background-color: black;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="grid">
+            <div>box 1</div>
+            <div>box 2</div>
+            <div>box 3</div>
+            <div>box 4</div>
+
+            <div class="grid sub_grid">
+                <div>box 5-1</div>
+                <div>box 5-2</div>
+                <div>box 5-3</div>
+                <div>box 5-4</div>
+
+                <div>box 5-5</div>
+                <div>box 5-6</div>
+                <div>box 5-7</div>
+                <div>box 5-8</div>
+
+                <div>box 5-9</div>
+            </div>
+            <div>box 6</div>
+            <div>box 7</div>
+            <div>box 8</div>
+
+            <div>box 9</div>
+        </div>
+    </body>
+</html>

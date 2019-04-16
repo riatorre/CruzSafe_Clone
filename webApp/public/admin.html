@@ -146,14 +146,14 @@
                                 <button
                                     id="firstBtn"
                                     class="btn navy rounded"
-                                    onClick="firstLast('first')"
+                                    onClick="firstLast('reportList','first')"
                                 >
                                     First
                                 </button>
                                 <button
                                     id="prevBtn"
                                     class="btn navy rounded"
-                                    onClick="nextPrev(-1)"
+                                    onClick="nextPrev('reportList',-1)"
                                 >
                                     Prev
                                 </button>
@@ -162,14 +162,14 @@
                                 <button
                                     id="nextBtn"
                                     class="btn navy rounded"
-                                    onClick="nextPrev(1)"
+                                    onClick="nextPrev('reportList',1)"
                                 >
                                     Next
                                 </button>
                                 <button
                                     id="lastBtn"
                                     class="btn navy rounded"
-                                    onClick="firstLast('last')"
+                                    onClick="firstLast('reportList','last')"
                                 >
                                     Last
                                 </button>
@@ -273,7 +273,7 @@
         <script>
             const pageID = 1; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
             var webID = 1;
-            setupModal("modalTarget", createReportModal);
+            setupModal("modalTarget", "reportModal", createReportModal);
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
                 setupUsersList();

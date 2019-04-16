@@ -153,8 +153,15 @@ class HomeScreen extends Component {
     }
 
     async askReport() {
+        console.log("calling askReport");
         console.log(tutorialParams);
-        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
+        await this.getTutorialParams();
+        console.log(tutorialParams);
+        if (
+            tutorialParams &&
+            tutorialParams.reportOnboarding &&
+            tutorialParams.tips
+        ) {
             Alert.alert(
                 "Tip",
                 "To get started, press the green report button.",

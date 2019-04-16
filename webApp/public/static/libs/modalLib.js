@@ -1,14 +1,23 @@
-// Store modal in global variable for ease of handling
-var modalGlobal = null;
+// Store modals && Keys in global variable for ease of handling
+var modals = [];
+var modalKeys = [];
 
 // When the user clicks on the button, open the modal
-function openModal() {
-    modalGlobal.style.display = "inline-flex";
+function openModal(key) {
+    modals[key].style.display = "inline-flex";
 }
 
 // When the user clicks on <span> (x), close the modal
-function closeModal() {
-    modalGlobal.style.display = "none";
+function closeModal(key) {
+    modals[key].style.display = "none";
+}
+
+function getModalKeys() {
+    return modalKeys;
+}
+
+function getModalByKey(key) {
+    return modals[key];
 }
 
 document.onkeydown = function(e) {
@@ -21,20 +30,24 @@ document.onkeydown = function(e) {
     }
     if (isEscape) {
         // Checks to see if modal even exists
-        if (modalGlobal) {
+        if (modals) {
             // Checks to see if modal is open
-            if (modalGlobal.style.display === "inline-flex") {
-                document.getElementById("close").click();
-                closeModal(); // If the abovecode doesn't work, just closes.
-            }
+            modals.forEach(function(element) {
+                if (element.style.display === "inline-flex") {
+                    document.getElementById("close").click();
+                }
+            });
+            modalKeys.forEach(function(key) {
+                closeModal(key); // If the abovecode doesn't work, just closes.
+            });
         }
     }
 };
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modalGlobal.style.display = "none";
+    if (event.target.className == "modal") {
+        event.target.style.display = "none";
     }
 };
 
@@ -43,13 +56,13 @@ window.onclick = function(event) {
  *  renderFunc should return the DOM that needs to be attached rather than attaching it itself
  *  Data defaults to false if empty; data is the data needed to be passed into the renderFunc if needed
  */
-function createModal(elementId, renderFunc, data = false) {
+function createModal(elementId, key, renderFunc, data = false) {
     const target = document.getElementById(elementId);
     if (target) {
         if (renderFunc && typeof renderFunc == "function") {
             // Exterior Modal; basically just the gray screen
             var modal = document.createElement("DIV");
-            modal.setAttribute("id", "modal");
+            modal.setAttribute("id", key);
             modal.setAttribute("class", "modal");
             // Interior Modal; where the content is placed
             var modalContent = document.createElement("DIV");
@@ -58,7 +71,7 @@ function createModal(elementId, renderFunc, data = false) {
             var closeBtn = document.createElement("SPAN");
             closeBtn.setAttribute("id", "close");
             closeBtn.setAttribute("class", "close");
-            closeBtn.setAttribute("onClick", "closeModal()");
+            closeBtn.setAttribute("onClick", "closeModal('" + key + "')");
             closeBtn.innerHTML = "&times;";
             // Append closeBtn to modalContent
             modalContent.appendChild(closeBtn);
@@ -67,7 +80,8 @@ function createModal(elementId, renderFunc, data = false) {
             // Append modalContent to modal
             modal.appendChild(modalContent);
             // Finally, append the modalContainer to the target Element
-            modalGlobal = modal;
+            modals[key] = modal;
+            modalKeys.push(key);
             target.appendChild(modal);
         } else {
             console.log("Invalid renderFunc");
@@ -78,21 +92,35 @@ function createModal(elementId, renderFunc, data = false) {
 }
 
 /*  Setup function for Modal
- *  Replaces existing modal if it exists
+ *  Replaces existing modal if it exists @ elementId
  */
-function setupModal(elementId, renderFunc, data = false) {
+function setupModal(elementId, key, renderFunc, data = false) {
     const target = document.getElementById(elementId);
     if (target) {
-        if (renderFunc && typeof renderFunc == "function") {
-            if (target.children.length > 0) {
-                while (target.children.length > 0) {
-                    target.removeChild(target.firstChild);
+        if (key != null) {
+            if (renderFunc && typeof renderFunc == "function") {
+                // If Modal with key exists & its parent is not the target, remove it from the document.
+                if (modals[key] != null && modals[key].parentNode != target) {
+                    modals[key].parentNode.removeChild(modals[key]);
                 }
+                // If target has any children, remove them; includes previous modal
+                if (target.children.length > 0) {
+                    while (target.children.length > 0) {
+                        if (target.firstChild.className == "modal") {
+                            var index = modals.indexOf(target.firstChild);
+                            modals[index] = null;
+                            modalKeys.splice(index, 1);
+                        }
+                        target.removeChild(target.firstChild);
+                    }
+                }
+                modals[key] = null;
+                createModal(elementId, key, renderFunc, data ? data : null);
+            } else {
+                console.log("Invalid renderFunc");
             }
-            modalGlobal = null;
-            createModal(elementId, renderFunc, data ? data : null);
         } else {
-            console.log("Invalid renderFunc");
+            console.log("Please supply a Key for the Modal");
         }
     } else {
         console.log("Invalid elementId");

@@ -122,20 +122,16 @@ class History extends Component {
                                     )
                                 }
                             >
-                                <View style={{ flexDirection: "row" }}>
-                                    <Text style={{ color: "white" }}>
-                                        Report #{item.reportID}
-                                        {/*Incident #{item.incidentID}*/}
-                                    </Text>
-                                    <Text
-                                        style={{
-                                            marginLeft: "auto",
-                                            color: "white"
-                                        }}
-                                    >
-                                        {tagsList[item.tag]}
-                                    </Text>
-                                </View>
+                                <Text style={{ color: "white" }}>
+                                    Report #{item.reportID}
+                                </Text>
+                                <Text
+                                    style={{
+                                        color: "white"
+                                    }}
+                                >
+                                    Type: {tagsList[item.tag]}
+                                </Text>
                                 <View>
                                     <Text style={{ color: "white" }}>
                                         Created on:{" "}
@@ -156,17 +152,25 @@ class History extends Component {
                 );
             } else {
                 return (
-                    <View style={styles.itemContainer}>
-                        <Text>
-                            No reports are available at this time. Please try
-                            again later.
-                        </Text>
-                    </View>
+                    <Text>
+                        No reports are available at this time. Please try again
+                        later.
+                    </Text>
                 );
             }
         } else {
             return (
-                <View style={styles.itemContainer}>
+                <View
+                    style={{
+                        flex: 1,
+                        padding: 10,
+                        borderTopWidth: 0.5,
+                        borderBottomWidth: 0.5,
+                        borderColor: "#4488A7",
+                        justifyContent: "center",
+                        alignContent: "center"
+                    }}
+                >
                     <ActivityIndicator size="large" color="#303060" />
                 </View>
             );
@@ -258,9 +262,9 @@ class History extends Component {
             console.log(error.message);
         }
         this.setState({ messages: JSON.parse(message) });
-        for (var i = 0; i < this.state.messages.length; i++) {
+        /*for (var i = 0; i < this.state.messages.length; i++) {
             console.log(this.state.messages[i].messageText);
-        }
+        }*/
     }
 
     async storeID(key, ID) {
@@ -325,49 +329,52 @@ class History extends Component {
                     <Content contentContainerStyle={styles.container}>
                         <View
                             style={{
+                                flex: 0.95,
                                 width: "90%",
-                                height: "85%",
-                                backgroundColor: "#FFFFFF80",
-                                padding: 10
+                                justifyContent: "space-between"
                             }}
                         >
                             {/* List of all Reports are here */}
-                            <View
-                                style={
-                                    ({ height: "50%" }, styles.itemContainer)
-                                }
-                            >
-                                <Text style={{ fontSize: 24, margin: 5 }}>
-                                    Reports under Review:
+                            <View style={styles.historyContainer}>
+                                <Text
+                                    style={{
+                                        fontSize: 24,
+                                        margin: 5,
+                                        alignSelf: "center"
+                                    }}
+                                >
+                                    Reports Under Review
                                 </Text>
                                 {this.MyFlatList(this.state.incompleteReports)}
                             </View>
-                            <View
-                                style={
-                                    ({ height: "50%" }, styles.itemContainer)
-                                }
-                            >
-                                <Text style={{ fontSize: 24, margin: 5 }}>
-                                    Completed Reports:
+                            <View style={styles.historyContainer}>
+                                <Text
+                                    style={{
+                                        fontSize: 24,
+                                        margin: 5,
+                                        alignSelf: "center"
+                                    }}
+                                >
+                                    Completed Reports
                                 </Text>
                                 {this.MyFlatList(this.state.completeReports)}
                             </View>
+                            <TouchableOpacity
+                                style={styles.refreshBtn}
+                                onPress={() => {
+                                    this.getReports();
+                                    this.getMessages();
+                                }}
+                            >
+                                <Icon
+                                    name={`${
+                                        Platform.OS === "ios" ? "ios" : "md"
+                                    }-refresh`}
+                                    style={{ color: "white" }}
+                                />
+                                <Text style={{ color: "white" }}>Refresh</Text>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                            style={styles.btn}
-                            onPress={() => {
-                                this.getReports();
-                                this.getMessages();
-                            }}
-                        >
-                            <Icon
-                                name={`${
-                                    Platform.OS === "ios" ? "ios" : "md"
-                                }-refresh`}
-                                style={{ color: "white" }}
-                            />
-                            <Text style={{ color: "white" }}>Refresh</Text>
-                        </TouchableOpacity>
                     </Content>
                     <Footer style={styles.footer}>
                         <Left

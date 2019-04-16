@@ -69,6 +69,30 @@ app.use("/api/messages", messages);
 app.use("/api/facilities", facilities);
 app.use("/api/assignments", assignments);
 
+// Sets default page to welcome.html
+app.get("/", function(req, res) {
+    res.sendFile("welcome.html", {
+        root: __dirname + "/public"
+    });
+});
+
+// "Redirects" '/welcome.html' to '/'; just for consistency with url and to catch before authentication check
+app.get("/welcome.html", function(req, res) {
+    res.redirect("/");
+});
+
+app.get("/testing.html", function(req, res) {
+    res.sendFile("testing.html", {
+        root: __dirname + "/public"
+    });
+});
+
+app.get("/gridTesting.html", function(req, res) {
+    res.sendFile("gridTesting.html", {
+        root: __dirname + "/public"
+    });
+});
+
 app.use(
     session({
         secret: "REEEEEE",
@@ -128,18 +152,6 @@ passport.use(
         );
     })
 );
-
-// Sets default page to welcome.html
-app.get("/", function(req, res) {
-    res.sendFile("welcome.html", {
-        root: __dirname + "/public"
-    });
-});
-
-// "Redirects" '/welcome.html' to '/'; just for consistency with url and to catch before authentication check
-app.get("/welcome.html", function(req, res) {
-    res.redirect("/");
-});
 
 // Catch for login.html; allows for user to navigate here w/o authentication
 app.get("/login.html", function(req, res) {

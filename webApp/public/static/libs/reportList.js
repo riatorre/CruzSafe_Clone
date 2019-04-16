@@ -123,12 +123,13 @@ function generateMultipleReports(reportIDs, tags) {
                 });
                 createPages(
                     "reportList",
+                    "reportList",
                     numButtons,
                     allInfo,
                     createReportButton
                 );
-                currentTab = 0;
-                showTab(0);
+                currentTabs["reportList"] = 0;
+                showTab("reportList", 0);
             }
         }
     };
