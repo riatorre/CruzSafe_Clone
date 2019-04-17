@@ -144,13 +144,10 @@ function generateMultipleReports(reportIDs, tags) {
  *  To help create all the pages.
  */
 function createReportButton(report) {
-    var button = document.createElement("BUTTON");
-    const table = document.createElement("table");
-    const tableRow = document.createElement("tr");
-    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
+    const whole = document.createElement("div");
+    whole.setAttribute("class", "whole");
 
-    const box = document.createElement("td");
-    box.setAttribute("class", "checkbox");
+    const checkbox = document.createElement("div");
 
     const label = document.createElement("label");
     label.setAttribute("class", "container");
@@ -163,7 +160,13 @@ function createReportButton(report) {
 
     label.appendChild(check);
     label.appendChild(span);
-    box.appendChild(label);
+    checkbox.appendChild(label);
+    whole.appendChild(checkbox);
+
+    var button = document.createElement("BUTTON");
+    const table = document.createElement("table");
+    const tableRow = document.createElement("tr");
+    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
 
     const resolvedUnresolved = report["resolvedUnresolved"];
     const resolvedUnresolvedFinalText = document.createElement("td");
@@ -174,11 +177,20 @@ function createReportButton(report) {
     );
     if (resolvedUnresolved.includes("N")) {
         // For resolvedUnresolved, gets status. If resolved, green. else, red.
-        resolvedUnresolvedText.setAttribute("style", "color:red");
+        resolvedUnresolvedText.setAttribute(
+            "style",
+            "color:red;margin-left:30px"
+        );
     } else if (resolvedUnresolved.includes("I")) {
-        resolvedUnresolvedText.setAttribute("style", "color:orange");
+        resolvedUnresolvedText.setAttribute(
+            "style",
+            "color:orange;margin-left:30px"
+        );
     } else {
-        resolvedUnresolvedText.setAttribute("style", "color:green");
+        resolvedUnresolvedText.setAttribute(
+            "style",
+            "color:green;margin-left:30px"
+        );
     }
     resolvedUnresolvedText.appendChild(
         document.createTextNode(resolvedUnresolved)
@@ -212,7 +224,6 @@ function createReportButton(report) {
     const bodyText = document.createElement("td");
     bodyText.setAttribute("class", "buttonBodyText");
     bodyText.innerHTML = report["body"];
-    tableRow.appendChild(box);
     tableRow.appendChild(resolvedUnresolvedFinalText);
     tableRow.appendChild(reportIDText);
     tableRow.appendChild(incidentIDText);
@@ -224,5 +235,6 @@ function createReportButton(report) {
     table.appendChild(tableRow);
     button.appendChild(table);
     button.setAttribute("class", "report btn " + tagColors[report["tag"]]);
-    return button;
+    whole.appendChild(button);
+    return whole;
 }

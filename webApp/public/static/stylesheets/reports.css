@@ -126,15 +126,13 @@ body {
     text-overflow: ellipsis;
 }
 
-.checkbox {
-    width: 2%;
+.whole {
+    width: 100%;
 }
 
 .container {
     display: block;
     position: relative;
-    padding-left: 35px;
-    margin-bottom: 15px;
     cursor: pointer;
     font-size: 15px;
     -webkit-user-select: none;
@@ -155,6 +153,16 @@ body {
 /* Create a custom checkbox */
 .checkmark {
     position: absolute;
+    top: 15px;
+    left: 5px;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+/* Create a custom checkbox */
+.checkmark_hd {
+    position: absolute;
     top: 0;
     left: 0;
     height: 15px;
@@ -163,16 +171,19 @@ body {
 }
 
 /* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark_hd,
 .container:hover input ~ .checkmark {
     background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark_hd,
 .container input:checked ~ .checkmark {
     background-color: #2196f3;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
+.checkmark_hd:after,
 .checkmark:after {
     content: "";
     position: absolute;
@@ -180,11 +191,13 @@ body {
 }
 
 /* Show the checkmark when checked */
+.container input:checked ~ .checkmark_hd:after,
 .container input:checked ~ .checkmark:after {
     display: block;
 }
 
 /* Style the checkmark/indicator */
+.container .checkmark_hd:after,
 .container .checkmark:after {
     left: 4.5px;
     top: 2px;
