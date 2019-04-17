@@ -117,10 +117,13 @@ body {
     white-space: pre;
 }
 
-.buttonResolvedUnresolved,
+.buttonResolvedUnresolved {
+    width: 5%;
+}
 .buttonReportIDText,
 .buttonIncidentIDText {
-    width: 6%;
+    margin-left: 30px;
+    width: 5%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -163,8 +166,8 @@ body {
 /* Create a custom checkbox */
 .checkmark_hd {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0px;
+    left: 0px;
     height: 15px;
     width: 15px;
     background-color: #eee;
@@ -220,7 +223,7 @@ body {
 }
 
 .buttonLocationText {
-    width: 15%;
+    width: 20%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
