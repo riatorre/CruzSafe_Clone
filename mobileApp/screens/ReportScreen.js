@@ -1120,7 +1120,12 @@ class ReportScreen extends Component {
                         </View>
                     </Modal>
                 </Container>
-                <Modal isVisible={this.state.isSelectionTipVisible}>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.isSelectionTipVisible}
+                    onRequestClose={() => {}}
+                >
                     <View style={{ flex: 1 }}>
                         <Text>
                             Select the type of issue you want to report. For
