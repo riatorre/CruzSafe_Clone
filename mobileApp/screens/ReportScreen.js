@@ -1126,7 +1126,7 @@ class ReportScreen extends Component {
                     visible={this.state.isSelectionTipVisible}
                     onRequestClose={() => {}}
                 >
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.tipBubbleSquare}>
                         <Text>
                             Select the type of issue you want to report. For
                             example, if you think the area is too dark, select

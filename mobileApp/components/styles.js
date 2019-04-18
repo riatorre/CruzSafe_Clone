@@ -210,5 +210,11 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
         backgroundColor: "#9BC378"
+    },
+    tipBubbleSquare: {
+        width: 200,
+        height: 110,
+        backgroundColor: "#D4BBE5",
+        borderRadius: 10
     }
 }));
