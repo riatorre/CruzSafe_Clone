@@ -152,37 +152,37 @@ class HomeScreen extends Component {
             });
     }
 
-    async askReport() {
-        console.log("calling askReport");
-        console.log(tutorialParams);
-        await this.getTutorialParams();
-        console.log(tutorialParams);
-        if (
-            tutorialParams &&
-            tutorialParams.reportOnboarding &&
-            tutorialParams.tips
-        ) {
-            Alert.alert(
-                "Tip",
-                "To get started, press the green report button.",
-                [
-                    {
-                        text: "Got it",
-                        onPress: () => {
-                            //enter tutorial
-                            console.log("Got it");
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                        }
-                    }
-                ]
-            );
-        }
-    }
+    // async askReport() {
+    //     console.log("calling askReport");
+    //     console.log(tutorialParams);
+    //     await this.getTutorialParams();
+    //     console.log(tutorialParams);
+    // if (
+    //     tutorialParams &&
+    //     tutorialParams.reportOnboarding &&
+    //     tutorialParams.tips
+    // ) {
+    //     Alert.alert(
+    //         "Tip",
+    //         "To get started, press the green report button.",
+    //         [
+    //             {
+    //                 text: "Got it",
+    //                 onPress: () => {
+    //                     //enter tutorial
+    //                     console.log("Got it");
+    //                 }
+    //             },
+    //             {
+    //                 text: "Stop showing tips",
+    //                 onPress: () => {
+    //                     tutorialParams.tips = false;
+    //                 }
+    //             }
+    //         ]
+    //     );
+    // }
+    //}
 
     // When the user create a report, start detecting previous unsubmitted report
     async handleReport(visible) {
@@ -263,7 +263,7 @@ class HomeScreen extends Component {
         console.log("HS did mount");
         this._isMounted = true;
         await this.checkLogin();
-        await this.askReport();
+        //await this.askReport();
         await this.getTutorialParams();
         this.getNotificationPermission();
     }

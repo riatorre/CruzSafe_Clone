@@ -6,7 +6,6 @@ import {
     SafeAreaView,
     TouchableOpacity,
     Platform,
-    Modal,
     ScrollView,
     AsyncStorage,
     AppState,
@@ -14,6 +13,7 @@ import {
     Image,
     ActivityIndicator
 } from "react-native";
+import Modal from "react-native-modal";
 import {
     Container,
     Header,
@@ -98,7 +98,8 @@ class ReportScreen extends Component {
         iOSPickerVisible: false,
         pre_report: null,
         isLoading: true,
-        submitting: false
+        submitting: false,
+        isSelectionTipVisible: false
     };
 
     runTutorial() {
@@ -141,7 +142,7 @@ class ReportScreen extends Component {
                     {
                         text: "Got it",
                         onPress: () => {
-                            this.selectionTip();
+                            this.toggleSelectionTip();
                         }
                     },
                     {
@@ -156,29 +157,20 @@ class ReportScreen extends Component {
         }
     }
 
-    selectionTip() {
+    toggleSelectionTip() {
+        console.log("Toggling selection tip?");
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            Alert.alert(
-                "Tip",
-                "Select the type of issue you want to report. For example, if you think the area is too dark, select  “Lighting Deficiency”.",
-                [
-                    {
-                        text: "Got it",
-                        onPress: () => {
-                            this.descriptionTip();
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                            this.setTutorialParams();
-                        }
-                    }
-                ]
+            console.log(
+                "Toggling selection tip: " + this.state.isSelectionTipVisible
+            );
+            this.setState({
+                isSelectionTipVisible: !this.state.isSelectionTipVisible
+            });
+            console.log(
+                "Toggling selection tip: " + this.state.isSelectionTipVisible
             );
         }
     }
@@ -765,6 +757,11 @@ class ReportScreen extends Component {
         this._isMounted && this.setState({ appState: nextAppState });
     };
 
+    stopTips() {
+        tutorialParams.tips = false;
+        this.setTutorialParams();
+    }
+
     render() {
         const { goBack } = this.props.navigation;
         const IncidentTypePicker = createIncidentTypePicker;
@@ -1123,6 +1120,21 @@ class ReportScreen extends Component {
                         </View>
                     </Modal>
                 </Container>
+                <Modal isVisible={this.state.isSelectionTipVisible}>
+                    <View style={{ flex: 1 }}>
+                        <Text>
+                            Select the type of issue you want to report. For
+                            example, if you think the area is too dark, select
+                            “Lighting Deficiency”.
+                        </Text>
+                        <TouchableOpacity onPress={this.descriptionTip}>
+                            <Text>Got it</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.stopTips}>
+                            <Text>Stop showing tips</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
             </SafeAreaView>
         );
     }

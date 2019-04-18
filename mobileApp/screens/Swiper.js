@@ -434,8 +434,8 @@ export default class Screen extends React.Component {
                     >
                         <View style={[styles.slideTextContainer]}>
                             <Text style={styles.slideText}>
-                                If you press the green stoplight button,
-                                CruzSafe will direct you to make a report.
+                                To get started, exit the tutorial and press the
+                                green report button.
                             </Text>
                         </View>
                         <View style={[styles.slideImageContainer]}>
