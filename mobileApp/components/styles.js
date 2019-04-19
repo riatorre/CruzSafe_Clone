@@ -270,9 +270,38 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
+    cameraLocation: {
+        position: "absolute",
+        left: 15,
+        top: 350
+    },
+    cameraTriangle: {
+        position: "absolute",
+        left: 145,
+        top: -16,
+        width: 3,
+        height: 3,
+        borderRightColor: "transparent",
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: "#AA94FF",
+        borderLeftWidth: 9,
+        borderLeftColor: "transparent"
+    },
     tipBubbleSquare: {
         width: 290,
         height: 105,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#D1C7F9",
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: "#AA94FF"
+    },
+    tipBubbleBigger: {
+        width: 290,
+        height: 140,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",

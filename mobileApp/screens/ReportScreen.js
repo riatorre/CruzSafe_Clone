@@ -102,7 +102,8 @@ class ReportScreen extends Component {
         submitting: false,
         isSelectionTipVisible: false,
         isDescriptionTipVisible: false,
-        isLocationTipVisible: false
+        isLocationTipVisible: false,
+        isCameraTipVisible: false
     };
 
     runTutorial() {
@@ -118,7 +119,7 @@ class ReportScreen extends Component {
                     {
                         text: "Yes",
                         onPress: () => {
-                            this.tourTip();
+                            this.tourAlert();
                         }
                     },
                     {
@@ -133,7 +134,7 @@ class ReportScreen extends Component {
         }
     }
 
-    tourTip() {
+    tourAlert() {
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
@@ -170,17 +171,9 @@ class ReportScreen extends Component {
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            console.log(
-                "Toggling description tip: " +
-                    this.state.isDescriptionTipVisible
-            );
             await this.setState({
                 isDescriptionTipVisible: !this.state.isDescriptionTipVisible
             });
-            console.log(
-                "Toggling description tip: " +
-                    this.state.isDescriptionTipVisible
-            );
         }
     }
 
@@ -201,29 +194,19 @@ class ReportScreen extends Component {
         }
     }
 
-    cameraTip() {
+    async toggleCameraTip() {
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            Alert.alert(
-                "Tip",
-                "If you wish to take a photo or video to add to the report, press the “Open Camera” button. If you would prefer to select one from the gallery, press “Open Gallery”.",
-                [
-                    {
-                        text: "Got it",
-                        onPress: () => {
-                            this.photoViewTip();
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                            this.setTutorialParams();
-                        }
-                    }
-                ]
+            console.log(
+                "Toggling location tip: " + this.state.isCameraTipVisible
+            );
+            await this.setState({
+                isCameraTipVisible: !this.state.isCameraTipVisible
+            });
+            console.log(
+                "Toggling location tip: " + this.state.isCameraTipVisible
             );
         }
     }
@@ -1184,7 +1167,7 @@ class ReportScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.toggleLocationTip();
-                                this.stopTips();
+                                this.toggleCameraTip();
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1201,6 +1184,44 @@ class ReportScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.locationTriangle} />
+                </View>
+                <View
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.isCameraTipVisible}
+                    style={
+                        this.state.isCameraTipVisible
+                            ? styles.cameraLocation
+                            : styles.locationHidden
+                    }
+                >
+                    <View style={styles.tipBubbleBigger}>
+                        <Text style={styles.mainTipText}>
+                            If you wish to take a photo or video to add to the
+                            report, press the “Open Camera” button. If you would
+                            prefer to select one from the gallery, press “Open
+                            Gallery”.
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleCameraTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.continue}>Continue</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleCameraTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.cameraTriangle} />
                 </View>
             </SafeAreaView>
         );
