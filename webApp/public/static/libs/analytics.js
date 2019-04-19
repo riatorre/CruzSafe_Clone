@@ -21,59 +21,65 @@ var savedLabels = null;
 var chartType = "bar";
 
 function setChartLine() {
-    chartType = "line";
-    standardOptions = {
-        legend: {
-            labels: {
-                fontColor: "grey",
-                fontSize: 12
-            }
-        },
-        scales: {
-            yAxes: [
-                {
-                    ticks: {
-                        beginAtZero: true
-                    }
+    if (chartType != "line") {
+        chartType = "line";
+        standardOptions = {
+            legend: {
+                labels: {
+                    fontColor: "grey",
+                    fontSize: 12
                 }
-            ]
+            },
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        };
+        if (savedDict != null) {
+            renderChart(savedDict, savedLabels, chartType, standardOptions);
         }
-    };
-    if (savedDict != null) {
-        renderChart(savedDict, savedLabels, chartType, standardOptions);
     }
 }
 function setChartBar() {
-    chartType = "bar";
-    standardOptions = {
-        legend: {
-            labels: {
-                fontColor: "grey",
-                fontSize: 12
-            }
-        },
-        scales: {
-            yAxes: [
-                {
-                    ticks: {
-                        beginAtZero: true
-                    }
+    if (chartType != "bar") {
+        chartType = "bar";
+        standardOptions = {
+            legend: {
+                labels: {
+                    fontColor: "grey",
+                    fontSize: 12
                 }
-            ]
+            },
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }
+                ]
+            }
+        };
+        if (savedDict != null) {
+            renderChart(savedDict, savedLabels, chartType, standardOptions);
         }
-    };
-    if (savedDict != null) {
-        renderChart(savedDict, savedLabels, chartType, standardOptions);
     }
 }
 function setChartPie() {
-    chartType = "pie";
-    standardOptions = {
-        responsive: true,
-        maintainAspectRatio: false
-    };
-    if (savedDict != null) {
-        renderChart(savedDict, savedLabels, chartType, standardOptions);
+    if (chartType != "pie") {
+        chartType = "pie";
+        standardOptions = {
+            responsive: true,
+            maintainAspectRatio: false
+        };
+        if (savedDict != null) {
+            renderChart(savedDict, savedLabels, chartType, standardOptions);
+        }
     }
 }
 
