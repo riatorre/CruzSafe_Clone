@@ -1144,15 +1144,19 @@ class ReportScreen extends Component {
                     </View>
                     <View style={styles.selectionTriangle} />
                 </View>
-                <Modal
+                <View
                     animationType="fade"
                     transparent={true}
                     visible={this.state.isDescriptionTipVisible}
-                    style={styles.descriptionLocation}
+                    style={
+                        this.state.isDescriptionTipVisible
+                            ? styles.descriptionLocation
+                            : styles.locationHidden
+                    }
                 >
                     <View style={styles.tipBubbleSquare}>
                         <Text style={styles.mainTipText}>
-                            Enter a detailed description of the incident. Eg, “I
+                            Describe the problem in detail. For example, “I
                             almost tripped in the hall because it is very dark.”
                         </Text>
                         <TouchableOpacity
@@ -1175,8 +1179,8 @@ class ReportScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.selectionTriangle} />
-                </Modal>
+                    <View style={styles.descriptionTriangle} />
+                </View>
             </SafeAreaView>
         );
     }

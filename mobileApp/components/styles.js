@@ -214,7 +214,7 @@ export default (styles = StyleSheet.create({
     selectionLocation: {
         position: "absolute",
         left: 15,
-        top: 175
+        top: 172
     },
     locationHidden: {
         position: "absolute",
@@ -236,12 +236,12 @@ export default (styles = StyleSheet.create({
     },
     descriptionLocation: {
         position: "absolute",
-        left: 0,
-        top: 214
+        left: 15,
+        top: 230
     },
     descriptionTriangle: {
         position: "absolute",
-        left: 240,
+        left: 145,
         top: -16,
         width: 3,
         height: 3,
