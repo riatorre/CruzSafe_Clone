@@ -212,12 +212,22 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#9BC378"
     },
     tipBubbleSquare: {
-        width: 200,
-        height: 110,
+        width: 290,
+        height: 105,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#D4BBE5",
-        borderRadius: 10
+        backgroundColor: "#D7CDFF",
+        borderRadius: 15,
+        borderColor: "#AA94FF"
+    },
+    mainTipText: {
+        fontSize: 15
+    },
+    continue: {
+        fontSize: 22
+    },
+    stopTips: {
+        fontSize: 12
     }
 }));

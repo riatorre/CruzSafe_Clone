@@ -142,16 +142,9 @@ class ReportScreen extends Component {
                 "You are currently in tour mode, so this first report will not actually be submitted.",
                 [
                     {
-                        text: "Got it",
+                        text: "Continue",
                         onPress: () => {
                             this.toggleSelectionTip();
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                            this.setTutorialParams();
                         }
                     }
                 ]
@@ -1120,7 +1113,7 @@ class ReportScreen extends Component {
                     visible={this.state.isSelectionTipVisible}
                 >
                     <View style={styles.tipBubbleSquare}>
-                        <Text>
+                        <Text style={styles.mainTipText}>
                             Select the type of issue you want to report. For
                             example, if you think the area is too dark, select
                             “Lighting Deficiency”.
@@ -1131,7 +1124,7 @@ class ReportScreen extends Component {
                                 this.toggleDescriptionTip();
                             }}
                         >
-                            <Text>Got it</Text>
+                            <Text style={styles.continue}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
@@ -1139,7 +1132,9 @@ class ReportScreen extends Component {
                                 this.stopTips();
                             }}
                         >
-                            <Text>Stop showing tips</Text>
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>
@@ -1149,7 +1144,7 @@ class ReportScreen extends Component {
                     visible={this.state.isDescriptionTipVisible}
                 >
                     <View style={styles.tipBubbleSquare}>
-                        <Text>
+                        <Text style={styles.mainTipText}>
                             Enter a detailed description of the incident. Eg, “I
                             almost tripped in the hall because it is very dark.”
                         </Text>
@@ -1160,7 +1155,7 @@ class ReportScreen extends Component {
                                 this.stopTips();
                             }}
                         >
-                            <Text>Got it</Text>
+                            <Text style={styles.continue}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
@@ -1168,7 +1163,9 @@ class ReportScreen extends Component {
                                 this.stopTips();
                             }}
                         >
-                            <Text>Stop showing tips</Text>
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>
