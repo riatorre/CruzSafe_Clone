@@ -1,4 +1,4 @@
-const standardOptions = {
+var standardOptions = {
     legend: {
         labels: {
             fontColor: "grey",
@@ -15,6 +15,56 @@ const standardOptions = {
         ]
     }
 };
+
+var chartType = "bar";
+
+function setChartLine() {
+    chartType = "line";
+    standardOptions = {
+        legend: {
+            labels: {
+                fontColor: "grey",
+                fontSize: 12
+            }
+        },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    };
+}
+function setChartBar() {
+    chartType = "bar";
+    standardOptions = {
+        legend: {
+            labels: {
+                fontColor: "grey",
+                fontSize: 12
+            }
+        },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
+        }
+    };
+}
+function setChartPie() {
+    chartType = "pie";
+    standardOptions = {
+        responsive: true,
+        maintainAspectRatio: false
+    };
+}
 
 /*
     Grabs all of the tags. 
@@ -51,7 +101,7 @@ function renderReportByTag() {
             renderChart(
                 tagsDict,
                 ["New", "Incomplete", "Complete"],
-                "bar",
+                chartType,
                 standardOptions
             );
         }
@@ -98,7 +148,7 @@ function renderReportByUser() {
             renderChart(
                 usersDict,
                 ["New", "Incomplete", "Complete"],
-                "bar",
+                chartType,
                 standardOptions
             );
         }
@@ -158,7 +208,7 @@ function renderReportByDayOfWeek() {
                     "Friday",
                     "Saturday"
                 ],
-                "line",
+                chartType,
                 standardOptions
             );
         }
@@ -248,7 +298,7 @@ function renderReportByTimeOfDay() {
                     "2200",
                     "2300"
                 ],
-                "line",
+                chartType,
                 standardOptions
             );
         }
@@ -342,7 +392,7 @@ function renderReportByTimeOfDayTag() {
                     "2200",
                     "2300"
                 ],
-                "line",
+                chartType,
                 standardOptions
             );
         }
@@ -398,7 +448,7 @@ function renderReportByMonthOfYear() {
                     "Nov",
                     "Dec"
                 ],
-                "bar",
+                chartType,
                 standardOptions
             );
         }
@@ -427,10 +477,12 @@ function renderReportByAttachments() {
                 const attachments = report["attachments"];
                 dict[0].data[parseInt(attachments)]++;
             });
-            renderChart(dict, ["No Attachments", "Attachments"], "pie", {
-                responsive: true,
-                maintainAspectRatio: false
-            });
+            renderChart(
+                dict,
+                ["No Attachments", "Attachments"],
+                chartType,
+                standardOptions
+            );
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/reports/allReports");

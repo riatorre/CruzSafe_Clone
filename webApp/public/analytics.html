@@ -52,33 +52,52 @@
             </div>
         </header>
         <main class="withHeader">
-            <div class="row bordered">
-                <div class="column third bordered leaf">
+            <div class="column third bordered leaf">
+                <div class="row bordered">
+                    <button onclick="setChartLine()">
+                        Line Chart
+                    </button>
+                    <br />
+                    <button onclick="setChartBar()">
+                        Bar Chart
+                    </button>
+                    <br />
+                    <button onclick="setChartPie()">
+                        Pie Chart
+                    </button>
+                    <br />
+                </div>
+                <div class="row bordered">
                     <button onclick="renderReportByTag()">
                         Reports By Tag
                     </button>
+                    <br />
                     <button onclick="renderReportByUser()">
                         Reports By User
                     </button>
+                    <br />
                     <button onclick="renderReportByDayOfWeek()">
                         Reports By Day of Week
                     </button>
+                    <br />
                     <button onclick="renderReportByTimeOfDay()">
                         Reports By Time of Day
                     </button>
                     <button onclick="renderReportByTimeOfDayTag()">
                         Reports By Time of Day With Tags
                     </button>
+                    <br />
                     <button onclick="renderReportByMonthOfYear()">
                         Reports By Month of Year
                     </button>
+                    <br />
                     <button onclick="renderReportByAttachments()">
                         Reports By Attachments
                     </button>
                 </div>
-                <div class="column twoThirds bordered leaf" id="chartDiv">
-                    <h1 style="color:crimson">Please select a chart</h1>
-                </div>
+            </div>
+            <div class="column twoThirds bordered leaf" id="chartDiv">
+                <h1 style="color:crimson">Please select a chart</h1>
             </div>
         </main>
         <script src="./libs/navLib.js"></script>
