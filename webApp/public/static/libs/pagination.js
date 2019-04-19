@@ -161,7 +161,11 @@ function createList(start, end, elementArray, renderFunc) {
 // accepts element ID as id, all elements & their information passed as an array of objects, and
 // a function used to define how to render the info (renderFunc)
 function createPages(id, key, maxElemPerPage, elementArray, renderFunc) {
-    if (paginations[key] != null && paginations[key].parentNode.id != id) {
+    if (
+        paginations[key] != null &&
+        paginations[key].parentNode != null &&
+        paginations[key].parentNode.id != id
+    ) {
         clearPages(key);
     }
     var upperBound = 0;
