@@ -264,7 +264,8 @@ function renderReportByTimeOfDay() {
 
                 const time = parseInt(
                     formatDate(ts, {
-                        hour: "numeric"
+                        hour: "numeric",
+                        hour12: false
                     })
                 );
                 // Increment the information.
@@ -358,7 +359,8 @@ function renderReportByTimeOfDayTag() {
 
                 const time = parseInt(
                     formatDate(ts, {
-                        hour: "numeric"
+                        hour: "numeric",
+                        hour12: false
                     })
                 );
                 // Increment the information.
