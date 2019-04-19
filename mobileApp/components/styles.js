@@ -214,6 +214,9 @@ export default (styles = StyleSheet.create({
     tipBubbleSquare: {
         width: 200,
         height: 110,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: "#D4BBE5",
         borderRadius: 10
     }

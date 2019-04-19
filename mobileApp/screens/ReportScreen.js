@@ -57,6 +57,7 @@ var tutorialParams = {
     historyOnboarding: false,
     sidebarOnboarding: false
 };
+
 function createIncidentTypePicker(props) {
     return (
         <TouchableOpacity
@@ -99,7 +100,8 @@ class ReportScreen extends Component {
         pre_report: null,
         isLoading: true,
         submitting: false,
-        isSelectionTipVisible: false
+        isSelectionTipVisible: false,
+        isDescriptionTipVisible: false
     };
 
     runTutorial() {
@@ -157,7 +159,7 @@ class ReportScreen extends Component {
         }
     }
 
-    toggleSelectionTip() {
+    async toggleSelectionTip() {
         console.log("Toggling selection tip?");
         if (
             tutorialParams.reportOnboarding == true &&
@@ -166,7 +168,7 @@ class ReportScreen extends Component {
             console.log(
                 "Toggling selection tip: " + this.state.isSelectionTipVisible
             );
-            this.setState({
+            await this.setState({
                 isSelectionTipVisible: !this.state.isSelectionTipVisible
             });
             console.log(
@@ -175,29 +177,21 @@ class ReportScreen extends Component {
         }
     }
 
-    descriptionTip() {
+    async toggleDescriptionTip() {
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            Alert.alert(
-                "Tip",
-                "Enter a detailed description of the incident. Eg, “I almost tripped in the hall because it is very dark.”",
-                [
-                    {
-                        text: "Got it",
-                        onPress: () => {
-                            this.locationTip();
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                            this.setTutorialParams();
-                        }
-                    }
-                ]
+            console.log(
+                "Toggling description tip: " +
+                    this.state.isDescriptionTipVisible
+            );
+            await this.setState({
+                isDescriptionTipVisible: !this.state.isDescriptionTipVisible
+            });
+            console.log(
+                "Toggling description tip: " +
+                    this.state.isDescriptionTipVisible
             );
         }
     }
@@ -757,9 +751,9 @@ class ReportScreen extends Component {
         this._isMounted && this.setState({ appState: nextAppState });
     };
 
-    stopTips() {
+    async stopTips() {
         tutorialParams.tips = false;
-        this.setTutorialParams();
+        await this.setTutorialParams();
     }
 
     render() {
@@ -1124,7 +1118,6 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     visible={this.state.isSelectionTipVisible}
-                    onRequestClose={() => {}}
                 >
                     <View style={styles.tipBubbleSquare}>
                         <Text>
@@ -1132,10 +1125,49 @@ class ReportScreen extends Component {
                             example, if you think the area is too dark, select
                             “Lighting Deficiency”.
                         </Text>
-                        <TouchableOpacity onPress={this.descriptionTip}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleSelectionTip();
+                                this.toggleDescriptionTip();
+                            }}
+                        >
                             <Text>Got it</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.stopTips}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleSelectionTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text>Stop showing tips</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.isDescriptionTipVisible}
+                >
+                    <View style={styles.tipBubbleSquare}>
+                        <Text>
+                            Enter a detailed description of the incident. Eg, “I
+                            almost tripped in the hall because it is very dark.”
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleDescriptionTip();
+                                //this.descriptionTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text>Got it</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleDescriptionTip();
+                                this.stopTips();
+                            }}
+                        >
                             <Text>Stop showing tips</Text>
                         </TouchableOpacity>
                     </View>
