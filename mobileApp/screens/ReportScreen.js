@@ -1111,6 +1111,7 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     visible={this.state.isSelectionTipVisible}
+                    style={styles.selectionLocation}
                 >
                     <View style={styles.tipBubbleSquare}>
                         <Text style={styles.mainTipText}>
@@ -1137,11 +1138,13 @@ class ReportScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={styles.selectionTriangle} />
                 </Modal>
                 <Modal
                     animationType="fade"
                     transparent={true}
                     visible={this.state.isDescriptionTipVisible}
+                    style={styles.tipBubbleLocation}
                 >
                     <View style={styles.tipBubbleSquare}>
                         <Text style={styles.mainTipText}>
