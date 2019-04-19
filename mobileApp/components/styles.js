@@ -213,8 +213,8 @@ export default (styles = StyleSheet.create({
     },
     selectionLocation: {
         position: "absolute",
-        left: 0,
-        top: 158
+        left: 15,
+        top: 175
     },
     locationHidden: {
         position: "absolute",
