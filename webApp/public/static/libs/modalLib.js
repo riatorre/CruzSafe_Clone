@@ -47,7 +47,18 @@ document.onkeydown = function(e) {
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target.className == "modal") {
-        event.target.style.display = "none";
+        // Checks to see if modal even exists
+        if (modals) {
+            // Checks to see if modal is open
+            modals.forEach(function(element) {
+                if (element.style.display === "inline-flex") {
+                    document.getElementById("close").click();
+                }
+            });
+            modalKeys.forEach(function(key) {
+                closeModal(key); // If the abovecode doesn't work, just closes.
+            });
+        }
     }
 };
 
