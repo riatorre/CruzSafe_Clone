@@ -15,6 +15,8 @@ var standardOptions = {
         ]
     }
 };
+var savedDict = null;
+var savedLabels = null;
 
 var chartType = "bar";
 
@@ -37,6 +39,9 @@ function setChartLine() {
             ]
         }
     };
+    if (savedDict != null) {
+        renderChart(savedDict, savedLabels, chartType, standardOptions);
+    }
 }
 function setChartBar() {
     chartType = "bar";
@@ -57,6 +62,9 @@ function setChartBar() {
             ]
         }
     };
+    if (savedDict != null) {
+        renderChart(savedDict, savedLabels, chartType, standardOptions);
+    }
 }
 function setChartPie() {
     chartType = "pie";
@@ -64,6 +72,9 @@ function setChartPie() {
         responsive: true,
         maintainAspectRatio: false
     };
+    if (savedDict != null) {
+        renderChart(savedDict, savedLabels, chartType, standardOptions);
+    }
 }
 
 /*
@@ -559,6 +570,8 @@ function renderChart(dict, labels, type, options) {
         },
         options: options
     });
+    savedDict = dict;
+    savedLabels = labels;
 }
 
 /*
