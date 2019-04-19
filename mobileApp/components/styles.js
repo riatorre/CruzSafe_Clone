@@ -252,6 +252,24 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
+    locationLocation: {
+        position: "absolute",
+        left: 15,
+        top: 302
+    },
+    locationTriangle: {
+        position: "absolute",
+        left: 145,
+        top: -16,
+        width: 3,
+        height: 3,
+        borderRightColor: "transparent",
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: "#AA94FF",
+        borderLeftWidth: 9,
+        borderLeftColor: "transparent"
+    },
     tipBubbleSquare: {
         width: 290,
         height: 105,

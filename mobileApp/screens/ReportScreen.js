@@ -101,7 +101,8 @@ class ReportScreen extends Component {
         isLoading: true,
         submitting: false,
         isSelectionTipVisible: false,
-        isDescriptionTipVisible: false
+        isDescriptionTipVisible: false,
+        isLocationTipVisible: false
     };
 
     runTutorial() {
@@ -158,15 +159,9 @@ class ReportScreen extends Component {
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            console.log(
-                "Toggling selection tip: " + this.state.isSelectionTipVisible
-            );
             await this.setState({
                 isSelectionTipVisible: !this.state.isSelectionTipVisible
             });
-            console.log(
-                "Toggling selection tip: " + this.state.isSelectionTipVisible
-            );
         }
     }
 
@@ -189,29 +184,19 @@ class ReportScreen extends Component {
         }
     }
 
-    locationTip() {
+    async toggleLocationTip() {
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            Alert.alert(
-                "Tip",
-                "Enter a clear description of the location. Eg, “Hallway outside Baskin 116.”",
-                [
-                    {
-                        text: "Got it",
-                        onPress: () => {
-                            this.cameraTip();
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                            this.setTutorialParams();
-                        }
-                    }
-                ]
+            console.log(
+                "Toggling location tip: " + this.state.isLocationTipVisible
+            );
+            await this.setState({
+                isLocationTipVisible: !this.state.isLocationTipVisible
+            });
+            console.log(
+                "Toggling location tip: " + this.state.isLocationTipVisible
             );
         }
     }
@@ -1162,8 +1147,7 @@ class ReportScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.toggleDescriptionTip();
-                                //this.descriptionTip();
-                                this.stopTips();
+                                this.toggleLocationTip();
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1180,6 +1164,43 @@ class ReportScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.descriptionTriangle} />
+                </View>
+                <View
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.isDescriptionTipVisible}
+                    style={
+                        this.state.isLocationTipVisible
+                            ? styles.locationLocation
+                            : styles.locationHidden
+                    }
+                >
+                    <View style={styles.tipBubbleSquare}>
+                        <Text style={styles.mainTipText}>
+                            Clearly describe where you found the issue. For
+                            example, “Hallway outside Baskin Engineering room
+                            102.”
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleLocationTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.continue}>Continue</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.toggleLocationTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.locationTriangle} />
                 </View>
             </SafeAreaView>
         );
