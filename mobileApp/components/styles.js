@@ -216,7 +216,30 @@ export default (styles = StyleSheet.create({
         left: 0,
         top: 158
     },
+    locationHidden: {
+        position: "absolute",
+        left: -1000,
+        top: -1000
+    },
     selectionTriangle: {
+        position: "absolute",
+        left: 240,
+        top: -16,
+        width: 3,
+        height: 3,
+        borderRightColor: "transparent",
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: "#AA94FF",
+        borderLeftWidth: 9,
+        borderLeftColor: "transparent"
+    },
+    descriptionLocation: {
+        position: "absolute",
+        left: 0,
+        top: 214
+    },
+    descriptionTriangle: {
         position: "absolute",
         left: 240,
         top: -16,
