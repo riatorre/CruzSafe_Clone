@@ -360,7 +360,7 @@ function incChange() {
         if (this.readyState == 4 && this.status == 200) {
         }
     };
-    request.open("POST", "http://localhost:8080/api/reports/updateInc");
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/updateInc");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ reports: selected, inc: new_inc }));
     selected = [];
