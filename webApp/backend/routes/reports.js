@@ -961,6 +961,29 @@ router.post("/updateToken", function(req, res) {
     });*/
 });
 
+router.post("/updateInc", function(req, res) {
+    var reportID = req.body.reports;
+    var inc_num = req.body.inc;
+    var query = "UPDATE reports SET incidentID = " + inc_num + " Where";
+    for (var i = 0; i < reportID.length - 1; i++) {
+        query = query + " reportID = " + reportID[i] + " OR ";
+    }
+    query += " reportID = " + reportID[reportID.length - 1];
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+});
+
 /*
     The following is imported code to convert JS date to MySQL TS.
 */

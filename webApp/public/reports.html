@@ -193,14 +193,20 @@
                                         <tr
                                             onclick="console.log('Row has been clicked')"
                                         >
-                                            <div>
+                                            <td class="check_header">
                                                 <label class="container">
-                                                    <input type="checkbox" />
+                                                    <input
+                                                        type="checkbox"
+                                                        class="check"
+                                                        id="All"
+                                                        onclick="selectAll()"
+                                                    />
                                                     <span
-                                                        class="checkmark_hd"
+                                                        id="checkmark_hd"
+                                                        class="checkmark"
                                                     ></span>
                                                 </label>
-                                            </div>
+                                            </td>
                                             <td
                                                 class="buttonResolvedUnresolved"
                                             >
@@ -209,11 +215,34 @@
                                             <td class="buttonReportIDText">
                                                 Report #
                                             </td>
+                                            <td>
+                                                <div>
+                                                    <input
+                                                        type="number"
+                                                        id="inc"
+                                                        size="5"
+                                                    />
+                                                </div>
+                                            </td>
                                             <td class="buttonIncidentIDText">
-                                                Inc #
+                                                <div id="inc_t">
+                                                    Inc #
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div id="submit_inc">
+                                                    <input
+                                                        type="button"
+                                                        id="sub"
+                                                        value="submit"
+                                                        onclick="incChange()"
+                                                    />
+                                                </div>
                                             </td>
                                             <td class="buttonReportTSText">
-                                                Date & Time
+                                                <div id="date_t">
+                                                    Date & Time
+                                                </div>
                                             </td>
                                             <td class="buttonTagText">
                                                 Tag

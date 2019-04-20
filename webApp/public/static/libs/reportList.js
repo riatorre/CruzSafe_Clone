@@ -154,6 +154,9 @@ function createReportButton(report) {
 
     const check = document.createElement("input");
     check.setAttribute("type", "checkbox");
+    check.setAttribute("class", "check");
+    check.setAttribute("id", report["reportID"]);
+    check.setAttribute("onclick", "selectReports()");
 
     const span = document.createElement("span");
     span.setAttribute("class", "checkmark");
@@ -237,4 +240,129 @@ function createReportButton(report) {
     button.setAttribute("class", "report btn " + tagColors[report["tag"]]);
     whole.appendChild(button);
     return whole;
+}
+
+var reports = [];
+var selected = [];
+
+// Select multiple reports
+function selectReports() {
+    if (reports.length == 0) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                reportIDsArray = JSON.parse(request.response);
+                // Gotten array of IDs.
+                Array.from(reportIDsArray).forEach(function(reportID) {
+                    reports.push(reportID["reportID"]);
+                    if (All.checked == true) {
+                        document.getElementById(
+                            reportID["reportID"]
+                        ).checked = true;
+                        selected.push(reportID["reportID"]);
+                    } else {
+                        if (
+                            document.getElementById(reportID["reportID"])
+                                .checked == true
+                        ) {
+                            selected.push(reportID["reportID"]);
+                        }
+                    }
+                });
+            }
+        };
+        request.open(
+            "POST",
+            "https://cruzsafe.appspot.com/api/reports/reportIDs"
+        );
+        request.send();
+    } else {
+        Array.from(reports).forEach(function(report) {
+            if (document.getElementById(report).checked == true) {
+                if (selected.indexOf(report) == -1) {
+                    selected.push(report);
+                }
+            }
+        });
+    }
+    if (selected.length > 0) {
+        Array.from(selected).forEach(function(report) {
+            if (document.getElementById(report).checked == false) {
+                var index = selected.indexOf(report);
+                selected.splice(index, 1);
+            }
+        });
+    }
+    if (inc.style.display !== "block" && selected.length == 0) {
+        inc.style.display = "block";
+        sub.style.display = "block";
+        inc_t.style.display = "none";
+        date_t.style.display = "none";
+    } else if (
+        inc.style.display !== "none" &&
+        selected.length == 0 &&
+        All.checked != true
+    ) {
+        inc_t.style.display = "block";
+        date_t.style.display = "block";
+        sub.style.display = "none";
+        inc.style.display = "none";
+    } else {
+        sub.style.display = "block";
+        inc.style.display = "block";
+        inc_t.style.display = "none";
+        date_t.style.display = "none";
+    }
+}
+
+// Select all reports
+function selectAll() {
+    if (All.checked == true) {
+        inc.style.display = "block";
+        sub.style.display = "block";
+        inc_t.style.display = "none";
+        date_t.style.display = "none";
+        if (reports.length == 0) {
+            selectReports();
+        } else {
+            Array.from(reports).forEach(function(report) {
+                document.getElementById(report).checked = true;
+                selected.push(report);
+            });
+        }
+    } else {
+        inc_t.style.display = "block";
+        date_t.style.display = "block";
+        sub.style.display = "none";
+        inc.style.display = "none";
+        if (reports.length !== 0) {
+            Array.from(reports).forEach(function(report) {
+                document.getElementById(report).checked = false;
+                selected = [];
+            });
+        }
+    }
+}
+
+//
+function incChange() {
+    inc_t.style.display = "block";
+    date_t.style.display = "block";
+    sub.style.display = "none";
+    inc.style.display = "none";
+    Array.from(selected).forEach(function(report) {
+        document.getElementById(report).checked = false;
+    });
+    All.checked = false;
+    var new_inc = inc.value;
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        }
+    };
+    request.open("POST", "http://localhost:8080/api/reports/updateInc");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ reports: selected, inc: new_inc }));
+    selected = [];
+    setupListReports();
 }
