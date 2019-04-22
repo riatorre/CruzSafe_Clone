@@ -5,7 +5,6 @@
 **/*.png~
 **/*.kra
 **/*.kra~
-**/Shibboleth
 **/new_*
 **/notes
 **/public_backup
