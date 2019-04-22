@@ -9,9 +9,9 @@ const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
 const passport_SAML = require("passport-saml").Strategy;
-const localStrategy = require("passport-local").Strategy;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+var fs = require("fs");
 
 // Imports of our files
 const connectionPool = require("./backend/DB/config");
@@ -23,33 +23,6 @@ const facilities = require("./backend/routes/facilities");
 const assignments = require("./backend/routes/assignments");
 
 const app = express();
-
-passport.serializeUser(function(user, cb) {
-    cb(null, user);
-});
-
-passport.deserializeUser(function(id, cb) {
-    findById(id, function(err, user) {
-        cb(err, user);
-    });
-});
-
-function findById(id, cb) {
-    const query = "SELECT * FROM webUsers WHERE webID = " + id;
-    connectionPool.handleAPI(
-        id,
-        null,
-        1,
-        1,
-        query,
-        user => {
-            cb(null, user);
-        },
-        err => {
-            cb(err, null);
-        }
-    );
-}
 
 // Allow for Cross Origin Requests
 app.use(cors());
@@ -93,6 +66,59 @@ app.get("/gridTesting.html", function(req, res) {
     });
 });
 
+passport.serializeUser(function(user, cb) {
+    cb(null, user);
+});
+
+passport.deserializeUser(function(user, cb) {
+    cb(null, user);
+});
+
+// SAML Strategy for Passport; Utilizes Shibboleth
+
+const cert = fs.readFileSync("./backend/Shibboleth/sp-cert.pem", "utf-8");
+const key = fs.readFileSync("./backend/Shibboleth/sp-key.pem", "utf-8");
+
+const ShibbolethCert =
+    "MIIDmDCCAoACCQDLTquv7ZdiLTANBgkqhkiG9w0BAQsFADCBjTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEzARBgNVBAcMClNhbnRhIENydXoxLTArBgNVBAoMJFVuaXZlcnNpdHkgb2YgQ2FsaWZvcm5pYSwgU2FudGEgQ3J1ejEMMAoGA1UECwwDSVRTMRcwFQYDVQQDDA5sb2dpbi51Y3NjLmVkdTAeFw0xNTA2MDIyMzE3NDJaFw0yMDA1MzEyMzE3NDJaMIGNMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTETMBEGA1UEBwwKU2FudGEgQ3J1ejEtMCsGA1UECgwkVW5pdmVyc2l0eSBvZiBDYWxpZm9ybmlhLCBTYW50YSBDcnV6MQwwCgYDVQQLDANJVFMxFzAVBgNVBAMMDmxvZ2luLnVjc2MuZWR1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs8RybvRl9WBJDpXGOsoBrEfFKsAuwnz0sSFmjI4zkkV7WXuX2lLbBPhOnJdKbrXL11J6mDZgf8ydhH31nJJvP98bHo0LQIXe2t1dfLVinhtpOy3TQguQ7Biipwe4g0E+HI4U9ndL7jEO/Xf2diMGCSOKyZjSubSYFpgXj0ORpvixqsAId0R0JLA4Xf4OV8+l6BqlB7DwzzeZcf49pSq8CCP8QkgU3DzaemNM6Yvqtu1cTpYJ9HqRV2aRGj+GOOMVshmJ+8iDr02U5jh+0E+5485lNKb7gWHNA7kLa0QBWm4eBAU0DYQzgnuVG2OeHpP1mKsc77wBkfScyGlOcKvCNQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAZBRvJsHdjLTtoPfa8MuuL3KcyE9dj9rWHeyrnEuWuMfhO95BN6utPkneoOsDKZORHDAVELTrZ4E4iq36xLWarv+37jh2U7EFFqW4zVm/0Pmoa+NtnKTs78tF80n4+Zwt2iPSIJS0ZPHiNl2XYjNb7auwUK2XvpqBqh8rP63+nSEHmgFOzg01nWoJz2Q0uQ7C0mEV6aai0jp7M5se6pgnauX2g28ZyFORa5H0DO8Ku0SY8l9lTKRgXgsEOk8b2jJwuYnHu2dafiqrLOkdpKFPczD6ZGIx6eofqKmMeT4x+rZSvIZsq1j1wRw04gzQTHWCuEb+aN4x9ogtc8tHKC0O7";
+/*
+var SSOCircle = new passport_SAML(
+    {
+        protocol: "http://",
+        host: "169.233.232.43:8080",
+        path: "/login/callback",
+        issuer: "http://169.233.232.43:8080",
+        entryPoint:
+            "https://idp.ssocircle.com/sso/idpssoinit?metaAlias=%2Fpublicidp&spEntityID=http://169.233.232.43:8080",
+        cert: coreCert,
+        decryptionPvk: key,
+        privateCert: key,
+        logoutCallbackUrl: "http://169.233.232.43:8080/logout/callback"
+    },
+    function(profile, done) {
+        return done(null,profile);
+    }
+);*/
+
+var Shibboleth = new passport_SAML(
+    {
+        protocol: "https://",
+        host: "cruzsafe.appspot.com",
+        path: "/login/callback",
+        issuer: "https://cruzsafe.appspot.com/shibboleth",
+        entryPoint: "https://login.ucsc.edu/idp/profile/SAML2/Redirect/SSO",
+        cert: ShibbolethCert,
+        decryptionPvk: key,
+        privateCert: key,
+        logoutCallbackUrl: "https://cruzsafe.appspot.com/logout/callback"
+    },
+    function(profile, done) {
+        return done(null, profile);
+    }
+);
+
+passport.use(Shibboleth);
+
 app.use(
     session({
         secret: "REEEEEE",
@@ -105,83 +131,35 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// SAML Strategy for Passport; Utilizes Shibboleth
-/*passport.use(
-    new passport_SAML(
-        {
-            path: "",
-            entryPoint: "https://login.ucsc.edu/idp/shibboleth",
-            issuer: "https://cruzsafe.appspot.com/shibboleth"
-        },
-        function(profile, done) {
-            findByEmail(profile.email, function(err, user) {
-                if (err) {
-                    return done(err);
-                }
-                return done(null, user);
-            });
-        }
-    )
-);*/
-
-// Local Strategy for Passport
-passport.use(
-    new localStrategy(function(username, password, done) {
-        const query =
-            "SELECT webID FROM webUsers WHERE username = '" +
-            username +
-            "' AND PW = '" +
-            password +
-            "'";
-        connectionPool.handleAPI(
-            null,
-            null,
-            0,
-            0,
-            query,
-            val => {
-                if (val) {
-                    return done(null, val[0].webID);
-                } else {
-                    return done(null, false);
-                }
-            },
-            err => {
-                return done(err);
-            }
-        );
+// Redirects to SAML login (Shibboleth); first portion is fine, need to fix in order to sort between Mobile and Web Requests
+app.get(
+    "/login",
+    passport.authenticate("saml", {
+        failureRedirect: "/",
+        failureFlash: true
     })
 );
 
-// Catch for login.html; allows for user to navigate here w/o authentication
-app.get("/login.html", function(req, res) {
-    res.sendFile("login.html", {
-        root: __dirname + "/public"
-    });
-});
+//Callback path for SAML login
+app.post(
+    "/login/callback",
+    passport.authenticate("saml", {
+        failureRedirect: "/",
+        failureFlash: true
+    }),
+    function(req, res) {
+        res.redirect("/homepage.html");
+    }
+);
 
-// Handles form data for login.html; Logs user in
-app.post("/login.html", function(req, res, next) {
-    passport.authenticate(
-        "local",
-        function(err, user, info) {
-            if (err) {
-                myConsole.error(err);
-            } else if (info) {
-                myConsole.log(info);
-            } else {
-                req.login(user, function(err) {
-                    if (err) {
-                        myConsole.error(err);
-                    } else {
-                        res.redirect("/homepage.html");
-                    }
-                });
-            }
-        },
-        { successRedirect: "/homepage.html", failureRedirect: "/login.html" }
-    )(req, res, next);
-});
+/*
+app.get("/Shibboleth.sso/Metadata", function(req, res) {
+    fs.writeFileSync(
+        "Metadata.xml",
+        Shibboleth.generateServiceProviderMetadata(cert, cert)
+    );
+    res.sendFile("Metadata.xml", { root: __dirname });
+});*/
 
 // Sets up Access Control for any page that is not the welcome page
 // Only affects html pages; should not affect APIs, images, css, js, etc pages/files
