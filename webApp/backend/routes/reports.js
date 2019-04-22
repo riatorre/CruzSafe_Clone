@@ -593,6 +593,30 @@ router.post("/latestReports", function(req, res) {
     );
 });
 
+/*
+    Insert a new work order number. 
+*/
+router.post("/newWorkOrder", function(req, res) {
+    const query =
+        "UPDATE reports SET orderNumber = " +
+        req.body.orderNumber +
+        " WHERE reportID = " +
+        req.body.reportID;
+    connectionPool.handleAPI(
+        [req.body.orderNumber, req.body.reportID],
+        null,
+        2,
+        2,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+});
+
 /*** Report Notes ***/
 
 // Get notes joined with webID given a reportID.

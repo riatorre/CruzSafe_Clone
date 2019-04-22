@@ -14,11 +14,11 @@ function createUserModal() {
     const userInfo = document.createElement("DIV");
     userInfo.setAttribute("class", "row eighth leaf leftAlign");
     userInfo.innerHTML =
-        "<div class = 'name'><div><b>Name:</b> <span id='fullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
+        "<div class = 'name'><div><b>Name:</b> <span id='userFullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
     userInfo.innerHTML +=
-        "<div class = 'phone'><div><b>Phone:</b> <span id='phone'></span></div></div>";
+        "<div class = 'phone'><div><b>Phone:</b> <span id='userPhone'></span></div></div>";
     userInfo.innerHTML +=
-        "<div class = 'email'><div><b>Email:</b> <span id='email'></span></div></div>";
+        "<div class = 'email'><div><b>Email:</b> <span id='userEmail'></span></div></div>";
 
     column1.appendChild(userInfo);
 
@@ -156,7 +156,9 @@ function displayUser(webID) {
         if (this.readyState == 4 && this.status == 200) {
             user = JSON.parse(request.response)[0];
 
-            document.getElementById("fullName") = JSON.stringify(user);
+            document.getElementById("userFullName").innerHTML = JSON.stringify(
+                user
+            );
 
             openModal("userModal");
         }
