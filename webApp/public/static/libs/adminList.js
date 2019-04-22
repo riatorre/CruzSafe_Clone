@@ -2,6 +2,34 @@
  * Administrative page setup
  */
 
+// Function used to create a Modal ready to display Single Report Data
+function createUserModal() {
+    const user = document.createElement("DIV");
+    user.setAttribute("class", "row");
+
+    const column1 = document.createElement("DIV");
+    column1.setAttribute("class", "column half reportColumn");
+
+    // Placeholder user information.
+    const userInfo = document.createElement("DIV");
+    userInfo.setAttribute("class", "row eighth leaf leftAlign");
+    userInfo.innerHTML =
+        "<div class = 'name'><div><b>Name:</b> <span id='fullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
+    userInfo.innerHTML +=
+        "<div class = 'phone'><div><b>Phone:</b> <span id='phone'></span></div></div>";
+    userInfo.innerHTML +=
+        "<div class = 'email'><div><b>Email:</b> <span id='email'></span></div></div>";
+
+    column1.appendChild(userInfo);
+
+    const column2 = document.createElement("DIV");
+    column2.setAttribute("class", "column half reportColumn");
+
+    user.appendChild(column1);
+    user.appendChild(column2);
+    return user;
+}
+
 /*
     Grabs a list of all users and populates userList div in admin page. 
  */
@@ -30,11 +58,9 @@ function setupUsersList() {
 function createUserButton(userList, user) {
     var button = document.createElement("BUTTON");
 
-    button.setAttribute("onclick", "displayUser(" + user["webID"] + ")");
-
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
-    //button.setAttribute("onclick", "displayUser(" + report["reportID"] + ")"); TODO+++++++++++++
+    button.setAttribute("onclick", "displayUser(" + user["webID"] + ")");
 
     const firstNameText = document.createElement("td");
     firstNameText.setAttribute("class", "buttonFirstNameText");
@@ -123,4 +149,19 @@ function refreshPage() {
     request.send(JSON.stringify({ facilityID: facilityID }));
 }
 
-function displayUser(webID) {}
+function displayUser(webID) {
+    // Gather information on user.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            user = JSON.parse(request.response)[0];
+
+            document.getElementById("fullName") = JSON.stringify(user);
+
+            openModal("userModal");
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/users/webUser");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ webID: webID }));
+}

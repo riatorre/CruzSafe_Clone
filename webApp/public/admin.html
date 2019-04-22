@@ -179,88 +179,7 @@
             </div>
         </main>
         <div id="modalTarget"></div>
-        <!--PLACEHOLDER USER MODAL; NOT USABALE-->
-        <center>
-            <div id="userModal" class="modal">
-                <form class="modal-content animate" method="POST">
-                    <div class="imgcontainer">
-                        <!--Close Button; closes Modal-->
-                        <span
-                            onclick="hideReport()"
-                            class="close"
-                            title="Close Modal"
-                            ><i class="fa fa-times"></i
-                        ></span>
-                        <!--Report Content-->
-                        <div id="reportContent" class="container">
-                            <div class="reportRow">
-                                <div id="column1" class="reportColumn1">
-                                    <p>
-                                        <b>Report:</b> #<span
-                                            id="incidentID"
-                                        ></span>
-                                        <b id="resolvedUnresolved"></b>
-                                    </p>
-                                    <p>
-                                        <b>Time:</b> <span id="reportTS"></span>
-                                    </p>
-                                    <p>
-                                        <b>Location:</b>
-                                        <span id="location"></span>
-                                        <span id="actualPinned"></span>
-                                    </p>
-                                    <p><b>Tag:</b> <span id="tag"></span></p>
-                                    <br />
-                                    <img
-                                        id="reportMap"
-                                        src="./assets/images/report_map.png"
-                                        alt="report map"
-                                    />
-                                    <br />
-                                    <img
-                                        id="reportPhoto"
-                                        src="./assets/images/report_photo.png"
-                                        alt="report photo"
-                                    />
-                                </div>
-                                <div id="column2" class="reportColumn2">
-                                    <br />
-                                    <p>
-                                        <b>Name:</b>
-                                        <span id="fullName"></span> - #<span
-                                            id="mobileID"
-                                        ></span>
-                                    </p>
-                                    <p>
-                                        <b>Phone:</b> <span id="phone"></span>
-                                    </p>
-                                    <p>
-                                        <b>Email:</b> <span id="email"></span>
-                                    </p>
-                                    <br />
-                                    <b>Report Body:</b>
-                                    <br /><br />
-                                    <p id="body"></p>
-                                    <br />
-                                    <div id="responseButtons">
-                                        <button id="reportRespond">
-                                            Respond
-                                        </button>
-                                        <button id="reportOther">
-                                            Other Options
-                                        </button>
-                                        <button id="reportResolve">
-                                            Resolved
-                                        </button>
-                                        <br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </center>
+        <div id="modalTargetUser"></div>
         <script src="./libs/modalLib.js"></script>
         <script src="./libs/navLib.js"></script>
         <script src="./libs/adminList.js"></script>
@@ -273,6 +192,7 @@
             const pageID = 1; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
             var webID = 1;
             setupModal("modalTarget", "reportModal", createReportModal);
+            setupModal("modalTargetUser", "userModal", createUserModal);
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
                 setupUsersList();

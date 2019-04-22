@@ -299,6 +299,11 @@ function populateReport(reportID, tags, tagColors, reportInfo) {
             "onClick",
             "initializeMessage(" + reportID + "," + webID + ")"
         );
+    // Edit the workorder button and field
+    document.getElementById("workOrderNum").value = productInfo["orderNumber"];
+    document
+        .getElementById("workOrderBtn")
+        .setAttribute("onClick", "assignWorkOrder(" + reportID + ")");
     // Edit the whitelist options + button
     document
         .getElementById("whitelistBtn")
@@ -358,6 +363,8 @@ function generateProductInfo(reportInfo, tags) {
     });
     // location
     productInfo["location"] = reportInfo["location"];
+    // Work order
+    productInfo["orderNumber"] = reportInfo["orderNumber"];
     // actual/pinned
     if (reportInfo["unchangedLocation"]) {
         var actualPinned = "(Actual)";
@@ -737,6 +744,32 @@ function forwardReport(reportID, webID, facilityID) {
             reportID: reportID,
             webID: webID,
             facilityID: facilityID
+        })
+    );
+}
+
+/*
+    Edits the workorder column.
+*/
+function assignWorkOrder(reportID) {
+    var orderNumber = document.getElementById("workOrderNum").value; // Grab the value of the input
+    // Input into database.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Work order sent
+            alert("Work order of " + orderNumber + " sent!");
+        }
+    };
+    request.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/reports/newWorkOrder"
+    );
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(
+        JSON.stringify({
+            reportID: reportID,
+            orderNumber: orderNumber
         })
     );
 }
