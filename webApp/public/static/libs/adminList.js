@@ -2,28 +2,74 @@
  * Administrative page setup
  */
 
+// Standard options for graphs.
+var standardOptions = {
+    legend: {
+        labels: {
+            fontColor: "black",
+            fontSize: 12
+        }
+    },
+    scales: {
+        yAxes: [
+            {
+                ticks: {
+                    beginAtZero: true
+                }
+            }
+        ]
+    }
+};
+
 // Function used to create a Modal ready to display Single Report Data
 function createUserModal() {
     const user = document.createElement("DIV");
     user.setAttribute("class", "row");
 
     const column1 = document.createElement("DIV");
-    column1.setAttribute("class", "column half reportColumn");
+    column1.setAttribute("class", "column twoThirds reportColumn");
 
-    // Placeholder user information.
+    // User information
     const userInfo = document.createElement("DIV");
     userInfo.setAttribute("class", "row eighth leaf leftAlign");
     userInfo.innerHTML =
-        "<div class = 'name'><div><b>Name:</b> <span id='userFullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
+        "<div class = 'name'><div><b>Name:</b> <span id='userFullName' placeholder='FullName'></span> - #<span id='webID'></span></div></div>";
     userInfo.innerHTML +=
-        "<div class = 'phone'><div><b>Phone:</b> <span id='userPhone'></span></div></div>";
+        "<div class = 'phone'><div><b>Title:</b> <span id='userTitle'></span></div></div>";
     userInfo.innerHTML +=
-        "<div class = 'email'><div><b>Email:</b> <span id='userEmail'></span></div></div>";
+        "<div class = 'email'><div><b>Role:</b> <span id='userRole'></span></div></div>";
+    userInfo.innerHTML +=
+        "<div class = 'email'><div><b>Facility:</b> <span id='userFacility'></span></div></div>";
+
+    // User History list.
+    const userHistory = document.createElement("DIV");
+    userHistory.setAttribute("class", "row sevenEighths leaf leftAlign");
+    userHistory.setAttribute("id", "userHistory");
 
     column1.appendChild(userInfo);
+    column1.appendChild(userHistory);
 
     const column2 = document.createElement("DIV");
-    column2.setAttribute("class", "column half reportColumn");
+    column2.setAttribute("class", "column third reportColumn");
+
+    // Graphs for statistics.
+    const userGraph1Div = document.createElement("DIV");
+    userGraph1Div.setAttribute("class", "row leaf leftAlign");
+    userGraph1Div.setAttribute("id", "userGraph1Div");
+    /*const userGraph2Div = document.createElement("DIV");
+    userGraph2Div.setAttribute("class", "row oneHalf leaf leftAlign");
+    userGraph2Div.setAttribute("id", "userGraph2Div");*/
+    /*const userGraph3Div = document.createElement("DIV");
+    userGraph3Div.setAttribute("class", "row oneFourth leaf leftAlign");
+    userGraph3Div.setAttribute("id", "userGraph3Div");
+    const userGraph4Div = document.createElement("DIV");
+    userGraph4Div.setAttribute("class", "row oneFourth leaf leftAlign");
+    userGraph4Div.setAttribute("id", "userGraph4Div");*/
+
+    column2.appendChild(userGraph1Div);
+    //column2.appendChild(userGraph2Div);
+    //column2.appendChild(userGraph3Div);
+    //column2.appendChild(userGraph4Div);
 
     user.appendChild(column1);
     user.appendChild(column2);
@@ -156,14 +202,150 @@ function displayUser(webID) {
         if (this.readyState == 4 && this.status == 200) {
             user = JSON.parse(request.response)[0];
 
-            document.getElementById("userFullName").innerHTML = JSON.stringify(
-                user
-            );
+            // Input user information in modal.
+            document.getElementById("userFullName").innerHTML =
+                user["firstName"] + " " + user["lastName"];
+            document.getElementById("webID").innerHTML = user["webID"];
+            document.getElementById("userTitle").innerHTML = user["title"];
+            document.getElementById("userRole").innerHTML = user["role"];
+            document.getElementById("userFacility").innerHTML =
+                user["facilityName"];
 
+            // Input User History (Todo.)
+
+            displayUserHelper(webID);
             openModal("userModal");
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/users/webUser");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ webID: webID }));
+}
+
+function displayUserHelper(webID) {
+    // Gather information on user.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            userInfo = JSON.parse(request.response);
+
+            // Create User graphs
+            readyDivCanvas("userGraph1Div", "userGraph1");
+            // Action summary graph
+            var dict = {};
+            var newData = {
+                label: "First Opened Report",
+                data: [0],
+                fillColor: ["rgba(255, 99, 132, 1)"]
+            };
+            dict[0] = newData;
+            var newData = {
+                label: "Viewed Report",
+                data: [0],
+                fillColor: ["rgba(54, 162, 235, 1)"]
+            };
+            dict[1] = newData;
+            var newData = {
+                label: "Forwarded Report",
+                data: [0],
+                fillColor: ["rgba(255, 206, 86, 1)"]
+            };
+            dict[2] = newData;
+            var newData = {
+                label: "Responded to Report",
+                data: [0],
+                fillColor: ["rgba(75, 192, 192, 1)"]
+            };
+            dict[3] = newData;
+            var newData = {
+                label: "Completed Report",
+                data: [0],
+                fillColor: ["rgba(153, 102, 255, 1)"]
+            };
+            dict[4] = newData;
+            var newData = {
+                label: "Other",
+                data: [0],
+                fillColor: ["rgba(255, 159, 64, 1)"]
+            };
+            dict[5] = newData;
+
+            Array.from(userInfo).forEach(function(note) {
+                if (note["content"] == "{Report initially opened}") {
+                    dict[0].data[0]++;
+                } else if (note["content"] == "{Viewed report}") {
+                    dict[1].data[0]++;
+                } else if (
+                    note["content"].startsWith(
+                        "{Report has been successfully forwarded to"
+                    )
+                ) {
+                    dict[2].data[0]++;
+                } else if (
+                    note["content"].startsWith("{Sent pre-written response:")
+                ) {
+                    dict[3].data[0]++;
+                } else if (note["content"] == "{Report marked as complete}") {
+                    dict[4].data[0]++;
+                } else {
+                    dict[5].data[0]++;
+                }
+            });
+            renderChart(
+                "userGraph1",
+                dict,
+                [userInfo[0]["firstName"] + "'s Actions"],
+                "bar",
+                standardOptions
+            );
+            //readyDivCanvas("userGraph2Div", "userGraph2");
+            //readyDivCanvas("userGraph3Div", "userGraph3");
+            //readyDivCanvas("userGraph4Div", "userGraph4");
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/users/webUserNotes");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ webID: webID }));
+}
+
+/*
+    Code that takes in a dictionary that contains at least label, data, and backgroundCOlor. 
+    Also takes in labels [] and type
+
+    Ex) renderChart(usersDict, ["New", "Incomplete", "Complete"], "bar")
+*/
+function renderChart(canvasName, dict, labels, type, options) {
+    var ctx = document.getElementById(canvasName).getContext("2d");
+    var datasets = [];
+    for (key in dict) {
+        if (dict.hasOwnProperty(key)) {
+            const value = dict[key];
+            datasets.push({
+                label: value.label,
+                data: value.data,
+                backgroundColor: value.fillColor
+            });
+        }
+    }
+    var firstOpenedDelayChart = new Chart(ctx, {
+        type: type,
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: options
+    });
+}
+
+/*
+    Helper function to initialize a div with a canvas with a given id. 
+*/
+function readyDivCanvas(chartDivName, id) {
+    const chartDiv = document.getElementById(chartDivName);
+    while (chartDiv.firstChild) {
+        chartDiv.removeChild(chartDiv.firstChild);
+    }
+    const newCanvas = document.createElement("canvas");
+    newCanvas.setAttribute("id", id);
+    chartDiv.appendChild(newCanvas);
 }

@@ -469,7 +469,7 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
                         insertNote(
                             reportID,
                             webID,
-                            "{ Report has been successfully forwarded to " +
+                            "{Report has been successfully forwarded to " +
                                 facilityName +
                                 "}"
                         );
