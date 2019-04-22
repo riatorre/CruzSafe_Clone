@@ -154,8 +154,7 @@ router.post("/updateLogin", function(req, res) {
 router.post("/webUser", function(req, res) {
     const query =
         //"SELECT * FROM webUsers, reportNotes, assignments WHERE webUsers.webID = reportNotes.webID AND webUsers.webID = assignments.senderWebID AND webUsers.webID = " +
-        "SELECT * FROM webUsers, assignments WHERE webUsers.webID = assignments.senderWebID AND webUsers.webID = " +
-        req.body.webID;
+        "SELECT * FROM webUsers WHERE webUsers.webID = " + req.body.webID;
     connectionPool.handleAPI(
         req.body.webID,
         null,
