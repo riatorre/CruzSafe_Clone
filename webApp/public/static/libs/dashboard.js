@@ -162,6 +162,7 @@ function MainMap() {
             reportInfo = JSON.parse(data.response); // Returns an array
             if (reportInfo != null) {
                 Array.prototype.forEach.call(reportInfo, function(report) {
+                    var r_id = report["reportID"];
                     var id = report["incidentID"];
                     var tag = report["tag"];
                     var reportTS = report["reportTS"];
@@ -215,7 +216,7 @@ function MainMap() {
                     });
 
                     marker.addListener("click", function() {
-                        displayReport(id, false);
+                        displayReport(r_id, false);
                     });
                     marker.addListener("mouseover", function() {
                         infoWindow.setContent(infowincontent);
