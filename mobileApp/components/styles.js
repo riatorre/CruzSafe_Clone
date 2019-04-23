@@ -259,7 +259,7 @@ export default (styles = StyleSheet.create({
     },
     locationTriangle: {
         position: "absolute",
-        left: 145,
+        left: 110,
         top: -16,
         width: 3,
         height: 3,
@@ -273,19 +273,32 @@ export default (styles = StyleSheet.create({
     cameraLocation: {
         position: "absolute",
         left: 15,
-        top: 350
+        top: 135
     },
-    cameraTriangle: {
+    cameraTriangle1: {
         position: "absolute",
-        left: 145,
-        top: -16,
+        left: 61,
+        top: 140,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
-        borderRightWidth: 9,
-        borderBottomWidth: 16,
-        borderBottomColor: "#AA94FF",
-        borderLeftWidth: 9,
+        borderRightWidth: 10,
+        borderTopWidth: 18,
+        borderTopColor: "#AA94FF",
+        borderLeftWidth: 10,
+        borderLeftColor: "transparent"
+    },
+    cameraTriangle2: {
+        position: "absolute",
+        left: 207,
+        top: 140,
+        width: 3,
+        height: 3,
+        borderRightColor: "transparent",
+        borderRightWidth: 10,
+        borderTopWidth: 18,
+        borderTopColor: "#AA94FF",
+        borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
     tipBubbleSquare: {
