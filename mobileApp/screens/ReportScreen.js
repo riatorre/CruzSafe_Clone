@@ -1221,7 +1221,8 @@ class ReportScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.cameraTriangle} />
+                    <View style={styles.cameraTriangle1} />
+                    <View style={styles.cameraTriangle2} />
                 </View>
             </SafeAreaView>
         );
