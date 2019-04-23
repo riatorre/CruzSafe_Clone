@@ -133,43 +133,42 @@ class LocationScreen extends Component {
                         <Right />
                     </Header>
                     <View style={{ flex: 1 }}>
+                        <Icon
+                            name={`${Platform.OS === "ios" ? "ios" : "md"}-pin`}
+                            style={{
+                                zIndex: 3,
+                                position: "absolute",
+                                marginTop: -26,
+                                marginLeft: -9,
+                                left: "50%",
+                                top: "50%",
+                                color: "red"
+                            }}
+                            size={40}
+                            color="#f00"
+                        />
                         <MapView
                             style={{ flex: 1 }}
-                            region={{
+                            initialRegion={{
                                 latitude: parseFloat(this.state.latitude),
                                 longitude: parseFloat(this.state.longitude),
                                 latitudeDelta: 0.0461,
                                 longitudeDelta: 0.021
                             }}
-                        >
-                            <MapView.Marker
-                                draggable
-                                coordinate={{
-                                    latitude: parseFloat(this.state.latitude),
-                                    longitude: parseFloat(this.state.longitude)
-                                }}
-                                title={"Incident Location"}
-                                onDragEnd={e => {
-                                    var pre_report = this.state.pre_report;
-                                    pre_report.incidentLatitude =
-                                        e.nativeEvent.coordinate.latitude;
-                                    pre_report.incidentLongitude =
-                                        e.nativeEvent.coordinate.longitude;
-                                    pre_report.unchangedLocation = false;
-                                    this._isMounted &&
-                                        this.setState({
-                                            latitude:
-                                                e.nativeEvent.coordinate
-                                                    .latitude,
-                                            longitude:
-                                                e.nativeEvent.coordinate
-                                                    .longitude,
-                                            unchangedLocation: false,
-                                            pre_report: pre_report
-                                        });
-                                }}
-                            />
-                        </MapView>
+                            onRegionChangeComplete={region => {
+                                var pre_report = this.state.pre_report;
+                                pre_report.incidentLatitude = region.latitude;
+                                pre_report.incidentLongitude = region.longitude;
+                                pre_report.unchangedLocation = false;
+                                this._isMounted &&
+                                    this.setState({
+                                        latitude: region.latitude,
+                                        longitude: region.longitude,
+                                        unchangedLocation: false,
+                                        pre_report: pre_report
+                                    });
+                            }}
+                        />
                         <View
                             style={{
                                 position: "absolute",
