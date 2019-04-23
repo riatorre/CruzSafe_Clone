@@ -153,8 +153,30 @@ router.post("/updateLogin", function(req, res) {
 */
 router.post("/webUser", function(req, res) {
     const query =
-        //"SELECT * FROM webUsers, reportNotes, assignments WHERE webUsers.webID = reportNotes.webID AND webUsers.webID = assignments.senderWebID AND webUsers.webID = " +
-        "SELECT * FROM webUsers WHERE webUsers.webID = " + req.body.webID;
+        "SELECT * FROM webUsers LEFT JOIN facilities ON webUsers.facilityID = facilities.facilityID WHERE webUsers.webID = " +
+        req.body.webID;
+    connectionPool.handleAPI(
+        req.body.webID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occured" });
+        }
+    );
+});
+
+/*
+    Grab information about a single webID with notes.
+*/
+router.post("/webUserNotes", function(req, res) {
+    const query =
+        "SELECT * FROM webUsers, reportNotes, facilities WHERE webUsers.webID = reportNotes.webID  AND webUsers.facilityID = facilities.facilityID AND webUsers.webID = " +
+        req.body.webID;
     connectionPool.handleAPI(
         req.body.webID,
         null,

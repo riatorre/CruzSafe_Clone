@@ -190,6 +190,7 @@ setInterval(clearExpiredReports, 86400000);
 
 // Access Control Function
 // Utilizes a function from Passport.js to determine if user is Authenticated
+// * NOTE! Comment this function out if you want to run locally, and only navagate using URL.
 function verifyAuthentication(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
