@@ -316,12 +316,12 @@ export default (styles = StyleSheet.create({
     photoViewLocation: {
         position: "absolute",
         left: 15,
-        top: 135
+        top: 192
     },
-    PhotoViewTriangle: {
+    photoViewTriangle: {
         position: "absolute",
-        left: 61,
-        top: 140,
+        left: 135,
+        top: 90,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
@@ -345,6 +345,17 @@ export default (styles = StyleSheet.create({
     tipBubbleBigger: {
         width: 290,
         height: 140,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#D1C7F9",
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: "#AA94FF"
+    },
+    tipBubbleSmaller: {
+        width: 290,
+        height: 90,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",

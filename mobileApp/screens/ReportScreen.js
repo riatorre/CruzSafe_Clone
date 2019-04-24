@@ -1213,10 +1213,10 @@ class ReportScreen extends Component {
                             : styles.locationHidden
                     }
                 >
-                    <View style={styles.tipBubbleBigger}>
+                    <View style={styles.tipBubbleSmaller}>
                         <Text style={styles.mainTipText}>
-                            You can click on the photo/video above if you wish
-                            to view the full-size image.
+                            You can click on the thumbnail below to view the
+                            full-size image/video.
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
