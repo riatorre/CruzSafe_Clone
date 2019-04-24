@@ -54,6 +54,7 @@ const newPre_report = {
 var tutorialParams = {
     tips: false,
     reportOnboarding: false,
+    thumbnailOnboarding: false,
     historyOnboarding: false,
     sidebarOnboarding: false
 };

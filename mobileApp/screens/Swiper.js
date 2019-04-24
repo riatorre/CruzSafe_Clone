@@ -12,31 +12,7 @@ import Swiper from "react-native-swiper";
 
 import styles from "../components/styles.js";
 
-var tutorialParams = {
-    tips: false,
-    reportOnboarding: true,
-    historyOnboarding: true,
-    sidebarOnboarding: true
-};
-
 export default class Screen extends React.Component {
-    async getTutorialParams() {
-        tutorialParams = JSON.parse(
-            await AsyncStorage.getItem("tutorialParams")
-        );
-    }
-
-    async setTutorialParams() {
-        try {
-            await AsyncStorage.setItem(
-                "tutorialParams",
-                JSON.stringify(tutorialParams)
-            );
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
-
     render() {
         swiper = this;
         return (
@@ -455,16 +431,7 @@ export default class Screen extends React.Component {
                             <TouchableOpacity
                                 style={styles.btn}
                                 onPress={() => {
-                                    this.getTutorialParams().then(results => {
-                                        tutorialParams.tips = true;
-                                        this.setTutorialParams().then(
-                                            results2 => {
-                                                this.props.navigation.navigate(
-                                                    "Home"
-                                                );
-                                            }
-                                        );
-                                    });
+                                    this.props.navigation.navigate("Home");
                                 }}
                             >
                                 <Text

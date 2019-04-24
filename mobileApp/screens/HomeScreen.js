@@ -40,13 +40,6 @@ const newPre_report = {
     unchangedLocation: true,
     imageURI: null
 };
-//Initialize tutorialParams. We will later pull the proper parameters.
-var tutorialParams = {
-    tips: false,
-    reportOnboarding: false,
-    historyOnboarding: false,
-    sidebarOnboarding: false
-};
 
 class HomeScreen extends Component {
     async continue() {
@@ -152,38 +145,6 @@ class HomeScreen extends Component {
             });
     }
 
-    // async askReport() {
-    //     console.log("calling askReport");
-    //     console.log(tutorialParams);
-    //     await this.getTutorialParams();
-    //     console.log(tutorialParams);
-    // if (
-    //     tutorialParams &&
-    //     tutorialParams.reportOnboarding &&
-    //     tutorialParams.tips
-    // ) {
-    //     Alert.alert(
-    //         "Tip",
-    //         "To get started, press the green report button.",
-    //         [
-    //             {
-    //                 text: "Got it",
-    //                 onPress: () => {
-    //                     //enter tutorial
-    //                     console.log("Got it");
-    //                 }
-    //             },
-    //             {
-    //                 text: "Stop showing tips",
-    //                 onPress: () => {
-    //                     tutorialParams.tips = false;
-    //                 }
-    //             }
-    //         ]
-    //     );
-    // }
-    //}
-
     // When the user create a report, start detecting previous unsubmitted report
     async handleReport(visible) {
         this.delay = setTimeout(() => {
@@ -198,12 +159,6 @@ class HomeScreen extends Component {
         } catch (error) {
             console.log(error.message);
         }
-    }
-
-    async getTutorialParams() {
-        tutorialParams = JSON.parse(
-            await AsyncStorage.getItem("tutorialParams")
-        );
     }
 
     async getMobileID() {
@@ -264,7 +219,6 @@ class HomeScreen extends Component {
         this._isMounted = true;
         await this.checkLogin();
         //await this.askReport();
-        await this.getTutorialParams();
         this.getNotificationPermission();
     }
 
