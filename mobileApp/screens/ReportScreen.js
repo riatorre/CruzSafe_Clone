@@ -104,8 +104,7 @@ class ReportScreen extends Component {
         isSelectionTipVisible: false,
         isDescriptionTipVisible: false,
         isLocationTipVisible: false,
-        isCameraTipVisible: false,
-        isThumbnailTipVisible: false
+        isCameraTipVisible: false
     };
 
     runTutorial() {
@@ -145,20 +144,15 @@ class ReportScreen extends Component {
                     {
                         text: "Continue",
                         onPress: () => {
-                            this.toggleSelectionTip();
+                            this.setState({ isSelectionTipVisible: true });
+                            console.log(
+                                "tutorialParams.thumbnailOnboarding: " +
+                                    tutorialParams.thumbnailOnboarding
+                            );
                         }
                     }
                 ]
             );
-        }
-    }
-
-    async toggleSelectionTip() {
-        console.log("Toggling selection tip?");
-        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
-            await this.setState({
-                isSelectionTipVisible: !this.state.isSelectionTipVisible
-            });
         }
     }
 
@@ -183,20 +177,6 @@ class ReportScreen extends Component {
             await this.setState({
                 isCameraTipVisible: !this.state.isCameraTipVisible
             });
-        }
-    }
-
-    async toggleThumbnailTip() {
-        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
-            console.log(
-                "Toggling Thumbnail tip: " + this.state.isThumbnailTipVisible
-            );
-            await this.setState({
-                isThumbnailTipVisible: !this.state.isThumbnailTipVisible
-            });
-            console.log(
-                "Toggling Thumbnail tip: " + this.state.isThumbnailTipVisible
-            );
         }
     }
 
@@ -252,6 +232,7 @@ class ReportScreen extends Component {
                 "tutorialParams",
                 JSON.stringify(tutorialParams)
             );
+            this.setState({});
         } catch (error) {
             console.log(error.message);
         }
@@ -1041,8 +1022,10 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     style={
+                        tutorialParams.reportOnboarding &&
+                        tutorialParams.tips &&
                         this.state.isSelectionTipVisible &&
-                        !this.state.isThumbnailTipVisible
+                        !(tutorialParams.thumbnailOnboarding && image)
                             ? styles.selectionLocation
                             : styles.locationHidden
                     }
@@ -1055,7 +1038,7 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleSelectionTip();
+                                this.setState({ isSelectionTipVisible: false });
                                 this.toggleDescriptionTip();
                             }}
                         >
@@ -1063,7 +1046,7 @@ class ReportScreen extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleSelectionTip();
+                                this.setState({ isSelectionTipVisible: false });
                                 this.stopTips();
                             }}
                         >
@@ -1078,8 +1061,7 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isDescriptionTipVisible &&
-                        !this.state.isThumbnailTipVisible
+                        this.state.isDescriptionTipVisible
                             ? styles.descriptionLocation
                             : styles.locationHidden
                     }
@@ -1114,8 +1096,7 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isLocationTipVisible &&
-                        !this.state.isThumbnailTipVisible
+                        this.state.isLocationTipVisible
                             ? styles.locationLocation
                             : styles.locationHidden
                     }
@@ -1151,8 +1132,7 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isCameraTipVisible &&
-                        !this.state.isThumbnailTipVisible
+                        this.state.isCameraTipVisible
                             ? styles.cameraLocation
                             : styles.locationHidden
                     }
@@ -1167,7 +1147,7 @@ class ReportScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.toggleCameraTip();
-                                this.toggleThumbnailTip();
+                                // this.toggleThumbnailTip();
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1190,7 +1170,9 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isThumbnailTipVisible
+                        tutorialParams.thumbnailOnboarding &&
+                        tutorialParams.tips &&
+                        image
                             ? styles.thumbnailLocation
                             : styles.locationHidden
                     }
@@ -1202,15 +1184,18 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleThumbnailTip();
-                                this.stopTips();
+                                console.log(tutorialParams);
+                                tutorialParams.thumbnailOnboarding = false;
+                                this.setTutorialParams();
+                                console.log(tutorialParams);
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleThumbnailTip();
+                                tutorialParams.thumbnailOnboarding = false;
+                                this.setTutorialParams();
                                 this.stopTips();
                             }}
                         >
