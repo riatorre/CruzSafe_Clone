@@ -8,55 +8,101 @@ import {
     Text,
     SafeAreaView,
     Image,
+    TextInput,
     AsyncStorage,
-    TouchableOpacity,
-    Linking
+    TouchableOpacity
 } from "react-native";
 
 import { Container, Header, Content, Footer } from "native-base";
-import { AuthSession, WebBrowser } from "expo";
-
+import Swiper from "react-native-swiper";
 import styles from "../components/styles.js";
 
-const authDomain = "https://cruzsafe.appspot.com/login";
-
-function toQueryString(params) {
-    return (
-        "?" +
-        Object.entries(params)
-            .map(
-                ([key, value]) =>
-                    `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-            )
-            .join("&")
-    );
-}
-
 class WelcomeScreen extends Component {
+    // State of the screen; maintained as long as app is not fully closed.
+    state = {
+        userFirstName: "",
+        userLastName: "",
+        userEmail: "",
+        errorMessage: null
+    };
+
     render() {
+        const isDisabled =
+            this.state.userFirstName.length === 0 ||
+            this.state.userLastName.length === 0 ||
+            this.state.userEmail.length === 0;
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                {/* First Screen; Welcome Logo */}
-                <Container>
-                    <Header style={styles.header} />
-                    <Content contentContainerStyle={styles.container}>
-                        <Text style={{ fontSize: 36 }}>Welcome to</Text>
-                        <Image
-                            source={require("../assets/images/SCPD_Logo.png")}
-                            style={{ width: 200, height: 200 }}
-                        />
-                        <Text style={{ fontSize: 36 }}>CruzSafe!</Text>
-                        <TouchableOpacity
-                            style={styles.signinBtn}
-                            onPress={this._handleAuth}
-                        >
-                            <Text style={{ color: "white", fontSize: 20 }}>
-                                Sign In!
+                <Swiper
+                    showsButtons={true}
+                    loop={false}
+                    showsPagination={false}
+                >
+                    {/* First Screen; Welcome Logo */}
+                    <Container>
+                        <Header style={styles.header} />
+                        <Content contentContainerStyle={styles.container}>
+                            <Text style={{ fontSize: 36 }}>Welcome to</Text>
+                            <Image
+                                source={require("../assets/images/SCPD_Logo.png")}
+                                style={{ width: 200, height: 200 }}
+                            />
+                            <Text style={{ fontSize: 36 }}>CruzSafe!</Text>
+                        </Content>
+                        <Footer style={styles.footer} />
+                    </Container>
+
+                    {/* Second Screen; Login */}
+                    <Container>
+                        <Header style={styles.header} />
+                        <Content contentContainerStyle={styles.container}>
+                            <Text style={{ fontSize: 24 }}>
+                                UCSC CruzSafe: Credentials
                             </Text>
-                        </TouchableOpacity>
-                    </Content>
-                    <Footer style={styles.footer} />
-                </Container>
+                            <TextInput
+                                style={styles.textInputWelcome}
+                                autoCapitalize="words"
+                                placeholder="First Name"
+                                onChangeText={userFirstName =>
+                                    this.setState({ userFirstName })
+                                }
+                                value={this.state.userFirstName}
+                            />
+                            <TextInput
+                                style={styles.textInputWelcome}
+                                autoCapitalize="words"
+                                placeholder="Last Name"
+                                onChangeText={userLastName =>
+                                    this.setState({ userLastName })
+                                }
+                                value={this.state.userLastName}
+                            />
+                            <TextInput
+                                style={styles.textInputWelcome}
+                                autoCapitalize="none"
+                                placeholder="Email"
+                                onChangeText={userEmail =>
+                                    this.setState({ userEmail })
+                                }
+                                value={this.state.userEmail}
+                            />
+                            <TouchableOpacity
+                                style={
+                                    !this.state.userEmail |
+                                    !this.state.userFirstName |
+                                    !this.state.userLastName
+                                        ? styles.btn_disabled
+                                        : styles.btn
+                                }
+                                disabled={isDisabled}
+                                onPress={this._signInAsync} // Initiate sign in Async!
+                            >
+                                <Text style={{ color: "white" }}>Sign in</Text>
+                            </TouchableOpacity>
+                        </Content>
+                        <Footer style={styles.footer} />
+                    </Container>
+                </Swiper>
             </SafeAreaView>
         );
     }
@@ -96,11 +142,21 @@ class WelcomeScreen extends Component {
     }
 
     // Function used to 'sign' user in. Stores name into AsyncStorage
-    _signInAsync = async (userFirstName, userLastName, userEmail) => {
+    _signInAsync = async () => {
         console.log(
-            `Attempting to sign in with ${userFirstName} and ${userLastName} and ${userEmail}`
+            "Attempting to sign in with " +
+                this.state.userFirstName +
+                " and " +
+                this.state.userLastName +
+                " and " +
+                this.state.userEmail
         );
-        await this.handleLogin(userFirstName, userLastName, userEmail);
+        await this.handleLogin(
+            this.state.userFirstName,
+            this.state.userLastName,
+            this.state.userEmail
+        );
+        this.props.navigation.navigate("App");
 
         //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
         var tutorialParams = {
@@ -113,33 +169,6 @@ class WelcomeScreen extends Component {
             "tutorialParams",
             JSON.stringify(tutorialParams)
         );
-
-        this.props.navigation.navigate("App");
-    };
-
-    _handleAuth = async () => {
-        let redirectUrl = AuthSession.getRedirectUrl(); //(await Linking.getInitialURL("/")) + "/--/expo-auth-session";
-
-        const queryParams = toQueryString({
-            redirect_uri: redirectUrl,
-            response_type: "id_token" // id_token will return a JWT token
-            //nonce: "REEEEEEE" // ideally, this will be a random value
-        });
-
-        const authUrl = `${authDomain}` + queryParams;
-
-        let result = await AuthSession.startAsync({
-            authUrl
-        }); /**/
-        /*
-        let result = await WebBrowser.openAuthSessionAsync(
-            authUrl,
-            (await Linking.getInitialURL("/")) + "/--/expo-auth-session"
-        ); /* */
-        //console.log(result.params.user);
-        const user = JSON.parse(result.params.user);
-        //console.log(user);
-        await this._signInAsync(user.firstName, user.lastName, user.email);
     };
 
     async setID(id) {
