@@ -103,7 +103,8 @@ class ReportScreen extends Component {
         isSelectionTipVisible: false,
         isDescriptionTipVisible: false,
         isLocationTipVisible: false,
-        isCameraTipVisible: false
+        isCameraTipVisible: false,
+        isPhotoViewTipVisible: false
     };
 
     runTutorial() {
@@ -182,15 +183,9 @@ class ReportScreen extends Component {
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            console.log(
-                "Toggling location tip: " + this.state.isLocationTipVisible
-            );
             await this.setState({
                 isLocationTipVisible: !this.state.isLocationTipVisible
             });
-            console.log(
-                "Toggling location tip: " + this.state.isLocationTipVisible
-            );
         }
     }
 
@@ -199,41 +194,25 @@ class ReportScreen extends Component {
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            console.log(
-                "Toggling location tip: " + this.state.isCameraTipVisible
-            );
             await this.setState({
                 isCameraTipVisible: !this.state.isCameraTipVisible
             });
-            console.log(
-                "Toggling location tip: " + this.state.isCameraTipVisible
-            );
         }
     }
 
-    photoViewTip() {
+    async togglePhotoViewTip() {
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
         ) {
-            Alert.alert(
-                "Tip",
-                "You can click on the photo/video above if you wish to view the full-size image.",
-                [
-                    {
-                        text: "Got it",
-                        onPress: () => {
-                            console.log("all the tips for now");
-                        }
-                    },
-                    {
-                        text: "Stop showing tips",
-                        onPress: () => {
-                            tutorialParams.tips = false;
-                            this.setTutorialParams();
-                        }
-                    }
-                ]
+            console.log(
+                "Toggling photo view tip: " + this.state.isPhotoViewTipVisible
+            );
+            await this.setState({
+                isPhotoViewTipVisible: !this.state.isPhotoViewTipVisible
+            });
+            console.log(
+                "Toggling photo view tip: " + this.state.isPhotoViewTipVisible
             );
         }
     }
@@ -1205,7 +1184,7 @@ class ReportScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.toggleCameraTip();
-                                this.stopTips();
+                                this.togglePhotoViewTip();
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1223,6 +1202,42 @@ class ReportScreen extends Component {
                     </View>
                     <View style={styles.cameraTriangle1} />
                     <View style={styles.cameraTriangle2} />
+                </View>
+                <View
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.isPhotoViewTipVisible}
+                    style={
+                        this.state.isPhotoViewTipVisible
+                            ? styles.photoViewLocation
+                            : styles.locationHidden
+                    }
+                >
+                    <View style={styles.tipBubbleBigger}>
+                        <Text style={styles.mainTipText}>
+                            You can click on the photo/video above if you wish
+                            to view the full-size image.
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.togglePhotoViewTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.continue}>Continue</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.togglePhotoViewTip();
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.photoViewTriangle} />
                 </View>
             </SafeAreaView>
         );

@@ -313,6 +313,24 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
+    photoViewLocation: {
+        position: "absolute",
+        left: 15,
+        top: 135
+    },
+    PhotoViewTriangle: {
+        position: "absolute",
+        left: 61,
+        top: 140,
+        width: 3,
+        height: 3,
+        borderRightColor: "transparent",
+        borderRightWidth: 10,
+        borderTopWidth: 18,
+        borderTopColor: "#AA94FF",
+        borderLeftWidth: 10,
+        borderLeftColor: "transparent"
+    },
     tipBubbleSquare: {
         width: 290,
         height: 105,

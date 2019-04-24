@@ -5,7 +5,8 @@ import {
     Image,
     Text,
     AsyncStorage,
-    TouchableOpacity
+    TouchableOpacity,
+    StatusBar
 } from "react-native";
 import Swiper from "react-native-swiper";
 
@@ -39,7 +40,9 @@ export default class Screen extends React.Component {
     render() {
         swiper = this;
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView
+                style={{ flex: 1, marginTop: StatusBar.currentHeight }}
+            >
                 <Swiper
                     loop={false}
                     ref={swiper => {
