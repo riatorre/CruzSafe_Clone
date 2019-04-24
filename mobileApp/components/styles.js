@@ -313,12 +313,12 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
-    photoViewLocation: {
+    thumbnailLocation: {
         position: "absolute",
         left: 15,
         top: 192
     },
-    photoViewTriangle: {
+    thumbnailTriangle: {
         position: "absolute",
         left: 135,
         top: 90,

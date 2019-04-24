@@ -105,7 +105,7 @@ class ReportScreen extends Component {
         isDescriptionTipVisible: false,
         isLocationTipVisible: false,
         isCameraTipVisible: false,
-        isPhotoViewTipVisible: false
+        isThumbnailTipVisible: false
     };
 
     runTutorial() {
@@ -137,10 +137,7 @@ class ReportScreen extends Component {
     }
 
     tourAlert() {
-        if (
-            tutorialParams.reportOnboarding == true &&
-            tutorialParams.tips == true
-        ) {
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             Alert.alert(
                 "Tour",
                 "You are currently in tour mode, so this first report will not actually be submitted.",
@@ -158,10 +155,7 @@ class ReportScreen extends Component {
 
     async toggleSelectionTip() {
         console.log("Toggling selection tip?");
-        if (
-            tutorialParams.reportOnboarding == true &&
-            tutorialParams.tips == true
-        ) {
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             await this.setState({
                 isSelectionTipVisible: !this.state.isSelectionTipVisible
             });
@@ -169,10 +163,7 @@ class ReportScreen extends Component {
     }
 
     async toggleDescriptionTip() {
-        if (
-            tutorialParams.reportOnboarding == true &&
-            tutorialParams.tips == true
-        ) {
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             await this.setState({
                 isDescriptionTipVisible: !this.state.isDescriptionTipVisible
             });
@@ -180,10 +171,7 @@ class ReportScreen extends Component {
     }
 
     async toggleLocationTip() {
-        if (
-            tutorialParams.reportOnboarding == true &&
-            tutorialParams.tips == true
-        ) {
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             await this.setState({
                 isLocationTipVisible: !this.state.isLocationTipVisible
             });
@@ -191,29 +179,23 @@ class ReportScreen extends Component {
     }
 
     async toggleCameraTip() {
-        if (
-            tutorialParams.reportOnboarding == true &&
-            tutorialParams.tips == true
-        ) {
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             await this.setState({
                 isCameraTipVisible: !this.state.isCameraTipVisible
             });
         }
     }
 
-    async togglePhotoViewTip() {
-        if (
-            tutorialParams.reportOnboarding == true &&
-            tutorialParams.tips == true
-        ) {
+    async toggleThumbnailTip() {
+        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
             console.log(
-                "Toggling photo view tip: " + this.state.isPhotoViewTipVisible
+                "Toggling Thumbnail tip: " + this.state.isThumbnailTipVisible
             );
             await this.setState({
-                isPhotoViewTipVisible: !this.state.isPhotoViewTipVisible
+                isThumbnailTipVisible: !this.state.isThumbnailTipVisible
             });
             console.log(
-                "Toggling photo view tip: " + this.state.isPhotoViewTipVisible
+                "Toggling Thumbnail tip: " + this.state.isThumbnailTipVisible
             );
         }
     }
@@ -1058,9 +1040,9 @@ class ReportScreen extends Component {
                 <View
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.isSelectionTipVisible}
                     style={
-                        this.state.isSelectionTipVisible
+                        this.state.isSelectionTipVisible &&
+                        !this.state.isThumbnailTipVisible
                             ? styles.selectionLocation
                             : styles.locationHidden
                     }
@@ -1095,9 +1077,9 @@ class ReportScreen extends Component {
                 <View
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.isDescriptionTipVisible}
                     style={
-                        this.state.isDescriptionTipVisible
+                        this.state.isDescriptionTipVisible &&
+                        !this.state.isThumbnailTipVisible
                             ? styles.descriptionLocation
                             : styles.locationHidden
                     }
@@ -1131,9 +1113,9 @@ class ReportScreen extends Component {
                 <View
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.isDescriptionTipVisible}
                     style={
-                        this.state.isLocationTipVisible
+                        this.state.isLocationTipVisible &&
+                        !this.state.isThumbnailTipVisible
                             ? styles.locationLocation
                             : styles.locationHidden
                     }
@@ -1168,9 +1150,9 @@ class ReportScreen extends Component {
                 <View
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.isCameraTipVisible}
                     style={
-                        this.state.isCameraTipVisible
+                        this.state.isCameraTipVisible &&
+                        !this.state.isThumbnailTipVisible
                             ? styles.cameraLocation
                             : styles.locationHidden
                     }
@@ -1185,7 +1167,7 @@ class ReportScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.toggleCameraTip();
-                                this.togglePhotoViewTip();
+                                this.toggleThumbnailTip();
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1207,10 +1189,9 @@ class ReportScreen extends Component {
                 <View
                     animationType="fade"
                     transparent={true}
-                    visible={this.state.isPhotoViewTipVisible}
                     style={
-                        this.state.isPhotoViewTipVisible
-                            ? styles.photoViewLocation
+                        this.state.isThumbnailTipVisible
+                            ? styles.thumbnailLocation
                             : styles.locationHidden
                     }
                 >
@@ -1221,7 +1202,7 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                this.togglePhotoViewTip();
+                                this.toggleThumbnailTip();
                                 this.stopTips();
                             }}
                         >
@@ -1229,7 +1210,7 @@ class ReportScreen extends Component {
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                this.togglePhotoViewTip();
+                                this.toggleThumbnailTip();
                                 this.stopTips();
                             }}
                         >
@@ -1238,7 +1219,7 @@ class ReportScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.photoViewTriangle} />
+                    <View style={styles.thumbnailTriangle} />
                 </View>
             </SafeAreaView>
         );
