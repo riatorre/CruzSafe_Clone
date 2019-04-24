@@ -120,6 +120,18 @@ export default (styles = StyleSheet.create({
         borderRadius: 125,
         backgroundColor: "#303060"
     },
+    signinBtn: {
+        margin: 1,
+        padding: 5,
+        shadowOffset: { width: 10, height: 10 },
+        shadowColor: "black",
+        shadowOpacity: 1.0,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        backgroundColor: "#A89300"
+    },
     slideOuterButton: {
         marginBottom: 30
     },

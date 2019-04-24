@@ -163,8 +163,15 @@ app.post(
     function(req, res) {
         const { redirect_Url } = req.session;
         //console.log(req.user);
+        const { user } = req;
+        const userCore = {
+            firstName: user["urn:oid:2.5.4.42"],
+            lastName: user["urn:oid:2.5.4.4"],
+            email: user["email"]
+        };
+        //console.log(userCore);
         const redirectUrl = redirect_Url
-            ? `${redirect_Url}?user=${JSON.stringify(req.user)}`
+            ? `${redirect_Url}?user=${JSON.stringify(userCore)}`
             : "/homepage.html";
         req.session.redirect_Url = undefined;
         //console.log(`Returning to: ${redirectUrl}`);
