@@ -364,12 +364,12 @@ export default (styles = StyleSheet.create({
     },
     thumbnailLocation: {
         zIndex: 2,
-        top: -160,
+        top: -76,
         height: 0
     },
     thumbnailTriangle: {
         position: "absolute",
-        left: 135,
+        left: 134,
         top: 90,
         width: 3,
         height: 3,
