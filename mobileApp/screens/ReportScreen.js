@@ -104,7 +104,9 @@ class ReportScreen extends Component {
         isSelectionTipVisible: false,
         isDescriptionTipVisible: false,
         isLocationTipVisible: false,
-        isCameraTipVisible: false
+        isCameraTipVisible: false,
+        isMapTipVisible: false,
+        isSubmissionTipVisible: false
     };
 
     runTutorial() {
@@ -153,30 +155,6 @@ class ReportScreen extends Component {
                     }
                 ]
             );
-        }
-    }
-
-    async toggleDescriptionTip() {
-        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
-            await this.setState({
-                isDescriptionTipVisible: !this.state.isDescriptionTipVisible
-            });
-        }
-    }
-
-    async toggleLocationTip() {
-        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
-            await this.setState({
-                isLocationTipVisible: !this.state.isLocationTipVisible
-            });
-        }
-    }
-
-    async toggleCameraTip() {
-        if (tutorialParams.reportOnboarding && tutorialParams.tips) {
-            await this.setState({
-                isCameraTipVisible: !this.state.isCameraTipVisible
-            });
         }
     }
 
@@ -1039,7 +1017,9 @@ class ReportScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.setState({ isSelectionTipVisible: false });
-                                this.toggleDescriptionTip();
+                                this.setState({
+                                    isDescriptionTipVisible: true
+                                });
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1061,7 +1041,10 @@ class ReportScreen extends Component {
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isDescriptionTipVisible
+                        tutorialParams.reportOnboarding &&
+                        tutorialParams.tips &&
+                        this.state.isDescriptionTipVisible &&
+                        !(tutorialParams.thumbnailOnboarding && image)
                             ? styles.descriptionLocation
                             : styles.locationHidden
                     }
@@ -1073,15 +1056,19 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleDescriptionTip();
-                                this.toggleLocationTip();
+                                this.setState({
+                                    isDescriptionTipVisible: false
+                                });
+                                this.setState({ isLocationTipVisible: true });
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleDescriptionTip();
+                                this.setState({
+                                    isDescriptionTipVisible: false
+                                });
                                 this.stopTips();
                             }}
                         >
@@ -1092,11 +1079,15 @@ class ReportScreen extends Component {
                     </View>
                     <View style={styles.descriptionTriangle} />
                 </View>
+
                 <View
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isLocationTipVisible
+                        tutorialParams.reportOnboarding &&
+                        tutorialParams.tips &&
+                        this.state.isLocationTipVisible &&
+                        !(tutorialParams.thumbnailOnboarding && image)
                             ? styles.locationLocation
                             : styles.locationHidden
                     }
@@ -1109,15 +1100,15 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleLocationTip();
-                                this.toggleCameraTip();
+                                this.setState({ isLocationTipVisible: false });
+                                this.setState({ isCameraTipVisible: true });
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleLocationTip();
+                                this.setState({ isLocationTipVisible: false });
                                 this.stopTips();
                             }}
                         >
@@ -1128,11 +1119,15 @@ class ReportScreen extends Component {
                     </View>
                     <View style={styles.locationTriangle} />
                 </View>
+
                 <View
                     animationType="fade"
                     transparent={true}
                     style={
-                        this.state.isCameraTipVisible
+                        tutorialParams.reportOnboarding &&
+                        tutorialParams.tips &&
+                        this.state.isCameraTipVisible &&
+                        !(tutorialParams.thumbnailOnboarding && image)
                             ? styles.cameraLocation
                             : styles.locationHidden
                     }
@@ -1146,15 +1141,15 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleCameraTip();
-                                // this.toggleThumbnailTip();
+                                this.setState({ isCameraTipVisible: false });
+                                this.setState({ isMapTipVisible: true });
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                this.toggleCameraTip();
+                                this.setState({ isCameraTipVisible: false });
                                 this.stopTips();
                             }}
                         >
@@ -1166,6 +1161,7 @@ class ReportScreen extends Component {
                     <View style={styles.cameraTriangle1} />
                     <View style={styles.cameraTriangle2} />
                 </View>
+
                 <View
                     animationType="fade"
                     transparent={true}
@@ -1184,10 +1180,12 @@ class ReportScreen extends Component {
                         </Text>
                         <TouchableOpacity
                             onPress={() => {
-                                console.log(tutorialParams);
                                 tutorialParams.thumbnailOnboarding = false;
+                                if (this.state.isCameraTipVisible) {
+                                    this.state.isCameraTipVisible = false;
+                                    this.state.isMapTipVisible = true;
+                                }
                                 this.setTutorialParams();
-                                console.log(tutorialParams);
                             }}
                         >
                             <Text style={styles.continue}>Continue</Text>
@@ -1205,6 +1203,89 @@ class ReportScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.thumbnailTriangle} />
+                </View>
+
+                <View
+                    animationType="fade"
+                    transparent={true}
+                    style={
+                        tutorialParams.reportOnboarding &&
+                        tutorialParams.tips &&
+                        this.state.isMapTipVisible &&
+                        !(tutorialParams.thumbnailOnboarding && image)
+                            ? styles.mapLocation
+                            : styles.locationHidden
+                    }
+                >
+                    <View style={styles.tipBubbleSmaller}>
+                        <Text style={styles.mainTipText}>
+                            To mark the location of the incident, press the
+                            “Mark on Map” button.
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({ isMapTipVisible: false });
+                                this.setState({ isSubmissionTipVisible: true });
+                            }}
+                        >
+                            <Text style={styles.continue}>Continue</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({ isMapTipVisible: false });
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.mapTriangle} />
+                </View>
+
+                <View
+                    animationType="fade"
+                    transparent={true}
+                    style={
+                        tutorialParams.reportOnboarding &&
+                        tutorialParams.tips &&
+                        this.state.isSubmissionTipVisible &&
+                        !(tutorialParams.thumbnailOnboarding && image)
+                            ? styles.submissionLocation
+                            : styles.locationHidden
+                    }
+                >
+                    <View style={styles.tipBubbleBigger}>
+                        <Text style={styles.mainTipText}>
+                            Press the “submit” button to test report submission
+                            (recall that it will not actually be sent while in
+                            tour mode), or “cancel” to erase the test report.
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({
+                                    isSubmissionTipVisible: false
+                                });
+                            }}
+                        >
+                            <Text style={styles.continue}>Continue</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({
+                                    isSubmissionTipVisible: false
+                                });
+                                this.stopTips();
+                            }}
+                        >
+                            <Text style={styles.stopTips}>
+                                Stop showing tips
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.submissionTriangle1} />
+                    <View style={styles.submissionTriangle2} />
                 </View>
             </SafeAreaView>
         );
