@@ -224,9 +224,9 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#9BC378"
     },
     selectionLocation: {
-        position: "absolute",
-        left: 15,
-        top: 172
+        zIndex: 2,
+        top: 5,
+        height: 0
     },
     locationHidden: {
         position: "absolute",
@@ -247,9 +247,9 @@ export default (styles = StyleSheet.create({
         borderLeftColor: "transparent"
     },
     descriptionLocation: {
-        position: "absolute",
-        left: 15,
-        top: 230
+        zIndex: 2,
+        top: 5,
+        height: 0
     },
     descriptionTriangle: {
         position: "absolute",
@@ -265,9 +265,9 @@ export default (styles = StyleSheet.create({
         borderLeftColor: "transparent"
     },
     locationLocation: {
-        position: "absolute",
-        left: 15,
-        top: 302
+        zIndex: 2,
+        top: 5,
+        height: 0
     },
     locationTriangle: {
         position: "absolute",
@@ -283,9 +283,9 @@ export default (styles = StyleSheet.create({
         borderLeftColor: "transparent"
     },
     cameraLocation: {
-        position: "absolute",
-        left: 15,
-        top: 135
+        zIndex: 2,
+        top: -160,
+        height: 0
     },
     cameraTriangle1: {
         position: "absolute",
@@ -313,28 +313,10 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
-    thumbnailLocation: {
-        position: "absolute",
-        left: 15,
-        top: 192
-    },
-    thumbnailTriangle: {
-        position: "absolute",
-        left: 135,
-        top: 90,
-        width: 3,
-        height: 3,
-        borderRightColor: "transparent",
-        borderRightWidth: 10,
-        borderTopWidth: 18,
-        borderTopColor: "#AA94FF",
-        borderLeftWidth: 10,
-        borderLeftColor: "transparent"
-    },
     mapLocation: {
-        position: "absolute",
-        left: 15,
-        top: 253
+        zIndex: 2,
+        top: -100,
+        height: 0
     },
     mapTriangle: {
         position: "absolute",
@@ -350,9 +332,9 @@ export default (styles = StyleSheet.create({
         borderLeftColor: "transparent"
     },
     submissionLocation: {
-        position: "absolute",
-        left: 15,
-        top: 266
+        zIndex: 2,
+        top: -160,
+        height: 0
     },
     submissionTriangle1: {
         position: "absolute",
@@ -371,6 +353,24 @@ export default (styles = StyleSheet.create({
         position: "absolute",
         left: 207,
         top: 140,
+        width: 3,
+        height: 3,
+        borderRightColor: "transparent",
+        borderRightWidth: 10,
+        borderTopWidth: 18,
+        borderTopColor: "#AA94FF",
+        borderLeftWidth: 10,
+        borderLeftColor: "transparent"
+    },
+    thumbnailLocation: {
+        zIndex: 2,
+        top: -160,
+        height: 0
+    },
+    thumbnailTriangle: {
+        position: "absolute",
+        left: 135,
+        top: 90,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
