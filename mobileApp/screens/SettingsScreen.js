@@ -4,7 +4,8 @@ import {
     AsyncStorage,
     SafeAreaView,
     TouchableOpacity,
-    Platform
+    Platform,
+    Alert
 } from "react-native";
 import {
     Container,
@@ -71,6 +72,16 @@ class SettingsScreen extends Component {
                             <Text style={{ color: "white" }}>Sign Out</Text>
                         </TouchableOpacity>
                     </Content>
+                    <Content contentContainerStyle={styles.container}>
+                        <TouchableOpacity
+                            style={styles.btn}
+                            onPress={this._resetTutorialAsync}
+                        >
+                            <Text style={{ color: "white" }}>
+                                Reset Tutorial
+                            </Text>
+                        </TouchableOpacity>
+                    </Content>
                     <Footer style={styles.footer}>
                         <Left
                             style={{
@@ -106,5 +117,40 @@ class SettingsScreen extends Component {
         await AsyncStorage.clear();
         this.props.navigation.navigate("Auth");
     };
+
+    _resetTutorialAsync = async () => {
+        Alert.alert(
+            "Tutorial",
+            "Are you sure you want to reset tips and review the intro dialog?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        this.setTutorialParams();
+                    }
+                },
+                {
+                    text: "No",
+                    onPress: () => {}
+                }
+            ]
+        );
+    };
+    async setTutorialParams() {
+        var tutorialParams = {
+            tips: true,
+            reportOnboarding: true,
+            thumbnailOnboarding: true,
+            historyOnboarding: true,
+            sidebarOnboarding: true
+        };
+        await AsyncStorage.setItem(
+            "tutorialParams",
+            JSON.stringify(tutorialParams)
+        );
+
+        this.props.navigation.navigate("Swiper");
+    }
 }
+
 export default SettingsScreen;
