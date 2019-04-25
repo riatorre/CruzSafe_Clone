@@ -223,15 +223,15 @@ export default (styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "#9BC378"
     },
-    selectionLocation: {
-        zIndex: 2,
-        top: 5,
-        height: 0
-    },
     locationHidden: {
         position: "absolute",
         left: -1000,
         top: -1000
+    },
+    selectionLocation: {
+        zIndex: 2,
+        top: 15,
+        height: 0
     },
     selectionTriangle: {
         position: "absolute",
@@ -248,7 +248,7 @@ export default (styles = StyleSheet.create({
     },
     descriptionLocation: {
         zIndex: 2,
-        top: 5,
+        top: 15,
         height: 0
     },
     descriptionTriangle: {
@@ -266,7 +266,7 @@ export default (styles = StyleSheet.create({
     },
     locationLocation: {
         zIndex: 2,
-        top: 5,
+        top: 15,
         height: 0
     },
     locationTriangle: {
@@ -284,7 +284,7 @@ export default (styles = StyleSheet.create({
     },
     cameraLocation: {
         zIndex: 2,
-        top: -160,
+        top: -155,
         height: 0
     },
     cameraTriangle1: {
@@ -333,13 +333,13 @@ export default (styles = StyleSheet.create({
     },
     submissionLocation: {
         zIndex: 2,
-        top: -160,
+        top: -133,
         height: 0
     },
     submissionTriangle1: {
         position: "absolute",
         left: 61,
-        top: 140,
+        top: 118,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
@@ -352,7 +352,7 @@ export default (styles = StyleSheet.create({
     submissionTriangle2: {
         position: "absolute",
         left: 207,
-        top: 140,
+        top: 118,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
@@ -383,6 +383,17 @@ export default (styles = StyleSheet.create({
     tipBubbleSquare: {
         width: 290,
         height: 105,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#D1C7F9",
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: "#AA94FF"
+    },
+    tipBubbleBig: {
+        width: 290,
+        height: 120,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",

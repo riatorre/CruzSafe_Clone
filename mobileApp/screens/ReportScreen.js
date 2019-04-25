@@ -1149,7 +1149,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleBigger}>
+                                <View style={styles.tipBubbleBig}>
                                     <Text style={styles.mainTipText}>
                                         Press the “submit” button to test report
                                         submission (recall that it will not
