@@ -34,6 +34,10 @@ class LocationScreen extends Component {
         location: null,
         latitude: LATITUDE,
         longitude: LONGITUDE,
+        latitudeDelta: null,
+        longitudeDelta: null,
+        c_latDel: null,
+        c_lngDel: null,
         unchangedLocation: true,
         pre_report: null,
         appState: AppState.currentState,
@@ -54,8 +58,8 @@ class LocationScreen extends Component {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
         this._isMounted &&
             this.setState({
-                latitude: pre_report.incidentLatitude,
-                longitude: pre_report.incidentLongitude,
+                latitude: parseFloat(pre_report.incidentLatitude),
+                longitude: parseFloat(pre_report.incidentLongitude),
                 unchangedLocation: pre_report.unchangedLocation,
                 pre_report: pre_report,
                 isLoading: false
@@ -110,6 +114,15 @@ class LocationScreen extends Component {
         params.callBack();
     }
 
+    setToinit() {
+        return {
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
+            latitudeDelta: this.state.latitudeDelta,
+            longitudeDelta: this.state.longitudeDelta
+        };
+    }
+
     render() {
         const { goBack } = this.props.navigation;
         return (
@@ -148,10 +161,12 @@ class LocationScreen extends Component {
                             color="#f00"
                         />
                         <MapView
+                            showsUserLocation={true}
+                            region={this.setToinit()}
                             style={{ flex: 1 }}
                             initialRegion={{
-                                latitude: parseFloat(this.state.latitude),
-                                longitude: parseFloat(this.state.longitude),
+                                latitude: this.state.latitude,
+                                longitude: this.state.longitude,
                                 latitudeDelta: 0.0461,
                                 longitudeDelta: 0.021
                             }}
@@ -162,8 +177,8 @@ class LocationScreen extends Component {
                                 pre_report.unchangedLocation = false;
                                 this._isMounted &&
                                     this.setState({
-                                        latitude: region.latitude,
-                                        longitude: region.longitude,
+                                        c_latDel: region.latitudeDelta,
+                                        c_lngDel: region.longitudeDelta,
                                         unchangedLocation: false,
                                         pre_report: pre_report
                                     });
@@ -189,9 +204,17 @@ class LocationScreen extends Component {
                                 onPress={async () => {
                                     await (this._isMounted &&
                                         this.setState({
-                                            unchangedLocation: true
+                                            unchangedLocation: true,
+                                            latitudeDelta: this.state.c_latDel,
+                                            longitudeDelta: this.state.c_lngDel
                                         }));
                                     this.getLocation();
+                                    this.setState({
+                                        latitudeDelta: null,
+                                        longitudeDelta: null,
+                                        c_latDel: null,
+                                        c_lngDel: null
+                                    });
                                 }}
                             >
                                 <Icon
