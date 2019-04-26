@@ -23,6 +23,11 @@ hr {
     float: top;
 }
 
+canvas {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #tagList {
     background-color: Black;
     opacity: 1;
@@ -72,6 +77,13 @@ hr {
 #goBoth:hover,
 #goMain:hover,
 #goCostal:hover {
+    background-color: slategray;
+    color: black;
+}
+
+#goBoth:focus,
+#goMain:focus,
+#goCostal:focus {
     background-color: slategray;
     color: black;
 }

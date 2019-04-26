@@ -27,7 +27,7 @@ function createUserModal() {
     user.setAttribute("class", "row");
 
     const column1 = document.createElement("DIV");
-    column1.setAttribute("class", "column twoThirds reportColumn");
+    column1.setAttribute("class", "column half reportColumn");
 
     // User information
     const userInfo = document.createElement("DIV");
@@ -50,7 +50,7 @@ function createUserModal() {
     column1.appendChild(userHistory);
 
     const column2 = document.createElement("DIV");
-    column2.setAttribute("class", "column third reportColumn");
+    column2.setAttribute("class", "column half reportColumn");
 
     // Graphs for statistics.
     const userGraph1Div = document.createElement("DIV");
@@ -107,6 +107,7 @@ function createUserButton(userList, user) {
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
     button.setAttribute("onclick", "displayUser(" + user["webID"] + ")");
+    button.setAttribute("id", "userButton");
 
     const firstNameText = document.createElement("td");
     firstNameText.setAttribute("class", "buttonFirstNameText");
