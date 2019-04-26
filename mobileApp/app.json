@@ -37,7 +37,11 @@
             ]
         },
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "infoPlist": {
+                "NSLocationAlwaysUsageDescription": "This app uses the location to get the incident information.",
+                "NSLocationWhenInUseUsageDescription": "This app uses the location to get the incident information."
+            }
         },
         "description": ""
     }
