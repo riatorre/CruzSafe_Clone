@@ -73,6 +73,27 @@ function CenterControl(controlDiv, map, center) {
 }
 
 function MainMap() {
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            tags = JSON.parse(request.response);
+            // Gotten array of IDs.
+            tagDict = {};
+            Array.from(tags).forEach(function(tag) {
+                tagDict[tag["tagID"]] = tag["tagName"];
+            });
+            tagColors = {};
+            Array.from(tags).forEach(function(tag) {
+                tagColors[tag["tagName"]] = tag["color"];
+            });
+            mainMapHelper(tagDict, tagColors);
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/reports/tags");
+    request.send();
+}
+
+function mainMapHelper(tagList, tagColors) {
     map = new google.maps.Map(document.getElementById("MainMap"), {
         center: both,
         zoom: D_Zoom - 1,
@@ -109,13 +130,13 @@ function MainMap() {
     centerControlDiv.style["padding-top"] = "10px";
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(centerControlDiv);
     var iconBase = "https://storage.googleapis.com/cruzsafe.appspot.com/";
-    var tagList = {
-        1: "Water Leak",
-        2: "Broken Light",
-        3: "Broken Window",
-        4: "Lighting Deficiency",
-        5: "Excess Trash",
-        6: "UNDEFINED"
+    var tempTagColorDict = {
+        1: "blue_num.png",
+        2: "lime_num.png",
+        3: "navy_num.png",
+        4: "aqua_num.png",
+        5: "olive_num.png",
+        6: "black_num.png"
     };
     var customIcon = {
         1: {
@@ -155,6 +176,34 @@ function MainMap() {
             }
         }
     };
+
+    // Initialize the tags List.
+    const tagListDiv = document.getElementById("tagList");
+    // Remove all pre-existing children.
+    while (tagListDiv.firstChild) {
+        tagListDiv.removeChild(tagListDiv.firstChild);
+    }
+
+    for (key in tagList) {
+        if (tagList.hasOwnProperty(key)) {
+            const newDiv = document.createElement("div");
+            newDiv.setAttribute("style", "text-align:left;");
+            const value = tagList[key];
+            const newIcon = document.createElement("img");
+            newIcon.src = iconBase + tempTagColorDict[key];
+            newIcon.setAttribute(
+                "style",
+                "height:30px;width30px;margin-right:5px;margin-left: 5px;"
+            );
+            newDiv.appendChild(newIcon);
+            const newText = document.createElement("t");
+            newText.setAttribute("style", "margin-right:5px");
+            newText.innerHTML = value;
+            newDiv.appendChild(newText);
+            tagListDiv.appendChild(newDiv);
+        }
+    }
+
     // Change this depending on the name of your PHP or XML file
     downloadUrl(
         "https://cruzsafe.appspot.com/api/reports/incompleteReports",

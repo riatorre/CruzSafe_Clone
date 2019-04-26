@@ -10,11 +10,30 @@ hr {
 .gm-style .gm-style-iw {
     color: #113f67;
 }
+
+#tagList {
+    background-color: #fff;
+    opacity: 1;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    float: top;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    right: 0px;
+    bottom: 0px;
+    position: fixed;
+    overflow: scroll;
+    max-height: 200px;
+}
+
 #goBoth,
 #goMain,
 #goCostal {
     background-color: #fff;
-    opacity: 0.5;
+    opacity: 1;
     border: 2px solid #fff;
     border-radius: 3px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -24,6 +43,7 @@ hr {
     margin-left: 20px;
     text-align: center;
 }
+#tagListText,
 #goBothText,
 #goMainText,
 #goCostalText {
