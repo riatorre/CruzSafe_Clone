@@ -187,6 +187,7 @@ function mainMapHelper(tagList, tagColors) {
     for (key in tagList) {
         if (tagList.hasOwnProperty(key)) {
             const newDiv = document.createElement("div");
+            newDiv.setAttribute("id", "tagListTag");
             newDiv.setAttribute("style", "text-align:left;");
             const value = tagList[key];
             const newIcon = document.createElement("img");
@@ -387,7 +388,9 @@ function renderReportsOverviewHelper(facilityDict) {
             datasets.push({
                 label: facility.label,
                 data: facility.data,
-                backgroundColor: facility.fillColor
+                backgroundColor: facility.fillColor,
+                borderColor: "black",
+                borderWidth: 1
             });
         }
     }
@@ -400,8 +403,7 @@ function renderReportsOverviewHelper(facilityDict) {
         options: {
             legend: {
                 labels: {
-                    fontColor: "grey",
-                    fontSize: 12
+                    fontSize: 13
                 }
             },
             scales: {
@@ -485,29 +487,30 @@ function renderfirstOpenedDelayHelper(data) {
                 {
                     data: data,
                     backgroundColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                        "rgba(255, 159, 64, 1)"
+                        "#237000",
+                        "#009FB7",
+                        "#AD8432",
+                        "#696773",
+                        "#272727",
+                        "Black"
                     ],
                     borderColor: [
-                        "rgba(255, 99, 132, 1)",
-                        "rgba(54, 162, 235, 1)",
-                        "rgba(255, 206, 86, 1)",
-                        "rgba(75, 192, 192, 1)",
-                        "rgba(153, 102, 255, 1)",
-                        "rgba(255, 159, 64, 1)"
+                        "black",
+                        "black",
+                        "black",
+                        "black",
+                        "black",
+                        "black"
                     ],
                     borderWidth: 1
                 }
             ]
         },
         options: {
-            title: {
-                display: true,
-                text: "Report First Opened Delay"
+            legend: {
+                labels: {
+                    fontSize: 13
+                }
             }
         }
     });

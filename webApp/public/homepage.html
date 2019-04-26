@@ -60,10 +60,10 @@
         <main class="withHeader">
             <div class="row">
                 <div class="column quarter">
-                    <div class="row oneHalf">
+                    <div id="chartDiv" class="row oneHalf">
                         <canvas id="reportsOverviewChart"></canvas>
                     </div>
-                    <div class="row oneHalf">
+                    <div id="chartDiv" class="row oneHalf">
                         <canvas id="firstOpenedDelayChart"></canvas>
                     </div>
                 </div>
@@ -95,6 +95,7 @@
         <input type="hidden" id="storedTS" />
         <script>
             // Global Variables
+            Chart.defaults.global.defaultFontColor = "black";
             const pageID = 0; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
             /*** Cookie PLACEHOLDERS */
 

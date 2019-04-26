@@ -11,31 +11,53 @@ hr {
     color: #113f67;
 }
 
-#tagList {
-    background-color: #fff;
+#chartDiv {
+    background-color: #113f67;
     opacity: 1;
-    border: 2px solid #fff;
-    border-radius: 3px;
+    border-top: 1px solid Black;
+    border-bottom: 1px solid Black;
+    border-left: 2px solid Black;
+    border-right: 2px solid Black;
+    border-radius: 0px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    float: top;
+}
+
+#tagList {
+    background-color: Black;
+    opacity: 1;
+    border: 3px solid #095ea3;
+    border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     float: top;
+    padding: 5px;
     margin-top: 10px;
     margin-right: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     right: 0px;
     bottom: 0px;
     position: fixed;
     overflow: scroll;
     max-height: 200px;
 }
+#tagList:hover {
+    cursor: default;
+}
+#tagListTag {
+    color: #095ea3;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+}
 
 #goBoth,
 #goMain,
 #goCostal {
-    background-color: #fff;
+    background-color: Black;
     opacity: 1;
-    border: 2px solid #fff;
-    border-radius: 3px;
+    border: 2px solid #095ea3;
+    border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     float: top;
@@ -43,11 +65,21 @@ hr {
     margin-left: 20px;
     text-align: center;
 }
+
+/* Change the color of links on hover */
+
+#goBoth:hover,
+#goMain:hover,
+#goCostal:hover {
+    background-color: slategray;
+    color: black;
+}
+
 #tagListText,
 #goBothText,
 #goMainText,
 #goCostalText {
-    color: rgb(25, 25, 25);
+    color: #095ea3;
     font-family: Roboto, Arial, sans-serif;
     font-size: 20px;
     line-height: 30px;
