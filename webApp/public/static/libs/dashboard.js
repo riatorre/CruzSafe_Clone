@@ -198,7 +198,7 @@ function mainMapHelper(tagList, tagColors) {
             );
             newDiv.appendChild(newIcon);
             const newText = document.createElement("t");
-            newText.setAttribute("style", "margin-right:5px");
+            newText.setAttribute("style", "color:" + tagColors[value] + ";");
             newText.innerHTML = value;
             newDiv.appendChild(newText);
             tagListDiv.appendChild(newDiv);
@@ -403,7 +403,7 @@ function renderReportsOverviewHelper(facilityDict) {
         options: {
             legend: {
                 labels: {
-                    fontSize: 13
+                    fontSize: 15
                 }
             },
             scales: {
@@ -492,7 +492,7 @@ function renderfirstOpenedDelayHelper(data) {
                         "#AD8432",
                         "#696773",
                         "#272727",
-                        "Black"
+                        "#020100"
                     ],
                     borderColor: [
                         "black",
@@ -509,7 +509,7 @@ function renderfirstOpenedDelayHelper(data) {
         options: {
             legend: {
                 labels: {
-                    fontSize: 13
+                    fontSize: 15
                 }
             }
         }
