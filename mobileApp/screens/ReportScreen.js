@@ -455,6 +455,25 @@ class ReportScreen extends Component {
             );
             data.append("token", JSON.parse(await this.getToken()));
 
+            if (tutorialParams.reportOnboarding) {
+                Alert.alert(
+                    "Congratulations!",
+                    "You now understand the reporting process! Please file a real report whenever you encounter a non-emergency issue on campus that you want addressed.",
+                    [
+                        {
+                            text: "OK",
+                            onPress: () => {
+                                tutorialParams.reportOnboarding = false;
+                                this.setTutorialParams();
+                                this.props.navigation.goBack();
+                            }
+                        }
+                    ],
+                    { cancelable: false }
+                );
+                return;
+            }
+
             // Main Portion of the request, contains all metadata to be sent to link
             await fetch(
                 "https://cruzsafe.appspot.com/api/reports/submitReport",
@@ -475,6 +494,7 @@ class ReportScreen extends Component {
                 .then(responseJSON => {
                     // Handle data
                     //this._isMounted && this.setState({ submitting: false });
+                    console.log(tutorialParams);
                     if (responseJSON.message == null) {
                         // No Errors from DB
                         Alert.alert(
@@ -1194,6 +1214,8 @@ class ReportScreen extends Component {
                                 <TouchableOpacity
                                     style={styles.reportBtnCancel}
                                     onPress={() => {
+                                        tutorialParams.reportOnboarding = false;
+                                        this.setTutorialParams();
                                         goBack();
                                     }}
                                 >

@@ -91,7 +91,7 @@ class History extends Component {
         var TStemp = new Date(
             Date.UTC(
                 TSArray[0],
-                TSArray[1],
+                TSArray[1] - 1,
                 TSArray[2],
                 TSArray[3],
                 TSArray[4],
