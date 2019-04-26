@@ -5,6 +5,8 @@
 
 "use strict";
 
+const localTest = false; // Global variable for debugging purposes.
+
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
@@ -191,7 +193,9 @@ app.get("/Shibboleth.sso/Metadata", function(req, res) {
 // Sets up Access Control for any page that is not the welcome page
 // Only affects html pages; should not affect APIs, images, css, js, etc pages/files
 // Uncomment out portion below in order to enable Authentication Verification
-app.use(/^\/(.*)\.html\/?$/i, verifyAuthentication);
+if (!localTest) {
+    app.use(/^\/(.*)\.html\/?$/i, verifyAuthentication);
+}
 
 // Serves the rest of the HTML files as static files
 app.use(express.static(__dirname + "/public"));
