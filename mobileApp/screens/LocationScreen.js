@@ -6,7 +6,9 @@ import {
     AsyncStorage,
     AppState,
     SafeAreaView,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions,
+    StyleSheet
 } from "react-native";
 import {
     Container,
@@ -17,7 +19,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Location, MapView } from "expo";
+import { Permissions, Location, MapView } from "expo";
 
 import styles from "../components/styles.js";
 
@@ -41,7 +43,8 @@ class LocationScreen extends Component {
         unchangedLocation: true,
         pre_report: null,
         appState: AppState.currentState,
-        isLoading: true
+        isLoading: true,
+        marginBottom: 1
     };
 
     async storeItem(key, value) {
@@ -123,6 +126,13 @@ class LocationScreen extends Component {
         };
     }
 
+    async _onMapReady() {
+        const { status, permissions } = await Permissions.askAsync(
+            Permissions.LOCATION
+        );
+        this.setState({ marginBottom: 0 });
+    }
+
     render() {
         const { goBack } = this.props.navigation;
         return (
@@ -145,7 +155,12 @@ class LocationScreen extends Component {
                         </Body>
                         <Right />
                     </Header>
-                    <View style={{ flex: 1 }}>
+                    <View
+                        style={{
+                            flex: 1,
+                            paddingTop: this.state.statusBarHeight
+                        }}
+                    >
                         <Icon
                             name={`${Platform.OS === "ios" ? "ios" : "md"}-pin`}
                             style={{
@@ -161,9 +176,16 @@ class LocationScreen extends Component {
                             color="#f00"
                         />
                         <MapView
+                            style={{
+                                flex: 1,
+                                marginBottom: this.state.marginBottom
+                            }}
+                            onMapReady={() => {
+                                this._onMapReady();
+                            }}
+                            showsMyLocationButton={true}
                             showsUserLocation={true}
-                            region={this.setToinit()}
-                            style={{ flex: 1 }}
+                            zoomControlEnabled={true}
                             initialRegion={{
                                 latitude: this.state.latitude,
                                 longitude: this.state.longitude,
@@ -187,41 +209,33 @@ class LocationScreen extends Component {
                         <View
                             style={{
                                 position: "absolute",
-                                padding: 20,
                                 backgroundColor: "transparenb",
-                                top: "80%"
+                                padding: 10,
+                                top: "84%"
                             }}
                         >
                             <TouchableOpacity
                                 style={{
-                                    backgroundColor: "#00000060",
-                                    borderRadius: 54,
+                                    backgroundColor: "#ffffffc0",
                                     alignItems: "center",
-                                    width: 54,
-                                    height: 54,
+                                    borderWidth: 0.2,
+                                    borderColor: "#00000050",
+                                    width: 50,
+                                    height: 50,
                                     padding: 5
                                 }}
-                                onPress={async () => {
-                                    await (this._isMounted &&
-                                        this.setState({
-                                            unchangedLocation: true,
-                                            latitudeDelta: this.state.c_latDel,
-                                            longitudeDelta: this.state.c_lngDel
-                                        }));
-                                    this.getLocation();
-                                    this.setState({
-                                        latitudeDelta: null,
-                                        longitudeDelta: null,
-                                        c_latDel: null,
-                                        c_lngDel: null
-                                    });
+                                onPress={() => {
+                                    goBack();
                                 }}
                             >
                                 <Icon
                                     name={`${
                                         Platform.OS === "ios" ? "ios" : "md"
-                                    }-locate`}
-                                    style={{ fontSize: 44, color: "#303060" }}
+                                    }-checkmark`}
+                                    style={{
+                                        fontSize: 40,
+                                        color: "#00b000"
+                                    }}
                                 />
                             </TouchableOpacity>
                         </View>
