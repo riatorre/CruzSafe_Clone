@@ -9,25 +9,21 @@ import History from "../screens/History";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import AboutUs from "../screens/AboutUs";
-// import ReportDetail from "../screens/ReportDetail";
+
+import styles from "../components/styles.js";
+
+var darktheme = true;
 
 const CustomDrawerComponent = props => (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
-        <View
-            style={{
-                height: 150,
-                backgroundColor: "#CCC",
-                alignItems: "center",
-                justifyContent: "center"
-            }}
-        >
+        <View style={styles.drawerImgContainer}>
             {/* Image that appears at the top of the Side Drawer */}
             <Image
                 source={require("../assets/images/SCPD_Logo.png")}
                 style={{ width: 120, height: 120 }}
             />
         </View>
-        <ScrollView style={{ backgroundColor: "#CCC" }}>
+        <ScrollView style={styles.drawerScrollViewBackground}>
             {/* Where all of the screen navigation buttons appear (Inserted under comment below). Should be scrollable if
                 enough screens exist
             */}
@@ -50,8 +46,8 @@ export default createDrawerNavigator(
         contentComponent: CustomDrawerComponent,
         contentOptions: {
             activeTintColor: "white",
-            activeBackgroundColor: "#336",
-            backgroundColor: "#CCC"
+            activeBackgroundColor: darktheme ? "black" : "#336",
+            backgroundColor: darktheme ? "#113F67" : "#CCC"
         }
     }
 );

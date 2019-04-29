@@ -11,9 +11,9 @@ import {
     AppState,
     Alert,
     Image,
-    ActivityIndicator
+    ActivityIndicator,
+    Modal
 } from "react-native";
-import Modal from "react-native-modal";
 import {
     Container,
     Header,
@@ -1052,9 +1052,9 @@ class ReportScreen extends Component {
                                         name={`${
                                             Platform.OS === "ios" ? "ios" : "md"
                                         }-camera`}
-                                        style={{ color: "black" }}
+                                        style={styles.btnTextBlack}
                                     />
-                                    <Text style={{ color: "black" }}>
+                                    <Text style={styles.btnTextBlack}>
                                         Camera
                                     </Text>
                                 </TouchableOpacity>
@@ -1068,9 +1068,9 @@ class ReportScreen extends Component {
                                         name={`${
                                             Platform.OS === "ios" ? "ios" : "md"
                                         }-image`}
-                                        style={{ color: "black" }}
+                                        style={styles.btnTextBlack}
                                     />
-                                    <Text style={{ color: "black" }}>
+                                    <Text style={styles.btnTextBlack}>
                                         Gallery
                                     </Text>
                                 </TouchableOpacity>
@@ -1148,9 +1148,9 @@ class ReportScreen extends Component {
                                     name={`${
                                         Platform.OS === "ios" ? "ios" : "md"
                                     }-pin`}
-                                    style={{ color: "black" }}
+                                    style={styles.btnTextBlack}
                                 />
-                                <Text style={{ color: "black" }}>
+                                <Text style={styles.btnTextBlack}>
                                     Mark on Map
                                 </Text>
                             </TouchableOpacity>
@@ -1223,9 +1223,9 @@ class ReportScreen extends Component {
                                         name={`${
                                             Platform.OS === "ios" ? "ios" : "md"
                                         }-close`}
-                                        style={{ color: "white" }}
+                                        style={styles.btnTextWhite}
                                     />
-                                    <Text style={{ color: "white" }}>
+                                    <Text style={styles.btnTextWhite}>
                                         Cancel
                                     </Text>
                                 </TouchableOpacity>
@@ -1266,9 +1266,9 @@ class ReportScreen extends Component {
                                         name={`${
                                             Platform.OS === "ios" ? "ios" : "md"
                                         }-send`}
-                                        style={{ color: "white" }}
+                                        style={styles.btnTextWhite}
                                     />
-                                    <Text style={{ color: "white" }}>
+                                    <Text style={styles.btnTextWhite}>
                                         Submit
                                     </Text>
                                 </TouchableOpacity>
@@ -1300,73 +1300,70 @@ class ReportScreen extends Component {
                             }}
                         />
                     </Footer>
-                    {/* iOS picker Modal*/}
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={this.state.iOSPickerVisible}
-                        onRequestClose={() => {
-                            this.setIOSPickerVisible(
-                                !this.state.iOSPickerVisible
-                            );
+                </Container>
+                {/* iOS picker Modal*/}
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.iOSPickerVisible}
+                    onRequestClose={() => {
+                        this.setIOSPickerVisible(!this.state.iOSPickerVisible);
+                    }}
+                >
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#000000C0"
                         }}
                     >
                         <View
                             style={{
-                                flex: 1,
-                                justifyContent: "center",
-                                alignItems: "center",
-                                backgroundColor: "#000000C0"
+                                width: 300,
+                                height: 200,
+                                backgroundColor: "#CCC",
+                                padding: 20
                             }}
                         >
-                            <View
-                                style={{
-                                    width: 300,
-                                    height: 200,
-                                    backgroundColor: "#CCC",
-                                    padding: 20
-                                }}
-                            >
-                                <ScrollView>
-                                    <SelectableListScene
-                                        list={tagsList}
-                                        onPressAction={selectedItem => {
-                                            var pre_report = this.state
-                                                .pre_report;
-                                            pre_report.incidentCategory = selectedItem;
-                                            this._isMounted &&
-                                                this.setState({
-                                                    incidentCategory: selectedItem,
-                                                    pre_report: pre_report
-                                                });
-                                            this.storeUnsubReport(pre_report);
-                                            this.setIOSPickerVisible(
-                                                !this.state.iOSPickerVisible
-                                            );
-                                        }}
-                                    />
-                                </ScrollView>
-                            </View>
+                            <ScrollView>
+                                <SelectableListScene
+                                    list={tagsList}
+                                    onPressAction={selectedItem => {
+                                        var pre_report = this.state.pre_report;
+                                        pre_report.incidentCategory = selectedItem;
+                                        this._isMounted &&
+                                            this.setState({
+                                                incidentCategory: selectedItem,
+                                                pre_report: pre_report
+                                            });
+                                        this.storeUnsubReport(pre_report);
+                                        this.setIOSPickerVisible(
+                                            !this.state.iOSPickerVisible
+                                        );
+                                    }}
+                                />
+                            </ScrollView>
                         </View>
-                    </Modal>
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={this.state.submitting}
-                        onRequestClose={() => {}}
+                    </View>
+                </Modal>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.submitting}
+                    onRequestClose={() => {}}
+                >
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: "center",
+                            alignItems: "center",
+                            backgroundColor: "#CCCCCCC0"
+                        }}
                     >
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: "center",
-                                alignItems: "center",
-                                backgroundColor: "#CCCCCCC0"
-                            }}
-                        >
-                            <ActivityIndicator size="large" color="#303060" />
-                        </View>
-                    </Modal>
-                </Container>
+                        <ActivityIndicator size="large" color="#303060" />
+                    </View>
+                </Modal>
             </SafeAreaView>
         );
     }

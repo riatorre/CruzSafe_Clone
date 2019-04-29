@@ -3,19 +3,33 @@
  * Essentially just a stylesheet for App
  */
 
-import { StatusBar, StyleSheet } from "react-native";
+import { StatusBar, StyleSheet, AsyncStorage } from "react-native";
+
+var darktheme = true;
 
 export default (styles = StyleSheet.create({
+    drawerImgContainer: {
+        height: 150,
+        backgroundColor: darktheme ? "#113F67" : "#CCC",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    drawerScrollViewBackground: {
+        backgroundColor: darktheme ? "#113F67" : "#CCC"
+    },
     container: {
         flex: 1,
-        backgroundColor: "#CCC",
+        backgroundColor: darktheme ? "#113F67" : "#CCC",
         alignItems: "center",
         justifyContent: "center"
     },
     reportContainer: {
         flex: 0.95,
         justifyContent: "center",
-        width: "90%"
+        width: "90%",
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: "#FFFFFF80"
     },
     reportBtnFull: {
         marginTop: 5,
@@ -56,7 +70,7 @@ export default (styles = StyleSheet.create({
     },
     header: {
         marginTop: StatusBar.currentHeight,
-        backgroundColor: "#303060"
+        backgroundColor: darktheme ? "black" : "#303060"
     },
     header_image: {
         marginTop: StatusBar.currentHeight,
@@ -65,22 +79,24 @@ export default (styles = StyleSheet.create({
         borderBottomWidth: 0
     },
     header_modal: {
-        backgroundColor: "#303060"
+        backgroundColor: darktheme ? "black" : "#303060"
     },
     footer: {
-        backgroundColor: "#303060"
+        backgroundColor: darktheme ? "black" : "#303060"
     },
     icon: {
-        color: "silver",
+        color: darktheme ? "#195A8E" : "silver",
         marginLeft: 10
     },
     header_text: {
-        color: "white",
-        fontSize: 20
+        color: darktheme ? "#195A8E" : "white",
+        fontSize: 20,
+        fontWeight: "bold"
     },
     footer_text: {
-        color: "white",
-        fontSize: 20
+        color: darktheme ? "#195A8E" : "white",
+        fontSize: 20,
+        fontWeight: "bold"
     },
     traffic_light: {
         backgroundColor: "#333",
@@ -118,7 +134,13 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         width: 100,
         borderRadius: 125,
-        backgroundColor: "#303060"
+        backgroundColor: darktheme ? "black" : "#303060"
+    },
+    btnTextWhite: {
+        color: "white"
+    },
+    btnTextBlack: {
+        color: "black"
     },
     signinBtn: {
         margin: 1,
@@ -173,7 +195,7 @@ export default (styles = StyleSheet.create({
         padding: 10,
         marginTop: 2,
         marginBottom: 2,
-        backgroundColor: "#303060",
+        backgroundColor: darktheme ? "#113F67" : "#303060",
         borderRadius: 10
     },
     slideOuterContainer: {

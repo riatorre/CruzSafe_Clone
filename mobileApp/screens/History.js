@@ -122,23 +122,19 @@ class History extends Component {
                                     )
                                 }
                             >
-                                <Text style={{ color: "white" }}>
+                                <Text style={styles.btnTextWhite}>
                                     Report #{item.reportID}
                                 </Text>
-                                <Text
-                                    style={{
-                                        color: "white"
-                                    }}
-                                >
+                                <Text style={styles.btnTextWhite}>
                                     Type: {tagsList[item.tag - 1]}
                                 </Text>
                                 <View>
-                                    <Text style={{ color: "white" }}>
+                                    <Text style={styles.btnTextWhite}>
                                         Created on:{" "}
                                         {this.splitTS(item.reportTS)}
                                     </Text>
                                     {item.completeTS !== null ? (
-                                        <Text style={{ color: "white" }}>
+                                        <Text style={styles.btnTextWhite}>
                                             Completed on:{" "}
                                             {this.splitTS(item.completeTS)}
                                         </Text>
@@ -370,9 +366,9 @@ class History extends Component {
                                     name={`${
                                         Platform.OS === "ios" ? "ios" : "md"
                                     }-refresh`}
-                                    style={{ color: "white" }}
+                                    style={styles.btnTextWhite}
                                 />
-                                <Text style={{ color: "white" }}>Refresh</Text>
+                                <Text style={styles.btnTextWhite}>Refresh</Text>
                             </TouchableOpacity>
                         </View>
                     </Content>

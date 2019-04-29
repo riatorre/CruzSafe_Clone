@@ -13,7 +13,6 @@
         "react": "16.5.1",
         "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
         "react-native-image-zoom-viewer": "^2.2.25",
-        "react-native-modal": "^9.0.0",
         "react-native-swiper": "^1.5.14",
         "react-navigation": "^3.0.9"
     },
