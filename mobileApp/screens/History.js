@@ -12,7 +12,8 @@ import {
     FlatList,
     TouchableOpacity,
     AsyncStorage,
-    ActivityIndicator
+    ActivityIndicator,
+    Alert
 } from "react-native";
 import {
     Container,
@@ -37,6 +38,15 @@ var tagsList = [
     "UNDEFINED"
 ];
 
+//Initialize tutorialParams. We will later pull the proper parameters.
+var tutorialParams = {
+    tips: false,
+    reportOnboarding: false,
+    thumbnailOnboarding: false,
+    historyOnboarding: false,
+    sidebarOnboarding: false
+};
+
 class History extends Component {
     state = {
         data: [],
@@ -56,6 +66,55 @@ class History extends Component {
             />
         )
     };
+
+    runTutorial() {
+        console.log(tutorialParams);
+        if (
+            tutorialParams.historyOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Note",
+                "Once you have submitted a report, they will show up on this page. You can click on a report to see more detailed information.",
+                [
+                    {
+                        text: "Continue",
+                        onPress: () => {
+                            this.reportAlert();
+                        }
+                    }
+                ]
+            );
+        }
+    }
+
+    reportAlert() {
+        console.log(tutorialParams);
+        if (
+            tutorialParams.historyOnboarding == true &&
+            tutorialParams.tips == true
+        ) {
+            Alert.alert(
+                "Handling Reports",
+                "Would you like to understand more about what happens after your report is submitted?",
+                [
+                    {
+                        text: "Yes",
+                        onPress: () => {
+                            this.props.navigation.navigate("Swiper2");
+                        }
+                    },
+                    {
+                        text: "No",
+                        onPress: () => {
+                            this.historyOnboarding == false();
+                            this.setTutorialParams();
+                        }
+                    }
+                ]
+            );
+        }
+    }
 
     // Formats the Time component to a user friendly formant; 12 hour
     formatDate(date) {
@@ -294,8 +353,28 @@ class History extends Component {
     }
 
     //Gets all reports by current user on first load of the page. May occur when app is restarted, or when a new user signs in
-    componentDidMount() {
+    async componentDidMount() {
+        await this.getTutorialParams();
         this.getReports();
+        this.runTutorial();
+    }
+
+    async getTutorialParams() {
+        tutorialParams = JSON.parse(
+            await AsyncStorage.getItem("tutorialParams")
+        );
+    }
+
+    async setTutorialParams() {
+        try {
+            await AsyncStorage.setItem(
+                "tutorialParams",
+                JSON.stringify(tutorialParams)
+            );
+            this.setState({});
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     render() {

@@ -110,7 +110,6 @@ class ReportScreen extends Component {
     };
 
     runTutorial() {
-        console.log(tutorialParams);
         if (
             tutorialParams.reportOnboarding == true &&
             tutorialParams.tips == true
@@ -147,10 +146,6 @@ class ReportScreen extends Component {
                         text: "Continue",
                         onPress: () => {
                             this.setState({ isSelectionTipVisible: true });
-                            console.log(
-                                "tutorialParams.thumbnailOnboarding: " +
-                                    tutorialParams.thumbnailOnboarding
-                            );
                         }
                     }
                 ]
@@ -494,7 +489,6 @@ class ReportScreen extends Component {
                 .then(responseJSON => {
                     // Handle data
                     //this._isMounted && this.setState({ submitting: false });
-                    console.log(tutorialParams);
                     if (responseJSON.message == null) {
                         // No Errors from DB
                         Alert.alert(
@@ -583,7 +577,6 @@ class ReportScreen extends Component {
     async componentDidMount() {
         this._isMounted = true;
         await this.getTutorialParams();
-        console.log("tutorial params are" + tutorialParams.reportOnboarding);
         this.getUnsubReport().then(pre_report => {
             this._isMounted &&
                 this.setState({
