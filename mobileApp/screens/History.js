@@ -12,6 +12,7 @@ import {
     FlatList,
     TouchableOpacity,
     AsyncStorage,
+    AppState,
     ActivityIndicator,
     Alert
 } from "react-native";
@@ -68,6 +69,7 @@ class History extends Component {
     };
 
     runTutorial() {
+        console.log("History.runTutorial");
         console.log(tutorialParams);
         if (
             tutorialParams.historyOnboarding == true &&
@@ -75,7 +77,7 @@ class History extends Component {
         ) {
             Alert.alert(
                 "Note",
-                "Once you have submitted a report, they will show up on this page. You can click on a report to see more detailed information.",
+                "Once you have submitted reports, they will show up on this page. You can click on a report to see more detailed information.",
                 [
                     {
                         text: "Continue",
@@ -356,8 +358,14 @@ class History extends Component {
     async componentDidMount() {
         await this.getTutorialParams();
         this.getReports();
+        // AppState.addEventListener("change", this._handleAppStateChange);
         this.runTutorial();
     }
+
+    _handleAppStateChange = nextAppState => {
+        console.log("History handleStateChange");
+        this.runTutorial();
+    };
 
     async getTutorialParams() {
         tutorialParams = JSON.parse(

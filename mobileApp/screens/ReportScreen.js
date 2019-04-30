@@ -590,6 +590,7 @@ class ReportScreen extends Component {
             this.getCameraPermission();
         });
         AppState.addEventListener("change", this._handleAppStateChange);
+        console.log("Mounting ReportScreen");
         this.runTutorial();
     }
 
@@ -628,6 +629,7 @@ class ReportScreen extends Component {
     }
 
     _handleAppStateChange = nextAppState => {
+        console.log("ReportScreen handleStateChange");
         if (
             this.state.appState.match(/inactive|background/) &&
             nextAppState === "active"
