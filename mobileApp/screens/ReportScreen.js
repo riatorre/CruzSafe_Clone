@@ -56,7 +56,8 @@ var tutorialParams = {
     reportOnboarding: false,
     thumbnailOnboarding: false,
     historyOnboarding: false,
-    sidebarOnboarding: false
+    sidebarOnboarding: false,
+    inHistoryOnboarding: false
 };
 
 function createIncidentTypePicker(props) {

@@ -108,7 +108,8 @@ class WelcomeScreen extends Component {
             reportOnboarding: true,
             thumbnailOnboarding: true,
             historyOnboarding: true,
-            sidebarOnboarding: true
+            sidebarOnboarding: true,
+            inHistoryOnboarding: false
         };
         await AsyncStorage.setItem(
             "tutorialParams",

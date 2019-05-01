@@ -45,7 +45,8 @@ var tutorialParams = {
     reportOnboarding: false,
     thumbnailOnboarding: false,
     historyOnboarding: false,
-    sidebarOnboarding: false
+    sidebarOnboarding: false,
+    inHistoryOnboarding: false
 };
 
 class History extends Component {
@@ -68,13 +69,15 @@ class History extends Component {
         )
     };
 
-    runTutorial() {
-        console.log("History.runTutorial");
-        console.log(tutorialParams);
+    async runTutorial() {
+        await this.getTutorialParams();
         if (
             tutorialParams.historyOnboarding == true &&
-            tutorialParams.tips == true
+            tutorialParams.tips == true &&
+            tutorialParams.inHistoryOnboarding == false
         ) {
+            tutorialParams.inHistoryOnboarding = true;
+            this.setTutorialParams();
             Alert.alert(
                 "Note",
                 "Once you have submitted reports, they will show up on this page. You can click on a report to see more detailed information.",
@@ -109,7 +112,8 @@ class History extends Component {
                     {
                         text: "No",
                         onPress: () => {
-                            this.historyOnboarding == false();
+                            tutorialParams.inHistoryOnboarding = false;
+                            tutorialParams.historyOnboarding = false;
                             this.setTutorialParams();
                         }
                     }
@@ -358,12 +362,11 @@ class History extends Component {
     async componentDidMount() {
         await this.getTutorialParams();
         this.getReports();
-        // AppState.addEventListener("change", this._handleAppStateChange);
+        this.props.navigation.addListener("didFocus", this._didFocus);
         this.runTutorial();
     }
 
-    _handleAppStateChange = nextAppState => {
-        console.log("History handleStateChange");
+    _didFocus = nextAppState => {
         this.runTutorial();
     };
 
