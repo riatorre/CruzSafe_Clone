@@ -915,6 +915,7 @@ function displayReport(reportID) {
 
 // Hides the report and refreshes the page if necessary (changes = 1 vs 0)
 function hideReport(changes) {
+    console.log("hideReport called!");
     closeModal("reportModal");
     reportNoteInput.value = ""; // Clear the input of notes.
     const customResponse = document.getElementById("customResponse");

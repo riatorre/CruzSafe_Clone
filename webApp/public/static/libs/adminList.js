@@ -31,7 +31,7 @@ function createUserModal() {
 
     // User information
     const userInfo = document.createElement("DIV");
-    userInfo.setAttribute("class", "row eighth leaf leftAlign");
+    userInfo.setAttribute("class", "row eigths leaf leftAlign");
     userInfo.innerHTML =
         "<div class = 'name'><div><b>Name:</b> <span id='userFullName' placeholder='FullName'></span> - #<span id='webID'></span></div></div>";
     userInfo.innerHTML +=
@@ -43,7 +43,7 @@ function createUserModal() {
 
     // User History list.
     const userHistory = document.createElement("DIV");
-    userHistory.setAttribute("class", "row sevenEighths leaf leftAlign");
+    userHistory.setAttribute("class", "row sixEights leaf leftAlign");
     userHistory.setAttribute("id", "userHistory");
 
     column1.appendChild(userInfo);
@@ -299,14 +299,69 @@ function displayUserHelper(webID) {
                 "bar",
                 standardOptions
             );
-            //readyDivCanvas("userGraph2Div", "userGraph2");
-            //readyDivCanvas("userGraph3Div", "userGraph3");
-            //readyDivCanvas("userGraph4Div", "userGraph4");
+
+            // Get a list of all of the reports they've worked on and populate userHistory.
+            const userHistory = document.getElementById("userHistory");
+            while (userHistory.firstChild) {
+                userHistory.removeChild(userHistory.firstChild);
+            }
+            userReports = [];
+            Array.from(userInfo).forEach(function(note) {
+                const reportID = note["reportID"];
+                if (!userReports.includes(reportID)) {
+                    // add new reportID to reports.
+                    userReports.push(reportID);
+                    // Create a new button to go in the modal.
+                    createReportUserButton(note);
+                }
+            });
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/users/webUserNotes");
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ webID: webID }));
+}
+
+/*
+    Creates a button showing what reports have been worked on by the user. 
+*/
+function createReportUserButton(report) {
+    const userHistory = document.getElementById("userHistory");
+
+    var button = document.createElement("BUTTON");
+    const table = document.createElement("table");
+    const tableRow = document.createElement("tr");
+    //button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
+    button.setAttribute("id", "userHistoryButton");
+
+    const reportIDText = document.createElement("td");
+    reportIDText.setAttribute("class", "buttonReportIDText");
+    reportIDText.innerHTML = "#" + report["reportID"];
+
+    const incidentIDText = document.createElement("td");
+    incidentIDText.setAttribute("class", "buttonIncidentIDText");
+    incidentIDText.innerHTML = "#" + report["incidentID"];
+
+    const reportTSText = document.createElement("td");
+    reportTSText.setAttribute("class", "buttonReportTSText");
+    reportTSText.innerHTML = report["reportTS"];
+
+    const tagText = document.createElement("td");
+    tagText.setAttribute("class", "buttonTagText");
+    tagText.innerHTML = report["tag"];
+
+    const locationText = document.createElement("td");
+    locationText.setAttribute("class", "buttonLocationText");
+    locationText.innerHTML = report["location"];
+
+    tableRow.appendChild(reportIDText);
+    tableRow.appendChild(incidentIDText);
+    tableRow.appendChild(reportTSText);
+    tableRow.appendChild(tagText);
+    tableRow.appendChild(locationText);
+    table.appendChild(tableRow);
+    button.appendChild(table);
+    userHistory.appendChild(button);
 }
 
 /*

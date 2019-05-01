@@ -3,10 +3,12 @@ body {
     background-color: #113f67;
 }
 
+#userHistory,
 #userList {
     overflow: scroll;
 }
 
+#userHistoryButton,
 #userButton {
     background-color: Black;
     border: 2px solid #095ea3;
@@ -21,12 +23,13 @@ body {
     font-family: Roboto, Arial, sans-serif;
     font-size: 12px;
 }
-
+#userHistoryButton:hover,
 #userButton:hover {
     background-color: slategray;
     color: black;
 }
 
+#userHistoryButton:focus,
 #userButton:focus {
     background-color: slategray;
     color: black;
