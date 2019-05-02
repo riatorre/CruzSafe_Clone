@@ -327,8 +327,10 @@ td {
 .topnav a:hover {
   -moz-border-radius: 1vh 1vh 0px 0px;
   border-radius: 1vh 1vh 0px 0px;
-  background-color: slategray;
-  color: black;
+  /* background-color: red; */
+  /* background-color: #376f9e; */
+  border: 2px solid #376f9e;
+  color: #376f9e;
 }
 
 /* Add an active class to highlight the current page */
@@ -394,7 +396,7 @@ td {
 .column.bordered,
 .row.bordered {
   border-style: solid;
-  border-color: gray;
+  border-color: red;
   border-width: 1px;
 }
 
