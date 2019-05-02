@@ -172,12 +172,68 @@ app.post(
             email: user["email"]
         };
         //console.log(userCore);
-        const redirectUrl = redirect_Url
-            ? `${redirect_Url}?user=${JSON.stringify(userCore)}`
-            : "/homepage.html";
-        req.session.redirect_Url = undefined;
-        //console.log(`Returning to: ${redirectUrl}`);
-        res.redirect(redirectUrl);
+        var redirectUrl = "";
+        if (redirect_Url) {
+            const query =
+                "INSERT INTO mobileUsers (firstName, lastName, email) VALUES (" +
+                connectionPool.sanitizeString(userCore.firstName) +
+                ", " +
+                connectionPool.sanitizeString(userCore.lastName) +
+                ", " +
+                connectionPool.sanitizeString(userCore.email) +
+                ") ON DUPLICATE KEY UPDATE mobileID =LAST_INSERT_ID(mobileID), firstName = " +
+                connectionPool.sanitizeString(userCore.firstName) +
+                ", lastName = " +
+                connectionPool.sanitizeString(userCore.lastName) +
+                ", email = " +
+                connectionPool.sanitizeString(userCore.email);
+            connectionPool.handleAPI(
+                null,
+                [userCore.firstName, userCore.lastName, userCore.email],
+                0,
+                3,
+                query,
+                val => {
+                    req.session.mobileUserID = val.insertId;
+
+                    redirectUrl = `${redirect_Url}?user=${JSON.stringify(
+                        req.session.mobileUserID
+                    )}`;
+                    req.session.redirect_Url = undefined;
+                    req.session.userCore = userCore;
+                    res.redirect(redirectUrl);
+                },
+                () => {}
+            );
+        } else {
+            const query =
+                "INSERT INTO webUsers (firstName, lastName, email) VALUES (" +
+                connectionPool.sanitizeString(userCore.firstName) +
+                ", " +
+                connectionPool.sanitizeString(userCore.lastName) +
+                ", " +
+                connectionPool.sanitizeString(userCore.email) +
+                ") ON DUPLICATE KEY UPDATE webID =LAST_INSERT_ID(webID), firstName = " +
+                connectionPool.sanitizeString(userCore.firstName) +
+                ", lastName = " +
+                connectionPool.sanitizeString(userCore.lastName) +
+                ", email = " +
+                connectionPool.sanitizeString(userCore.email);
+            connectionPool.handleAPI(
+                null,
+                [userCore.firstName, userCore.lastName, userCore.email],
+                0,
+                3,
+                query,
+                val => {
+                    req.session.webUserID = val.insertId;
+                    redirectUrl = "/homepage.html";
+                    req.session.userCore = userCore;
+                    res.redirect(redirectUrl);
+                },
+                () => {}
+            );
+        }
     }
 );
 

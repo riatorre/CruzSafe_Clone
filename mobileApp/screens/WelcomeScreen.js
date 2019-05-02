@@ -61,46 +61,12 @@ class WelcomeScreen extends Component {
         );
     }
 
-    /*
-     * Used to handle the logging in; takes in an email and attempts to find a user
-     * in the database.
-     *
-     * Takes in the firstName, lastName, and email.
-     * (Note that this is temporary; once login is implemeneted with Shibboleth, these three variables will be given to us and will call the APIs automatically)
-     */
-    async handleLogin(firstName, lastName, email) {
-        // Main Portion of the request, contains all metadata to be sent to link
-        await fetch("https://cruzsafe.appspot.com/api/users/newID", {
-            // Defines what type of call is being made; above link is a POST request, so POST is needed Below
-            method: "POST",
-            // Metadata in regards as to what is expected to be sent/recieved
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
-            body: JSON.stringify({
-                firstName: firstName.trim(),
-                lastName: lastName.trim(),
-                email: email.trim()
-            })
-        })
-            .then(response => response.json())
-            .then(async json => {
-                await this.setID(JSON.stringify(json.insertId));
-            })
-            // Unsuccessful Call to API
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
     // Function used to 'sign' user in. Stores name into AsyncStorage
-    _signInAsync = async (userFirstName, userLastName, userEmail) => {
-        console.log(
+    _signInAsync = async ID => {
+        /*console.log(
             `Attempting to sign in with ${userFirstName} and ${userLastName} and ${userEmail}`
-        );
-        await this.handleLogin(userFirstName, userLastName, userEmail);
+        );*/
+        await this.setID(ID);
 
         //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
         var tutorialParams = {
@@ -141,7 +107,7 @@ class WelcomeScreen extends Component {
         //console.log(result.params.user);
         const user = JSON.parse(result.params.user);
         //console.log(user);
-        await this._signInAsync(user.firstName, user.lastName, user.email);
+        await this._signInAsync(JSON.stringify(user));
     };
 
     async setID(id) {
