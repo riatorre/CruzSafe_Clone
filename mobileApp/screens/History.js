@@ -106,7 +106,7 @@ class History extends Component {
                     {
                         text: "Yes",
                         onPress: () => {
-                            this.props.navigation.navigate("Swiper2");
+                            this.props.navigation.navigate("HistorySwiper");
                         }
                     },
                     {

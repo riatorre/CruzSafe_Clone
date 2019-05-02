@@ -184,7 +184,7 @@ export default class Screen extends React.Component {
                 "tutorialParams",
                 JSON.stringify(tutorialParams)
             );
-            console.log("End of HistorySwiper");
+            console.log("End of swiper2");
             console.log(tutorialParams);
             this.setState({});
         } catch (error) {

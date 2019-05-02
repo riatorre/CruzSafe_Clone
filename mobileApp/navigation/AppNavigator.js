@@ -15,7 +15,7 @@ import CameraScreen from "../screens/CameraScreen";
 import ImageView from "../screens/ImageView";
 import VideoPlay from "../screens/VideoPlay";
 import Swiper from "../screens/Swiper";
-import Swiper2 from "../screens/Swiper2";
+import HistorySwiper from "../screens/HistorySwiper";
 
 // Screen for determining if (Re-)Authentication is needed
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
@@ -31,7 +31,7 @@ const AppStack = createStackNavigator(
         ImageView: ImageView,
         VideoPlay: VideoPlay,
         Swiper: Swiper,
-        Swiper2: Swiper2
+        HistorySwiper: HistorySwiper
     },
     { headerMode: "none" }
 );
