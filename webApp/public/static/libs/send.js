@@ -3,7 +3,10 @@ function sendEmail() {
     email.onreadystatechange = function() {
         console.log("success");
     };
-    email.open("POST", "https://cruzsafe.appspot.com/api/reports/email");
+    email.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/facilities/emailNotification"
+    );
     email.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     email.send(null);
 }

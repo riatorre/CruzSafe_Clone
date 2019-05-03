@@ -44,6 +44,34 @@ router.post("/webIDs", function(req, res) {
     );
 });
 
+// Send email notification when new report is assigned
+router.post("/emailNotification", function(req, res) {
+    var nodemailer = require("nodemailer");
+
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        auth: {
+            user: "cruzsafe2019@gmail.com",
+            pass: "BananaSlugs"
+        }
+    });
+
+    var mailOptions = {
+        from: "cruzsafe2019@gmail.com",
+        to: "zli148@ucsc.edu",
+        subject: "Sending Email from router/report.js",
+        text: "Text"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    });
+});
 // Adds a facility to the database and returns the facilityID; if already exists, returns that.
 
 // Removes a facility from the database.
