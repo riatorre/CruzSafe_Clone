@@ -1008,6 +1008,34 @@ router.post("/updateInc", function(req, res) {
     );
 });
 
+router.post("/email", function(req, res) {
+    var nodemailer = require("nodemailer");
+
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        auth: {
+            user: "cruzsafe2019@gmail.com",
+            pass: "BananaSlugs"
+        }
+    });
+
+    var mailOptions = {
+        from: "cruzsafe2019@gmail.com",
+        to: "zli148@ucsc.edu",
+        subject: "Sending Email from router/report.js",
+        text: "Text"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    });
+});
+
 /*
     The following is imported code to convert JS date to MySQL TS.
 */

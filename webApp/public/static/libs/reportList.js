@@ -144,102 +144,175 @@ function generateMultipleReports(reportIDs, tags) {
  *  To help create all the pages.
  */
 function createReportButton(report) {
-    const whole = document.createElement("div");
-    whole.setAttribute("class", "whole");
-
-    const checkbox = document.createElement("div");
-
-    const label = document.createElement("label");
-    label.setAttribute("class", "container");
-
-    const check = document.createElement("input");
-    check.setAttribute("type", "checkbox");
-    check.setAttribute("class", "check");
-    check.setAttribute("id", report["reportID"]);
-    check.setAttribute("onclick", "selectReports()");
-
-    const span = document.createElement("span");
-    span.setAttribute("class", "checkmark");
-
-    label.appendChild(check);
-    label.appendChild(span);
-    checkbox.appendChild(label);
-    whole.appendChild(checkbox);
-
-    var button = document.createElement("BUTTON");
-    const table = document.createElement("table");
-    const tableRow = document.createElement("tr");
-    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
-
-    const resolvedUnresolved = report["resolvedUnresolved"];
-    const resolvedUnresolvedFinalText = document.createElement("td");
-    var resolvedUnresolvedText = document.createElement("b");
-    resolvedUnresolvedFinalText.setAttribute(
-        "class",
-        "buttonResolvedUnresolved"
-    );
-    if (resolvedUnresolved.includes("N")) {
-        // For resolvedUnresolved, gets status. If resolved, green. else, red.
-        resolvedUnresolvedText.setAttribute(
-            "style",
-            "color:red;margin-left:30px"
+    if (location.pathname === "/admin.html") {
+        var button = document.createElement("BUTTON");
+        const table = document.createElement("table");
+        const tableRow = document.createElement("tr");
+        button.setAttribute(
+            "onclick",
+            "displayReport(" + report["reportID"] + ")"
         );
-    } else if (resolvedUnresolved.includes("I")) {
-        resolvedUnresolvedText.setAttribute(
-            "style",
-            "color:orange;margin-left:30px"
+
+        const resolvedUnresolved = report["resolvedUnresolved"];
+        const resolvedUnresolvedFinalText = document.createElement("td");
+        var resolvedUnresolvedText = document.createElement("b");
+        resolvedUnresolvedFinalText.setAttribute(
+            "class",
+            "buttonResolvedUnresolved"
         );
+        if (resolvedUnresolved.includes("N")) {
+            // For resolvedUnresolved, gets status. If resolved, green. else, red.
+            resolvedUnresolvedText.setAttribute("style", "color:red");
+        } else if (resolvedUnresolved.includes("I")) {
+            resolvedUnresolvedText.setAttribute("style", "color:orange");
+        } else {
+            resolvedUnresolvedText.setAttribute("style", "color:green");
+        }
+        resolvedUnresolvedText.appendChild(
+            document.createTextNode(resolvedUnresolved)
+        );
+        resolvedUnresolvedFinalText.appendChild(resolvedUnresolvedText);
+
+        const reportIDText = document.createElement("td");
+        reportIDText.setAttribute("class", "buttonReportIDText");
+        reportIDText.innerHTML = "#" + report["reportID"];
+
+        const incidentIDText = document.createElement("td");
+        incidentIDText.setAttribute("class", "buttonIncidentIDText");
+        incidentIDText.innerHTML = "#" + report["incidentID"];
+
+        const reportTSText = document.createElement("td");
+        reportTSText.setAttribute("class", "buttonReportTSText");
+        reportTSText.innerHTML = report["reportTS"];
+
+        const tagText = document.createElement("td");
+        tagText.setAttribute("class", "buttonTagText");
+        tagText.innerHTML = report["tag"];
+
+        const locationText = document.createElement("td");
+        locationText.setAttribute("class", "buttonLocationText");
+        locationText.innerHTML = report["location"];
+
+        const fullNameText = document.createElement("td");
+        fullNameText.setAttribute("class", "buttonFullNameText");
+        fullNameText.innerHTML = report["fullName"];
+
+        const bodyText = document.createElement("td");
+        bodyText.setAttribute("class", "buttonBodyText");
+        bodyText.innerHTML = report["body"];
+        tableRow.appendChild(resolvedUnresolvedFinalText);
+        tableRow.appendChild(reportIDText);
+        tableRow.appendChild(incidentIDText);
+        tableRow.appendChild(reportTSText);
+        tableRow.appendChild(tagText);
+        tableRow.appendChild(locationText);
+        tableRow.appendChild(fullNameText);
+        tableRow.appendChild(bodyText);
+        table.appendChild(tableRow);
+        button.appendChild(table);
+        button.setAttribute("class", "report btn " + tagColors[report["tag"]]);
+        return button;
     } else {
-        resolvedUnresolvedText.setAttribute(
-            "style",
-            "color:green;margin-left:30px"
+        const whole = document.createElement("div");
+        whole.setAttribute("class", "whole");
+
+        const checkbox = document.createElement("div");
+
+        const label = document.createElement("label");
+        label.setAttribute("class", "container");
+
+        const check = document.createElement("input");
+        check.setAttribute("type", "checkbox");
+        check.setAttribute("class", "check");
+        check.setAttribute("id", report["reportID"]);
+        check.setAttribute("onclick", "selectReports()");
+
+        const span = document.createElement("span");
+        span.setAttribute("class", "checkmark");
+
+        label.appendChild(check);
+        label.appendChild(span);
+        checkbox.appendChild(label);
+        whole.appendChild(checkbox);
+
+        var button = document.createElement("BUTTON");
+        const table = document.createElement("table");
+        const tableRow = document.createElement("tr");
+        button.setAttribute(
+            "onclick",
+            "displayReport(" + report["reportID"] + ")"
         );
+
+        const resolvedUnresolved = report["resolvedUnresolved"];
+        const resolvedUnresolvedFinalText = document.createElement("td");
+        var resolvedUnresolvedText = document.createElement("b");
+        resolvedUnresolvedFinalText.setAttribute(
+            "class",
+            "buttonResolvedUnresolved"
+        );
+        if (resolvedUnresolved.includes("N")) {
+            // For resolvedUnresolved, gets status. If resolved, green. else, red.
+            resolvedUnresolvedText.setAttribute(
+                "style",
+                "color:red;margin-left:30px"
+            );
+        } else if (resolvedUnresolved.includes("I")) {
+            resolvedUnresolvedText.setAttribute(
+                "style",
+                "color:orange;margin-left:30px"
+            );
+        } else {
+            resolvedUnresolvedText.setAttribute(
+                "style",
+                "color:green;margin-left:30px"
+            );
+        }
+        resolvedUnresolvedText.appendChild(
+            document.createTextNode(resolvedUnresolved)
+        );
+        resolvedUnresolvedFinalText.appendChild(resolvedUnresolvedText);
+
+        const reportIDText = document.createElement("td");
+        reportIDText.setAttribute("class", "buttonReportIDText");
+        reportIDText.innerHTML = "#" + report["reportID"];
+
+        const incidentIDText = document.createElement("td");
+        incidentIDText.setAttribute("class", "buttonIncidentIDText");
+        incidentIDText.innerHTML = "#" + report["incidentID"];
+
+        const reportTSText = document.createElement("td");
+        reportTSText.setAttribute("class", "buttonReportTSText");
+        reportTSText.innerHTML = report["reportTS"];
+
+        const tagText = document.createElement("td");
+        tagText.setAttribute("class", "buttonTagText");
+        tagText.innerHTML = report["tag"];
+
+        const locationText = document.createElement("td");
+        locationText.setAttribute("class", "buttonLocationText");
+        locationText.innerHTML = report["location"];
+
+        const fullNameText = document.createElement("td");
+        fullNameText.setAttribute("class", "buttonFullNameText");
+        fullNameText.innerHTML = report["fullName"];
+
+        const bodyText = document.createElement("td");
+        bodyText.setAttribute("class", "buttonBodyText");
+        bodyText.innerHTML = report["body"];
+        tableRow.appendChild(resolvedUnresolvedFinalText);
+        tableRow.appendChild(reportIDText);
+        tableRow.appendChild(incidentIDText);
+        tableRow.appendChild(reportTSText);
+        tableRow.appendChild(tagText);
+        tableRow.appendChild(locationText);
+        tableRow.appendChild(fullNameText);
+        tableRow.appendChild(bodyText);
+        table.appendChild(tableRow);
+        button.appendChild(table);
+        button.setAttribute("class", "report btn " + tagColors[report["tag"]]);
+        whole.appendChild(button);
+        return whole;
     }
-    resolvedUnresolvedText.appendChild(
-        document.createTextNode(resolvedUnresolved)
-    );
-    resolvedUnresolvedFinalText.appendChild(resolvedUnresolvedText);
-
-    const reportIDText = document.createElement("td");
-    reportIDText.setAttribute("class", "buttonReportIDText");
-    reportIDText.innerHTML = "#" + report["reportID"];
-
-    const incidentIDText = document.createElement("td");
-    incidentIDText.setAttribute("class", "buttonIncidentIDText");
-    incidentIDText.innerHTML = "#" + report["incidentID"];
-
-    const reportTSText = document.createElement("td");
-    reportTSText.setAttribute("class", "buttonReportTSText");
-    reportTSText.innerHTML = report["reportTS"];
-
-    const tagText = document.createElement("td");
-    tagText.setAttribute("class", "buttonTagText");
-    tagText.innerHTML = report["tag"];
-
-    const locationText = document.createElement("td");
-    locationText.setAttribute("class", "buttonLocationText");
-    locationText.innerHTML = report["location"];
-
-    const fullNameText = document.createElement("td");
-    fullNameText.setAttribute("class", "buttonFullNameText");
-    fullNameText.innerHTML = report["fullName"];
-
-    const bodyText = document.createElement("td");
-    bodyText.setAttribute("class", "buttonBodyText");
-    bodyText.innerHTML = report["body"];
-    tableRow.appendChild(resolvedUnresolvedFinalText);
-    tableRow.appendChild(reportIDText);
-    tableRow.appendChild(incidentIDText);
-    tableRow.appendChild(reportTSText);
-    tableRow.appendChild(tagText);
-    tableRow.appendChild(locationText);
-    tableRow.appendChild(fullNameText);
-    tableRow.appendChild(bodyText);
-    table.appendChild(tableRow);
-    button.appendChild(table);
-    button.setAttribute("class", "report btn " + tagColors[report["tag"]]);
-    whole.appendChild(button);
-    return whole;
 }
 
 var reports = [];
