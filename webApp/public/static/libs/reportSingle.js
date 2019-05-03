@@ -633,6 +633,7 @@ function displayPrewrittenResponses(tagID) {
 /*
     Function that populates the forwardDropdown from the database.
 */
+var facilityEmails = {};
 function displayFacilities() {
     var forwardDropdown = document.getElementById("forwardDropdown");
     while (forwardDropdown.firstChild) {
@@ -652,6 +653,9 @@ function displayFacilities() {
                 const facilityID = facility["facilityID"];
                 const facilityName = facility["facilityName"];
                 const facilityEmail = facility["facilityEmail"];
+                if (Object.keys(facilityEmails).length < facilities.length) {
+                    facilityEmails[facilityID] = facilityEmail;
+                }
                 var text = document.createTextNode(
                     "Forward to " + facilityName
                 );
@@ -746,6 +750,18 @@ function forwardReport(reportID, webID, facilityID) {
             facilityID: facilityID
         })
     );
+    const email = new XMLHttpRequest();
+    email.onreadystatechange = function() {
+        console.log("success");
+    };
+    email.open(
+        "POST",
+        "https://cruzsafe.appspot.com/api/facilities/emailNotification"
+    );
+    email.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    console.log(facilityID);
+    console.log(facilityEmails[facilityID]);
+    email.send(JSON.stringify({ email: facilityEmails[facilityID] }));
 }
 
 /*

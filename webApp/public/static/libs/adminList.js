@@ -187,7 +187,6 @@ function refreshPage() {
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
             var webIDs = JSON.parse(request.response);
-            console.log(webIDs);
             webID = webIDs[0]["webID"];
             setupListReports();
         }

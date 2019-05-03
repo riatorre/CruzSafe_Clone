@@ -47,7 +47,6 @@ router.post("/webIDs", function(req, res) {
 // Send email notification when new report is assigned
 router.post("/emailNotification", function(req, res) {
     var nodemailer = require("nodemailer");
-
     var transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
@@ -59,9 +58,9 @@ router.post("/emailNotification", function(req, res) {
 
     var mailOptions = {
         from: "cruzsafe2019@gmail.com",
-        to: "zli148@ucsc.edu",
-        subject: "Sending Email from router/report.js",
-        text: "Text"
+        to: req.body["email"],
+        subject: "Send to facility",
+        text: "Success"
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
