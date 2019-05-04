@@ -257,11 +257,10 @@ export default (styles = StyleSheet.create({
     },
     selectionLocationAndroid: {
         zIndex: 2,
-        top: 15,
-        height: 130,
-        position: "absolute",
         left: 10,
-        top: 17
+        top: 17,
+        height: 130,
+        position: "absolute"
     },
     selectionTriangle: {
         position: "absolute",
@@ -283,11 +282,10 @@ export default (styles = StyleSheet.create({
     },
     descriptionLocationAndroid: {
         zIndex: 2,
-        top: 15,
-        height: 130,
-        position: "absolute",
+        top: 17,
         left: 10,
-        top: 17
+        height: 130,
+        position: "absolute"
     },
     descriptionTriangle: {
         position: "absolute",
@@ -309,11 +307,10 @@ export default (styles = StyleSheet.create({
     },
     locationLocationAndroid: {
         zIndex: 2,
-        top: 15,
-        height: 130,
-        position: "absolute",
+        top: 17,
         left: 10,
-        top: 17
+        height: 130,
+        position: "absolute"
     },
     locationTriangle: {
         position: "absolute",
@@ -328,10 +325,17 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
-    cameraLocation: {
+    cameraLocationIOS: {
         zIndex: 2,
         top: -155,
         height: 0
+    },
+    cameraLocationAndroid: {
+        zIndex: 2,
+        top: -155,
+        left: 10,
+        height: 130,
+        position: "absolute"
     },
     cameraTriangle1: {
         position: "absolute",
@@ -359,10 +363,17 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
-    mapLocation: {
+    mapLocationIOS: {
         zIndex: 2,
         top: -100,
         height: 0
+    },
+    mapLocationAndroid: {
+        zIndex: 2,
+        top: -100,
+        left: 10,
+        height: 100,
+        position: "absolute"
     },
     mapTriangle: {
         position: "absolute",
@@ -377,10 +388,17 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
-    submissionLocation: {
+    submissionLocationIOS: {
         zIndex: 2,
         top: -133,
         height: 0
+    },
+    submissionLocationAndroid: {
+        zIndex: 2,
+        top: -133,
+        left: 10,
+        height: 133,
+        position: "absolute"
     },
     submissionTriangle1: {
         position: "absolute",
@@ -413,17 +431,16 @@ export default (styles = StyleSheet.create({
         top: -100,
         height: 0
     },
-    thumbnailLocationAndriod: {
+    thumbnailLocationAndroid: {
         zIndex: 2,
         top: -100,
-        height: 130,
-        position: "absolute",
-        left: 10,
-        top: 17
+        left: 0,
+        height: 230,
+        position: "absolute"
     },
     thumbnailTriangle: {
         position: "absolute",
-        left: 134,
+        left: 190,
         top: 90,
         width: 3,
         height: 3,
