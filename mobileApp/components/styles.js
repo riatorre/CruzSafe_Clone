@@ -10,16 +10,17 @@ var darktheme = true;
 export default (styles = StyleSheet.create({
     drawerImgContainer: {
         height: 150,
-        backgroundColor: darktheme ? "#113F67" : "#CCC",
+        backgroundColor: darktheme ? "#2384BC" : "#CCC",
         alignItems: "center",
         justifyContent: "center"
     },
     drawerScrollViewBackground: {
-        backgroundColor: darktheme ? "#113F67" : "#CCC"
+        //backgroundColor: darktheme ? "#113F67" : "#CCC"
+        backgroundColor: darktheme ? "#2384BC" : "#CCC"
     },
     container: {
         flex: 1,
-        backgroundColor: darktheme ? "#113F67" : "#CCC",
+        backgroundColor: darktheme ? "#2384BC" : "#CCC",
         alignItems: "center",
         justifyContent: "center"
     },
@@ -85,16 +86,17 @@ export default (styles = StyleSheet.create({
         backgroundColor: darktheme ? "black" : "#303060"
     },
     icon: {
-        color: darktheme ? "#195A8E" : "silver",
+        color: darktheme ? "#2384BC" : "silver",
         marginLeft: 10
     },
     header_text: {
-        color: darktheme ? "#195A8E" : "white",
+        //color: darktheme ? "#195A8E" : "white",
+        color: darktheme ? "#2384BC" : "white",
         fontSize: 20,
         fontWeight: "bold"
     },
     footer_text: {
-        color: darktheme ? "#195A8E" : "white",
+        color: darktheme ? "#2384BC" : "white",
         fontSize: 20,
         fontWeight: "bold"
     },
@@ -195,7 +197,7 @@ export default (styles = StyleSheet.create({
         padding: 10,
         marginTop: 2,
         marginBottom: 2,
-        backgroundColor: darktheme ? "#113F67" : "#303060",
+        backgroundColor: darktheme ? "#2384BC" : "#303060",
         borderRadius: 10
     },
     slideOuterContainer: {
