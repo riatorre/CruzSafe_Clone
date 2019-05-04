@@ -250,10 +250,18 @@ export default (styles = StyleSheet.create({
         left: -1000,
         top: -1000
     },
-    selectionLocation: {
+    selectionLocationIOS: {
         zIndex: 2,
         top: 15,
         height: 0
+    },
+    selectionLocationAndroid: {
+        zIndex: 2,
+        top: 15,
+        height: 130,
+        position: "absolute",
+        left: 10,
+        top: 17
     },
     selectionTriangle: {
         position: "absolute",
@@ -264,14 +272,22 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 9,
         borderBottomWidth: 16,
-        borderBottomColor: "#AA94FF",
+        borderBottomColor: "#2384BC",
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
-    descriptionLocation: {
+    descriptionLocationIOS: {
         zIndex: 2,
         top: 15,
         height: 0
+    },
+    descriptionLocationAndroid: {
+        zIndex: 2,
+        top: 15,
+        height: 130,
+        position: "absolute",
+        left: 10,
+        top: 17
     },
     descriptionTriangle: {
         position: "absolute",
@@ -286,10 +302,18 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
-    locationLocation: {
+    locationLocationIOS: {
         zIndex: 2,
         top: 15,
         height: 0
+    },
+    locationLocationAndroid: {
+        zIndex: 2,
+        top: 15,
+        height: 130,
+        position: "absolute",
+        left: 10,
+        top: 17
     },
     locationTriangle: {
         position: "absolute",
@@ -384,10 +408,18 @@ export default (styles = StyleSheet.create({
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
-    thumbnailLocation: {
+    thumbnailLocationIOS: {
         zIndex: 2,
-        top: -76,
+        top: -100,
         height: 0
+    },
+    thumbnailLocationAndriod: {
+        zIndex: 2,
+        top: -100,
+        height: 130,
+        position: "absolute",
+        left: 10,
+        top: 17
     },
     thumbnailTriangle: {
         position: "absolute",
@@ -398,20 +430,23 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#AA94FF",
+        //borderTopColor: "#AA94FF",
+        borderTopColor: "black",
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
     tipBubbleSquare: {
-        width: 290,
-        height: 105,
+        width: 280,
+        height: 130,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#D1C7F9",
+        //backgroundColor: "#D1C7F9",
+        backgroundColor: "#2384BC",
         borderRadius: 15,
-        borderWidth: 2,
-        borderColor: "#AA94FF"
+        borderWidth: 8,
+        //borderColor: "#AA94FF"
+        borderColor: "#2384BC"
     },
     tipBubbleBig: {
         width: 290,
@@ -419,10 +454,12 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#D1C7F9",
+        //backgroundColor: "#D1C7F9",
+        backgroundColor: "black",
         borderRadius: 15,
         borderWidth: 2,
-        borderColor: "#AA94FF"
+        //borderColor: "#AA94FF"
+        borderColor: "black"
     },
     tipBubbleBigger: {
         width: 290,
@@ -430,10 +467,12 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#D1C7F9",
+        //backgroundColor: "#D1C7F9",
+        backgroundColor: "black",
         borderRadius: 15,
         borderWidth: 2,
-        borderColor: "#AA94FF"
+        //borderColor: "#AA94FF"
+        borderColor: "black"
     },
     tipBubbleSmaller: {
         width: 290,
@@ -441,18 +480,25 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#D1C7F9",
+        //backgroundColor: "#D1C7F9",
+        backgroundColor: "black",
         borderRadius: 15,
         borderWidth: 2,
-        borderColor: "#AA94FF"
+        //borderColor: "#AA94FF"
+        borderColor: "black"
     },
     mainTipText: {
-        fontSize: 15
+        fontSize: 15,
+        color: "white"
     },
     continue: {
-        fontSize: 22
+        fontSize: 22,
+        fontWeight: "bold",
+        color: "red"
     },
     stopTips: {
-        fontSize: 12
+        fontSize: 12,
+        fontWeight: "bold",
+        color: "red"
     }
 }));
