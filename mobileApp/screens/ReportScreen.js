@@ -840,7 +840,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleSquare}>
+                                <View style={styles.tipBubbleSmaller}>
                                     <Text style={styles.mainTipText}>
                                         Describe the problem in detail. For
                                         example, “I almost tripped in the hall
@@ -892,7 +892,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleSquare}>
+                                    <View style={styles.tipBubbleSmaller}>
                                         <Text style={styles.mainTipText}>
                                             Describe the problem in detail. For
                                             example, “I almost tripped in the
@@ -965,7 +965,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleSquare}>
+                                <View style={styles.tipBubbleSmaller}>
                                     <Text style={styles.mainTipText}>
                                         Clearly describe where you found the
                                         issue. For example, “Hallway outside
@@ -1017,7 +1017,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleSquare}>
+                                    <View style={styles.tipBubbleSmaller}>
                                         <Text style={styles.mainTipText}>
                                             Clearly describe where you found the
                                             issue. For example, “Hallway outside
@@ -1201,7 +1201,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleBigger}>
+                                <View style={styles.tipBubbleBig}>
                                     <Text style={styles.mainTipText}>
                                         If you wish to take a photo or video to
                                         add to the report, press the "Camera”
@@ -1255,7 +1255,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleBigger}>
+                                    <View style={styles.tipBubbleBig}>
                                         <Text style={styles.mainTipText}>
                                             If you wish to take a photo or video
                                             to add to the report, press the
@@ -1363,7 +1363,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleSmaller}>
+                                <View style={styles.tipBubbleSmallest}>
                                     <Text style={styles.mainTipText}>
                                         To mark the location of the incident,
                                         press the “Mark on Map” button.
@@ -1414,7 +1414,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleSmaller}>
+                                    <View style={styles.tipBubbleSmallest}>
                                         <Text style={styles.mainTipText}>
                                             To mark the location of the
                                             incident, press the “Mark on Map”
@@ -1495,7 +1495,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleBig}>
+                                <View style={styles.tipBubbleBigger}>
                                     <Text style={styles.mainTipText}>
                                         Press the “submit” button to test report
                                         submission (recall that it will not
@@ -1546,7 +1546,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleBig}>
+                                    <View style={styles.tipBubbleBigger}>
                                         <Text style={styles.mainTipText}>
                                             Press the “submit” button to test
                                             report submission (recall that it
