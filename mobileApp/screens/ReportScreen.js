@@ -71,7 +71,7 @@ function createIncidentTypePicker(props) {
             <Text style={{ marginRight: 5, fontSize: 14 }}>
                 {props.homeScreen.state.incidentCategory
                     ? props.homeScreen.state.incidentCategory
-                    : "Select Incident Type"}
+                    : "Select type"}
             </Text>
             <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-arrow-dropdown`}
@@ -691,7 +691,7 @@ class ReportScreen extends Component {
                                     justifyContent: "space-between"
                                 }}
                             >
-                                <Text style={{ fontSize: 22 }}>
+                                <Text style={{ fontSize: 21 }}>
                                     Incident Type:
                                 </Text>
                                 <IncidentTypePicker homeScreen={this} />
@@ -802,7 +802,7 @@ class ReportScreen extends Component {
                                     <View style={styles.selectionTriangle} />
                                 </View>
                             </View>
-                            <Text style={{ fontSize: 22 }}>
+                            <Text style={{ fontSize: 21 }}>
                                 Incident Description:
                             </Text>
 
@@ -928,7 +928,7 @@ class ReportScreen extends Component {
                                     <View style={styles.descriptionTriangle} />
                                 </View>
                             </View>
-                            <Text style={{ fontSize: 22 }}>
+                            <Text style={{ fontSize: 21 }}>
                                 Description of Location:
                             </Text>
                             <TextInput
@@ -1059,6 +1059,7 @@ class ReportScreen extends Component {
                                 transparent={true}
                                 style={
                                     this.isIOS &&
+                                    tutorialParams.reportOnboarding &&
                                     tutorialParams.thumbnailOnboarding &&
                                     tutorialParams.tips &&
                                     image
@@ -1106,6 +1107,7 @@ class ReportScreen extends Component {
                                     transparent={true}
                                     style={
                                         !this.isIOS &&
+                                        tutorialParams.reportOnboarding &&
                                         tutorialParams.thumbnailOnboarding &&
                                         tutorialParams.tips &&
                                         image
@@ -1151,7 +1153,7 @@ class ReportScreen extends Component {
                                 </View>
                             </View>
                             {image && (
-                                <View style={{ flex: 1 }}>
+                                <View>
                                     <View
                                         style={{
                                             flexDirection: "row",
