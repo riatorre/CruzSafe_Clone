@@ -15,7 +15,6 @@ export default (styles = StyleSheet.create({
         justifyContent: "center"
     },
     drawerScrollViewBackground: {
-        //backgroundColor: darktheme ? "#113F67" : "#CCC"
         backgroundColor: darktheme ? "#2384BC" : "#CCC"
     },
     container: {
@@ -90,7 +89,6 @@ export default (styles = StyleSheet.create({
         marginLeft: 10
     },
     header_text: {
-        //color: darktheme ? "#195A8E" : "white",
         color: darktheme ? "#2384BC" : "white",
         fontSize: 20,
         fontWeight: "bold"
@@ -260,7 +258,6 @@ export default (styles = StyleSheet.create({
     },
     selectionLocationAndroid: {
         zIndex: 2,
-        left: -6,
         top: 17,
         height: 130,
         position: "absolute"
@@ -287,8 +284,7 @@ export default (styles = StyleSheet.create({
     descriptionLocationAndroid: {
         zIndex: 2,
         top: 17,
-        left: -6,
-        height: 130,
+        height: 115,
         position: "absolute"
     },
     descriptionTriangle: {
@@ -313,8 +309,7 @@ export default (styles = StyleSheet.create({
     locationLocationAndroid: {
         zIndex: 2,
         top: 17,
-        left: -6,
-        height: 130,
+        height: 115,
         position: "absolute"
     },
     locationTriangle: {
@@ -339,7 +334,6 @@ export default (styles = StyleSheet.create({
     cameraLocationAndroid: {
         zIndex: 2,
         top: -142,
-        left: -6,
         height: 130,
         position: "absolute"
     },
@@ -378,8 +372,7 @@ export default (styles = StyleSheet.create({
     mapLocationAndroid: {
         zIndex: 2,
         top: -100,
-        left: -6,
-        height: 100,
+        height: 95,
         position: "absolute"
     },
     mapTriangle: {
@@ -397,21 +390,20 @@ export default (styles = StyleSheet.create({
     },
     submissionLocationIOS: {
         zIndex: 2,
-        top: -133,
+        top: -155,
         left: -6,
         height: 0
     },
     submissionLocationAndroid: {
         zIndex: 2,
-        top: -133,
-        left: -6,
-        height: 133,
+        top: -155,
+        height: 145,
         position: "absolute"
     },
     submissionTriangle1: {
         position: "absolute",
         left: 61,
-        top: 118,
+        top: 145,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
@@ -424,7 +416,7 @@ export default (styles = StyleSheet.create({
     submissionTriangle2: {
         position: "absolute",
         left: 207,
-        top: 118,
+        top: 145,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
@@ -436,27 +428,25 @@ export default (styles = StyleSheet.create({
     },
     thumbnailLocationIOS: {
         zIndex: 2,
-        top: -100,
+        top: -105,
         left: -6,
         height: 0
     },
     thumbnailLocationAndroid: {
         zIndex: 2,
-        top: -100,
-        left: -6,
+        top: -105,
         height: 230,
         position: "absolute"
     },
     thumbnailTriangle: {
         position: "absolute",
         left: 190,
-        top: 90,
+        top: 95,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        //borderTopColor: "#AA94FF",
         borderTopColor: "#744CA8",
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
@@ -467,37 +457,20 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        //backgroundColor: "#D1C7F9",
         backgroundColor: "#744CA8",
         borderRadius: 15,
         borderWidth: 8,
-        //borderColor: "#AA94FF"
         borderColor: "#744CA8"
     },
     tipBubbleBig: {
-        width: 280,
-        height: 130,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        //backgroundColor: "#D1C7F9",
-        backgroundColor: "#744CA8",
-        borderRadius: 15,
-        borderWidth: 8,
-        //borderColor: "#AA94FF"
-        borderColor: "#744CA8"
-    },
-    tipBubbleBigger: {
         width: 280,
         height: 145,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        //backgroundColor: "#D1C7F9",
         backgroundColor: "#744CA8",
         borderRadius: 15,
         borderWidth: 8,
-        //borderColor: "#AA94FF"
         borderColor: "#744CA8"
     },
     tipBubbleSmallest: {
@@ -506,11 +479,9 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        //backgroundColor: "#D1C7F9",
         backgroundColor: "#744CA8",
         borderRadius: 15,
         borderWidth: 8,
-        //borderColor: "#AA94FF"
         borderColor: "#744CA8"
     },
     tipBubbleSmaller: {
@@ -519,11 +490,9 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        //backgroundColor: "#D1C7F9",
         backgroundColor: "#744CA8",
         borderRadius: 15,
         borderWidth: 8,
-        //borderColor: "#AA94FF"
         borderColor: "#744CA8"
     },
     mainTipText: {

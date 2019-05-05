@@ -1066,7 +1066,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleSmaller}>
+                                <View style={styles.tipBubbleSmallest}>
                                     <Text style={styles.mainTipText}>
                                         You can click on the thumbnail below to
                                         view the full-size image/video.
@@ -1113,7 +1113,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleSmaller}>
+                                    <View style={styles.tipBubbleSmallest}>
                                         <Text style={styles.mainTipText}>
                                             You can click on the thumbnail below
                                             to view the full-size image/video.
@@ -1201,7 +1201,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleBig}>
+                                <View style={styles.tipBubbleSquare}>
                                     <Text style={styles.mainTipText}>
                                         If you wish to take a photo or video to
                                         add to the report, press the "Camera”
@@ -1255,7 +1255,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleBig}>
+                                    <View style={styles.tipBubbleSquare}>
                                         <Text style={styles.mainTipText}>
                                             If you wish to take a photo or video
                                             to add to the report, press the
@@ -1495,7 +1495,7 @@ class ReportScreen extends Component {
                                         : styles.locationHidden
                                 }
                             >
-                                <View style={styles.tipBubbleBigger}>
+                                <View style={styles.tipBubbleBig}>
                                     <Text style={styles.mainTipText}>
                                         Press the “submit” button to test report
                                         submission (recall that it will not
@@ -1546,7 +1546,7 @@ class ReportScreen extends Component {
                                             : styles.locationHidden
                                     }
                                 >
-                                    <View style={styles.tipBubbleBigger}>
+                                    <View style={styles.tipBubbleBig}>
                                         <Text style={styles.mainTipText}>
                                             Press the “submit” button to test
                                             report submission (recall that it
