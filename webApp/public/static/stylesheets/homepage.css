@@ -2,7 +2,7 @@
     homepage.css; homepage.html stylesheet
     Contains sytlings and styling overrides unique to homepage.html
 */
-main .mainWrapper {
+main {
     display: grid;
     grid-auto-columns: minmax(100px, auto);
     grid-auto-rows: minmax(100px, auto);

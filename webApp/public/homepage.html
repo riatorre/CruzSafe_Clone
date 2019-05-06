@@ -58,21 +58,19 @@
             </div>
         </header>
         <main class="withHeader">
-            <div class="mainWrapper">
-                <div id="chartDiv" class="reportsOverviewChart">
-                    <canvas id="reportsOverviewChart"></canvas>
-                </div>
-                <div id="chartDiv" class="firstOpenedDelayChart">
-                    <canvas id="firstOpenedDelayChart"></canvas>
-                </div>
-                <div
-                    id="MainMap"
-                    class="map"
-                    style="width:100%;height:100%;z-index: 1;position:fixed;"
-                ></div>
+            <div id="chartDiv" class="reportsOverviewChart">
+                <canvas id="reportsOverviewChart"></canvas>
             </div>
+            <div id="chartDiv" class="firstOpenedDelayChart">
+                <canvas id="firstOpenedDelayChart"></canvas>
+            </div>
+            <div
+                id="MainMap"
+                class="map"
+                style="width:100%;height:100%;z-index: 1;position:fixed;"
+            ></div>
+            <div id="tagList" style="z-index: 2;"></div>
         </main>
-        <div id="tagList" style="z-index: 2;"></div>
         <div id="modalTarget" style="position:fixed;z-index: 3"></div>
         <audio id="incomingTag1" src="./assets/sounds/Ball.wav"></audio>
         <audio id="incomingTag2" src="./assets/sounds/Chime.wav"></audio>

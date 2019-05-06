@@ -55,7 +55,7 @@
             </div>
         </header>
         <main class="withHeader">
-            <div class="mainWrapper">
+            <div class="filterOptionsGridWrapper">
                 <div id="filterOptions" class="filterOptions">
                     <div style="display:flex; justify-content: space-between">
                         <h3>Filters:</h3>
@@ -106,7 +106,7 @@
                             placeholder="Expiring within day"
                         />
                     </div>
-                    <div class="filterDropdowns">
+                    <div>
                         <p>
                             Location method:
                             <select
@@ -124,6 +124,8 @@
                                 >
                             </select>
                         </p>
+                    </div>
+                    <div>
                         <p>
                             Status:
                             <select id="filterStatus" autocomplete="off">
@@ -135,6 +137,8 @@
                                 <option value="Complete">Complete</option>
                             </select>
                         </p>
+                    </div>
+                    <div>
                         <p>
                             Attachments:
                             <select id="filterAttachments" autocomplete="off">
@@ -163,6 +167,8 @@
                         </button>
                     </div>
                 </div>
+            </div>
+            <div class="reportHeaderGridWrapper">
                 <div class="reportHeader">
                     <table>
                         <tbody>
@@ -232,41 +238,43 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="reportListGridWrapper">
                 <!--Div to be filled by setupListReports()-->
                 <div id="reportList" class="reportList"></div>
+            </div>
+            <div class="navigationButtonsGridWrapper">
                 <div class="navigationButtons">
-                    <center>
-                        <button
-                            id="firstBtn"
-                            class="btn navy rounded"
-                            onClick="firstLast('reportList','first')"
-                        >
-                            First
-                        </button>
-                        <button
-                            id="prevBtn"
-                            class="btn navy rounded"
-                            onClick="nextPrev('reportList',-1)"
-                        >
-                            Prev
-                        </button>
-                        <div id="reportListIndicators"></div>
-                        <!--Div to be filled by setupListReports()-->
-                        <button
-                            id="nextBtn"
-                            class="btn navy rounded"
-                            onClick="nextPrev('reportList',1)"
-                        >
-                            Next
-                        </button>
-                        <button
-                            id="lastBtn"
-                            class="btn navy rounded"
-                            onClick="firstLast('reportList','last')"
-                        >
-                            Last
-                        </button>
-                    </center>
+                    <button
+                        id="firstBtn"
+                        class="btn navy rounded"
+                        onClick="firstLast('reportList','first')"
+                    >
+                        First
+                    </button>
+                    <button
+                        id="prevBtn"
+                        class="btn navy rounded"
+                        onClick="nextPrev('reportList',-1)"
+                    >
+                        Prev
+                    </button>
+                    <div id="reportListIndicators"></div>
+                    <!--Div to be filled by setupListReports()-->
+                    <button
+                        id="nextBtn"
+                        class="btn navy rounded"
+                        onClick="nextPrev('reportList',1)"
+                    >
+                        Next
+                    </button>
+                    <button
+                        id="lastBtn"
+                        class="btn navy rounded"
+                        onClick="firstLast('reportList','last')"
+                    >
+                        Last
+                    </button>
                 </div>
             </div>
         </main>
