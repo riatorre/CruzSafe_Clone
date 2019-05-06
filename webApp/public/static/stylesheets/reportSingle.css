@@ -1,59 +1,109 @@
-.reportColumn {
-  padding: 10px;
-  background-clip: content-box;
-  background-color: slategray;
+.reportModalGrid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 10px;
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-areas:
+        "reportContact reportExpiry"
+        "reportMetaDetails reportBody"
+        "reportMetaDetails reportNotesField"
+        "reportLocAndTag reportNotesField"
+        "reportVisuals reportNotesField"
+        "reportVisuals reportAux"
+        "reportVisuals reportAux"
+        "reportVisuals reportAux";
 }
 
-.modal-content .row.leaf,
-.modal-content .column.leaf {
-  min-height: auto;
+.reportModalGrid > * {
+    padding: 5px;
+    background-color: slategray;
+}
+
+.reportContact {
+    grid-area: reportContact;
+}
+
+.reportMetaDetails {
+    grid-area: reportMetaDetails;
+}
+
+.reportLocAndTag {
+    grid-area: reportLocAndTag;
+}
+
+.reportVisuals {
+    grid-area: reportVisuals;
+    display: flex;
+}
+
+.reportVisuals > * {
+    flex: 1;
+}
+
+.reportExpiry {
+    grid-area: reportExpiry;
+}
+
+.reportBody {
+    grid-area: reportBody;
+}
+
+.reportNotesField {
+    grid-area: reportNotesField;
+}
+
+.reportAux {
+    grid-area: reportAux;
+}
+
+.imgcontainer {
+    margin: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .reportCompletebtn {
-  width: 100%;
-  margin: 0px;
-  display: flex;
-  justify-content: center;
+    width: 100%;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
 }
 
 .reportNotes {
-  text-align: left;
-  border-width: 2px;
-  border-color: gray;
-  border-style: ridge;
-  background-color: white;
-  overflow: auto;
-  min-height: 10vh;
-  height: 60%;
-  max-height: 40vh;
-  width: 100%;
+    text-align: left;
+    border-width: 2px;
+    border-color: gray;
+    border-style: ridge;
+    background-color: white;
+    overflow: auto;
+    min-height: 10vh;
+    height: 60%;
+    max-height: 40vh;
+    width: 100%;
 }
 
 .reportNotes > :nth-child(even) {
-  background-color: silver;
+    background-color: silver;
 }
 
 .notesInput {
-  display: inline-flex;
-  width: 100%;
+    display: inline-flex;
+    width: 100%;
 }
 
 .notesInput input {
-  width: 90%;
+    width: 90%;
 }
 
 .dropdown {
-  width: 100%;
-  display: inline-flex;
+    width: 100%;
+    display: inline-flex;
 }
 
 .dropdown select {
-  width: 90%;
-}
-
-@media screen and (max-width: 600px) {
-  .reportColumn {
-    padding: 0px;
-    background-clip: initial;
-  }
+    width: 90%;
 }

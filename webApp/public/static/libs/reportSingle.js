@@ -28,14 +28,10 @@ const defaultOptionText = "---Select Option---";
 // Function used to create a Modal ready to display Single Report Data
 function createReportModal() {
     const report = document.createElement("DIV");
-    report.setAttribute("class", "row");
+    report.setAttribute("class", "reportModalGrid");
 
-    const column1 = document.createElement("DIV");
-    column1.setAttribute("class", "column half reportColumn");
-
-    // Info about the reporting Civilian
     const civilianInfo = document.createElement("DIV");
-    civilianInfo.setAttribute("class", "row eighth leaf leftAlign");
+    civilianInfo.setAttribute("class", "reportContact");
     civilianInfo.innerHTML =
         "<div class = 'name'><div><b>Name:</b> <span id='fullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
     civilianInfo.innerHTML +=
@@ -43,9 +39,8 @@ function createReportModal() {
     civilianInfo.innerHTML +=
         "<div class = 'email'><div><b>Email:</b> <span id='email'></span></div></div>";
 
-    // Metadata involving the specific report
     const reportMetadata = document.createElement("DIV");
-    reportMetadata.setAttribute("class", "row quarter leaf leftAlign");
+    reportMetadata.setAttribute("class", "reportMetaDetails");
     reportMetadata.innerHTML =
         "<div><b>Report:</b> #<span id = 'reportID'></span></div><div><b>Incident:</b> #<span id = 'incidentID'></span> <b id='resolvedUnresolved'></b></div>\n";
     reportMetadata.innerHTML +=
@@ -55,33 +50,21 @@ function createReportModal() {
     reportMetadata.innerHTML +=
         "<div><b>Tag:</b> <span id='tag'></span></div>\n";
 
-    // Location Info
     const locationInfo = document.createElement("DIV");
-    locationInfo.setAttribute("class", "row eighth leaf leftAlign");
+    locationInfo.setAttribute("class", "reportLocAndTag");
     locationInfo.innerHTML +=
         "<div><b>Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
 
-    // Map and Media
     const media = document.createElement("DIV");
-    media.setAttribute("class", "row half");
-    media.innerHTML =
-        "<iframe id='reportMap' class='column half leaf leftAlign'></iframe>";
+    media.setAttribute("class", "reportVisuals");
+    media.innerHTML = "<iframe id='reportMap'></iframe>";
     media.innerHTML +=
-        "<div class='column half leaf' id='media'><img id='reportPhoto' class='imgcontainer' alt='report photo' />";
+        "<div id='media'><img id='reportPhoto' class='imgcontainer' alt='report photo' />";
     media.innerHTML +=
         "<video width = '320' height = '240' controls = 'controls' id='reportVideo' alt='report video' type = 'video/mp4'> </video></div>";
 
-    column1.appendChild(civilianInfo);
-    column1.appendChild(reportMetadata);
-    column1.appendChild(locationInfo);
-    column1.appendChild(media);
-
-    const column2 = document.createElement("DIV");
-    column2.setAttribute("class", "column half reportColumn");
-
-    // Expiration details
     const expiration = document.createElement("DIV");
-    expiration.setAttribute("class", "row eighth leaf leftAlign");
+    expiration.setAttribute("class", "reportExpiry");
     expiration.innerHTML =
         "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
     expiration.innerHTML +=
@@ -91,13 +74,13 @@ function createReportModal() {
 
     // Description of the Incident
     const reportDesc = document.createElement("DIV");
-    reportDesc.setAttribute("class", "row eighth leaf leftAlign");
+    reportDesc.setAttribute("class", "reportBody");
     reportDesc.innerHTML = "<b>Report Body:</b>";
     reportDesc.innerHTML += "<div id = 'body'></div>";
 
     // Notes regarding the specific report
     const notesDiv = document.createElement("DIV");
-    notesDiv.setAttribute("class", "row threeEighths leaf leftAlign");
+    notesDiv.setAttribute("class", "reportNotesField");
     notesDiv.innerHTML = "<b>Notes:</b>";
     notesDiv.innerHTML += "<div id = 'reportNotes' class='reportNotes'></div>";
     notesDiv.innerHTML +=
@@ -105,7 +88,7 @@ function createReportModal() {
 
     // All options that do not fit elsewhere
     const optionBtns = document.createElement("DIV");
-    optionBtns.setAttribute("class", "row threeEighths leaf leftAlign");
+    optionBtns.setAttribute("class", "reportAux");
 
     optionBtns.innerHTML =
         "<span><input id='workOrderNum' placeholder='Assign a workorder #'/><a id='workOrderBtn' class='btn rounded navy'>Assign Workorder #</a></span>";
@@ -116,13 +99,14 @@ function createReportModal() {
     optionBtns.innerHTML +=
         "<a class='btn rounded green' id='reportResolve'></a>";
 
-    column2.appendChild(expiration);
-    column2.appendChild(reportDesc);
-    column2.appendChild(notesDiv);
-    column2.appendChild(optionBtns);
-
-    report.appendChild(column1);
-    report.appendChild(column2);
+    report.appendChild(civilianInfo);
+    report.appendChild(reportMetadata);
+    report.appendChild(locationInfo);
+    report.appendChild(media);
+    report.appendChild(expiration);
+    report.appendChild(reportDesc);
+    report.appendChild(notesDiv);
+    report.appendChild(optionBtns);
     return report;
 }
 
