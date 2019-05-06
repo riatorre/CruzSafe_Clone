@@ -13,7 +13,7 @@ const multerGoogleStorage = require("multer-google-storage");
 const numDays = 90; // number of days before a report expires
 
 // Define where multer will store the incoming files and how to name them
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, path.join(__dirname, "../../public/assets/images/upload"));
     },
@@ -26,7 +26,7 @@ var storage = multer.diskStorage({
 });
 
 // Google Cloud Definition to allow storage on GAE
-var googleStorageConfig = {
+let googleStorageConfig = {
     bucket: process.env.GCS_BUCKET,
     projectId: process.env.GCLOUD_PROJECT,
     keyFilename: process.env.GCS_KEYFILE,
@@ -39,7 +39,7 @@ var googleStorageConfig = {
 };
 
 // Generate the middleware that will be used to handle files
-var upload = multer({
+let upload = multer({
     storage: process.env.GCS_BUCKET
         ? multerGoogleStorage.storageEngine(googleStorageConfig)
         : storage
@@ -87,8 +87,8 @@ router.post("/reportsTags", function(req, res) {
 
 // Get all reports from a list of reportIDs
 router.post("/", function(req, res) {
-    var reportIDs = JSON.parse(req.body.id);
-    var query =
+    let reportIDs = JSON.parse(req.body.id);
+    let query =
         "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = ";
     for (i = 0; i < reportIDs.length; i++) {
         if (i == 0) {
@@ -117,7 +117,7 @@ router.post("/", function(req, res) {
 
 // Get all reports
 router.post("/allReports", function(req, res) {
-    var query = "SELECT * FROM reports";
+    let query = "SELECT * FROM reports";
     connectionPool.handleAPI(
         null,
         null,
@@ -135,7 +135,7 @@ router.post("/allReports", function(req, res) {
 
 // Get all incomplete reports
 router.post("/incompleteReports", function(req, res) {
-    var query = "SELECT * FROM reports where completeTS is null";
+    let query = "SELECT * FROM reports where completeTS is null";
     connectionPool.handleAPI(
         null,
         null,
@@ -153,7 +153,7 @@ router.post("/incompleteReports", function(req, res) {
 
 // Get all reports that have been opened
 router.post("/allOpenedReports", function(req, res) {
-    var query = "SELECT * FROM reports WHERE initialOpenTS IS NOT NULL";
+    let query = "SELECT * FROM reports WHERE initialOpenTS IS NOT NULL";
     connectionPool.handleAPI(
         null,
         null,
@@ -171,7 +171,7 @@ router.post("/allOpenedReports", function(req, res) {
 
 // Get all reportIDs, initialOpenTS and completeTS.
 router.post("/reportAllTS", function(req, res) {
-    var query = "SELECT reportID, initialOpenTS, completeTS FROM reports";
+    let query = "SELECT reportID, initialOpenTS, completeTS FROM reports";
     connectionPool.handleAPI(
         null,
         null,
@@ -195,23 +195,24 @@ router.post("/reportAllTS", function(req, res) {
 */
 router.post("/specifyReportIDs", function(req, res) {
     // Interpret passed JSON string to dictionary
-    var filters = {};
-    var dictionary = JSON.parse(req.body.dict);
-    for (var key in dictionary) {
+    let filters = {};
+    let dictionary = JSON.parse(req.body.dict);
+    let value = undefined;
+    for (let key in dictionary) {
         if (dictionary.hasOwnProperty(key)) {
-            var value = dictionary[key];
+            value = dictionary[key];
             filters[key] = value;
         }
     }
 
     // Dictionary populated, construct query.
-    var query =
+    let query =
         "SELECT reportID FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID";
     if (Object.keys(filters).length != 0) {
         // If anything in dictionary
         query = query + " WHERE "; // Add an initial where clause
-        var firstItem = true;
-        for (var key in filters) {
+        let firstItem = true;
+        for (let key in filters) {
             const value = "" + filters[key];
             // For each item in dictionary
             if (!firstItem) {
@@ -263,23 +264,23 @@ router.post("/specifyReportIDs", function(req, res) {
             res.json({ message: "An Error has Occurred." });
         } else {
             // Interpret passed JSON string to dictionary
-            var filters = {};
-            var dictionary = JSON.parse(req.body.dict);
-            for (var key in dictionary) {
+            let filters = {};
+            let dictionary = JSON.parse(req.body.dict);
+            for (let key in dictionary) {
                 if (dictionary.hasOwnProperty(key)) {
-                    var value = dictionary[key];
+                    let value = dictionary[key];
                     filters[key] = value;
                 }
             }
 
             // Dictionary populated, construct query.
-            var query =
+            let query =
                 "SELECT reportID FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID";
             if (Object.keys(filters).length != 0) {
                 // If anything in dictionary
                 query = query + " WHERE "; // Add an initial where clause
-                var firstItem = true;
-                for (var key in filters) {
+                let firstItem = true;
+                for (let key in filters) {
                     const value = "" + filters[key];
                     // For each item in dictionary
                     if (!firstItem) {
@@ -522,7 +523,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                 if (err) {
                                     myConsole.log(err);
                                 } else {
-                                    var expireTS = rows[0].reportTS;
+                                    let expireTS = rows[0].reportTS;
                                     expireTS.setDate(
                                         expireTS.getDate() + numDays
                                     );
@@ -695,7 +696,7 @@ router.post("/prewrittenResponses", function(req, res) {
  * Takes in id as well.
  */
 router.post("/timestamp", function(req, res) {
-    var query = "";
+    let query = "";
     if (req.body.initialOpenTS == 1) {
         query =
             "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = " +
@@ -749,25 +750,27 @@ router.post("/allReportTS", function(req, res) {
 */
 router.post("/setExpire", function(req, res) {
     // Interpret passed JSON string to dictionary
-    var reportsDict = {};
-    var dictionary = JSON.parse(req.body.reportsDict);
-    for (var key in dictionary) {
+    let reportsDict = {};
+    let dictionary = JSON.parse(req.body.reportsDict);
+    let value = undefined;
+    for (let key in dictionary) {
         if (dictionary.hasOwnProperty(key)) {
-            var value = dictionary[key];
+            value = dictionary[key];
             reportsDict[key] = value;
         }
     }
     //res.json({ message: "Dict = " + reportsDict });
     if (reportsDict != {}) {
         // Dictionary populated. Now construct the query.
-        var query = "UPDATE reports SET expireTS = CASE ";
+        let query = "UPDATE reports SET expireTS = CASE ";
+        let expireTS = undefined;
         for (key in reportsDict) {
-            var expireTS = reportsDict[key];
+            expireTS = reportsDict[key];
             query =
                 query + "WHEN reportID = " + key + " THEN " + expireTS + " ";
         }
         query = query + "END WHERE reportID IN (";
-        var firstValue = true;
+        let firstValue = true;
         for (key in reportsDict) {
             if (firstValue) {
                 query = query + key;
@@ -801,20 +804,20 @@ router.post("/setExpire", function(req, res) {
             res.json({ message: "An Error has Occurred." });
         } else {
             // Interpret passed JSON string to dictionary
-            var reportsDict = {};
-            var dictionary = JSON.parse(req.body.reportsDict);
-            for (var key in dictionary) {
+            let reportsDict = {};
+            let dictionary = JSON.parse(req.body.reportsDict);
+            for (let key in dictionary) {
                 if (dictionary.hasOwnProperty(key)) {
-                    var value = dictionary[key];
+                    let value = dictionary[key];
                     reportsDict[key] = value;
                 }
             }
             //res.json({ message: "Dict = " + reportsDict });
             if (reportsDict != {}) {
                 // Dictionary populated. Now construct the query.
-                var query = "UPDATE reports SET expireTS = CASE ";
+                let query = "UPDATE reports SET expireTS = CASE ";
                 for (key in reportsDict) {
-                    var expireTS = reportsDict[key];
+                    let expireTS = reportsDict[key];
                     query =
                         query +
                         "WHEN reportID = " +
@@ -824,7 +827,7 @@ router.post("/setExpire", function(req, res) {
                         " ";
                 }
                 query = query + "END WHERE reportID IN (";
-                var firstValue = true;
+                let firstValue = true;
                 for (key in reportsDict) {
                     if (firstValue) {
                         query = query + key;
@@ -897,7 +900,7 @@ router.post("/latestTS", function(req, res) {
     Given a TS, return a report.
 */
 router.post("/reportTS", function(req, res) {
-    var query =
+    let query =
         "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportTS = ";
     query = query + connectionPool.sanitizeString(req.body.reportTS);
     connectionPool.handleAPI(
@@ -986,10 +989,10 @@ router.post("/updateToken", function(req, res) {
 });
 
 router.post("/updateInc", function(req, res) {
-    var reportID = req.body.reports;
-    var inc_num = req.body.inc;
-    var query = "UPDATE reports SET incidentID = " + inc_num + " Where";
-    for (var i = 0; i < reportID.length - 1; i++) {
+    let reportID = req.body.reports;
+    let inc_num = req.body.inc;
+    let query = "UPDATE reports SET incidentID = " + inc_num + " Where";
+    for (let i = 0; i < reportID.length - 1; i++) {
         query = query + " reportID = " + reportID[i] + " OR ";
     }
     query += " reportID = " + reportID[reportID.length - 1];
