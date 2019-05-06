@@ -45,14 +45,6 @@ main .navigationButtonsGridWrapper {
     grid-area: navigation;
 }
 
-/*
- *  Overwrite of Main
- */
-.column.leaf,
-.row.leaf {
-    flex-direction: column;
-}
-
 .filterOptions {
     padding: 5px;
     -moz-border-radius: 8;
@@ -205,9 +197,19 @@ main .navigationButtonsGridWrapper {
     box-shadow: 0;
 }
 
+.btn {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.btn + .btn {
+    margin-left: 5px;
+}
+
 .buttonResolvedUnresolved {
     width: 4.5%;
 }
+
 .buttonReportIDText,
 .buttonIncidentIDText {
     margin-left: 30px;
