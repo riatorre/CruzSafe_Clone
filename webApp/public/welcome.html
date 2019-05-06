@@ -53,12 +53,10 @@
             setupModal("modalTarget", "welcomeModal", welcomeModalRenderer);
             function welcomeModalRenderer() {
                 let div = document.createElement("DIV");
-                div.setAttribute("class", "column modalContent");
+                div.setAttribute("class", "welcomeModal");
+
                 let textDiv = document.createElement("DIV");
-                textDiv.setAttribute(
-                    "class",
-                    "row sevenEighths leaf modalContent"
-                );
+                textDiv.setAttribute("class", "welcomeModalText");
                 let text = document.createElement("DIV");
                 text.setAttribute("class", "modalText");
                 text.innerHTML =
@@ -68,6 +66,7 @@
                 text.innerHTML += "Thank you for your cooperation.<br/><br/>";
                 textDiv.appendChild(text);
                 div.appendChild(textDiv);
+
                 let cancelBtn = document.createElement("a");
                 cancelBtn.setAttribute("class", "btn red rounded");
                 cancelBtn.setAttribute("onClick", "closeModal('welcomeModal')");
@@ -77,7 +76,7 @@
                 confirmBtn.setAttribute("href", "./login");
                 confirmBtn.innerHTML = "Continue";
                 let btnsDiv = document.createElement("DIV");
-                btnsDiv.setAttribute("class", "row eighth leaf modalContent");
+                btnsDiv.setAttribute("class", "welcomeModalBtns");
                 btnsDiv.appendChild(cancelBtn);
                 btnsDiv.appendChild(confirmBtn);
                 div.appendChild(btnsDiv);
