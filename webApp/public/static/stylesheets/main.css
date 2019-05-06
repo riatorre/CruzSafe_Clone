@@ -107,11 +107,11 @@ main {
 
 main.withHeader,
 main.withFooter {
-    height: 90%;
+    height: 94%;
 }
 
 main.withHeaderAndFooter {
-    height: 80%;
+    height: 88%;
 }
 
 select {

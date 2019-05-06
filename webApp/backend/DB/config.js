@@ -13,16 +13,18 @@ const mysql = require("mysql");
 const myConsole = require("../utilities/customConsole");
 const numConnections = 64;
 
+let config = undefined;
+
 if (localTest) {
-    var connectionPool = mysql.createPool({
+    config = {
         connectionLimit: numConnections,
         host: "104.196.241.235",
         user: "lizhiyue",
         password: "lychee123",
         database: "cruzsafe_main"
-    });
+    };
 } else {
-    var config = {
+    config = {
         connectionLimit: numConnections,
         user: process.env.DB_USER,
         database: process.env.DB_DATABASE,
@@ -32,10 +34,11 @@ if (localTest) {
     if (process.env.DB_INSTANCE_NAME && process.env.NODE_ENV === "production") {
         config.socketPath = "/cloudsql/" + process.env.DB_INSTANCE_NAME;
     }
-    var connectionPool = mysql.createPool(config);
 }
 
-connectionPool.getConnection(function(err, connection) {
+let connectionPool = mysql.createPool(config);
+
+connectionPool.getConnection((err, connection) => {
     if (err) {
         myConsole.error(err);
         myConsole.log("Closing Program");
@@ -151,7 +154,7 @@ connectionPool.handleAPI = (
     if (expectedNumInts === 0 || connectionPool.verifyIntArray(ints)) {
         connectionPool.connectionQuery(query, callback);
     } else {
-        var valArray = [];
+        let valArray = [];
         if (ints && otherVals) {
             const intsArray = connectionPool.isArray(ints) ? ints : [ints];
             const otherValsArray = connectionPool.isArray(otherVals)

@@ -10,10 +10,11 @@ const localTest = false; // Global variable for debugging purposes.
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
 const passport_SAML = require("passport-saml").Strategy;
 const bodyParser = require("body-parser");
 const cors = require("cors");
-var fs = require("fs");
+const fs = require("fs");
 
 // Imports of our files
 const connectionPool = require("./backend/DB/config");
@@ -25,6 +26,32 @@ const facilities = require("./backend/routes/facilities");
 const assignments = require("./backend/routes/assignments");
 
 const app = express();
+
+let sessionStore = new MySQLStore(
+    {
+        // auto clear expired
+        clearExpired: true,
+        // Check every hour
+        checkExpirationInterval: 3600000,
+        // Lasts 8 hours
+        expiration: 28800000,
+        createDatabaseTable: true
+    },
+    connectionPool
+);
+
+app.use(
+    session({
+        secret: "CruzSafe_WebApp_Secret_Key",
+        httpOnly: true,
+        store: sessionStore,
+        resave: false,
+        saveUninitialized: false,
+        maxAge: 28800000,
+        name: "CruzSafe_Connection",
+        cookie: { secure: false }
+    })
+);
 
 // Allow for Cross Origin Requests
 app.use(cors());
@@ -86,7 +113,7 @@ const ShibbolethCert =
 const SSOCircleCert =
     "MIIEYzCCAkugAwIBAgIDIAZmMA0GCSqGSIb3DQEBCwUAMC4xCzAJBgNVBAYTAkRFMRIwEAYDVQQKDAlTU09DaXJjbGUxCzAJBgNVBAMMAkNBMB4XDTE2MDgwMzE1MDMyM1oXDTI2MDMwNDE1MDMyM1owPTELMAkGA1UEBhMCREUxEjAQBgNVBAoTCVNTT0NpcmNsZTEaMBgGA1UEAxMRaWRwLnNzb2NpcmNsZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCAwWJyOYhYmWZF2TJvm1VyZccs3ZJ0TsNcoazr2pTWcY8WTRbIV9d06zYjngvWibyiylewGXcYONB106ZNUdNgrmFd5194Wsyx6bPvnjZEERny9LOfuwQaqDYeKhI6c+veXApnOfsY26u9Lqb9sga9JnCkUGRaoVrAVM3yfghv/Cg/QEg+I6SVES75tKdcLDTt/FwmAYDEBV8l52bcMDNF+JWtAuetI9/dWCBe9VTCasAr2Fxw1ZYTAiqGI9sW4kWS2ApedbqsgH3qqMlPA7tg9iKy8Yw/deEn0qQIx8GlVnQFpDgzG9k+jwBoebAYfGvMcO/BDXD2pbWTN+DvbURlAgMBAAGjezB5MAkGA1UdEwQCMAAwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENlcnRpZmljYXRlMB0GA1UdDgQWBBQhAmCewE7aonAvyJfjImCRZDtccTAfBgNVHSMEGDAWgBTA1nEA+0za6ppLItkOX5yEp8cQaTANBgkqhkiG9w0BAQsFAAOCAgEAAhC5/WsF9ztJHgo+x9KV9bqVS0MmsgpG26yOAqFYwOSPmUuYmJmHgmKGjKrj1fdCINtzcBHFFBC1maGJ33lMk2bM2THx22/O93f4RFnFab7t23jRFcF0amQUOsDvltfJw7XCal8JdgPUg6TNC4Fy9XYv0OAHc3oDp3vl1Yj8/1qBg6Rc39kehmD5v8SKYmpE7yFKxDF1ol9DKDG/LvClSvnuVP0b4BWdBAA9aJSFtdNGgEvpEUqGkJ1osLVqCMvSYsUtHmapaX3hiM9RbX38jsSgsl44Rar5Ioc7KXOOZFGfEKyyUqucYpjWCOXJELAVAzp7XTvA2q55u31hO0w8Yx4uEQKlmxDuZmxpMz4EWARyjHSAuDKEW1RJvUr6+5uA9qeOKxLiKN1jo6eWAcl6Wr9MreXR9kFpS6kHllfdVSrJES4ST0uh1Jp4EYgmiyMmFCbUpKXifpsNWCLDenE3hllF0+q3wIdu+4P82RIM71n7qVgnDnK29wnLhHDat9rkC62CIbonpkVYmnReX0jze+7twRanJOMCJ+lFg16BDvBcG8u0n/wIDkHHitBI7bU1k6c6DydLQ+69h8SCo6sO9YuD+/3xAGKad4ImZ6vTwlB4zDCpu6YgQWocWRXE+VkOb+RBfvP755PUaLfL63AFVlpOnEpIio5++UjNJRuPuAA=";
 /*
-var SSOCircle = new passport_SAML(
+let SSOCircle = new passport_SAML(
     {
         protocol: "http://",
         host: "169.233.232.43:8080",
@@ -108,7 +135,7 @@ passport.use(SSOCircle);
 
 /* */
 
-var Shibboleth = new passport_SAML(
+let Shibboleth = new passport_SAML(
     {
         protocol: "https://",
         host: "cruzsafe.appspot.com",
@@ -126,15 +153,6 @@ var Shibboleth = new passport_SAML(
 );
 
 passport.use(Shibboleth);
-
-app.use(
-    session({
-        secret: "REEEEEE",
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false }
-    })
-);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -172,7 +190,7 @@ app.post(
             email: user["email"]
         };
         //console.log(userCore);
-        var redirectUrl = "";
+        let redirectUrl = "";
         if (redirect_Url) {
             const query =
                 "INSERT INTO mobileUsers (firstName, lastName, email) VALUES (" +
@@ -236,6 +254,15 @@ app.post(
         }
     }
 );
+
+app.post("/getMyWebID", function(req, res) {
+    try {
+        res.json(req.session.webID);
+    } catch {
+        myConsole.error("[ERROR] Unable to retrieve WebID from Session");
+        res.json({ message: "An Error has Occurred" });
+    }
+});
 
 /*
 app.get("/Shibboleth.sso/Metadata", function(req, res) {
