@@ -32,11 +32,7 @@ document.onkeydown = function(e) {
         // Checks to see if modal even exists
         if (modals) {
             // Checks to see if modal is open
-            modals.forEach(function(element) {
-                if (element.style.display === "inline-flex") {
-                    document.getElementById("close").click();
-                }
-            });
+            document.getElementById("close").click();
             modalKeys.forEach(function(key) {
                 closeModal(key); // If the abovecode doesn't work, just closes.
             });
@@ -50,11 +46,7 @@ window.onclick = function(event) {
         // Checks to see if modal even exists
         if (modals) {
             // Checks to see if modal is open
-            modals.forEach(function(element) {
-                if (element.style.display === "inline-flex") {
-                    document.getElementById("close").click();
-                }
-            });
+            document.getElementById("close").click();
             modalKeys.forEach(function(key) {
                 closeModal(key); // If the abovecode doesn't work, just closes.
             });

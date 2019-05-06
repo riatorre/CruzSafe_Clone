@@ -91,7 +91,7 @@ function determineListSetup() {
         }
     }
     // Will prevent auto-refresh of list when user is attempting to search for something
-    if (!filtersSet && currentTab == 0) {
+    if (!filtersSet && currentTabs["reportList"] == 0) {
         clearPages("reportList");
         setupListReports();
     }
