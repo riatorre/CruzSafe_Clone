@@ -4,9 +4,8 @@
  */
 
 import React, { Component } from "react";
-import { Text, View, SafeAreaView, Platform } from "react-native";
+import { Text, Image, View, SafeAreaView, Platform } from "react-native";
 import {
-    Image,
     Container,
     Header,
     Content,
@@ -58,12 +57,36 @@ class AboutUs extends Component {
                     </Header>
                     {/* Main Body */}
                     <Content contentContainerStyle={styles.container}>
-                        {/*<View style={styles.imageContainer}>
+                        <View style={styles.imageContainer}>
                             <Image
                                 source={require("../assets/images/Rich.jpg")}
                                 style={{ width: 100, height: 100 }}
                             />
-                        </View>*/}
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                source={require("../assets/images/Jo.jpg")}
+                                style={{ width: 100, height: 100 }}
+                            />
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                source={require("../assets/images/kali.jpg")}
+                                style={{ width: 100, height: 100 }}
+                            />
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                source={require("../assets/images/umna.jpg")}
+                                style={{ width: 100, height: 100 }}
+                            />
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image
+                                source={require("../assets/images/Arthur.jpg")}
+                                style={{ width: 100, height: 100 }}
+                            />
+                        </View>
                         <Text>
                             Kalinda Fraser {"\n"}
                             Arthurlot Li {"\n"}
