@@ -77,6 +77,8 @@ router.post("/checkID", function(req, res) {
 /*
  * Code to create a new user id; takes in body.firstName, body.lastName, body.email.
  * Returns mobileID.
+ *
+ * DEFUNCT; functionality moved into Passport Handler in app.js
  */
 router.post("/newID", function(req, res) {
     const firstName = req.body.firstName;

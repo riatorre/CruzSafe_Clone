@@ -27,7 +27,7 @@ router.post("/", function(req, res) {
 
 // get all messages for a specific report, should return 0+ messages
 router.post("/getMessages", function(req, res) {
-    var query = "SELECT * FROM messages WHERE reportID = ";
+    let query = "SELECT * FROM messages WHERE reportID = ";
     for (i = 0; i < req.body.reportID.length; i++) {
         if (i == 0) {
             query = query + req.body.reportID[i];

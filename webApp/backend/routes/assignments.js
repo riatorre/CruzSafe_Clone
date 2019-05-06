@@ -33,8 +33,8 @@ router.post("/", function(req, res) {
     Given a list of reportIDS, returns only a list of reportIDS that have been assigned to a given webID.
 */
 router.post("/isolateAssignments", function(req, res) {
-    var reportIDs = JSON.parse(req.body.id);
-    var query =
+    let reportIDs = JSON.parse(req.body.id);
+    let query =
         "SELECT assignments.reportID FROM assignments, webUsers, reports WHERE assignments.recieverFacilityID = webUsers.facilityID AND webUsers.webID = " +
         req.body.webID +
         " AND assignments.reportID = ";
