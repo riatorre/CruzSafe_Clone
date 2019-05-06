@@ -232,6 +232,17 @@ class HomeScreen extends Component {
         )
     };
 
+    /*
+        The Updated Homescreen includes the following elements:
+        - Logo
+        - Title Text
+        - Subtitle Text
+        - Traffic Light
+        - Traffic Light Buttons x3
+        - Tagline Text
+        - Various Logos
+        - Version Text
+    */
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
