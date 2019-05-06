@@ -13,11 +13,11 @@ main .mainWrapper {
         "graph2 map";
 }
 
-main .chartWrapper:first-child {
+main .reportsOverviewChart {
     grid-area: graph1;
 }
 
-main .chartWrapper:last-child {
+main .firstOpenedDelayChart {
     grid-area: graph2;
 }
 
