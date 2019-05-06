@@ -21,32 +21,22 @@
     <body>
         <header class="welcomeHeader"></header>
         <main class="withHeaderAndFooter">
-            <div class="row">
-                <div class="column quarter">
-                    <div class="row eighth leaf">
-                        <h1>CruzSafe</h1>
-                    </div>
-                    <div class="row fiveEighths leaf">
-                        <img
-                            id="policeLogo"
-                            class="logoContainer"
-                            src="./assets/images/UCSCPD_Logo.png"
-                            alt="Santa Cruz Police Department"
-                            aria-hidden="true"
-                        />
-                    </div>
-                    <div class="row eighth leaf">
-                        <h1>UCSC 211</h1>
-                    </div>
-                    <div class="row eighth leaf">
-                        <a
-                            id="loginButton"
-                            class="btn navy rounded"
-                            onclick="openModal('welcomeModal')"
-                            >Login
-                        </a>
-                    </div>
-                </div>
+            <h1>CruzSafe</h1>
+            <img
+                id="policeLogo"
+                class="logoContainer"
+                src="./assets/images/UCSCPD_Logo.png"
+                alt="Santa Cruz Police Department"
+                aria-hidden="true"
+            />
+            <h1>UCSC 211</h1>
+            <div>
+                <a
+                    id="loginButton"
+                    class="btn navy rounded"
+                    onclick="openModal('welcomeModal')"
+                    >Login
+                </a>
             </div>
         </main>
         <footer class="welcomeFooter">
@@ -62,14 +52,14 @@
         <script>
             setupModal("modalTarget", "welcomeModal", welcomeModalRenderer);
             function welcomeModalRenderer() {
-                var div = document.createElement("DIV");
+                let div = document.createElement("DIV");
                 div.setAttribute("class", "column modalContent");
-                var textDiv = document.createElement("DIV");
+                let textDiv = document.createElement("DIV");
                 textDiv.setAttribute(
                     "class",
                     "row sevenEighths leaf modalContent"
                 );
-                var text = document.createElement("DIV");
+                let text = document.createElement("DIV");
                 text.setAttribute("class", "modalText");
                 text.innerHTML =
                     "Please confirm that you are authorized to use this application.<br/><br/>";
@@ -78,15 +68,15 @@
                 text.innerHTML += "Thank you for your cooperation.<br/><br/>";
                 textDiv.appendChild(text);
                 div.appendChild(textDiv);
-                var cancelBtn = document.createElement("a");
+                let cancelBtn = document.createElement("a");
                 cancelBtn.setAttribute("class", "btn red rounded");
                 cancelBtn.setAttribute("onClick", "closeModal('welcomeModal')");
                 cancelBtn.innerHTML = "Cancel";
-                var confirmBtn = document.createElement("a");
+                let confirmBtn = document.createElement("a");
                 confirmBtn.setAttribute("class", "btn green rounded");
                 confirmBtn.setAttribute("href", "./login");
                 confirmBtn.innerHTML = "Continue";
-                var btnsDiv = document.createElement("DIV");
+                let btnsDiv = document.createElement("DIV");
                 btnsDiv.setAttribute("class", "row eighth leaf modalContent");
                 btnsDiv.appendChild(cancelBtn);
                 btnsDiv.appendChild(confirmBtn);
