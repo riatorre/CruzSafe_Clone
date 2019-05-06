@@ -98,9 +98,29 @@ export default (styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold"
     },
-    traffic_light: {
-        backgroundColor: "#333",
-        padding: 10
+    traffic_light_background: {
+        width: 340.33332,
+        height: 400,
+        alignItems: "center"
+    },
+    trafficLightContainer: {
+        justifyContent: "center",
+        width: 270,
+        height: 360,
+        padding: 10,
+        borderRadius: 10,
+        alignItems: "center",
+        backgroundColor: "#FFFFFF40"
+    },
+    textContainer: {
+        justifyContent: "center",
+        width: 400,
+        height: 70,
+        marginTop: 40,
+        padding: 4,
+        borderRadius: 10,
+        alignItems: "center",
+        backgroundColor: "#FFFFFF40"
     },
     textInput: {
         margin: 1,
@@ -114,6 +134,14 @@ export default (styles = StyleSheet.create({
         padding: 5,
         backgroundColor: "#EEE",
         borderRadius: 5
+    },
+    imageContainer: {
+        justifyContent: "center",
+        marginTop: 40,
+        padding: 4,
+        borderRadius: 10,
+        alignItems: "center",
+        backgroundColor: "#FFFFFF40"
     },
     picker: {
         padding: 2
