@@ -80,6 +80,7 @@ router.post("/checkID", function(req, res) {
  *
  * DEFUNCT; functionality moved into Passport Handler in app.js
  */
+/*
 router.post("/newID", function(req, res) {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -111,6 +112,7 @@ router.post("/newID", function(req, res) {
         }
     );
 });
+*/
 
 router.post("/checkFirstLogin", function(req, res) {
     const query =

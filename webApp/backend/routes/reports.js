@@ -252,78 +252,6 @@ router.post("/specifyReportIDs", function(req, res) {
             message: "[Database] Nothing found!"
         });
     }
-    /*myConsole.log(
-        "[Database] Attempting to select reportIDs adhering to specific values"
-    );
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occurred retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            // Interpret passed JSON string to dictionary
-            let filters = {};
-            let dictionary = JSON.parse(req.body.dict);
-            for (let key in dictionary) {
-                if (dictionary.hasOwnProperty(key)) {
-                    let value = dictionary[key];
-                    filters[key] = value;
-                }
-            }
-
-            // Dictionary populated, construct query.
-            let query =
-                "SELECT reportID FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID";
-            if (Object.keys(filters).length != 0) {
-                // If anything in dictionary
-                query = query + " WHERE "; // Add an initial where clause
-                let firstItem = true;
-                for (let key in filters) {
-                    const value = "" + filters[key];
-                    // For each item in dictionary
-                    if (!firstItem) {
-                        query = query + " AND "; // If not first item, etc.
-                    }
-                    if (value.startsWith("LIKE ")) {
-                        query = query + key + " " + value; // EX) SELECT reportID FROM reports WHERE column LIKE '${$needle}$'
-                        firstItem = false;
-                    } else if (value.startsWith("IS ")) {
-                        query = query + key + " " + value; // EX) SELECT reportID FROM reports WHERE column IS NOT NULL'
-                        firstItem = false;
-                    } else {
-                        query = query + key + " = " + value;
-                        firstItem = false;
-                    }
-                }
-                query =
-                    query +
-                    " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC;"; // Ordering clause
-                connection.query(query, function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({
-                            message:
-                                "[Database] An Error has occurred: query = " +
-                                query
-                        });
-                    } else {
-                        myConsole.log(
-                            "[Database] Select all reportIDs Successful: query = " +
-                                query
-                        );
-                        res.json(rows);
-                    }
-                });
-            } else {
-                res.json({
-                    message: "[Database] Nothing found! Query = " + query
-                });
-            }
-            connection.release();
-        }
-    });*/
 });
 
 /*
@@ -475,81 +403,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
             res.json({ message: "An Error has Occurred." });
         }
     );
-    /*myConsole.log("[Database] Attempting to submit a new report");
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occurred retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            // Sets up values to be inserted into the table
-            const attachment = req.file ? req.file.filename : null;
-            const hasAttachment = attachment ? 1 : 0;
-            const values = [
-                [
-                    req.body.mobileID,
-                    req.body.incidentDesc,
-                    req.body.incidentLocationDesc,
-                    req.body.incidentCategory,
-                    req.body.incidentLatitude,
-                    req.body.incidentLongitude,
-                    req.body.incidentUnchangedLocation,
-                    hasAttachment,
-                    attachment,
-                    req.body.token
-                ]
-            ];
-            connection.query(
-                "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES ?",
-                [values],
-                function(err, result) {
-                    if (err) {
-                        // An error has occurred during insertion.
-                        // Details are logged into console while user is given a generic message
-                        myConsole.error(err);
-                        res.json({ message: "An Error has Occurred" });
-                    } else {
-                        // This is used to set up incidentID to equal the reportID
-                        // as well as define the expiry date & time.
-                        // 1st query gets the date that is officially recorded in the DB, then
-                        // adds numDays to the Date portion of the DateTime OBJ.
-                        // Should default the report as a unique incident
-                        connection.query(
-                            "SELECT reportTS FROM reports WHERE reportID = ?",
-                            result.insertId,
-                            function(err, rows, fields) {
-                                if (err) {
-                                    myConsole.log(err);
-                                } else {
-                                    let expireTS = rows[0].reportTS;
-                                    expireTS.setDate(
-                                        expireTS.getDate() + numDays
-                                    );
-                                    connection.query(
-                                        "UPDATE reports SET incidentID = ?, expireTS = ? WHERE reportID = ?",
-                                        [
-                                            result.insertId,
-                                            expireTS,
-                                            result.insertId
-                                        ]
-                                    );
-                                }
-                            }
-                        );
-                        // Logs Success & returns the "incident" ID
-                        myConsole.log(
-                            "[Database] New report successfully submitted as ID = " +
-                                result.insertId
-                        );
-                        res.json({ incidentID: result.insertId });
-                    }
-                }
-            );
-            connection.release();
-        }
-    });*/
 });
 
 /*
@@ -794,64 +647,6 @@ router.post("/setExpire", function(req, res) {
             }
         );
     }
-    /*myConsole.log("[Database] Attempting to insert dict of reports.");
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occurred retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            // Interpret passed JSON string to dictionary
-            let reportsDict = {};
-            let dictionary = JSON.parse(req.body.reportsDict);
-            for (let key in dictionary) {
-                if (dictionary.hasOwnProperty(key)) {
-                    let value = dictionary[key];
-                    reportsDict[key] = value;
-                }
-            }
-            //res.json({ message: "Dict = " + reportsDict });
-            if (reportsDict != {}) {
-                // Dictionary populated. Now construct the query.
-                let query = "UPDATE reports SET expireTS = CASE ";
-                for (key in reportsDict) {
-                    let expireTS = reportsDict[key];
-                    query =
-                        query +
-                        "WHEN reportID = " +
-                        key +
-                        " THEN " +
-                        expireTS +
-                        " ";
-                }
-                query = query + "END WHERE reportID IN (";
-                let firstValue = true;
-                for (key in reportsDict) {
-                    if (firstValue) {
-                        query = query + key;
-                        firstValue = false;
-                    } else {
-                        query = query + "," + key;
-                    }
-                }
-                query = query + ")";
-                connection.query(query, function(err, rows) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occurred" });
-                    } else {
-                        myConsole.log(
-                            "[Database] Inserting dict of reports successful."
-                        );
-                        res.json(rows);
-                    }
-                });
-            }
-            connection.release();
-        }
-    });*/
 });
 
 /*
@@ -956,36 +751,6 @@ router.post("/updateToken", function(req, res) {
             res.json({ message: "An Error has Occurred." });
         }
     );
-    /*myConsole.log("[Database] Attempting to set token for" + req.body.mobileID);
-    connectionPool.getConnection(function(err, connection) {
-        if (err) {
-            myConsole.error(
-                "[Database] An error has occurred retrieving a Connection"
-            );
-            myConsole.error(err);
-            res.json({ message: "An Error has Occurred." });
-        } else {
-            connection.query(
-                "UPDATE reports SET token = " +
-                    JSON.stringify(req.body.token) +
-                    " WHERE mobileID = " +
-                    req.body.mobileID,
-                function(err, rows, fields) {
-                    if (err) {
-                        myConsole.error(err);
-                        res.json({ message: "An Error has occurred" });
-                    } else {
-                        myConsole.log(
-                            "[Database] set token for mobileID = " +
-                                req.body.mobileID
-                        );
-                        res.json(rows);
-                    }
-                }
-            );
-            connection.release();
-        }
-    });*/
 });
 
 router.post("/updateInc", function(req, res) {
