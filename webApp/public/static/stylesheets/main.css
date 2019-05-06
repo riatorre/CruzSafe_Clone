@@ -98,7 +98,11 @@ footer {
 
 header,
 footer {
+<<<<<<< HEAD
     height: 6%;
+=======
+    height: 10%;
+>>>>>>> c5b1dbed167b9356ed4eb47ac5b4784f4e18c1b1
 }
 
 main {
@@ -301,7 +305,7 @@ td {
 }
 
 /*** topnav Top Navigation Bar
-/* Add a black background color to the top navigation */
+  /* Add a black background color to the top navigation */
 
 .topnav {
     width: 100%;
@@ -351,204 +355,6 @@ td {
 
 .topnav i.fa-bars {
     font-size: 6vh;
-}
-
-/*** Row & Column Definitions ***/
-
-/*
- *  Using Rows/Columns in code
- *  set class="<Row|Column> <fraction> <bordered?> <leaf?>"
- *  Where fraction can be 
- *  "quarter", "third", "half", "twoThirds", or "threeQuarters"
- *  leaf indicates that no other row or column elements are in it.
- *  leaf just adds padding for now
- */
-.column,
-.row {
-    display: inline-flex;
-    float: left;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-}
-
-.column {
-    flex-direction: column;
-}
-
-.row {
-    flex-direction: row;
-}
-
-.column.leaf .imgcontainer,
-.row.leaf .imgcontainer {
-    height: auto;
-    width: auto;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.column.leaf,
-.row.leaf {
-    padding: 10px;
-}
-
-.column.bordered,
-.row.bordered {
-    border-style: solid;
-    border-color: red;
-    border-width: 1px;
-}
-
-.row.borderedLeft,
-.column.borderedLeft {
-    border-style: solid;
-    border-left-color: gray;
-    border-left-width: 3px;
-}
-
-.row.borderedRight,
-.column.borderedRight {
-    border-style: solid;
-    border-right-color: gray;
-    border-right-width: 3px;
-}
-
-.row.borderedTop,
-.column.borderedTop {
-    border-style: solid;
-    border-top-color: gray;
-    border-top-width: 3px;
-}
-
-.row.borderedBottom,
-.column.borderedBottom {
-    border-style: solid;
-    border-bottom-color: gray;
-    border-bottom-width: 3px;
-}
-
-.column.eighth {
-    width: 12.5%;
-}
-
-.row.eighth {
-    height: 12.5%;
-}
-
-.column.fifth {
-    width: 20%;
-}
-
-.row.fifth {
-    height: 20%;
-}
-
-.column.quarter {
-    width: 25%;
-}
-
-.row.quarter {
-    height: 25%;
-}
-
-.column.third {
-    width: 33.33%;
-}
-
-.row.third {
-    height: 33.33%;
-}
-
-.column.threeEighths {
-    width: 37.5%;
-}
-
-.row.threeEighths {
-    height: 37.5%;
-}
-
-.column.twoFifths {
-    width: 40%;
-}
-
-.row.twoFifths {
-    height: 40%;
-}
-
-.column.half {
-    width: 50%;
-}
-
-.row.half {
-    height: 50%;
-}
-
-.column.threeFifths {
-    width: 60%;
-}
-
-.row.threeFifths {
-    height: 60%;
-}
-
-.column.fiveEighths {
-    width: 62.5%;
-}
-
-.row.fiveEighths {
-    height: 62.5%;
-}
-
-.column.twoThirds {
-    width: 66.66%;
-}
-
-.row.twoThirds {
-    height: 66.66%;
-}
-
-.column.threeQuarters {
-    width: 75%;
-}
-
-.row.threeQuarters {
-    height: 75%;
-}
-
-.column.fourFifths {
-    width: 80%;
-}
-
-.row.fourFifths {
-    height: 80%;
-}
-
-.column.sevenEighths {
-    width: 87.5%;
-}
-
-.row.sevenEighths {
-    height: 87.5%;
-}
-
-.column.custom {
-    width: attr(measurement);
-}
-
-.row.custom {
-    height: attr(measurement);
-}
-
-.leftAlign {
-    display: block;
-    float: left;
-}
-
-.rightAlign {
-    display: block;
-    float: right;
 }
 
 /*** Modal Styling ***/
@@ -864,6 +670,7 @@ td {
         display: block;
     }
 
+<<<<<<< HEAD
     /*
      *  Convert all rows & columns into rows of a single
      *  Column where the column is the screen itself.
@@ -905,6 +712,8 @@ td {
         border-style: none;
     }
 
+=======
+>>>>>>> c5b1dbed167b9356ed4eb47ac5b4784f4e18c1b1
     main {
         overflow: auto;
     }
