@@ -3,29 +3,45 @@ body {
     background-color: #376f9e;
 }
 
-main .mainWrapper {
+main {
     display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 8fr 1fr;
+    padding: 5px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(10, 1fr);
     grid-template-areas:
-        "filter header"
-        "filter reports"
-        "filter navigation";
+        "filter header header header header"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter navigation navigation navigation navigation";
 }
 
-main .filterOptions {
+main .filterOptionsGridWrapper,
+main .reportHeaderGridWrapper,
+main .reportListGridWrapper,
+main .navigationButtonsGridWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+main .filterOptionsGridWrapper {
     grid-area: filter;
 }
 
-main .reportHeader {
+main .reportHeaderGridWrapper {
     grid-area: header;
 }
 
-main .reportList {
+main .reportListGridWrapper {
     grid-area: reports;
 }
 
-main .navigationButtons {
+main .navigationButtonsGridWrapper {
     grid-area: navigation;
 }
 
@@ -38,7 +54,7 @@ main .navigationButtons {
 }
 
 .filterOptions {
-    padding: 20px;
+    padding: 5px;
     -moz-border-radius: 8;
     -webkit-border-radius: 8px;
     border-radius: 12px;
@@ -64,9 +80,10 @@ main .navigationButtons {
     color: #095ea3;
 }
 
+/*
 .filterOptions :not(:first-child) {
     display: none;
-}
+}*/
 
 .filterOptions div a.icon {
     float: right;
@@ -314,6 +331,7 @@ main .navigationButtons {
     transform: rotate(45deg);
 }
 .navigationButtons {
+    display: inline-flex;
     margin-top: 20px;
     margin-bottom: 20px;
 }
