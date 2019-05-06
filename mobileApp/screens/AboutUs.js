@@ -4,8 +4,9 @@
  */
 
 import React, { Component } from "react";
-import { Text, SafeAreaView, Platform } from "react-native";
+import { Text, View, SafeAreaView, Platform } from "react-native";
 import {
+    Image,
     Container,
     Header,
     Content,
@@ -57,6 +58,12 @@ class AboutUs extends Component {
                     </Header>
                     {/* Main Body */}
                     <Content contentContainerStyle={styles.container}>
+                        {/*<View style={styles.imageContainer}>
+                            <Image
+                                source={require("../assets/images/Rich.jpg")}
+                                style={{ width: 100, height: 100 }}
+                            />
+                        </View>*/}
                         <Text>
                             Kalinda Fraser {"\n"}
                             Arthurlot Li {"\n"}
