@@ -98,11 +98,7 @@ footer {
 
 header,
 footer {
-<<<<<<< HEAD
     height: 6%;
-=======
-    height: 10%;
->>>>>>> c5b1dbed167b9356ed4eb47ac5b4784f4e18c1b1
 }
 
 main {
@@ -379,7 +375,7 @@ td {
     padding: 20px;
     border: 1px solid #888;
     /*max-width: 80%;
-    max-height: 80%;*/
+      max-height: 80%;*/
     overflow: auto;
     height: 80%;
     width: 80%;
@@ -670,50 +666,6 @@ td {
         display: block;
     }
 
-<<<<<<< HEAD
-    /*
-     *  Convert all rows & columns into rows of a single
-     *  Column where the column is the screen itself.
-     */
-    .row:not(.leaf),
-    .column {
-        display: block;
-        width: 100% !important;
-        min-height: 40px;
-        height: auto !important;
-    }
-
-    /*** Re-enable centering of content of all leaves ***/
-    .leaf {
-        display: inline-flex !important;
-    }
-
-    .leftAlign,
-    .rightAlign {
-        display: block !important;
-    }
-
-    .row.full {
-        height: auto;
-    }
-
-    .column.full {
-        width: auto;
-    }
-
-    .row.borderedLeft,
-    .column.borderedLeft,
-    .row.borderedRight,
-    .column.borderedRight,
-    .row.borderedTop,
-    .column.borderedTop,
-    .row.borderedBottom,
-    .column.borderedBottom {
-        border-style: none;
-    }
-
-=======
->>>>>>> c5b1dbed167b9356ed4eb47ac5b4784f4e18c1b1
     main {
         overflow: auto;
     }
