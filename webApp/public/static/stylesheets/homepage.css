@@ -85,7 +85,7 @@ canvas {
 
 #goBoth,
 #goMain,
-#goCostal {
+#goCoastal {
     background-color: Black;
     opacity: 1;
     border: 2px solid #376f9e;
@@ -102,14 +102,14 @@ canvas {
 
 #goBoth:hover,
 #goMain:hover,
-#goCostal:hover {
+#goCoastal:hover {
     background-color: #29364f;
     color: black;
 }
 
 #goBoth:focus,
 #goMain:focus,
-#goCostal:focus {
+#goCoastal:focus {
     background-color: #29364f;
     color: black;
 }
@@ -117,7 +117,7 @@ canvas {
 #tagListText,
 #goBothText,
 #goMainText,
-#goCostalText {
+#goCoastalText {
     color: #095ea3;
     font-family: Roboto, Arial, sans-serif;
     font-size: 20px;
@@ -126,6 +126,6 @@ canvas {
     padding-right: 7px;
 }
 #goMain,
-#goCostal {
+#goCoastal {
     margin-top: 10px;
 }

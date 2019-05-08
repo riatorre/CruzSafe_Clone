@@ -4,7 +4,7 @@
 var map;
 var both = { lat: 36.975681, lng: -122.05285 };
 var Main = { lat: 36.990468, lng: -122.05824 };
-var Costal = { lat: 36.953909, lng: -122.06099 };
+var Coastal = { lat: 36.953909, lng: -122.06099 };
 var height = window.innerHeight;
 var D_Zoom = height < 937 ? 14 : 15;
 D_Zoom = D_Zoom == 14 ? (height < 637 ? 13 : 14) : 15;
@@ -42,16 +42,16 @@ function CenterControl(controlDiv, map, center) {
     goMainText.innerHTML = "Main Campus";
     goMain.appendChild(goMainText);
 
-    var goCostal = document.createElement("div");
-    goCostal.id = "goCostal";
-    goCostal.title = "Focus on costal campus";
-    controlDiv.appendChild(goCostal);
+    var goCoastal = document.createElement("div");
+    goCoastal.id = "goCoastal";
+    goCoastal.title = "Focus on coastal campus";
+    controlDiv.appendChild(goCoastal);
 
     // Set CSS for the control interior
-    var goCostalText = document.createElement("div");
-    goCostalText.id = "goCostalText";
-    goCostalText.innerHTML = "Costal Campus";
-    goCostal.appendChild(goCostalText);
+    var goCoastalText = document.createElement("div");
+    goCoastalText.id = "goCoastalText";
+    goCoastalText.innerHTML = "Coastal Campus";
+    goCoastal.appendChild(goCoastalText);
 
     // Set up the click event listener for 'Center Map': Set the center of
     // the map
@@ -66,8 +66,8 @@ function CenterControl(controlDiv, map, center) {
         map.setZoom(D_Zoom);
     });
 
-    goCostal.addEventListener("click", function() {
-        map.setCenter(Costal);
+    goCoastal.addEventListener("click", function() {
+        map.setCenter(Coastal);
         map.setZoom(D_Zoom);
     });
 }
