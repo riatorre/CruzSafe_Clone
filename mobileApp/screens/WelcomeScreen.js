@@ -42,7 +42,7 @@ class WelcomeScreen extends Component {
                     <Content contentContainerStyle={styles.container}>
                         <Text style={{ fontSize: 36 }}>Welcome to</Text>
                         <Image
-                            source={require("../assets/images/SCPD_Logo.png")}
+                            source={require("../assets/images/CruzSafe.png")}
                             style={{ width: 200, height: 200 }}
                         />
                         <Text style={{ fontSize: 36 }}>CruzSafe!</Text>

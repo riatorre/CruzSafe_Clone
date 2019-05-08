@@ -3,7 +3,7 @@
  * Essentially just a stylesheet for App
  */
 
-import { StatusBar, Dimensions, StyleSheet, AsyncStorage } from "react-native";
+import { Dimensions, StatusBar, StyleSheet, AsyncStorage } from "react-native";
 
 var darktheme = true;
 
@@ -33,7 +33,64 @@ export default (styles = StyleSheet.create({
     },
     drawerText: {
         fontSize: 20,
+        fontWeight: "bold",
         color: "#2384BC"
+    },
+    linkText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#2384BC",
+        textAlign: "center"
+    },
+    linkDescriptionText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "black",
+        textAlign: "center",
+        marginVertical: Dimensions.get("window").height * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.02
+    },
+    linksContainer: {
+        /*flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "stretch",*/
+        backgroundColor: darktheme ? "#2384BC" : "#CCC"
+    },
+    linkRow: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "stretch",
+        backgroundColor: darktheme ? "#2384BC" : "#CCC",
+        alignItems: "center"
+    },
+    linkPicture: {
+        flex: 1,
+        width: "100%",
+        height: "65%",
+        borderRadius: Dimensions.get("window").width * 0.02
+    },
+    linkContainer: {
+        height: Dimensions.get("window").height * 0.29,
+        width: Dimensions.get("window").width * 0.45,
+        justifyContent: "center",
+        padding: Dimensions.get("window").width * 0.02,
+        borderRadius: Dimensions.get("window").width * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.02,
+        marginVertical: Dimensions.get("window").height * 0.01,
+        backgroundColor: "#FFFFFF80"
+    },
+    linkbtn: {
+        marginTop: "8%",
+        padding: 10,
+        height: "35%",
+        width: "100%",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "black",
+        borderRadius: 10
     },
     background: {
         height: Dimensions.get("window").height,
@@ -137,13 +194,11 @@ export default (styles = StyleSheet.create({
     },
     textContainer: {
         justifyContent: "center",
-        width: 400,
-        height: 70,
-        marginTop: 40,
-        padding: 4,
         borderRadius: 10,
         alignItems: "center",
-        backgroundColor: "#FFFFFF40"
+        backgroundColor: "#FFFFFF40",
+        marginVertical: Dimensions.get("window").height * 0.01,
+        marginHorizontal: Dimensions.get("window").width * 0.01
     },
     textInput: {
         margin: 1,

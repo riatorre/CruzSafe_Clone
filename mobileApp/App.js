@@ -28,7 +28,7 @@ export default class App extends React.Component {
 
     _loadResourcesAsync = async () => {
         return Promise.all([
-            Asset.loadAsync([require("./assets/images/SCPD_Logo.png")]),
+            Asset.loadAsync([require("./assets/images/CruzSafe.png")]),
             Font.loadAsync({
                 Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
             })
