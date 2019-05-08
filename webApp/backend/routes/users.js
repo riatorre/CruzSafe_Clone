@@ -152,6 +152,46 @@ router.post("/updateLogin", function(req, res) {
     );
 });
 
+router.post("/getTutorialParams", function(req, res) {
+    const query =
+        "SELECT tutorialParams FROM mobileUsers WHERE mobileID = " +
+        req.body.mobileID;
+    connectionPool.handleAPI(
+        req.body.mobileID,
+        null,
+        1,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occured" });
+        }
+    );
+});
+
+router.post("/updateTutorialParams", function(req, res) {
+    const query =
+        "UPDATE mobileUsers SET tutorialParams = '" +
+        req.body.tutorialParams +
+        "' WHERE mobileID = " +
+        req.body.mobileID;
+    connectionPool.handleAPI(
+        req.body.mobileID,
+        null,
+        1,
+        1,
+        query,
+        () => {
+            res.json({ message: "Update Successful" });
+        },
+        () => {
+            res.json({ message: "An Error has Occured" });
+        }
+    );
+});
+
 /*
     Grab information about a single webID.
 */
