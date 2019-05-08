@@ -112,8 +112,43 @@ class SettingsScreen extends Component {
         );
     }
 
+    async getTutorialParams() {
+        tutorialParams = JSON.parse(
+            await AsyncStorage.getItem("tutorialParams")
+        );
+        return tutorialParams;
+    }
+
+    async updateTutorialParamsDB(ID) {
+        tutorialParams = this.getTutorialParams();
+        console.log("updating tutorial params in the database: ");
+        await fetch(
+            "https://cruzsafe.appspot.com/api/users/setTutorialParams",
+            {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    mobileID: ID,
+                    tutorialParams: JSON.stringify(tutorialParams)
+                })
+            }
+        )
+            .then(res => res.json())
+            .then(result => {
+                console.log("Successfully updated: ");
+            })
+            .catch(err => {
+                console.trace(err);
+                console.log(err);
+            });
+    }
+
     // Function used to 'sign out' user. Clears AsyncStorage of all values
     _signOutAsync = async () => {
+        this.updateTutorialParamsDB();
         await AsyncStorage.clear();
         this.props.navigation.navigate("Auth");
     };
@@ -136,6 +171,7 @@ class SettingsScreen extends Component {
             ]
         );
     };
+
     async setTutorialParams() {
         var tutorialParams = {
             tips: true,

@@ -61,14 +61,33 @@ class WelcomeScreen extends Component {
         );
     }
 
-    // Function used to 'sign' user in. Stores name into AsyncStorage
-    _signInAsync = async ID => {
-        /*console.log(
-            `Attempting to sign in with ${userFirstName} and ${userLastName} and ${userEmail}`
-        );*/
-        await this.setID(ID);
-
-        //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
+    //gets tutorialParams from database
+    async getTutorialParamsDB(ID) {
+        console.log("getting tutorial params from database: ");
+        await fetch(
+            "https://cruzsafe.appspot.com/api/users/getTutorialParams",
+            {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    mobileID: ID
+                })
+            }
+        )
+            .then(res => res.json())
+            .then(result => {
+                console.log("Result has been returned: ");
+                console.log(result);
+                tp = result[0].tutorialParams;
+                console.log(tp);
+                if (tp != null) then: return JSON.parse(tp);
+            })
+            .catch(err => {
+                console.log(err);
+            });
         var tutorialParams = {
             tips: true,
             reportOnboarding: true,
@@ -77,11 +96,21 @@ class WelcomeScreen extends Component {
             sidebarOnboarding: true,
             inHistoryOnboarding: false
         };
+        return tutorialParams;
+    }
+
+    // Function used to 'sign' user in. Stores name into AsyncStorage
+    _signInAsync = async ID => {
+        /*console.log(
+            `Attempting to sign in with ${userFirstName} and ${userLastName} and ${userEmail}`
+        );*/
+        await this.setID(ID);
+        var tutorialParams = this.getTutorialParamsDB(ID);
         await AsyncStorage.setItem(
             "tutorialParams",
             JSON.stringify(tutorialParams)
         );
-
+        //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
         this.props.navigation.navigate("App");
     };
 
