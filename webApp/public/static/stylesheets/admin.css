@@ -1,36 +1,86 @@
 html,
 body {
-  background-color: #376f9e;
+    background-color: #376f9e;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: repeat(8, 1fr) !important;
+    grid-template-areas:
+        "facilityHeader reportDropdown reportDropdown"
+        "facilityList reportHeader reportHeader"
+        "facilityList reportList reportList"
+        "facilityList reportList reportList"
+        "facilityList reportList reportList"
+        "facilityList reportList reportList"
+        "facilityList reportList reportList"
+        "facilityList reportBtns reportBtns" !important;
+}
+
+.facilityHeader,
+.facilityList,
+.reportDropdown,
+.reportHeaderContainer,
+.reportListContainer,
+.reportBtns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.facilityHeader {
+    grid-area: facilityHeader;
+}
+
+.facilityList {
+    grid-area: facilityList;
+}
+
+.reportDropdown {
+    grid-area: reportDropdown;
+}
+
+.reportHeaderContainer {
+    grid-area: reportHeader;
+}
+
+.reportListContainer {
+    grid-area: reportList;
+}
+
+.reportBtns {
+    grid-area: reportBtns;
 }
 
 #userHistory,
 #userList {
-  overflow: scroll;
+    overflow: auto;
 }
 
 #userHistoryButton,
 #userButton {
-  background-color: Black;
-  border: 2px solid #095ea3;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  height: 40px;
-  min-width: 70px;
-  padding: 2;
-  margin-bottom: 2px;
-  margin-top: 2px;
-  color: #095ea3;
-  font-family: Roboto, Arial, sans-serif;
-  font-size: 12px;
+    background-color: Black;
+    border: 2px solid #095ea3;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    height: 40px;
+    min-width: 70px;
+    padding: 2;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    color: #095ea3;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 12px;
 }
 #userHistoryButton:hover,
 #userButton:hover {
-  background-color: slategray;
-  color: black;
+    background-color: slategray;
+    color: black;
 }
 
 #userHistoryButton:focus,
 #userButton:focus {
-  background-color: slategray;
-  color: black;
+    background-color: slategray;
+    color: black;
 }

@@ -202,7 +202,7 @@ main .navigationButtonsGridWrapper {
     margin-right: 0px;
 }
 
-.btn + .btn {
+.navigationButtons > .btn + .btn {
     margin-left: 5px;
 }
 

@@ -58,119 +58,110 @@
             </div>
         </header>
         <main class="withHeader">
-            <div class="row">
-                <div class="column third leaf">
-                    <div class="row eighth bordered leaf">
-                        <div class="reportHeader">
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td class="buttonFirstNameText">
-                                            First
-                                        </td>
-                                        <td class="buttonlastNameText">
-                                            Last
-                                        </td>
-                                        <td class="buttonTitleText">
-                                            Title
-                                        </td>
-                                        <td class="buttonFacilityNameText">
-                                            Facility
-                                        </td>
-                                        <td class="buttonRoleText">Role</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row sevenEights bordered leaf">
-                        <div id="userList"></div>
-                    </div>
-                </div>
-                <div class="column twoThirds leaf">
-                    <div class="row eighth bordered leaf">
-                        <span class="dropdown"
-                            ><select
-                                id="forwardDropdownAdmin"
-                                autocomplete="off"
-                                onchange="refreshPage()"
-                            ></select
-                        ></span>
-                    </div>
-                    <div class="row eighth bordered leaf">
-                        <div class="reportHeader">
-                            <table>
-                                <tbody>
-                                    <tr
-                                        onclick="console.log('Row has been clicked')"
-                                    >
-                                        <td class="buttonResolvedUnresolved">
-                                            Status
-                                        </td>
-                                        <td class="buttonReportIDText">
-                                            Report #
-                                        </td>
-                                        <td class="buttonIncidentIDText">
-                                            Inc #
-                                        </td>
-                                        <td class="buttonReportTSText">
-                                            Date & Time
-                                        </td>
-                                        <td class="buttonTagText">Tag</td>
-                                        <td class="buttonLocationText">
-                                            Location
-                                        </td>
-                                        <td class="buttonFullNameText">
-                                            Name (Last, First)
-                                        </td>
-                                        <td class="buttonBodyText">
-                                            Description
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row fiveEighths bordered leaf">
-                        <div id="reportList" class="reportList"></div>
-                    </div>
-                    <div class="row eighth bordered leaf">
-                        <center>
-                            <div class="navigationButtons">
-                                <button
-                                    id="firstBtn"
-                                    class="btn navy rounded"
-                                    onClick="firstLast('reportList','first')"
-                                >
+            <div class="facilityHeader">
+                <div class="reportHeader">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="buttonFirstNameText">
                                     First
-                                </button>
-                                <button
-                                    id="prevBtn"
-                                    class="btn navy rounded"
-                                    onClick="nextPrev('reportList',-1)"
-                                >
-                                    Prev
-                                </button>
-                                <div id="reportListIndicators"></div>
-                                <!--Div to be filled by setupListReports()-->
-                                <button
-                                    id="nextBtn"
-                                    class="btn navy rounded"
-                                    onClick="nextPrev('reportList',1)"
-                                >
-                                    Next
-                                </button>
-                                <button
-                                    id="lastBtn"
-                                    class="btn navy rounded"
-                                    onClick="firstLast('reportList','last')"
-                                >
+                                </td>
+                                <td class="buttonlastNameText">
                                     Last
-                                </button>
-                            </div>
-                        </center>
-                    </div>
+                                </td>
+                                <td class="buttonTitleText">
+                                    Title
+                                </td>
+                                <td class="buttonFacilityNameText">
+                                    Facility
+                                </td>
+                                <td class="buttonRoleText">Role</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
+            <div class="facilityList">
+                <div id="userList"></div>
+            </div>
+            <div class="reportDropdown">
+                <span class="dropdown"
+                    ><select
+                        id="forwardDropdownAdmin"
+                        autocomplete="off"
+                        onchange="refreshPage()"
+                    ></select
+                ></span>
+            </div>
+            <div class="reportHeaderContainer">
+                <div class="reportHeader">
+                    <table>
+                        <tbody>
+                            <tr onclick="console.log('Row has been clicked')">
+                                <td class="buttonResolvedUnresolved">
+                                    Status
+                                </td>
+                                <td class="buttonReportIDText">
+                                    Report #
+                                </td>
+                                <td class="buttonIncidentIDText">
+                                    Inc #
+                                </td>
+                                <td class="buttonReportTSText">
+                                    Date & Time
+                                </td>
+                                <td class="buttonTagText">Tag</td>
+                                <td class="buttonLocationText">
+                                    Location
+                                </td>
+                                <td class="buttonFullNameText">
+                                    Name (Last, First)
+                                </td>
+                                <td class="buttonBodyText">
+                                    Description
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="reportListContainer">
+                <div id="reportList" class="reportList"></div>
+            </div>
+            <div class="reportBtns">
+                <center>
+                    <div class="navigationButtons">
+                        <button
+                            id="firstBtn"
+                            class="btn navy rounded"
+                            onClick="firstLast('reportList','first')"
+                        >
+                            First
+                        </button>
+                        <button
+                            id="prevBtn"
+                            class="btn navy rounded"
+                            onClick="nextPrev('reportList',-1)"
+                        >
+                            Prev
+                        </button>
+                        <div id="reportListIndicators"></div>
+                        <button
+                            id="nextBtn"
+                            class="btn navy rounded"
+                            onClick="nextPrev('reportList',1)"
+                        >
+                            Next
+                        </button>
+                        <button
+                            id="lastBtn"
+                            class="btn navy rounded"
+                            onClick="firstLast('reportList','last')"
+                        >
+                            Last
+                        </button>
+                    </div>
+                </center>
             </div>
         </main>
         <div id="modalTarget"></div>
