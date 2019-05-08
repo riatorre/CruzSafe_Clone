@@ -6,6 +6,24 @@ const express = require("express");
 const router = express.Router();
 const connectionPool = require("../DB/config");
 
+app.post("/getMyWebID", function(req, res) {
+    try {
+        res.json({ webID: req.session.webUserID });
+    } catch {
+        myConsole.error("[ERROR] Unable to retrieve WebID from Session");
+        res.json({ webID: undefined, message: "An Error has Occurred" });
+    }
+});
+
+app.post("/getMyMobileID", (req, res) => {
+    try {
+        res.json({ mobileID: req.session.mobileUserID });
+    } catch {
+        myConsole.error("[ERROR] Unable to retrieve MobileID from Session");
+        res.json({ mobileID: undefined, message: "An Error has Occurred" });
+    }
+});
+
 /*
  * Given a webID, returns the user privilege level.
  */
