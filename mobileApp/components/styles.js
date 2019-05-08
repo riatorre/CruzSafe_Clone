@@ -3,9 +3,23 @@
  * Essentially just a stylesheet for App
  */
 
-import { StatusBar, StyleSheet, AsyncStorage } from "react-native";
+import { StatusBar, Dimensions, StyleSheet, AsyncStorage } from "react-native";
 
 var darktheme = true;
+
+/*
+    Traffic light variables; based around the dimensions of the encompassing window. 
+    In order to make the traffic light bigger/smaller, make the modifier value larger or smaller.
+*/
+const trafficLightModifier = 0.9;
+const trafficLightHeight =
+    Dimensions.get("window").height * trafficLightModifier;
+const trafficLightWidth = Dimensions.get("window").width * trafficLightModifier;
+
+export const trafficDimensions = {
+    height: trafficLightHeight,
+    width: trafficLightWidth
+};
 
 export default (styles = StyleSheet.create({
     drawerImgContainer: {
@@ -15,7 +29,20 @@ export default (styles = StyleSheet.create({
         justifyContent: "center"
     },
     drawerScrollViewBackground: {
-        backgroundColor: darktheme ? "#2384BC" : "#CCC"
+        backgroundColor: darktheme ? "black" : "#CCC"
+    },
+    drawerText: {
+        fontSize: 20,
+        color: "#2384BC"
+    },
+    background: {
+        height: Dimensions.get("window").height,
+        width: "auto",
+        backgroundColor: darktheme ? "black" : "#CCC",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        flex: 1
     },
     container: {
         flex: 1,
@@ -98,19 +125,15 @@ export default (styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold"
     },
-    traffic_light_background: {
-        width: 340.33332,
-        height: 400,
-        alignItems: "center"
+    traffic_text: {
+        color: darktheme ? "black" : "white",
+        fontSize: 20,
+        fontWeight: "bold"
     },
-    trafficLightContainer: {
-        justifyContent: "center",
-        width: 270,
-        height: 360,
-        padding: 10,
-        borderRadius: 10,
-        alignItems: "center",
-        backgroundColor: "#FFFFFF40"
+    traffic_light_background: {
+        width: trafficLightWidth * 0.6,
+        height: trafficLightHeight * 0.75,
+        alignItems: "center"
     },
     textContainer: {
         justifyContent: "center",

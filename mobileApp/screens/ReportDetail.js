@@ -48,12 +48,12 @@ class ReportDetail extends Component {
         // Drawer Name
         drawerLabel: "Report Detail",
         //Drawer Icon
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({}) => (
             <Icon
                 name={`${
                     Platform.OS === "ios" ? "ios" : "md"
                 }-information-circle-outline`}
-                style={{ fontSize: 24, color: tintColor }}
+                style={styles.DrawerText}
             />
         )
     };
@@ -238,7 +238,7 @@ class ReportDetail extends Component {
                             }}
                         >
                             {/* Center of Footer */}
-                            <Text style={styles.footer_text}>CruzSafe</Text>
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
                         </Body>
                         <Right
                             style={{

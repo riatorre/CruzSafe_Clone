@@ -35,10 +35,10 @@ import HomeScreen from "./HomeScreen.js";
 
 class SettingsScreen extends Component {
     static navigationOptions = {
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({}) => (
             <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-cog`}
-                style={{ fontSize: 24, color: tintColor }}
+                style={styles.drawerText}
             />
         )
     };
@@ -97,7 +97,7 @@ class SettingsScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe</Text>
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
                         </Body>
                         <Right
                             style={{

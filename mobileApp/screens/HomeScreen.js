@@ -1,5 +1,7 @@
 /*
-	Primary screen of the application. 
+    HomeScreen.js
+
+    Primary screen of the application. 
 	Primary components include calling 911, calling non-emergency, and sending a report.
 	Secondary components include buttons to lead to supplemental UCSC police info. 
 	Also includes navigation to AdditionalInfoScreen, etc.
@@ -7,9 +9,8 @@
 
 import React, { Component } from "react";
 import {
-    View,
-    Text,
     Image,
+    Text,
     ImageBackground,
     SafeAreaView,
     TouchableOpacity,
@@ -42,6 +43,21 @@ const newPre_report = {
     unchangedLocation: true,
     imageURI: null
 };
+/*
+    Traffic light modifiers. All variables related to the traffic light are contained within. 
+
+    Note: to modify these variables (i.e. make the light bigger/smaller as a whole), multiply
+    these variables created in styles.js.
+*/
+import { trafficDimensions } from "../components/styles.js";
+const trafficLightHeight = trafficDimensions.height;
+const trafficLightWidth = trafficDimensions.width;
+// Modifiers editing the size of the buttons within the image.
+// All are also affected by the primary variables above.
+const tlModifierWidth = 0.28;
+const tlModifierHeight = 0.162;
+const tlModifierMarginPrimary = 0.11;
+const tlModifierMarginSecondary = 0.022;
 
 class HomeScreen extends Component {
     async continue() {
@@ -225,11 +241,12 @@ class HomeScreen extends Component {
     }
 
     static navigationOptions = {
+        labelStyle: styles.drawerText,
         drawerLabel: "Home",
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({}) => (
             <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-home`}
-                style={{ fontSize: 24, color: tintColor }}
+                style={styles.drawerText}
             />
         )
     };
@@ -267,231 +284,228 @@ class HomeScreen extends Component {
                         </Body>
                         <Right />
                     </Header>
-                    <Content contentContainerStyle={styles.container}>
-                        {/*<Image
-                            source={require("../assets/images/CruzSafe.png")}
-                            style={{
-                                width: 150,
-                                height: 150,
-                                marginBottom: 50
-                            }}
-                        />*/}
+                    <ImageBackground
+                        source={require("../assets/images/background.jpg")}
+                        style={styles.background}
+                    >
                         {/* Traffic Light */}
-                        <View style={styles.trafficLightContainer}>
-                            <ImageBackground
-                                source={require("../assets/images/TrafficLight.png")}
-                                style={styles.traffic_light_background}
-                            >
-                                {/*<View style={styles.traffic_light}>*/}
-                                {/* Emergency Light */}
-                                <TouchableOpacity
-                                    style={{
-                                        marginTop: 45,
-                                        borderWidth: 1,
-                                        borderColor: "rgba(0,0,0,0.2)",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: 100,
-                                        height: 100,
-                                        backgroundColor: "#f00",
-                                        borderRadius: 100
-                                    }}
-                                    onPress={() => {
-                                        var url =
-                                            (Platform.OS === "ios"
-                                                ? "telprompt:"
-                                                : "tel:") + "911";
-                                        return Linking.canOpenURL(url).then(
-                                            canOpen => {
-                                                if (canOpen) {
-                                                    return Linking.openURL(
-                                                        url
-                                                    ).catch(err =>
-                                                        Promise.reject(err)
-                                                    );
-                                                } else {
-                                                    Promise.reject(
-                                                        new Error(
-                                                            "invalid URL provided: " +
-                                                                url
-                                                        )
-                                                    );
-                                                }
-                                            }
-                                        );
-                                    }}
-                                >
-                                    <ImageBackground
-                                        source={require("../assets/images/TrafficRed.png")}
-                                        style={{
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            width: 100,
-                                            height: 100
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontWeight: "bold"
-                                            }}
-                                        >
-                                            Emergency
-                                        </Text>
-                                    </ImageBackground>
-                                </TouchableOpacity>
-
-                                {/* Urgent Light */}
-                                <TouchableOpacity
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: "rgba(0,0,0,0.2)",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: 100,
-                                        height: 100,
-                                        backgroundColor: "#ff0",
-                                        borderRadius: 100,
-                                        marginTop: 20
-                                    }}
-                                    onPress={() => {
-                                        var url =
-                                            (Platform.OS === "ios"
-                                                ? "telprompt:"
-                                                : "tel:") + "8314592231";
-                                        return Linking.canOpenURL(url).then(
-                                            canOpen => {
-                                                if (canOpen) {
-                                                    return Linking.openURL(
-                                                        url
-                                                    ).catch(err =>
-                                                        Promise.reject(err)
-                                                    );
-                                                } else {
-                                                    Promise.reject(
-                                                        new Error(
-                                                            "invalid URL provided: " +
-                                                                url
-                                                        )
-                                                    );
-                                                }
-                                            }
-                                        );
-                                    }}
-                                >
-                                    <ImageBackground
-                                        source={require("../assets/images/TrafficYellow.png")}
-                                        style={{
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            width: 100,
-                                            height: 100
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontWeight: "bold"
-                                            }}
-                                        >
-                                            Urgent
-                                        </Text>
-                                    </ImageBackground>
-                                </TouchableOpacity>
-
-                                {/* Report Light */}
-                                <TouchableOpacity
-                                    style={{
-                                        borderWidth: 1,
-                                        borderColor: "rgba(0,0,0,0.2)",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        width: 100,
-                                        height: 100,
-                                        backgroundColor: "#0f0",
-                                        borderRadius: 100,
-                                        marginTop: 20
-                                    }}
-                                    onPress={() => {
-                                        Alert.alert(
-                                            "Confirmation",
-                                            "Please verify that this report is not an emergency.",
-                                            [
-                                                {
-                                                    text:
-                                                        "No, it is not an emergency",
-                                                    // Run when it's not emergency
-                                                    onPress: () =>
-                                                        this.handleReport(true)
-                                                },
-                                                {
-                                                    text:
-                                                        "Yes, it is an emergency",
-                                                    onPress: () => {
-                                                        var url =
-                                                            (Platform.OS ===
-                                                            "ios"
-                                                                ? "telprompt:"
-                                                                : "tel:") +
-                                                            "911";
-                                                        return Linking.canOpenURL(
-                                                            url
-                                                        ).then(canOpen => {
-                                                            if (canOpen) {
-                                                                return Linking.openURL(
-                                                                    url
-                                                                ).catch(err =>
-                                                                    Promise.reject(
-                                                                        err
-                                                                    )
-                                                                );
-                                                            } else {
-                                                                Promise.reject(
-                                                                    new Error(
-                                                                        "invalid URL provided: " +
-                                                                            url
-                                                                    )
-                                                                );
-                                                            }
-                                                        });
-                                                    },
-                                                    style: "cancel"
-                                                }
-                                            ],
-                                            { cancelable: false }
-                                        );
-                                    }}
-                                >
-                                    <ImageBackground
-                                        source={require("../assets/images/TrafficGreen.png")}
-                                        style={{
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            width: 100,
-                                            height: 100
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontWeight: "bold"
-                                            }}
-                                        >
-                                            Report
-                                        </Text>
-                                    </ImageBackground>
-                                </TouchableOpacity>
-                                {/*</View>*/}
-                            </ImageBackground>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text
+                        <ImageBackground
+                            source={require("../assets/images/TrafficLight2.png")}
+                            style={styles.traffic_light_background}
+                        >
+                            {/* Emergency Light */}
+                            <TouchableOpacity
                                 style={{
-                                    fontWeight: "bold",
-                                    fontSize: 25
+                                    marginTop:
+                                        trafficLightHeight *
+                                        tlModifierMarginPrimary,
+                                    borderWidth: 1,
+                                    borderColor: "rgba(0,0,0,0.2)",
+                                    backgroundColor: "#f00",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: trafficLightWidth * tlModifierWidth,
+                                    height:
+                                        trafficLightHeight * tlModifierHeight,
+                                    borderRadius:
+                                        Math.round(
+                                            trafficLightHeight +
+                                                trafficLightWidth
+                                        ) * tlModifierWidth
+                                }}
+                                onPress={() => {
+                                    var url =
+                                        (Platform.OS === "ios"
+                                            ? "telprompt:"
+                                            : "tel:") + "911";
+                                    return Linking.canOpenURL(url).then(
+                                        canOpen => {
+                                            if (canOpen) {
+                                                return Linking.openURL(
+                                                    url
+                                                ).catch(err =>
+                                                    Promise.reject(err)
+                                                );
+                                            } else {
+                                                Promise.reject(
+                                                    new Error(
+                                                        "invalid URL provided: " +
+                                                            url
+                                                    )
+                                                );
+                                            }
+                                        }
+                                    );
                                 }}
                             >
-                                UC Santa Cruz 211 System
-                            </Text>
-                        </View>
-                    </Content>
+                                <ImageBackground
+                                    source={require("../assets/images/TrafficRed.png")}
+                                    style={{
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width:
+                                            trafficLightWidth * tlModifierWidth,
+                                        height:
+                                            trafficLightHeight *
+                                            tlModifierHeight
+                                    }}
+                                >
+                                    <Text style={styles.traffic_text}>
+                                        Emergency
+                                    </Text>
+                                </ImageBackground>
+                            </TouchableOpacity>
+
+                            {/* Urgent Light */}
+                            <TouchableOpacity
+                                style={{
+                                    borderWidth: 1,
+                                    marginTop:
+                                        trafficLightHeight *
+                                        tlModifierMarginSecondary,
+                                    borderColor: "rgba(0,0,0,0.2)",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: trafficLightWidth * tlModifierWidth,
+                                    height:
+                                        trafficLightHeight * tlModifierHeight,
+                                    borderRadius:
+                                        Math.round(
+                                            trafficLightHeight +
+                                                trafficLightWidth
+                                        ) * tlModifierWidth,
+                                    backgroundColor: "#ff0"
+                                }}
+                                onPress={() => {
+                                    var url =
+                                        (Platform.OS === "ios"
+                                            ? "telprompt:"
+                                            : "tel:") + "8314592231";
+                                    return Linking.canOpenURL(url).then(
+                                        canOpen => {
+                                            if (canOpen) {
+                                                return Linking.openURL(
+                                                    url
+                                                ).catch(err =>
+                                                    Promise.reject(err)
+                                                );
+                                            } else {
+                                                Promise.reject(
+                                                    new Error(
+                                                        "invalid URL provided: " +
+                                                            url
+                                                    )
+                                                );
+                                            }
+                                        }
+                                    );
+                                }}
+                            >
+                                <ImageBackground
+                                    source={require("../assets/images/TrafficYellow.png")}
+                                    style={{
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width:
+                                            trafficLightWidth * tlModifierWidth,
+                                        height:
+                                            trafficLightHeight *
+                                            tlModifierHeight
+                                    }}
+                                >
+                                    <Text style={styles.traffic_text}>
+                                        Urgent
+                                    </Text>
+                                </ImageBackground>
+                            </TouchableOpacity>
+
+                            {/* Report Light */}
+                            <TouchableOpacity
+                                style={{
+                                    borderWidth: 1,
+                                    marginTop:
+                                        trafficLightHeight *
+                                        tlModifierMarginSecondary,
+                                    borderColor: "rgba(0,0,0,0.2)",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: trafficLightWidth * tlModifierWidth,
+                                    height:
+                                        trafficLightHeight * tlModifierHeight,
+                                    borderRadius:
+                                        Math.round(
+                                            trafficLightHeight +
+                                                trafficLightWidth
+                                        ) * tlModifierWidth,
+                                    backgroundColor: "#0f0"
+                                }}
+                                onPress={() => {
+                                    Alert.alert(
+                                        "Confirmation",
+                                        "Please verify that this report is not an emergency.",
+                                        [
+                                            {
+                                                text:
+                                                    "No, it is not an emergency",
+                                                // Run when it's not emergency
+                                                onPress: () =>
+                                                    this.handleReport(true)
+                                            },
+                                            {
+                                                text: "Yes, it is an emergency",
+                                                onPress: () => {
+                                                    var url =
+                                                        (Platform.OS === "ios"
+                                                            ? "telprompt:"
+                                                            : "tel:") + "911";
+                                                    return Linking.canOpenURL(
+                                                        url
+                                                    ).then(canOpen => {
+                                                        if (canOpen) {
+                                                            return Linking.openURL(
+                                                                url
+                                                            ).catch(err =>
+                                                                Promise.reject(
+                                                                    err
+                                                                )
+                                                            );
+                                                        } else {
+                                                            Promise.reject(
+                                                                new Error(
+                                                                    "invalid URL provided: " +
+                                                                        url
+                                                                )
+                                                            );
+                                                        }
+                                                    });
+                                                },
+                                                style: "cancel"
+                                            }
+                                        ],
+                                        { cancelable: false }
+                                    );
+                                }}
+                            >
+                                <ImageBackground
+                                    source={require("../assets/images/TrafficGreen.png")}
+                                    style={{
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        width:
+                                            trafficLightWidth * tlModifierWidth,
+                                        height:
+                                            trafficLightHeight *
+                                            tlModifierHeight
+                                    }}
+                                >
+                                    <Text style={styles.traffic_text}>
+                                        Report
+                                    </Text>
+                                </ImageBackground>
+                            </TouchableOpacity>
+                        </ImageBackground>
+                    </ImageBackground>
+
                     <Footer style={styles.footer}>
                         <Left
                             style={{
@@ -507,7 +521,7 @@ class HomeScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe</Text>
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
                         </Body>
                         <Right
                             style={{

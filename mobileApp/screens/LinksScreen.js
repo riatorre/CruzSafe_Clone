@@ -20,10 +20,10 @@ import styles from "../components/styles.js";
 
 class LinksScreen extends Component {
     static navigationOptions = {
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({}) => (
             <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-link`}
-                style={{ fontSize: 24, color: tintColor }}
+                style={styles.drawerText}
             />
         )
     };
@@ -84,7 +84,7 @@ class LinksScreen extends Component {
                             }}
                         >
                             {/* Center of Footer */}
-                            <Text style={styles.footer_text}>CruzSafe</Text>
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
                         </Body>
                         <Right
                             style={{

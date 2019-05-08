@@ -19,8 +19,8 @@ const CustomDrawerComponent = props => (
         <View style={styles.drawerImgContainer}>
             {/* Image that appears at the top of the Side Drawer */}
             <Image
-                source={require("../assets/images/SCPD_Logo.png")}
-                style={{ width: 120, height: 120 }}
+                source={require("../assets/images/CruzSafe.png")}
+                style={{ width: 200, height: 200 }}
             />
         </View>
         <ScrollView style={styles.drawerScrollViewBackground}>
@@ -45,9 +45,10 @@ export default createDrawerNavigator(
     {
         contentComponent: CustomDrawerComponent,
         contentOptions: {
-            activeTintColor: "white",
-            activeBackgroundColor: darktheme ? "black" : "#336",
-            backgroundColor: darktheme ? "#113F67" : "#CCC"
+            activeTintColor: "#2384BC",
+            activeBackgroundColor: darktheme ? "white" : "#336",
+            backgroundColor: darktheme ? "#113F67" : "#CCC",
+            labelStyle: styles.drawerText
         }
     }
 );

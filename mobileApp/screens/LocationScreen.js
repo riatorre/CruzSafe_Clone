@@ -255,7 +255,7 @@ class LocationScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe</Text>
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
                         </Body>
                         <Right
                             style={{

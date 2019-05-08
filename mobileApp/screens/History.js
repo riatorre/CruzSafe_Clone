@@ -61,10 +61,10 @@ class History extends Component {
 
     static navigationOptions = {
         //Drawer Icon
-        drawerIcon: ({ tintColor }) => (
+        drawerIcon: ({}) => (
             <Icon
                 name={`${Platform.OS === "ios" ? "ios" : "md"}-journal`}
-                style={{ fontSize: 24, color: tintColor }}
+                style={styles.drawerText}
             />
         )
     };
@@ -478,7 +478,7 @@ class History extends Component {
                             }}
                         >
                             {/* Center of Footer */}
-                            <Text style={styles.footer_text}>CruzSafe</Text>
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
                         </Body>
                         <Right
                             style={{
