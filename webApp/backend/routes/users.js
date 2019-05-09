@@ -192,7 +192,7 @@ router.post("/getTutorialParams", function(req, res) {
 router.post("/updateTutorialParams", function(req, res) {
     const query =
         "UPDATE mobileUsers SET tutorialParams = '" +
-        req.body.tutorialParams +
+        JSON.stringify(req.body.tutorialParams) +
         "' WHERE mobileID = " +
         req.body.mobileID;
     connectionPool.handleAPI(

@@ -107,33 +107,6 @@ class HomeScreen extends Component {
     }
 
     //actually launches tutorial
-    async getTutorialParamsDB() {
-        console.log("launching tutorial: ");
-        mobileID = await this.getMobileID();
-        await fetch("https://cruzsafe.appspot.com/api/users/updateLogin", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                mobileID: mobileID
-            })
-        })
-            .then(res => res.json())
-            .then(result => {
-                console.log("Result has been returned: ");
-                console.log(result);
-                //this.storeMessages("Messages", JSON.stringify(result));
-                console.log("Messages stored: " + result);
-                this.props.navigation.navigate("Swiper");
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
-    //actually launches tutorial
     async launchTutorial() {
         console.log("launching tutorial: ");
         mobileID = await this.getMobileID();
