@@ -24,7 +24,7 @@ export const trafficDimensions = {
 export default (styles = StyleSheet.create({
     drawerImgContainer: {
         height: 150,
-        backgroundColor: darktheme ? "#2384BC" : "#CCC",
+        backgroundColor: darktheme ? "#49ACE5" : "#CCC",
         alignItems: "center",
         justifyContent: "center"
     },
@@ -37,13 +37,13 @@ export default (styles = StyleSheet.create({
         color: "#2384BC"
     },
     linkText: {
-        fontSize: 20,
+        fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold",
         color: "#2384BC",
         textAlign: "center"
     },
     linkDescriptionText: {
-        fontSize: 20,
+        fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold",
         color: "black",
         textAlign: "center",
@@ -85,7 +85,6 @@ export default (styles = StyleSheet.create({
         marginTop: "8%",
         padding: 10,
         height: "35%",
-        width: "100%",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
@@ -174,17 +173,17 @@ export default (styles = StyleSheet.create({
     },
     header_text: {
         color: darktheme ? "#2384BC" : "white",
-        fontSize: 20,
+        fontSize: Dimensions.get("window").height * 0.031,
         fontWeight: "bold"
     },
     footer_text: {
         color: darktheme ? "#2384BC" : "white",
-        fontSize: 20,
+        fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
     traffic_text: {
         color: darktheme ? "black" : "white",
-        fontSize: 20,
+        fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold"
     },
     traffic_light_background: {

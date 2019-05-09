@@ -10,6 +10,8 @@
 import React, { Component } from "react";
 import {
     Image,
+    Dimensions,
+    PixelRatio,
     Text,
     ImageBackground,
     SafeAreaView,
@@ -54,10 +56,32 @@ const trafficLightHeight = trafficDimensions.height;
 const trafficLightWidth = trafficDimensions.width;
 // Modifiers editing the size of the buttons within the image.
 // All are also affected by the primary variables above.
+
+// These modifiers work for my phone 2,560 x 1,312 (1.9512)
+/*
 const tlModifierWidth = 0.28;
 const tlModifierHeight = 0.162;
 const tlModifierMarginPrimary = 0.11;
 const tlModifierMarginSecondary = 0.022;
+*/
+
+// These modifiers work for Richard's Phone 2,220 x 1,080 (2.05556)
+/*
+const tlModifierWidth = 0.32;
+const tlModifierHeight = 0.166;
+const tlModifierMarginPrimary = 0.107;
+const tlModifierMarginSecondary = 0.018;*/
+
+const pixelWidth = PixelRatio.getPixelSizeForLayoutSize(
+    Dimensions.get("window").width
+);
+const pixelHeight = PixelRatio.getPixelSizeForLayoutSize(
+    Dimensions.get("window").height
+);
+const tlModifierWidth = pixelWidth * 0.000215;
+const tlModifierHeight = pixelHeight * 0.0000713;
+const tlModifierMarginPrimary = pixelHeight * 0.0000481981;
+const tlModifierMarginSecondary = pixelHeight * 0.00000919375;
 
 class HomeScreen extends Component {
     async continue() {
