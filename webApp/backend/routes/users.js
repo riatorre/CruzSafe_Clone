@@ -6,7 +6,7 @@ const express = require("express");
 const router = express.Router();
 const connectionPool = require("../DB/config");
 
-app.post("/getMyWebID", function(req, res) {
+router.post("/getMyWebID", function(req, res) {
     try {
         res.json({ webID: req.session.webUserID });
     } catch {
@@ -15,7 +15,7 @@ app.post("/getMyWebID", function(req, res) {
     }
 });
 
-app.post("/getMyMobileID", (req, res) => {
+router.post("/getMyMobileID", (req, res) => {
     try {
         res.json({ mobileID: req.session.mobileUserID });
     } catch {

@@ -719,6 +719,7 @@ function sendMessage(reportID, webID, message) {
 */
 function forwardReport(reportID, webID, facilityID) {
     // Query the database for the responses.
+    console.log("fwd");
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -734,18 +735,75 @@ function forwardReport(reportID, webID, facilityID) {
             facilityID: facilityID
         })
     );
-    const email = new XMLHttpRequest();
-    email.onreadystatechange = function() {
-        console.log("success");
+
+    const reportinfo = new XMLHttpRequest();
+    reportinfo.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log("reports");
+            var reportInfo = JSON.parse(reportinfo.response)["0"];
+            var emailBody =
+                "Incident ID: " +
+                reportInfo["incidentID"] +
+                "\n" +
+                "Report ID: " +
+                reportInfo["reportID"] +
+                "\n" +
+                "Tag: " +
+                reportInfo["tag"] +
+                "\n" +
+                "Report Body: " +
+                reportInfo["body"] +
+                "\n" +
+                "Location: " +
+                reportInfo["location"] +
+                "\n" +
+                "First Name: " +
+                reportInfo["firstName"] +
+                "\n" +
+                "Last Name: " +
+                reportInfo["lastName"] +
+                "\n" +
+                "Email: " +
+                reportInfo["email"] +
+                "\n" +
+                "Phone: " +
+                reportInfo["phone"] +
+                "\n" +
+                "Latitude: " +
+                reportInfo["latitude"] +
+                "\n" +
+                "Longitude: " +
+                reportInfo["longitude"] +
+                "\n" +
+                "Attachment: " +
+                reportInfo["attachments"] +
+                "\n";
+            const email = new XMLHttpRequest();
+            email.onreadystatechange = function() {
+                console.log("success");
+            };
+            email.open(
+                "POST",
+                "http://localhost:8080/api/facilities/emailNotification"
+            );
+            email.setRequestHeader(
+                "Content-Type",
+                "application/json;charset=UTF-8"
+            );
+            email.send(
+                JSON.stringify({
+                    email: facilityEmails[facilityID],
+                    emailBody: emailBody
+                })
+            );
+        }
     };
-    email.open(
-        "POST",
-        "https://cruzsafe.appspot.com/api/facilities/emailNotification"
+    reportinfo.open("POST", "http://localhost:8080/api/reports/");
+    reportinfo.setRequestHeader(
+        "Content-Type",
+        "application/json;charset=UTF-8"
     );
-    email.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(facilityID);
-    console.log(facilityEmails[facilityID]);
-    email.send(JSON.stringify({ email: facilityEmails[facilityID] }));
+    reportinfo.send(JSON.stringify({ id: JSON.stringify([reportID]) }));
 }
 
 /*
