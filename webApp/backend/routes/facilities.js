@@ -46,21 +46,21 @@ router.post("/webIDs", function(req, res) {
 
 // Send email notification when new report is assigned
 router.post("/emailNotification", function(req, res) {
-    let nodemailer = require("nodemailer");
-    let transporter = nodemailer.createTransport({
+    var nodemailer = require("nodemailer");
+    var transporter = nodemailer.createTransport({
         service: "gmail",
         host: "smtp.gmail.com",
         auth: {
-            user: "cruzsafe2019@gmail.com",
-            pass: "BananaSlugs"
+            user: "ucsc.cruzsafe@gmail.com",
+            pass: "CMPS_117"
         }
     });
 
-    let mailOptions = {
-        from: "cruzsafe2019@gmail.com",
+    var mailOptions = {
+        from: "ucsc.cruzsafe@gmail.com",
         to: req.body["email"],
-        subject: "Send to facility",
-        text: "Success"
+        subject: "New report assigned",
+        text: req.body["emailBody"]
     };
 
     transporter.sendMail(mailOptions, function(error, info) {

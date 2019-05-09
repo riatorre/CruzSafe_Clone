@@ -1,6 +1,12 @@
 /*
  *	app.js
  *	Server Host file for CruzSafe
+ *  API routes defined in ./backend/routes
+ *  Database Connection defined in ./backend/DB
+ *  SAML Core Files are in ./backend/Shibboleth
+ *  Customized console defined in ./backend/utilities
+ *  Core Routes, SAML SSO Definition, and cookies are defined here
+ *  Custom 404 Page defined in ./404.html
  */
 
 "use strict";
@@ -27,6 +33,7 @@ const assignments = require("./backend/routes/assignments");
 
 const app = express();
 
+// Production Level Session Store
 let sessionStore = new MySQLStore(
     {
         // auto clear expired
@@ -40,6 +47,7 @@ let sessionStore = new MySQLStore(
     connectionPool
 );
 
+// Session Configuration
 app.use(
     session({
         secret: "CruzSafe_WebApp_Secret_Key",
@@ -59,16 +67,24 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serve Website Icon
 app.get("/favicon.ico", function(req, res) {
     res.sendFile("favicon.ico", { root: __dirname + "/public" });
 });
+
+// Serve Static Resources; stylesheets, JS Libs, images,
 app.use(express.static(__dirname + "/public/static"));
 
 //Use the Router on the sub routes
+// User related APIs
 app.use("/api/users", users);
+// Report related APIs
 app.use("/api/reports", reports);
+// Message related APIs
 app.use("/api/messages", messages);
+// Facilities related APIs
 app.use("/api/facilities", facilities);
+// Assignments related APIs
 app.use("/api/assignments", assignments);
 
 // Sets default page to welcome.html
@@ -83,33 +99,41 @@ app.get("/welcome.html", function(req, res) {
     res.redirect("/");
 });
 
+// CSS Testing Page
 app.get("/testing.html", function(req, res) {
     res.sendFile("testing.html", {
         root: __dirname + "/public"
     });
 });
 
+// CSS Grid Testing Page
 app.get("/gridTesting.html", function(req, res) {
     res.sendFile("gridTesting.html", {
         root: __dirname + "/public"
     });
 });
 
+// For use in serializing User into Session
 passport.serializeUser(function(user, cb) {
     cb(null, user);
 });
 
+// For use with getting info from User Session
 passport.deserializeUser(function(user, cb) {
     cb(null, user);
 });
 
 // SAML Strategy for Passport; Utilizes Shibboleth
 
+// Certificate for our Host
 const cert = fs.readFileSync("./backend/Shibboleth/sp-cert.pem", "utf-8");
+// Key for our Host
 const key = fs.readFileSync("./backend/Shibboleth/sp-key.pem", "utf-8");
 
+// Certificate from Shibboleth IDP
 const ShibbolethCert =
     "MIIDmDCCAoACCQDLTquv7ZdiLTANBgkqhkiG9w0BAQsFADCBjTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEzARBgNVBAcMClNhbnRhIENydXoxLTArBgNVBAoMJFVuaXZlcnNpdHkgb2YgQ2FsaWZvcm5pYSwgU2FudGEgQ3J1ejEMMAoGA1UECwwDSVRTMRcwFQYDVQQDDA5sb2dpbi51Y3NjLmVkdTAeFw0xNTA2MDIyMzE3NDJaFw0yMDA1MzEyMzE3NDJaMIGNMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTETMBEGA1UEBwwKU2FudGEgQ3J1ejEtMCsGA1UECgwkVW5pdmVyc2l0eSBvZiBDYWxpZm9ybmlhLCBTYW50YSBDcnV6MQwwCgYDVQQLDANJVFMxFzAVBgNVBAMMDmxvZ2luLnVjc2MuZWR1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs8RybvRl9WBJDpXGOsoBrEfFKsAuwnz0sSFmjI4zkkV7WXuX2lLbBPhOnJdKbrXL11J6mDZgf8ydhH31nJJvP98bHo0LQIXe2t1dfLVinhtpOy3TQguQ7Biipwe4g0E+HI4U9ndL7jEO/Xf2diMGCSOKyZjSubSYFpgXj0ORpvixqsAId0R0JLA4Xf4OV8+l6BqlB7DwzzeZcf49pSq8CCP8QkgU3DzaemNM6Yvqtu1cTpYJ9HqRV2aRGj+GOOMVshmJ+8iDr02U5jh+0E+5485lNKb7gWHNA7kLa0QBWm4eBAU0DYQzgnuVG2OeHpP1mKsc77wBkfScyGlOcKvCNQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAZBRvJsHdjLTtoPfa8MuuL3KcyE9dj9rWHeyrnEuWuMfhO95BN6utPkneoOsDKZORHDAVELTrZ4E4iq36xLWarv+37jh2U7EFFqW4zVm/0Pmoa+NtnKTs78tF80n4+Zwt2iPSIJS0ZPHiNl2XYjNb7auwUK2XvpqBqh8rP63+nSEHmgFOzg01nWoJz2Q0uQ7C0mEV6aai0jp7M5se6pgnauX2g28ZyFORa5H0DO8Ku0SY8l9lTKRgXgsEOk8b2jJwuYnHu2dafiqrLOkdpKFPczD6ZGIx6eofqKmMeT4x+rZSvIZsq1j1wRw04gzQTHWCuEb+aN4x9ogtc8tHKC0O7";
+// Certificate from SSOCircle IDP
 const SSOCircleCert =
     "MIIEYzCCAkugAwIBAgIDIAZmMA0GCSqGSIb3DQEBCwUAMC4xCzAJBgNVBAYTAkRFMRIwEAYDVQQKDAlTU09DaXJjbGUxCzAJBgNVBAMMAkNBMB4XDTE2MDgwMzE1MDMyM1oXDTI2MDMwNDE1MDMyM1owPTELMAkGA1UEBhMCREUxEjAQBgNVBAoTCVNTT0NpcmNsZTEaMBgGA1UEAxMRaWRwLnNzb2NpcmNsZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCAwWJyOYhYmWZF2TJvm1VyZccs3ZJ0TsNcoazr2pTWcY8WTRbIV9d06zYjngvWibyiylewGXcYONB106ZNUdNgrmFd5194Wsyx6bPvnjZEERny9LOfuwQaqDYeKhI6c+veXApnOfsY26u9Lqb9sga9JnCkUGRaoVrAVM3yfghv/Cg/QEg+I6SVES75tKdcLDTt/FwmAYDEBV8l52bcMDNF+JWtAuetI9/dWCBe9VTCasAr2Fxw1ZYTAiqGI9sW4kWS2ApedbqsgH3qqMlPA7tg9iKy8Yw/deEn0qQIx8GlVnQFpDgzG9k+jwBoebAYfGvMcO/BDXD2pbWTN+DvbURlAgMBAAGjezB5MAkGA1UdEwQCMAAwLAYJYIZIAYb4QgENBB8WHU9wZW5TU0wgR2VuZXJhdGVkIENlcnRpZmljYXRlMB0GA1UdDgQWBBQhAmCewE7aonAvyJfjImCRZDtccTAfBgNVHSMEGDAWgBTA1nEA+0za6ppLItkOX5yEp8cQaTANBgkqhkiG9w0BAQsFAAOCAgEAAhC5/WsF9ztJHgo+x9KV9bqVS0MmsgpG26yOAqFYwOSPmUuYmJmHgmKGjKrj1fdCINtzcBHFFBC1maGJ33lMk2bM2THx22/O93f4RFnFab7t23jRFcF0amQUOsDvltfJw7XCal8JdgPUg6TNC4Fy9XYv0OAHc3oDp3vl1Yj8/1qBg6Rc39kehmD5v8SKYmpE7yFKxDF1ol9DKDG/LvClSvnuVP0b4BWdBAA9aJSFtdNGgEvpEUqGkJ1osLVqCMvSYsUtHmapaX3hiM9RbX38jsSgsl44Rar5Ioc7KXOOZFGfEKyyUqucYpjWCOXJELAVAzp7XTvA2q55u31hO0w8Yx4uEQKlmxDuZmxpMz4EWARyjHSAuDKEW1RJvUr6+5uA9qeOKxLiKN1jo6eWAcl6Wr9MreXR9kFpS6kHllfdVSrJES4ST0uh1Jp4EYgmiyMmFCbUpKXifpsNWCLDenE3hllF0+q3wIdu+4P82RIM71n7qVgnDnK29wnLhHDat9rkC62CIbonpkVYmnReX0jze+7twRanJOMCJ+lFg16BDvBcG8u0n/wIDkHHitBI7bU1k6c6DydLQ+69h8SCo6sO9YuD+/3xAGKad4ImZ6vTwlB4zDCpu6YgQWocWRXE+VkOb+RBfvP755PUaLfL63AFVlpOnEpIio5++UjNJRuPuAA=";
 /*
@@ -135,6 +159,7 @@ passport.use(SSOCircle);
 
 /* */
 
+// Shibboleth SAML Strategy Definition
 let Shibboleth = new passport_SAML(
     {
         protocol: "https://",
@@ -255,16 +280,8 @@ app.post(
     }
 );
 
-app.post("/getMyWebID", function(req, res) {
-    try {
-        res.json(req.session.webID);
-    } catch {
-        myConsole.error("[ERROR] Unable to retrieve WebID from Session");
-        res.json({ message: "An Error has Occurred" });
-    }
-});
-
 /*
+// Generate Metadata for Shibboleth
 app.get("/Shibboleth.sso/Metadata", function(req, res) {
     fs.writeFileSync(
         "Metadata.xml",
@@ -283,6 +300,7 @@ if (!localTest) {
 // Serves the rest of the HTML files as static files
 app.use(express.static(__dirname + "/public"));
 
+// 404 Not Found; Catch all unmatched requests
 app.get("*", function(req, res) {
     res.status(404).sendFile("404.html", { root: __dirname });
 });
@@ -304,7 +322,6 @@ setInterval(clearExpiredReports, 86400000);
 
 // Access Control Function
 // Utilizes a function from Passport.js to determine if user is Authenticated
-// * NOTE! Comment this function out if you want to run locally, and only navagate using URL.
 function verifyAuthentication(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

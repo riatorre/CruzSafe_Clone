@@ -20,6 +20,8 @@ import styles from "../components/styles.js";
 
 const authDomain = "https://cruzsafe.appspot.com/login";
 
+var tutorialParams = null;
+
 function toQueryString(params) {
     return (
         "?" +
@@ -79,16 +81,17 @@ class WelcomeScreen extends Component {
         )
             .then(res => res.json())
             .then(result => {
-                console.log("Result has been returned: ");
-                console.log(result);
                 tp = result[0].tutorialParams;
-                console.log(tp);
-                if (tp != null) then: return JSON.parse(tp);
+                if (tp != null) then: tutorialParams = JSON.parse(tp);
             })
             .catch(err => {
+                console.log("Error detected!");
                 console.log(err);
             });
-        var tutorialParams = {
+        console.log(tutorialParams);
+        if (tutorialParams != null) then: return tutorialParams;
+        console.log("Using default values");
+        tutorialParams = {
             tips: true,
             reportOnboarding: true,
             thumbnailOnboarding: true,
@@ -105,11 +108,12 @@ class WelcomeScreen extends Component {
             `Attempting to sign in with ${userFirstName} and ${userLastName} and ${userEmail}`
         );*/
         await this.setID(ID);
-        var tutorialParams = this.getTutorialParamsDB(ID);
+        await this.getTutorialParamsDB(ID);
         await AsyncStorage.setItem(
             "tutorialParams",
             JSON.stringify(tutorialParams)
         );
+
         //will contain booleans of whether the user wants tips and whether they have viewed certain parts of the app
         this.props.navigation.navigate("App");
     };

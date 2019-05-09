@@ -119,11 +119,28 @@ class SettingsScreen extends Component {
         return tutorialParams;
     }
 
-    async updateTutorialParamsDB(ID) {
-        tutorialParams = this.getTutorialParams();
+    async getMobileID() {
+        try {
+            const id = await AsyncStorage.getItem("mobileID");
+            return id;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+    async updateTutorialParamsDB() {
+        mobileID = await this.getMobileID();
+        tutorialParams = await this.getTutorialParams();
         console.log("updating tutorial params in the database: ");
+        console.log({ mobileID: mobileID, tutorialParams: tutorialParams });
+        console.log(
+            JSON.stringify({
+                mobileID: mobileID,
+                tutorialParams: tutorialParams
+            })
+        );
         await fetch(
-            "https://cruzsafe.appspot.com/api/users/setTutorialParams",
+            "https://cruzsafe.appspot.com/api/users/updateTutorialParams",
             {
                 method: "POST",
                 headers: {
@@ -131,14 +148,15 @@ class SettingsScreen extends Component {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    mobileID: ID,
-                    tutorialParams: JSON.stringify(tutorialParams)
+                    mobileID: mobileID,
+                    tutorialParams: tutorialParams
                 })
             }
         )
             .then(res => res.json())
             .then(result => {
                 console.log("Successfully updated: ");
+                console.log(tutorialParams);
             })
             .catch(err => {
                 console.trace(err);
@@ -148,7 +166,7 @@ class SettingsScreen extends Component {
 
     // Function used to 'sign out' user. Clears AsyncStorage of all values
     _signOutAsync = async () => {
-        this.updateTutorialParamsDB();
+        await this.updateTutorialParamsDB();
         await AsyncStorage.clear();
         this.props.navigation.navigate("Auth");
     };
