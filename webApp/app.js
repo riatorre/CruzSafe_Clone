@@ -33,14 +33,6 @@ const assignments = require("./backend/routes/assignments");
 
 const app = express();
 
-if (localTest) {
-    res.cookie("cruzsafe_webID", 1, {
-        httpOnly: false,
-        secure: false,
-        secret: "CruzSafe_WebApp_Secret_Key"
-    });
-}
-
 // Production Level Session Store
 let sessionStore = new MySQLStore(
     {
@@ -94,6 +86,17 @@ app.use("/api/messages", messages);
 app.use("/api/facilities", facilities);
 // Assignments related APIs
 app.use("/api/assignments", assignments);
+
+app.get("*", (req, res, next) => {
+    if (localTest) {
+        res.cookie("cruzsafe_webID", 1, {
+            httpOnly: false,
+            secure: false,
+            secret: "CruzSafe_WebApp_Secret_Key"
+        });
+    }
+    next();
+});
 
 // Sets default page to welcome.html
 app.get("/", function(req, res) {
