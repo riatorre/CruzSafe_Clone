@@ -22,8 +22,25 @@ const reportFields = [
 ];
 const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
-
 const defaultOptionText = "---Select Option---";
+var period = 6;
+var reportAssigned = {};
+
+setPeriod();
+
+function setPeriod() {
+    setInterval(digestEmail, 1000 * 60 * 60 * 6);
+}
+
+function digestEmail() {
+    console.log(reportAssigned);
+    if (reportAssigned !== {}) {
+        Object.keys(reportAssigned).forEach(function(k) {
+            sendEmail(k, reportAssigned[k]);
+        });
+    }
+    reportAssigned = {};
+}
 
 // Function used to create a Modal ready to display Single Report Data
 function createReportModal() {
@@ -723,7 +740,13 @@ function forwardReport(reportID, webID, facilityID) {
     const request = new XMLHttpRequest();
     request.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            // Report sent!
+            if (reportAssigned[facilityID] == null) {
+                reportAssigned[facilityID] = [reportID];
+            } else {
+                reportAssigned[facilityID].push(reportID);
+            }
+            console.log("hhhhhhhhhh");
+            sendEmail(facilityID, [reportID]);
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/assignments/assign");
@@ -735,49 +758,58 @@ function forwardReport(reportID, webID, facilityID) {
             facilityID: facilityID
         })
     );
+}
 
+function sendEmail(facilityID, reportID) {
+    console.log("email: " + facilityID + " " + reportID);
     const reportinfo = new XMLHttpRequest();
     reportinfo.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log("reports");
-            var reportInfo = JSON.parse(reportinfo.response)["0"];
-            var emailBody =
-                "Incident ID: " +
-                reportInfo["incidentID"] +
-                "\n" +
-                "Report ID: " +
-                reportInfo["reportID"] +
-                "\n" +
-                "Tag: " +
-                reportInfo["tag"] +
-                "\n" +
-                "Report Body: " +
-                reportInfo["body"] +
-                "\n" +
-                "Location: " +
-                reportInfo["location"] +
-                "\n" +
-                "First Name: " +
-                reportInfo["firstName"] +
-                "\n" +
-                "Last Name: " +
-                reportInfo["lastName"] +
-                "\n" +
-                "Email: " +
-                reportInfo["email"] +
-                "\n" +
-                "Phone: " +
-                reportInfo["phone"] +
-                "\n" +
-                "Latitude: " +
-                reportInfo["latitude"] +
-                "\n" +
-                "Longitude: " +
-                reportInfo["longitude"] +
-                "\n" +
-                "Attachment: " +
-                reportInfo["attachments"] +
-                "\n";
+            var emailBody = "";
+            Array.from(JSON.parse(reportinfo.response)).forEach(function(
+                reportInfo
+            ) {
+                emailBody =
+                    emailBody +
+                    "Incident ID: " +
+                    reportInfo["incidentID"] +
+                    "\n" +
+                    "Report ID: " +
+                    reportInfo["reportID"] +
+                    "\n" +
+                    "Tag: " +
+                    reportInfo["tag"] +
+                    "\n" +
+                    "Report Body: " +
+                    reportInfo["body"] +
+                    "\n" +
+                    "Location: " +
+                    reportInfo["location"] +
+                    "\n" +
+                    "First Name: " +
+                    reportInfo["firstName"] +
+                    "\n" +
+                    "Last Name: " +
+                    reportInfo["lastName"] +
+                    "\n" +
+                    "Email: " +
+                    reportInfo["email"] +
+                    "\n" +
+                    "Phone: " +
+                    reportInfo["phone"] +
+                    "\n" +
+                    "Latitude: " +
+                    reportInfo["latitude"] +
+                    "\n" +
+                    "Longitude: " +
+                    reportInfo["longitude"] +
+                    "\n" +
+                    "Attachment: " +
+                    reportInfo["attachments"] +
+                    "\n" +
+                    "--------------------------------------------" +
+                    "\n";
+            });
             const email = new XMLHttpRequest();
             email.onreadystatechange = function() {
                 console.log("success");
@@ -803,7 +835,7 @@ function forwardReport(reportID, webID, facilityID) {
         "Content-Type",
         "application/json;charset=UTF-8"
     );
-    reportinfo.send(JSON.stringify({ id: JSON.stringify([reportID]) }));
+    reportinfo.send(JSON.stringify({ id: JSON.stringify(reportID) }));
 }
 
 /*
