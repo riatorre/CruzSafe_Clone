@@ -33,6 +33,14 @@ const assignments = require("./backend/routes/assignments");
 
 const app = express();
 
+if (localTest) {
+    res.cookie("cruzsafe_webID", 1, {
+        httpOnly: false,
+        secure: false,
+        secret: "CruzSafe_WebApp_Secret_Key"
+    });
+}
+
 // Production Level Session Store
 let sessionStore = new MySQLStore(
     {
