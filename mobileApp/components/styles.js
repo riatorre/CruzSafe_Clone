@@ -37,8 +37,8 @@ export default (styles = StyleSheet.create({
         color: "#2384BC"
     },
     welcomeScreenLogo: {
-        width: Dimensions.get("window").width * 0.8,
-        height: Dimensions.get("window").width * 0.7,
+        width: Dimensions.get("window").width * 0.75,
+        height: Dimensions.get("window").width * 0.65,
         marginBottom: Dimensions.get("window").width * 0.15
     },
     linkText: {
@@ -107,7 +107,7 @@ export default (styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: darktheme ? "#2384BC" : "#CCC",
+        backgroundColor: darktheme ? "#49ACE5" : "#CCC",
         alignItems: "center",
         justifyContent: "center"
     },
