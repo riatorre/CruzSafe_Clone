@@ -784,7 +784,7 @@ function forwardReport(reportID, webID, facilityID) {
             };
             email.open(
                 "POST",
-                "http://localhost:8080/api/facilities/emailNotification"
+                "https://cruzsafe.appspot.com/api/facilities/emailNotification"
             );
             email.setRequestHeader(
                 "Content-Type",
@@ -798,7 +798,7 @@ function forwardReport(reportID, webID, facilityID) {
             );
         }
     };
-    reportinfo.open("POST", "http://localhost:8080/api/reports/");
+    reportinfo.open("POST", "https://cruzsafe.appspot.com/api/reports/");
     reportinfo.setRequestHeader(
         "Content-Type",
         "application/json;charset=UTF-8"
