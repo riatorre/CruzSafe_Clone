@@ -36,6 +36,11 @@ export default (styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#2384BC"
     },
+    welcomeScreenLogo: {
+        width: Dimensions.get("window").width * 0.8,
+        height: Dimensions.get("window").width * 0.7,
+        marginBottom: Dimensions.get("window").width * 0.15
+    },
     linkText: {
         fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold",

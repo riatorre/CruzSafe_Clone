@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
     Linking
 } from "react-native";
+import { Left, Right, Body } from "native-base";
 
 import { Container, Header, Content, Footer } from "native-base";
 import { AuthSession, WebBrowser } from "expo";
@@ -40,14 +41,38 @@ class WelcomeScreen extends Component {
             <SafeAreaView style={{ flex: 1 }}>
                 {/* First Screen; Welcome Logo */}
                 <Container>
-                    <Header style={styles.header} />
-                    <Content contentContainerStyle={styles.container}>
-                        <Text style={{ fontSize: 36 }}>Welcome to</Text>
-                        <Image
-                            source={require("../assets/images/CruzSafe.png")}
-                            style={{ width: 200, height: 200 }}
+                    <Header style={styles.header}>
+                        <Left
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
                         />
-                        <Text style={{ fontSize: 36 }}>CruzSafe!</Text>
+                        <Body
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
+                        >
+                            <Text style={styles.header_text}>Welcome!</Text>
+                        </Body>
+                        <Right
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
+                        />
+                    </Header>
+                    <Content contentContainerStyle={styles.container}>
+                        {/*<Text style={{ fontSize: 36 }}>Welcome to</Text>*/}
+                        <Image
+                            source={require("../assets/images/CruzSafeMain.png")}
+                            style={styles.welcomeScreenLogo}
+                        />
+                        {/*<Text style={{ fontSize: 36 }}>CruzSafe!</Text>*/}
                         <TouchableOpacity
                             style={styles.signinBtn}
                             onPress={this._handleAuth}
@@ -57,7 +82,31 @@ class WelcomeScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </Content>
-                    <Footer style={styles.footer} />
+                    <Footer style={styles.footer}>
+                        <Left
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
+                        />
+                        <Body
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
+                        >
+                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                        </Body>
+                        <Right
+                            style={{
+                                flex: 1,
+                                alignItems: "center",
+                                justifyContent: "center"
+                            }}
+                        />
+                    </Footer>
                 </Container>
             </SafeAreaView>
         );
