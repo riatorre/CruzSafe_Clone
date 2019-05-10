@@ -173,10 +173,14 @@
         <script src="./libs/reportSingle.js"></script>
         <script src="./libs/reportList.js"></script>
         <script src="./libs/adminCommands.js"></script>
+        <script src="./libs/cookieLib.js"></script>
         <!--User Refreshing code-->
         <script>
             const pageID = 1; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
-            var webID = 1;
+            const webID = getCookie("cruzsafe_webID");
+            if (webID == "") {
+                window.location.href = "./"; // Returns to homepage if no webID cookie is present.
+            }
             setupModal("modalTarget", "reportModal", createReportModal);
             setupModal("modalTargetUser", "userModal", createUserModal);
             document.addEventListener("DOMContentLoaded", function() {

@@ -57,7 +57,7 @@ app.use(
         saveUninitialized: false,
         maxAge: 28800000,
         name: "CruzSafe_Connection",
-        cookie: { secure: false }
+        cookie: { secure: true }
     })
 );
 
@@ -272,6 +272,12 @@ app.post(
                     req.session.webUserID = val.insertId;
                     redirectUrl = "/homepage.html";
                     req.session.userCore = userCore;
+                    res.cookie("cruzsafe_webID", val.insertId, {
+                        maxAge: 28800000,
+                        httpOnly: false,
+                        secure: true,
+                        secret: "CruzSafe_WebApp_Secret_Key"
+                    });
                     res.redirect(redirectUrl);
                 },
                 () => {}
