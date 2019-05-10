@@ -57,7 +57,7 @@ app.use(
         saveUninitialized: false,
         maxAge: 28800000,
         name: "CruzSafe_Connection",
-        cookie: { secure: true }
+        cookie: { secure: false }
     })
 );
 
@@ -197,10 +197,10 @@ app.use(passport.session());
 app.get(
     "/login",
     function(req, res, next) {
-        //console.log(req.query);
+        console.log(req.query);
         const redirect_Url = req.query.redirect_uri;
         req.session.redirect_Url = redirect_Url;
-        //console.log(req.session.redirect_Url);
+        console.log(req.session.redirect_Url);
         return next();
     },
     passport.authenticate("saml", {
@@ -218,7 +218,7 @@ app.post(
     }),
     function(req, res) {
         const { redirect_Url } = req.session;
-        //console.log(req.user);
+        console.log(req.session);
         const { user } = req;
         const userCore = {
             firstName: user["urn:oid:2.5.4.42"],
@@ -253,6 +253,7 @@ app.post(
                     redirectUrl = `${redirect_Url}?user=${JSON.stringify(
                         req.session.mobileUserID
                     )}`;
+                    myConsole.log("redirect: " + redirectUrl);
                     req.session.redirect_Url = undefined;
                     req.session.userCore = userCore;
                     res.redirect(redirectUrl);
@@ -289,6 +290,7 @@ app.post(
                         secure: true,
                         secret: "CruzSafe_WebApp_Secret_Key"
                     });
+                    myConsole.log("redirect: " + redirectUrl);
                     res.redirect(redirectUrl);
                 },
                 () => {}
