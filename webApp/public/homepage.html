@@ -94,7 +94,6 @@
             const pageID = 0; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
             /*** Cookie PLACEHOLDERS */
 
-            setCookie("cruzsafe_webID", 1, 1);
             const webID = getCookie("cruzsafe_webID");
             if (webID == "") {
                 window.location.href = "./"; // Returns to homepage if no webID cookie is present.
