@@ -93,7 +93,7 @@ export default (styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "#376f9d",
     borderRadius: 10
   },
   background: {
