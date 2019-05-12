@@ -53,7 +53,7 @@ export default (styles = StyleSheet.create({
     color: "black",
     textAlign: "center",
     marginVertical: Dimensions.get("window").height * 0.02,
-    marginHorizontal: Dimensions.get("window").width * 0.02
+    marginHorizontal: Dimensions.get("window").width * 0.04
   },
   linksContainer: {
     /*flex: 1,
@@ -203,6 +203,14 @@ export default (styles = StyleSheet.create({
     backgroundColor: "#FFFFFF40",
     marginVertical: Dimensions.get("window").height * 0.01,
     marginHorizontal: Dimensions.get("window").width * 0.01
+  },
+  linktextContainer: {
+    justifyContent: "center",
+    borderRadius: 10,
+    alignItems: "center",
+    backgroundColor: "#FFFFFF40",
+    marginVertical: Dimensions.get("window").height * 0.02,
+    marginHorizontal: Dimensions.get("window").width * 0.03
   },
   textInput: {
     margin: 1,
