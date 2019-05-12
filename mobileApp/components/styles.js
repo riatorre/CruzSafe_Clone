@@ -44,7 +44,7 @@ export default (styles = StyleSheet.create({
   linkText: {
     fontSize: Dimensions.get("window").height * 0.025,
     fontWeight: "bold",
-    color: "#2384BC",
+    color: "#E8E5E5",
     textAlign: "center"
   },
   linkDescriptionText: {
