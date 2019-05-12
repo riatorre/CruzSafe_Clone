@@ -353,7 +353,8 @@ export default (styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    backgroundColor: "#9BC378"
+    padding: 10,
+    backgroundColor: "#479e59"
   },
   locationHidden: {
     position: "absolute",
