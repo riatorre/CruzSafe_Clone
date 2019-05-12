@@ -158,7 +158,7 @@ export default (styles = StyleSheet.create({
   },
   header: {
     marginTop: StatusBar.currentHeight,
-    backgroundColor: darktheme ? "black" : "#303060"
+    backgroundColor: darktheme ? "black" : "#376f9d"
   },
   header_image: {
     marginTop: StatusBar.currentHeight,
@@ -167,10 +167,10 @@ export default (styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   header_modal: {
-    backgroundColor: darktheme ? "black" : "#303060"
+    backgroundColor: darktheme ? "black" : "#376f9d"
   },
   footer: {
-    backgroundColor: darktheme ? "black" : "#303060"
+    backgroundColor: darktheme ? "black" : "#376f9d"
   },
   icon: {
     color: darktheme ? "#2384BC" : "silver",
@@ -244,7 +244,7 @@ export default (styles = StyleSheet.create({
     alignItems: "center",
     width: 100,
     borderRadius: 125,
-    backgroundColor: darktheme ? "black" : "#303060"
+    backgroundColor: darktheme ? "black" : "#376f9d"
   },
   btnTextWhite: {
     color: "white"
@@ -305,7 +305,7 @@ export default (styles = StyleSheet.create({
     padding: 10,
     marginTop: 2,
     marginBottom: 2,
-    backgroundColor: darktheme ? "#2384BC" : "#303060",
+    backgroundColor: darktheme ? "#2384BC" : "#376f9d",
     borderRadius: 10
   },
   slideOuterContainer: {
