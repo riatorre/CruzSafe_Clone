@@ -55,6 +55,14 @@ export default (styles = StyleSheet.create({
     marginVertical: Dimensions.get("window").height * 0.02,
     marginHorizontal: Dimensions.get("window").width * 0.04
   },
+  AboutUSText: {
+    fontSize: Dimensions.get("window").height * 0.025,
+    // fontWeight: "bold",
+    color: "black",
+    // textAlign: "center",
+    marginVertical: Dimensions.get("window").height * 0.02,
+    marginHorizontal: Dimensions.get("window").width * 0.04
+  },
   linksContainer: {
     /*flex: 1,
         flexDirection: "column",

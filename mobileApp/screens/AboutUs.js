@@ -71,7 +71,7 @@ class AboutUs extends Component {
                 />
               </View>
               <View style={styles.AboutUSlinkContainer}>
-                <Text style={styles.linkDescriptionText}>
+                <Text style={styles.AboutUSText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
@@ -80,7 +80,7 @@ class AboutUs extends Component {
 
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
-                <Text style={styles.linkDescriptionText}>
+                <Text style={styles.AboutUSText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
@@ -101,7 +101,7 @@ class AboutUs extends Component {
                 />
               </View>
               <View style={styles.AboutUSlinkContainer}>
-                <Text style={styles.linkDescriptionText}>
+                <Text style={styles.AboutUSText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
@@ -110,7 +110,7 @@ class AboutUs extends Component {
 
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
-                <Text style={styles.linkDescriptionText}>
+                <Text style={styles.AboutUSText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
@@ -131,7 +131,7 @@ class AboutUs extends Component {
                 />
               </View>
               <View style={styles.AboutUSlinkContainer}>
-                <Text style={styles.linkDescriptionText}>
+                <Text style={styles.AboutUSText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
