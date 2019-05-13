@@ -72,8 +72,8 @@ class AboutUs extends Component {
               </View>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
-                  University of California, Santa Cruz
+                  Richard Torres{"\n"}Computer Science, {"\n"} Undergraduate
+                  Student {"\n"} University of California, Santa Cruz
                 </Text>
               </View>
             </View>
@@ -81,8 +81,8 @@ class AboutUs extends Component {
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
-                  University of California, Santa Cruz
+                  Zhiyue Li{"\n"}Computer Science, {"\n"} Undergraduate Student{" "}
+                  {"\n"} University of California, Santa Cruz
                 </Text>
               </View>
               <View style={styles.AboutUSlinkContainer}>
@@ -102,8 +102,8 @@ class AboutUs extends Component {
               </View>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
-                  University of California, Santa Cruz
+                  Kalinda Fraser{"\n"}Computer Science, {"\n"} Undergraduate
+                  Student {"\n"} University of California, Santa Cruz
                 </Text>
               </View>
             </View>
@@ -111,8 +111,8 @@ class AboutUs extends Component {
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
-                  University of California, Santa Cruz
+                  Youmna Shafiq{"\n"}Computer Science, {"\n"} Undergraduate
+                  Student {"\n"} University of California, Santa Cruz
                 </Text>
               </View>
               <View style={styles.AboutUSlinkContainer}>
@@ -132,8 +132,8 @@ class AboutUs extends Component {
               </View>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
-                  University of California, Santa Cruz
+                  Arthurlot Li{"\n"}Computer Science, {"\n"} Undergraduate
+                  Student {"\n"} University of California, Santa Cruz
                 </Text>
               </View>
             </View>
