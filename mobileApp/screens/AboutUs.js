@@ -56,7 +56,7 @@ class AboutUs extends Component {
             </Left>
             <Body>
               {/* Center of Header */}
-              <Text style={styles.header_text}>Our Team</Text>
+              <Text style={styles.header_text}>About Us</Text>
             </Body>
             <Right />
           </Header>
