@@ -80,16 +80,16 @@ class AboutUs extends Component {
 
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
-                <Image
-                  source={require("../assets/images/Jo.jpg")}
-                  style={{ width: 100, height: 100 }}
-                />
-              </View>
-              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
+              </View>
+              <View style={styles.AboutUSlinkContainer}>
+                <Image
+                  source={require("../assets/images/Jo.jpg")}
+                  style={{ width: 100, height: 100 }}
+                />
               </View>
             </View>
 
@@ -110,16 +110,16 @@ class AboutUs extends Component {
 
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
-                <Image
-                  source={require("../assets/images/umna.jpg")}
-                  style={{ width: 100, height: 100 }}
-                />
-              </View>
-              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
+              </View>
+              <View style={styles.AboutUSlinkContainer}>
+                <Image
+                  source={require("../assets/images/umna.jpg")}
+                  style={{ width: 100, height: 100 }}
+                />
               </View>
             </View>
 
