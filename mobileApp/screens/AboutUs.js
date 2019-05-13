@@ -43,7 +43,7 @@ class AboutUs extends Component {
   };
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 2 }}>
         <Container>
           <Header style={styles.header}>
             <Left>
@@ -63,14 +63,14 @@ class AboutUs extends Component {
           {/* Main Body */}
           <ScrollView contentContainerStyle={styles.linksContainer}>
             {/* Individual Link*/}
-            <View style={styles.linkRow}>
-              <View style={styles.linkContainer}>
+            <View style={styles.AboutUSRow}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Image
                   source={require("../assets/images/Rich.jpg")}
                   style={{ width: 100, height: 100 }}
                 />
               </View>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
@@ -79,13 +79,13 @@ class AboutUs extends Component {
             </View>
 
             <View style={styles.linkRow}>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Image
                   source={require("../assets/images/Jo.jpg")}
                   style={{ width: 100, height: 100 }}
                 />
               </View>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
@@ -94,13 +94,13 @@ class AboutUs extends Component {
             </View>
 
             <View style={styles.linkRow}>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Image
                   source={require("../assets/images/kali.jpg")}
                   style={{ width: 100, height: 100 }}
                 />
               </View>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
@@ -109,13 +109,13 @@ class AboutUs extends Component {
             </View>
 
             <View style={styles.linkRow}>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Image
                   source={require("../assets/images/umna.jpg")}
                   style={{ width: 100, height: 100 }}
                 />
               </View>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
@@ -124,13 +124,13 @@ class AboutUs extends Component {
             </View>
 
             <View style={styles.linkRow}>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Image
                   source={require("../assets/images/Arthur.jpg")}
                   style={{ width: 100, height: 100 }}
                 />
               </View>
-              <View style={styles.linkContainer}>
+              <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.linkDescriptionText}>
                   Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz

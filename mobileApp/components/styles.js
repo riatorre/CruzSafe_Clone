@@ -70,6 +70,14 @@ export default (styles = StyleSheet.create({
     backgroundColor: darktheme ? "#2384BC" : "#CCC",
     alignItems: "center"
   },
+  AboutUSRow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "stretch",
+    backgroundColor: darktheme ? "#2384BC" : "#CCC",
+    alignItems: "center"
+  },
   linkPicture: {
     flex: 1,
     width: "100%",
@@ -77,6 +85,16 @@ export default (styles = StyleSheet.create({
     borderRadius: Dimensions.get("window").width * 0.02
   },
   linkContainer: {
+    height: Dimensions.get("window").height * 0.29,
+    width: Dimensions.get("window").width * 0.45,
+    justifyContent: "center",
+    padding: Dimensions.get("window").width * 0.02,
+    borderRadius: Dimensions.get("window").width * 0.02,
+    marginHorizontal: Dimensions.get("window").width * 0.02,
+    marginVertical: Dimensions.get("window").height * 0.01,
+    backgroundColor: "#FFFFFF80"
+  },
+  AboutUSContainer: {
     height: Dimensions.get("window").height * 0.29,
     width: Dimensions.get("window").width * 0.45,
     justifyContent: "center",
