@@ -33,6 +33,7 @@ import {
 } from "native-base";
 import { Permissions, Notifications } from "expo";
 import styles from "../components/styles.js";
+import { textConstants } from "../components/styles.js";
 
 const LATITUDE = "36.9916";
 const LONGITUDE = "-122.0583";
@@ -541,7 +542,9 @@ class HomeScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                            <Text style={styles.footer_text}>
+                                {textConstants.footerText}
+                            </Text>
                         </Body>
                         <Right
                             style={{

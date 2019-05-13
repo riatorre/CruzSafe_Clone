@@ -20,6 +20,7 @@ import {
 
 import styles from "../components/styles.js";
 import HomeScreen from "./HomeScreen.js";
+import { textConstants } from "../components/styles.js";
 
 /*
 	Can also enable users the ability to add additional information to greater aid police
@@ -97,7 +98,9 @@ class SettingsScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                            <Text style={styles.footer_text}>
+                                {textConstants.footerText}
+                            </Text>
                         </Body>
                         <Right
                             style={{

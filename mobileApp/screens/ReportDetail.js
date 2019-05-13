@@ -24,6 +24,7 @@ import {
 } from "native-base";
 
 import styles from "../components/styles.js";
+import { textConstants } from "../components/styles.js";
 
 const tagsList = [
     "Water Leak",
@@ -238,7 +239,9 @@ class ReportDetail extends Component {
                             }}
                         >
                             {/* Center of Footer */}
-                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                            <Text style={styles.footer_text}>
+                                {textConstants.footerText}
+                            </Text>
                         </Body>
                         <Right
                             style={{

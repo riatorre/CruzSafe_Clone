@@ -18,6 +18,7 @@ import {
 import { Camera } from "expo";
 
 import styles from "../components/styles.js";
+import { textConstants } from "../components/styles.js";
 
 class CameraScreen extends Component {
     constructor(props) {
@@ -236,7 +237,9 @@ class CameraScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                            <Text style={styles.footer_text}>
+                                {textConstants.footerText}
+                            </Text>
                         </Body>
                         <Right
                             style={{

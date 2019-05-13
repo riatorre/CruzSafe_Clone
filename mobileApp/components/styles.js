@@ -46,6 +46,12 @@ export const trafficDimensions = {
     width: trafficLightWidth
 };
 
+/*
+    Footer text. Constant across application.
+*/
+const footerText = "CruzSafe 211";
+export const textConstants = { footerText: footerText };
+
 export default (styles = StyleSheet.create({
     drawerImgContainer: {
         height: 150,

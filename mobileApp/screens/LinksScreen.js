@@ -26,6 +26,7 @@ import {
 } from "native-base";
 
 import styles from "../components/styles.js";
+import { textConstants } from "../components/styles.js";
 
 class LinksScreen extends Component {
     static navigationOptions = {
@@ -239,7 +240,9 @@ class LinksScreen extends Component {
                             }}
                         >
                             {/* Center of Footer */}
-                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                            <Text style={styles.footer_text}>
+                                {textConstants.footerText}
+                            </Text>
                         </Body>
                         <Right
                             style={{

@@ -18,6 +18,7 @@ import { Container, Header, Content, Footer } from "native-base";
 import { AuthSession, WebBrowser } from "expo";
 
 import styles from "../components/styles.js";
+import { textConstants } from "../components/styles.js";
 
 const authDomain = "https://cruzsafe.appspot.com/login";
 
@@ -97,7 +98,9 @@ class WelcomeScreen extends Component {
                                 justifyContent: "center"
                             }}
                         >
-                            <Text style={styles.footer_text}>CruzSafe 211</Text>
+                            <Text style={styles.footer_text}>
+                                {textConstants.footerText}
+                            </Text>
                         </Body>
                         <Right
                             style={{
