@@ -3,7 +3,7 @@
  * Essentially just a stylesheet for App
  */
 
-import { Dimensions, StatusBar, StyleSheet, AsyncStorage } from "react-native";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 
 /*
     Styles-wide colors; rule of thumb is to keep colors constant! 
@@ -49,7 +49,7 @@ export const trafficDimensions = {
 /*
     Footer text. Constant across application.
 */
-const footerText = "CruzSafe 211";
+const footerText = "CruzSafe";
 export const textConstants = { footerText: footerText };
 
 export default (styles = StyleSheet.create({
