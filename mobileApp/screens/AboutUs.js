@@ -161,7 +161,7 @@ class AboutUs extends Component {
                                 <Text style={styles.aboutUsText}>
                                     UCSC Computer Science Undergraduate Student
                                     {"\n"}
-                                    {"\n"}Words are hard, alright?
+                                    {"\n"}Look how they massacred my boy.
                                 </Text>
                             </View>
                         </View>
