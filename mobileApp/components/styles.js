@@ -5,11 +5,32 @@
 
 import { Dimensions, StatusBar, StyleSheet, AsyncStorage } from "react-native";
 
+/*
+    Styles-wide colors; rule of thumb is to keep colors constant! 
+    Try to only use these constants wherever you can.
+
+    Of course, it's to be noted that you can do whatever the heck you want!
+*/
 var darktheme = false;
-const textColorOne = "#2384BC";
+//"#376f9d"
+//"#2384BC"
 //"#49ACE5"
-const textColorTwo = "white";
-const textColorThree = "black";
+//"#145d99" - Arthur 5/13/19
+const primaryColor = "#145d99"; // Blue - Header/Footer, Buttons, Footer Text, Highlights.
+const secondaryColor = "white"; // Counter to the primary color (Header/Footer Text, etc)
+const tertiaryColor = "black"; // Mostly Text
+//"#CCC"
+const quaternaryColor = "#dbdbdb"; // Background Colors (containers, drawer)
+
+//const containerColor = "#FFFFFF80";
+const containerColor = "#00000040";
+const containerBorderColor = "#00000090";
+//const containerBorderWidth = 0;
+const containerBorderWidth = 0;
+const containerBorderWidthWide = 5;
+//const containerBorderRadius = 10;
+const containerBorderRadius = 22;
+const containerBorderRadiusSmall = 10;
 
 /*
     Traffic light variables; based around the dimensions of the encompassing window. 
@@ -28,17 +49,17 @@ export const trafficDimensions = {
 export default (styles = StyleSheet.create({
     drawerImgContainer: {
         height: 150,
-        backgroundColor: darktheme ? "#49ACE5" : "#CCC",
+        backgroundColor: darktheme ? "#49ACE5" : quaternaryColor,
         alignItems: "center",
         justifyContent: "center"
     },
     drawerScrollViewBackground: {
-        backgroundColor: darktheme ? "black" : "#CCC"
+        backgroundColor: darktheme ? tertiaryColor : quaternaryColor
     },
     drawerText: {
         fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold",
-        color: textColorOne
+        color: primaryColor
     },
     welcomeScreenLogo: {
         width: Dimensions.get("window").width * 0.75,
@@ -48,13 +69,23 @@ export default (styles = StyleSheet.create({
     linkText: {
         fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold",
-        color: "#E8E5E5",
+        color: secondaryColor,
         textAlign: "center"
+    },
+    linkTextContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor,
+        marginVertical: Dimensions.get("window").height * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.03
     },
     linkDescriptionText: {
         fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold",
-        color: textColorThree,
+        color: tertiaryColor,
         textAlign: "center",
         marginVertical: Dimensions.get("window").height * 0.02,
         marginHorizontal: Dimensions.get("window").width * 0.04
@@ -64,14 +95,14 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "stretch",*/
-        backgroundColor: darktheme ? textColorOne : "#CCC"
+        backgroundColor: darktheme ? primaryColor : quaternaryColor
     },
     linkRow: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "stretch",
-        backgroundColor: darktheme ? textColorOne : "#CCC",
+        backgroundColor: darktheme ? primaryColor : quaternaryColor,
         alignItems: "center"
     },
     linkPicture: {
@@ -87,14 +118,17 @@ export default (styles = StyleSheet.create({
         borderRadius: Dimensions.get("window").width * 0.02,
         marginHorizontal: Dimensions.get("window").width * 0.02,
         marginVertical: Dimensions.get("window").height * 0.01,
-        backgroundColor: "#FFFFFF80"
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor
     },
     AboutUSRow: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "stretch",
-        backgroundColor: darktheme ? textColorOne : "#CCC",
+        backgroundColor: darktheme ? primaryColor : quaternaryColor,
         alignItems: "center"
     },
     aboutUsPicture: {
@@ -106,30 +140,38 @@ export default (styles = StyleSheet.create({
         height: Dimensions.get("window").height * 0.18,
         width: Dimensions.get("window").width * 0.25,
         justifyContent: "center",
-        padding: Dimensions.get("window").width * 0.02,
+        paddingVertical: Dimensions.get("window").width * 0.02,
+        paddingHorizontal: Dimensions.get("window").width * 0.02,
         borderRadius: Dimensions.get("window").width * 0.02,
-        marginHorizontal: Dimensions.get("window").width * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.01,
         marginVertical: Dimensions.get("window").height * 0.01,
-        backgroundColor: "#FFFFFF80"
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: primaryColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor
     },
     aboutUsTextContainer: {
-        height: Dimensions.get("window").height * 0.18,
-        width: Dimensions.get("window").width * 0.6,
+        height: "auto",
+        width: Dimensions.get("window").width * 0.67,
         justifyContent: "center",
-        padding: Dimensions.get("window").width * 0.02,
+        paddingVertical: Dimensions.get("window").width * 0.03,
+        paddingHorizontal: Dimensions.get("window").width * 0.02,
         borderRadius: Dimensions.get("window").width * 0.02,
-        marginHorizontal: Dimensions.get("window").width * 0.02,
-        marginVertical: Dimensions.get("window").height * 0.01,
-        backgroundColor: "#FFFFFF80"
+        marginHorizontal: Dimensions.get("window").width * 0.01,
+        marginVertical: Dimensions.get("window").height * 0.008,
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor
     },
     aboutUsText: {
         //fontSize: Dimensions.get("window").height * 0.035,
-        color: "black",
+        color: tertiaryColor,
         textAlign: "left"
     },
     aboutUsBoldText: {
         fontSize: Dimensions.get("window").height * 0.027,
-        color: textColorOne,
+        color: tertiaryColor,
         textAlign: "left",
         fontWeight: "bold"
     },
@@ -140,13 +182,13 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#376f9d",
+        backgroundColor: primaryColor,
         borderRadius: 10
     },
     background: {
         height: Dimensions.get("window").height,
         width: "auto",
-        backgroundColor: darktheme ? "black" : "#CCC",
+        backgroundColor: darktheme ? tertiaryColor : quaternaryColor,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
@@ -154,7 +196,7 @@ export default (styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: darktheme ? "#49ACE5" : "#CCC",
+        backgroundColor: darktheme ? "#49ACE5" : quaternaryColor,
         alignItems: "center",
         justifyContent: "center"
     },
@@ -163,8 +205,10 @@ export default (styles = StyleSheet.create({
         justifyContent: "center",
         width: "90%",
         padding: 10,
-        borderRadius: 10,
-        backgroundColor: "#FFFFFF80"
+        borderRadius: containerBorderRadius,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidthWide,
+        borderColor: containerBorderColor
     },
     reportBtnFull: {
         marginTop: 5,
@@ -172,7 +216,7 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
+        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
         borderRadius: 10
     },
     reportBtnHalf: {
@@ -182,7 +226,7 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
+        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
         borderRadius: 10
     },
     reportBtnCancel: {
@@ -208,49 +252,49 @@ export default (styles = StyleSheet.create({
     reportBtnImg: {
         flex: 1,
         marginTop: 5,
-        backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
+        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
         borderRadius: 5
     },
     reportHistoryText: {
-        color: textColorOne,
+        color: tertiaryColor,
         fontWeight: "bold",
         fontSize: 24,
-        margin: 5,
-        alignSelf: "center"
+        margin: 5
+        //alignSelf: "center"
     },
     header: {
         marginTop: StatusBar.currentHeight,
-        backgroundColor: darktheme ? "black" : "#376f9d"
+        backgroundColor: darktheme ? tertiaryColor : primaryColor
     },
     header_image: {
         marginTop: StatusBar.currentHeight,
-        backgroundColor: "black",
-        shadowColor: "black",
+        backgroundColor: tertiaryColor,
+        shadowColor: tertiaryColor,
         borderBottomWidth: 0
     },
     header_modal: {
-        backgroundColor: darktheme ? "black" : "#376f9d"
+        backgroundColor: darktheme ? tertiaryColor : primaryColor
     },
     footer: {
-        backgroundColor: darktheme ? "black" : "#376f9d"
+        backgroundColor: darktheme ? tertiaryColor : primaryColor
     },
     icon: {
-        color: darktheme ? textColorOne : "silver",
+        color: darktheme ? primaryColor : "silver",
         marginLeft: 10
     },
     header_text: {
-        color: darktheme ? textColorOne : textColorTwo,
+        color: darktheme ? primaryColor : secondaryColor,
         fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
     footer_text: {
-        color: darktheme ? textColorOne : textColorTwo,
+        color: darktheme ? primaryColor : secondaryColor,
         fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
     traffic_text: {
-        //color: darktheme ? "black" : textColorTwo,
-        color: "black",
+        //color: darktheme ? tertiaryColor : secondaryColor,
+        color: tertiaryColor,
         fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
@@ -266,14 +310,6 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#FFFFFF40",
         marginVertical: Dimensions.get("window").height * 0.01,
         marginHorizontal: Dimensions.get("window").width * 0.01
-    },
-    linktextContainer: {
-        justifyContent: "center",
-        borderRadius: 10,
-        alignItems: "center",
-        backgroundColor: "#FFFFFF40",
-        marginVertical: Dimensions.get("window").height * 0.02,
-        marginHorizontal: Dimensions.get("window").width * 0.03
     },
     textInput: {
         margin: 1,
@@ -318,19 +354,19 @@ export default (styles = StyleSheet.create({
         alignItems: "center",
         width: 100,
         borderRadius: 125,
-        backgroundColor: darktheme ? "black" : "#376f9d"
+        backgroundColor: darktheme ? tertiaryColor : primaryColor
     },
     btnTextWhite: {
-        color: textColorTwo
+        color: secondaryColor
     },
     btnTextBlack: {
-        color: "black"
+        color: tertiaryColor
     },
     signinBtn: {
         margin: 1,
         padding: 5,
         shadowOffset: { width: 10, height: 10 },
-        shadowColor: "black",
+        shadowColor: tertiaryColor,
         shadowOpacity: 1.0,
         flexDirection: "column",
         justifyContent: "center",
@@ -367,8 +403,8 @@ export default (styles = StyleSheet.create({
         borderBottomLeftRadius: 5,
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
-        backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
-        color: darktheme ? "black" : textColorTwo,
+        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
+        color: darktheme ? tertiaryColor : secondaryColor,
         textAlign: "right",
         marginLeft: 10,
         marginBottom: 5,
@@ -377,7 +413,7 @@ export default (styles = StyleSheet.create({
         fontSize: 8
     },
     reportText: {
-        color: textColorOne,
+        color: tertiaryColor,
         fontWeight: "bold",
         fontSize: 24
     },
@@ -396,15 +432,17 @@ export default (styles = StyleSheet.create({
     historyContainer: {
         flex: 0.44,
         padding: 10,
-        backgroundColor: "#FFFFFF80",
-        borderRadius: 10
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor
     },
     reportBtn: {
         flex: 1,
         padding: 10,
         marginTop: 2,
         marginBottom: 2,
-        backgroundColor: darktheme ? textColorOne : "#376f9d",
+        backgroundColor: darktheme ? primaryColor : primaryColor,
         borderRadius: 10
     },
     slideOuterContainer: {
@@ -707,7 +745,7 @@ export default (styles = StyleSheet.create({
     },
     mainTipText: {
         fontSize: 15,
-        color: textColorTwo
+        color: secondaryColor
     },
     continue: {
         fontSize: 22,

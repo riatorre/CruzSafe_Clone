@@ -61,7 +61,7 @@ class LinksScreen extends Component {
                     </Header>
                     {/* Main Body */}
                     <ScrollView contentContainerStyle={styles.linksContainer}>
-                        <View style={styles.linktextContainer}>
+                        <View style={styles.linkTextContainer}>
                             <Text style={styles.linkDescriptionText}>
                                 Community engagement and safety services at your
                                 fingertips, available to everyone! Stay safe out
