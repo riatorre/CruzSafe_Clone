@@ -72,7 +72,7 @@ class AboutUs extends Component {
               </View>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
+                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
               </View>
@@ -81,7 +81,7 @@ class AboutUs extends Component {
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
+                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
               </View>
@@ -102,7 +102,7 @@ class AboutUs extends Component {
               </View>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
+                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
               </View>
@@ -111,7 +111,7 @@ class AboutUs extends Component {
             <View style={styles.linkRow}>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
+                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
               </View>
@@ -132,7 +132,7 @@ class AboutUs extends Component {
               </View>
               <View style={styles.AboutUSlinkContainer}>
                 <Text style={styles.AboutUSText}>
-                  Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
+                  {""}Computer Science, {"\n"} Undergraduate Student {"\n"}{" "}
                   University of California, Santa Cruz
                 </Text>
               </View>
