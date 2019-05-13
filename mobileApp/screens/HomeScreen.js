@@ -74,10 +74,10 @@ const tlModifierMarginSecondary = 0.018;*/
 
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
-const tlModifierWidth = screenWidth * 0.000648;
-const tlModifierHeight = screenHeight * 0.00021249;
+const tlModifierWidth = screenWidth * 0.000645;
+const tlModifierHeight = screenHeight * 0.000214;
 const tlModifierMarginPrimary = screenHeight * 0.0001455;
-const tlModifierMarginSecondary = screenHeight * 0.0000285;
+const tlModifierMarginSecondary = screenHeight * 0.0000265;
 
 class HomeScreen extends Component {
     async continue() {

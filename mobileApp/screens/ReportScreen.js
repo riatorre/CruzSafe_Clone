@@ -71,7 +71,7 @@ function createIncidentTypePicker(props) {
                 props.homeScreen.setIOSPickerVisible(true);
             }}
         >
-            <Text style={{ marginRight: 5, fontSize: 14 }}>
+            <Text style={styles.reportDropDown}>
                 {props.homeScreen.state.incidentCategory
                     ? props.homeScreen.state.incidentCategory
                     : "Select type"}
@@ -695,7 +695,7 @@ class ReportScreen extends Component {
                                         justifyContent: "space-between"
                                     }}
                                 >
-                                    <Text style={{ fontSize: 21 }}>
+                                    <Text style={styles.reportText}>
                                         Incident Type:
                                     </Text>
                                     <IncidentTypePicker homeScreen={this} />
@@ -808,7 +808,7 @@ class ReportScreen extends Component {
                                         />
                                     </View>
                                 </View>
-                                <Text style={{ fontSize: 21 }}>
+                                <Text style={styles.reportText}>
                                     Incident Description:
                                 </Text>
 
@@ -945,7 +945,7 @@ class ReportScreen extends Component {
                                         />
                                     </View>
                                 </View>
-                                <Text style={{ fontSize: 21 }}>
+                                <Text style={styles.reportText}>
                                     Description of Location:
                                 </Text>
                                 <TextInput
@@ -1191,7 +1191,7 @@ class ReportScreen extends Component {
                                             justifyContent: "space-between"
                                         }}
                                     >
-                                        <Text style={{ fontSize: 22 }}>
+                                        <Text style={styles.reportText}>
                                             Attachment:
                                         </Text>
                                         <TouchableOpacity

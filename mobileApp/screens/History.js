@@ -422,25 +422,13 @@ class History extends Component {
                         >
                             {/* List of all Reports are here */}
                             <View style={styles.historyContainer}>
-                                <Text
-                                    style={{
-                                        fontSize: 24,
-                                        margin: 5,
-                                        alignSelf: "center"
-                                    }}
-                                >
+                                <Text style={styles.reportHistoryText}>
                                     Reports Under Review
                                 </Text>
                                 {this.MyFlatList(this.state.incompleteReports)}
                             </View>
                             <View style={styles.historyContainer}>
-                                <Text
-                                    style={{
-                                        fontSize: 24,
-                                        margin: 5,
-                                        alignSelf: "center"
-                                    }}
-                                >
+                                <Text style={styles.reportHistoryText}>
                                     Completed Reports
                                 </Text>
                                 {this.MyFlatList(this.state.completeReports)}

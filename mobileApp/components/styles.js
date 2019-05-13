@@ -6,6 +6,10 @@
 import { Dimensions, StatusBar, StyleSheet, AsyncStorage } from "react-native";
 
 var darktheme = false;
+const textColorOne = "#2384BC";
+//"#49ACE5"
+const textColorTwo = "white";
+const textColorThree = "black";
 
 /*
     Traffic light variables; based around the dimensions of the encompassing window. 
@@ -32,9 +36,9 @@ export default (styles = StyleSheet.create({
         backgroundColor: darktheme ? "black" : "#CCC"
     },
     drawerText: {
-        fontSize: 20,
+        fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold",
-        color: "#2384BC"
+        color: textColorOne
     },
     welcomeScreenLogo: {
         width: Dimensions.get("window").width * 0.75,
@@ -50,16 +54,8 @@ export default (styles = StyleSheet.create({
     linkDescriptionText: {
         fontSize: Dimensions.get("window").height * 0.025,
         fontWeight: "bold",
-        color: "black",
+        color: textColorThree,
         textAlign: "center",
-        marginVertical: Dimensions.get("window").height * 0.02,
-        marginHorizontal: Dimensions.get("window").width * 0.04
-    },
-    AboutUSText: {
-        fontSize: Dimensions.get("window").height * 0.025,
-        // fontWeight: "bold",
-        color: "black",
-        // textAlign: "center",
         marginVertical: Dimensions.get("window").height * 0.02,
         marginHorizontal: Dimensions.get("window").width * 0.04
     },
@@ -68,29 +64,20 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "stretch",*/
-        backgroundColor: darktheme ? "#2384BC" : "#CCC"
+        backgroundColor: darktheme ? textColorOne : "#CCC"
     },
     linkRow: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "stretch",
-        backgroundColor: darktheme ? "#2384BC" : "#CCC",
-        alignItems: "center"
-    },
-    AboutUSRow: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "stretch",
-        backgroundColor: darktheme ? "#2384BC" : "#CCC",
+        backgroundColor: darktheme ? textColorOne : "#CCC",
         alignItems: "center"
     },
     linkPicture: {
         flex: 1,
         width: "100%",
-        height: "65%",
-        borderRadius: Dimensions.get("window").width * 0.02
+        height: "65%"
     },
     linkContainer: {
         height: Dimensions.get("window").height * 0.29,
@@ -102,15 +89,49 @@ export default (styles = StyleSheet.create({
         marginVertical: Dimensions.get("window").height * 0.01,
         backgroundColor: "#FFFFFF80"
     },
-    AboutUSContainer: {
-        height: Dimensions.get("window").height * 0.29,
-        width: Dimensions.get("window").width * 0.45,
+    AboutUSRow: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "stretch",
+        backgroundColor: darktheme ? textColorOne : "#CCC",
+        alignItems: "center"
+    },
+    aboutUsPicture: {
+        flex: 1,
+        width: "100%",
+        height: "100%"
+    },
+    aboutUsPictureContainer: {
+        height: Dimensions.get("window").height * 0.18,
+        width: Dimensions.get("window").width * 0.25,
         justifyContent: "center",
         padding: Dimensions.get("window").width * 0.02,
         borderRadius: Dimensions.get("window").width * 0.02,
         marginHorizontal: Dimensions.get("window").width * 0.02,
         marginVertical: Dimensions.get("window").height * 0.01,
         backgroundColor: "#FFFFFF80"
+    },
+    aboutUsTextContainer: {
+        height: Dimensions.get("window").height * 0.18,
+        width: Dimensions.get("window").width * 0.6,
+        justifyContent: "center",
+        padding: Dimensions.get("window").width * 0.02,
+        borderRadius: Dimensions.get("window").width * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.02,
+        marginVertical: Dimensions.get("window").height * 0.01,
+        backgroundColor: "#FFFFFF80"
+    },
+    aboutUsText: {
+        //fontSize: Dimensions.get("window").height * 0.035,
+        color: "black",
+        textAlign: "left"
+    },
+    aboutUsBoldText: {
+        fontSize: Dimensions.get("window").height * 0.027,
+        color: textColorOne,
+        textAlign: "left",
+        fontWeight: "bold"
     },
     linkbtn: {
         marginTop: "8%",
@@ -190,6 +211,13 @@ export default (styles = StyleSheet.create({
         backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
         borderRadius: 5
     },
+    reportHistoryText: {
+        color: textColorOne,
+        fontWeight: "bold",
+        fontSize: 24,
+        margin: 5,
+        alignSelf: "center"
+    },
     header: {
         marginTop: StatusBar.currentHeight,
         backgroundColor: darktheme ? "black" : "#376f9d"
@@ -207,22 +235,23 @@ export default (styles = StyleSheet.create({
         backgroundColor: darktheme ? "black" : "#376f9d"
     },
     icon: {
-        color: darktheme ? "#2384BC" : "silver",
+        color: darktheme ? textColorOne : "silver",
         marginLeft: 10
     },
     header_text: {
-        color: darktheme ? "#2384BC" : "white",
-        fontSize: Dimensions.get("window").height * 0.031,
+        color: darktheme ? textColorOne : textColorTwo,
+        fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
     footer_text: {
-        color: darktheme ? "#2384BC" : "white",
+        color: darktheme ? textColorOne : textColorTwo,
         fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
     traffic_text: {
-        color: darktheme ? "black" : "white",
-        fontSize: Dimensions.get("window").height * 0.025,
+        //color: darktheme ? "black" : textColorTwo,
+        color: "black",
+        fontSize: Dimensions.get("window").height * 0.027,
         fontWeight: "bold"
     },
     traffic_light_background: {
@@ -292,7 +321,7 @@ export default (styles = StyleSheet.create({
         backgroundColor: darktheme ? "black" : "#376f9d"
     },
     btnTextWhite: {
-        color: "white"
+        color: textColorTwo
     },
     btnTextBlack: {
         color: "black"
@@ -339,11 +368,23 @@ export default (styles = StyleSheet.create({
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
         backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
-        color: darktheme ? "black" : "white",
+        color: darktheme ? "black" : textColorTwo,
         textAlign: "right",
         marginLeft: 10,
+        marginBottom: 5,
+        marginTop: 0,
         padding: 5,
         fontSize: 8
+    },
+    reportText: {
+        color: textColorOne,
+        fontWeight: "bold",
+        fontSize: 24
+    },
+    reportDropDown: {
+        marginRight: 5,
+        fontSize: 14,
+        marginBottom: 5
     },
     itemContainer: {
         flex: 1,
@@ -363,7 +404,7 @@ export default (styles = StyleSheet.create({
         padding: 10,
         marginTop: 2,
         marginBottom: 2,
-        backgroundColor: darktheme ? "#2384BC" : "#376f9d",
+        backgroundColor: darktheme ? textColorOne : "#376f9d",
         borderRadius: 10
     },
     slideOuterContainer: {
@@ -666,7 +707,7 @@ export default (styles = StyleSheet.create({
     },
     mainTipText: {
         fontSize: 15,
-        color: "white"
+        color: textColorTwo
     },
     continue: {
         fontSize: 22,

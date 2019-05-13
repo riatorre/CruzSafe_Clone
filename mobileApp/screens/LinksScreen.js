@@ -66,7 +66,7 @@ class LinksScreen extends Component {
                                 Community engagement and safety services at your
                                 fingertips, available to everyone! Stay safe out
                                 there!
-                                {"\n"} -The CruzSafe Team
+                                {"\n"} {"\n"}-The CruzSafe Team
                             </Text>
                         </View>
                         {/* Individual Link*/}
