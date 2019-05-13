@@ -11,7 +11,7 @@ var darktheme = false;
     Traffic light variables; based around the dimensions of the encompassing window. 
     In order to make the traffic light bigger/smaller, make the modifier value larger or smaller.
 */
-const trafficLightModifier = 0.9;
+const trafficLightModifier = 1.0;
 const trafficLightHeight =
     Dimensions.get("window").height * trafficLightModifier;
 const trafficLightWidth = Dimensions.get("window").width * trafficLightModifier;
