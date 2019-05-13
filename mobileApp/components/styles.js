@@ -340,6 +340,7 @@ export default (styles = StyleSheet.create({
         borderBottomRightRadius: 5,
         backgroundColor: darktheme ? "#E8E5E5" : "#376f9d",
         color: darktheme ? "black" : "white",
+        textAlign: "right",
         marginLeft: 10,
         padding: 5,
         fontSize: 8
