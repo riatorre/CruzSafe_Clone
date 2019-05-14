@@ -29,7 +29,7 @@ var reportAssigned = {};
 setPeriod();
 
 function setPeriod() {
-    setInterval(digestEmail, 1000 * 60 * 60 * 6);
+    setInterval(digestEmail, 1000 * 60);
 }
 
 function digestEmail() {
@@ -745,7 +745,6 @@ function forwardReport(reportID, webID, facilityID) {
             } else {
                 reportAssigned[facilityID].push(reportID);
             }
-            console.log("hhhhhhhhhh");
             sendEmail(facilityID, [reportID]);
         }
     };
@@ -812,7 +811,9 @@ function sendEmail(facilityID, reportID) {
             });
             const email = new XMLHttpRequest();
             email.onreadystatechange = function() {
-                console.log("success");
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("success");
+                }
             };
             email.open(
                 "POST",
@@ -821,6 +822,13 @@ function sendEmail(facilityID, reportID) {
             email.setRequestHeader(
                 "Content-Type",
                 "application/json;charset=UTF-8"
+            );
+            console.log(
+                "What's wrong? " +
+                    JSON.stringify({
+                        email: facilityEmails[facilityID],
+                        emailBody: emailBody
+                    })
             );
             email.send(
                 JSON.stringify({
