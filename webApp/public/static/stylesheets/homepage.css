@@ -62,7 +62,10 @@ canvas {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     float: top;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
     margin-top: 10px;
     margin-right: 20px;
     margin-bottom: 25px;
@@ -70,7 +73,7 @@ canvas {
     bottom: 0px;
     position: fixed;
     overflow: scroll;
-    max-height: 200px;
+    max-height: 50vh;
 }
 #tagList:hover {
     cursor: default;
