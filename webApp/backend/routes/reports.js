@@ -333,6 +333,9 @@ router.post("/incidentID", function(req, res) {
  *  But it may be easier to just store the file name in the DB alongside the other Report elements.
  */
 router.post("/submitReport", upload.single("media"), function(req, res) {
+    /*
+        Set up primary constants and primary query to insert data. 
+    */
     const attachment = req.file ? req.file.filename : null;
     const hasAttachment = attachment ? 1 : 0;
     const values = [
@@ -349,7 +352,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
             connectionPool.sanitizeString(req.body.token)
         ]
     ];
-    const query =
+    const primaryQuery =
         "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
         [values] +
         ")";
@@ -363,7 +366,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
         ],
         2,
         6,
-        query,
+        primaryQuery,
         val => {
             connectionPool.handleAPI(
                 null,
@@ -387,7 +390,9 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                             " WHERE reportID = " +
                             val.insertId,
                         () => {
-                            res.json({ incidentID: val.insertId });
+                            // Insert code here.
+
+                            res.json({ incidentID: val.insertId }); // Exit; all things went through fine, return incident ID.
                         },
                         () => {
                             res.json({ message: "An Error has Occurred." });
