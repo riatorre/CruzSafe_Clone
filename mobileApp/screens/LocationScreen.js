@@ -10,6 +10,7 @@ import {
     Dimensions,
     StyleSheet
 } from "react-native";
+import GeoFencing from "react-native-geo-fencing";
 import {
     Container,
     Header,
@@ -24,8 +25,42 @@ import { Permissions, Location, MapView } from "expo";
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
 
-const LATITUDE = "36.9916";
-const LONGITUDE = "-122.0583";
+const LATITUDE = 36.9916;
+const LONGITUDE = -122.0583;
+
+const mainCampusPolygon = [
+    { lat: 36.9973, lng: -122.071065 },
+    { lat: 37.003264, lng: -122.067803 },
+    { lat: 37.002577, lng: -122.050079 },
+    { lat: 36.983451, lng: -122.046994 },
+    { lat: 36.976337, lng: -122.05238 },
+    { lat: 36.976062, lng: -122.057616 },
+    { lat: 36.984249, lng: -122.069675 },
+    { lat: 36.9973, lng: -122.071065 } // last point has to be same as first point
+];
+
+const coastalCampusPolygon = [
+    { lat: 36.955097, lng: -122.066376 },
+    { lat: 36.947878, lng: -122.06629 },
+    { lat: 36.948186, lng: -122.062084 },
+    { lat: 36.955217, lng: -122.062126 },
+    { lat: 36.955097, lng: -122.066376 } // last point has to be same as first point
+];
+
+const geofence = [mainCampusPolygon, coastalCampusPolygon];
+
+/* locations with latitude: 
+    this.state.latitude                                 -- is this used?
+    this.pre_report.incidentLatitude                    -- available copy of incident location
+    AsyncStorage "unsub_report" incidentLatitude        -- current reports incident location
+    MapView.region                                      -- for us
+    MapView.initialRegion                               -- set from ?????
+
+    Flow:
+        render
+        componentDidMount
+            getUnsubReport
+*/
 
 class LocationScreen extends Component {
     constructor(props) {
@@ -60,6 +95,8 @@ class LocationScreen extends Component {
     // Should allows for ease of transfer between screens
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
+        console.log("getUnsubReport");
+        console.log(pre_report);
         this._isMounted &&
             this.setState({
                 latitude: parseFloat(pre_report.incidentLatitude),
@@ -74,10 +111,21 @@ class LocationScreen extends Component {
     // Used to allow easier transfer of data
     async storeUnsubReport(report) {
         try {
+            console.log("LocationScreen.storeUnsubReport");
+            console.log(report);
             await AsyncStorage.setItem("unsub_report", JSON.stringify(report));
         } catch (error) {
             console.log(error.message);
         }
+    }
+
+    async inGeofence(loc) {
+        for (polygon in geofence) {
+            if (await GeoFencing.containsLocation(loc, polygon)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     async getLocation() {
@@ -87,17 +135,20 @@ class LocationScreen extends Component {
                 const loc = await Location.getCurrentPositionAsync({
                     enableHighAccuracy: true
                 });
-                pre_report.incidentLatitude = loc.coords.latitude;
-                pre_report.incidentLongitude = loc.coords.longitude;
-                pre_report.unchangedLocation = true;
-                this._isMounted &&
-                    this.setState({
-                        location: loc,
-                        latitude: loc.coords.latitude,
-                        longitude: loc.coords.longitude,
-                        pre_report: pre_report
-                    });
-                this.storeUnsubReport(pre_report);
+                if (await inGeofence(loc)) {
+                    console.log("inGeofence");
+                    pre_report.incidentLatitude = loc.coords.latitude;
+                    pre_report.incidentLongitude = loc.coords.longitude;
+                    pre_report.unchangedLocation = true;
+                    this._isMounted &&
+                        this.setState({
+                            location: loc,
+                            latitude: loc.coords.latitude,
+                            longitude: loc.coords.longitude,
+                            pre_report: pre_report
+                        });
+                    this.storeUnsubReport(pre_report);
+                }
             }
         } catch (error) {
             console.log(error.message);
@@ -105,10 +156,15 @@ class LocationScreen extends Component {
     }
 
     componentDidMount() {
-        this._isMounted = true;
+        console.log("componentDidMount");
+        console.log(this.state);
         this.getUnsubReport().then(() => {
-            this.getLocation();
+            console.log("componentDidMount after getUnsubReport");
+            console.log(this.state);
+            if (this.state == null || this.state.latitude == null)
+                this.getLocation();
         });
+        this._isMounted = true;
     }
 
     componentWillUnmount() {
@@ -119,6 +175,7 @@ class LocationScreen extends Component {
     }
 
     setToinit() {
+        console.log("setToInit");
         return {
             latitude: this.state.latitude,
             longitude: this.state.longitude,
@@ -135,6 +192,16 @@ class LocationScreen extends Component {
     }
 
     render() {
+        if (!this._isMounted) {
+            console.log("Render: not mounted");
+            return (
+                <View>
+                    <Text>Loading...</Text>
+                </View>
+            );
+        }
+        console.log("render");
+        console.log(this.state);
         const { goBack } = this.props.navigation;
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -194,6 +261,9 @@ class LocationScreen extends Component {
                                 longitudeDelta: 0.021
                             }}
                             onRegionChangeComplete={region => {
+                                console.log("onRegionChangeComplete");
+                                console.log(this.state.pre_report);
+                                console.log(region);
                                 var pre_report = this.state.pre_report;
                                 pre_report.incidentLatitude = region.latitude;
                                 pre_report.incidentLongitude = region.longitude;

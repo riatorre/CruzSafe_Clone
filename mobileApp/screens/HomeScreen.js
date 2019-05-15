@@ -35,8 +35,8 @@ import { Permissions, Notifications } from "expo";
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
 
-const LATITUDE = "36.9916";
-const LONGITUDE = "-122.0583";
+const LATITUDE = 36.9916;
+const LONGITUDE = -122.0583;
 const newPre_report = {
     incidentDesc: "",
     incidentCategory: "",
@@ -83,6 +83,8 @@ const tlModifierMarginSecondary = screenHeight * 0.0000265;
 class HomeScreen extends Component {
     async continue() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
+        console.log("Homescreen.continue");
+        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeItem("unsub_report", pre_report);
@@ -111,9 +113,17 @@ class HomeScreen extends Component {
                         onPress: () => {
                             // If the user choose to start a new report,
                             // reset all text states to ""
+                            console.log("Resetting unsub_report");
+                            console.log(newPre_report);
                             this.storeItem("unsub_report", newPre_report).then(
                                 () => {
                                     this.props.navigation.navigate("Report");
+                                }
+                            );
+                            AsyncStorage.getItem("unsub_report").then(
+                                report => {
+                                    console.log("After resetting unsub_report");
+                                    console.log(report);
                                 }
                             );
                         },

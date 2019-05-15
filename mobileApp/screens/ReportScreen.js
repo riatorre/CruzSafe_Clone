@@ -219,6 +219,8 @@ class ReportScreen extends Component {
 
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
+        console.log("reportScreen.getUnsubReport");
+        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeUnsubReport(pre_report);
@@ -369,6 +371,8 @@ class ReportScreen extends Component {
     // Used to allow easier transfer of data
     async storeUnsubReport(report) {
         try {
+            console.log("reportScreen.storeUnsubReport");
+            console.log(report);
             await AsyncStorage.setItem("unsub_report", JSON.stringify(report));
         } catch (error) {
             console.log(error.message);
