@@ -762,5 +762,11 @@ export default (styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: "bold",
         color: "#B7B7B7"
+    },
+    cameraColumn: {
+        flex: 1 / 3,
+        flexDirection: "row",
+        alignItems: "flex-end",
+        justifyContent: "center"
     }
 }));

@@ -4,7 +4,8 @@ import {
     Text,
     SafeAreaView,
     TouchableOpacity,
-    Platform
+    Platform,
+    Dimensions
 } from "react-native";
 import {
     Container,
@@ -15,7 +16,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Camera } from "expo";
+import { Camera, MediaLibrary } from "expo";
 
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
@@ -31,53 +32,40 @@ class CameraScreen extends Component {
         image: null,
         flash: "off",
         recording: false,
-        isTakingImage: false,
         type: Camera.Constants.Type.back
     };
 
-    async saveMedia(media) {
-        this._isMounted && this.setState({ image: media.uri });
-    }
+    saveMedia = media => {
+        this._isMounted &&
+            this.setState({ recording: false, image: media.uri }, () =>
+                this.props.navigation.goBack()
+            );
+    };
 
-    async takePhoto(goBack) {
-        setTimeout(() => {
-            this._isMounted &&
-                this.setState({
-                    isTakingImage: true
-                });
-        }, 1);
-        await this.camera.takePictureAsync({
-            quality: 0.5,
-            onPictureSaved: photo => {
-                this._isMounted &&
-                    this.setState({
-                        isTakingImage: false
-                    });
-                this.saveMedia(photo);
-                goBack();
-            }
-        });
-    }
+    takePhoto = async () => {
+        const photoData = await this.camera.takePictureAsync();
+        this.saveMedia(photoData);
+    };
 
-    async recordVideo(goBack) {
-        if (!this.state.recording) {
-            setTimeout(() => {
-                this._isMounted &&
-                    this.setState({
-                        recording: true
-                    });
-            }, 1);
-            const video = await this.camera.recordAsync({ maxDuration: 5 });
-            this.saveMedia(video);
-            goBack();
+    takeVideo = async () => {
+        const videoData = await this.camera.recordAsync();
+        const vid = await MediaLibrary.createAssetAsync(videoData.uri);
+        const vidInfo = await MediaLibrary.getAssetInfoAsync(vid);
+        MediaLibrary.deleteAssetsAsync(vid);
+        if (vidInfo.duration >= 1) {
+            this.saveMedia(videoData);
         } else {
-            this.camera.stopRecording();
-            this._isMounted &&
-                this.setState({
-                    recording: false
-                });
+            this.takePhoto();
         }
-    }
+    };
+
+    startCapture = () => {
+        this._isMounted && this.setState({ recording: true });
+    };
+
+    stopCapture = () => {
+        if (this.state.recording) this.camera.stopRecording();
+    };
 
     componentDidMount() {
         this._isMounted = true;
@@ -93,7 +81,7 @@ class CameraScreen extends Component {
     }
 
     render() {
-        const { goBack } = this.props.navigation;
+        var { width } = Dimensions.get("window");
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <Container>
@@ -105,7 +93,7 @@ class CameraScreen extends Component {
                                 }-arrow-back`}
                                 style={styles.icon}
                                 onPress={() => {
-                                    goBack();
+                                    this.props.navigation.goBack();
                                 }}
                             />
                         </Left>
@@ -116,7 +104,7 @@ class CameraScreen extends Component {
                     </Header>
                     <View style={{ flex: 1 }}>
                         <Camera
-                            style={{ flex: 1 }}
+                            style={{ flex: 1, flexDirection: "row" }}
                             type={this.state.type}
                             flashMode={this.state.flash}
                             autoFocus={"on"}
@@ -128,97 +116,79 @@ class CameraScreen extends Component {
                                 this.camera = cam;
                             }}
                         >
-                            <View
-                                style={{
-                                    flex: 1,
-                                    padding: 20,
-                                    backgroundColor: "transparenb",
-                                    flexDirection: "column",
-                                    justifyContent: "flex-end",
-                                    alignItems: "center"
-                                }}
-                            >
-                                <View
+                            <View style={styles.cameraColumn}>
+                                <TouchableOpacity
                                     style={{
-                                        backgroundColor: "transparentb",
-                                        flexDirection: "row"
+                                        backgroundColor: "#AAA9",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        marginBottom: 35,
+                                        width: width / 6,
+                                        height: width / 6,
+                                        borderRadius: width / 12
                                     }}
+                                    onPress={() => {
+                                        if (this.state.flash === "off") {
+                                            this._isMounted &&
+                                                this.setState({
+                                                    flash: "torch"
+                                                });
+                                        } else {
+                                            this._isMounted &&
+                                                this.setState({
+                                                    flash: "off"
+                                                });
+                                        }
+                                    }}
+                                    disabled={this.state.cameraLoading}
                                 >
-                                    <TouchableOpacity
-                                        style={
-                                            this.state.cameraLoading
-                                                ? styles.btn_disabled
-                                                : styles.btn
-                                        }
-                                        onPress={() => {
-                                            if (this.state.flash === "off") {
-                                                this._isMounted &&
-                                                    this.setState({
-                                                        flash: "torch"
-                                                    });
-                                            } else {
-                                                this._isMounted &&
-                                                    this.setState({
-                                                        flash: "off"
-                                                    });
-                                            }
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-${
+                                            this.state.flash === "off"
+                                                ? "flash-off"
+                                                : "flash"
+                                        }`}
+                                        style={{ color: "white" }}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.cameraColumn}>
+                                <TouchableOpacity
+                                    style={{
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        marginBottom: 20,
+                                        width: width / 4,
+                                        height: width / 4,
+                                        borderRadius: width / 8,
+                                        borderWidth: 4,
+                                        borderColor: "#FFF"
+                                    }}
+                                    onPress={() => {
+                                        this.takePhoto();
+                                    }}
+                                    onLongPress={() => {
+                                        this.takeVideo();
+                                    }}
+                                    onPressIn={() => {
+                                        this.startCapture();
+                                    }}
+                                    onPressOut={() => {
+                                        this.stopCapture();
+                                    }}
+                                    disabled={this.state.cameraLoading}
+                                >
+                                    <View
+                                        style={{
+                                            backgroundColor: "#FFFC",
+                                            width: width / 5,
+                                            height: width / 5,
+                                            borderRadius: width / 10
                                         }}
-                                        disabled={this.state.cameraLoading}
-                                    >
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-${
-                                                this.state.flash === "off"
-                                                    ? "flash-off"
-                                                    : "flash"
-                                            }`}
-                                            style={{ color: "white" }}
-                                        />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={
-                                            this.state.cameraLoading
-                                                ? styles.btn_disabled
-                                                : styles.btn
-                                        }
-                                        onPress={() => {
-                                            this.takePhoto(goBack);
-                                        }}
-                                        disabled={this.state.cameraLoading}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontSize: 18,
-                                                color: "white"
-                                            }}
-                                        >
-                                            Take photo
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={
-                                            this.state.cameraLoading
-                                                ? styles.btn_disabled
-                                                : styles.btn
-                                        }
-                                        onPress={() => {
-                                            this.recordVideo(goBack);
-                                        }}
-                                        disabled={this.state.cameraLoading}
-                                    >
-                                        <Text
-                                            style={{
-                                                fontSize: 18,
-                                                color: "white"
-                                            }}
-                                        >
-                                            Take Video
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    />
+                                </TouchableOpacity>
                             </View>
                         </Camera>
                     </View>
