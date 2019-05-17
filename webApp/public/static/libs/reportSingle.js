@@ -82,7 +82,7 @@ function createReportModal() {
     const locationInfo = document.createElement("DIV");
     locationInfo.setAttribute("class", "reportLocAndTag");
     locationInfo.innerHTML +=
-        "<div><b>Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
+        "<div><b>Reported Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
 
     const buildingInfo = document.createElement("DIV");
     buildingInfo.setAttribute("class", "reportBuilding");
