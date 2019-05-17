@@ -16,7 +16,7 @@ import {
     Body,
     Icon
 } from "native-base";
-import { Camera, MediaLibrary } from "expo";
+import { Camera } from "expo";
 
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
