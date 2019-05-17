@@ -420,10 +420,9 @@ connectionPool.handleAPI(
                                 buildingQuery,
                                 () => {},
                                 () => {
-                                    res.json({
-                                        message:
+                                    myConsole.log(
                                             "An Error has Occurred - Updating a building's lat and long."
-                                    });
+                                    );
                                 }
                             );
                         } else {
@@ -435,10 +434,9 @@ connectionPool.handleAPI(
         }
     },
     () => {
-        res.json({
-            message:
+        myConsole.log(
                 "An Error has occurred - Finding buildings that have null lat and long."
-        });
+        );
     }
 );
 // END TANGENT.
