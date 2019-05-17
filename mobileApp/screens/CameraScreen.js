@@ -42,13 +42,20 @@ class CameraScreen extends Component {
             );
     };
 
-    takePhoto = async () => {
-        const photoData = await this.camera.takePictureAsync();
-        this.saveMedia(photoData);
+    takePhoto = () => {
+        this.camera.takePictureAsync({
+            quality: 0.5,
+            onPictureSaved: photoData => {
+                this.saveMedia(photoData);
+            }
+        });
     };
 
     takeVideo = async () => {
-        const videoData = await this.camera.recordAsync();
+        const videoData = await this.camera.recordAsync({
+            quality: Camera.Constants.VideoQuality["720p"],
+            maxDuration: 5
+        });
         const vid = await MediaLibrary.createAssetAsync(videoData.uri);
         const vidInfo = await MediaLibrary.getAssetInfoAsync(vid);
         MediaLibrary.deleteAssetsAsync(vid);
