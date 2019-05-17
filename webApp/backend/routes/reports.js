@@ -10,6 +10,12 @@ const connectionPool = require("../DB/config");
 const multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
 
+const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
+
+const googleMapsClient = require("@google/maps").createClient({
+    key: aPIKey
+});
+
 const numDays = 90; // number of days before a report expires
 
 // Define where multer will store the incoming files and how to name them
@@ -391,137 +397,146 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                             val.insertId,
                         () => {
                             // Given that every single building has coordinates, insert the x and y into the google maps API.
-                            let googleResult = JSON.parse(
-                                "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-                                    req.body.incidentLatitude +
-                                    "," +
-                                    req.body.incidentLongitude +
-                                    "&key=" +
-                                    aPIKey
-                            );
 
-                            let buildingStreet =
-                                googleResult["results"][0][
-                                    "address_components"
-                                ][0]["long_name"] +
-                                " " +
-                                googleResult["results"][0][
-                                    "address_components"
-                                ][1]["long_name"];
-                            let buildingCity =
-                                googleResult["results"][0][
-                                    "address_components"
-                                ][2]["long_name"];
-                            //let buildingCounty = googleResult["results"]["address_components"][3]["long_name"];
-                            let buildingState =
-                                googleResult["results"][0][
-                                    "address_components"
-                                ][4]["short_name"];
+                            googleMapsClient.reverseGeocode(
+                                {
+                                    latlng:
+                                        [req.body.incidentLatitude,
+                                        req.body.incidentLongitude]
+                                },
+                                function(err, response) {
+                                    if (!err) {
+                                        let googleResult =
+                                            response.json.results;
+                                        let buildingStreet = 
+                                            googleResult[0][
+                                                "address_components"
+                                            ][0]["long_name"] +
+                                            " " +
+                                            googleResult[0][
+                                                "address_components"
+                                            ][1]["long_name"];
+                                        let buildingCity = 
+                                            googleResult[0][
+                                                "address_components"
+                                            ][2]["long_name"];
+                                        //let buildingCounty = addQuotes(googleResult["address_components"][3]["long_name"]);
+                                        let buildingState = 
+                                            googleResult[0][
+                                                "address_components"
+                                            ][4]["short_name"];
 
-                            const buildingQuery =
-                                "SELECT buildingKey FROM buildings WHERE buildingStreet=" +
-                                buildingStreet +
-                                "AND buildingCity = " +
-                                buildingCity +
-                                " AND buildingState = " +
-                                buildingState;
+                                        const buildingQuery =
+                                            "SELECT buildingKey FROM buildings WHERE buildingStreet=" +
+                                            addQuotes(buildingStreet) +
+                                            " AND buildingCity = " +
+                                            addQuotes(buildingCity) +
+                                            " AND buildingState = " +
+                                            addQuotes(buildingState);
 
-                            // Given that address, check to see if there is a matching one in the database.
-                            connectionPool.handleAPI(
-                                // CHECK TO FIND BUILDING WITH MATCHING ADDRESS
-                                [buildingStreet, buildingCity, buildingState],
-                                null,
-                                3,
-                                3,
-                                buildingQuery,
-                                valKey => {
-                                    let buildingKey = valKey[0]["buildingKey"];
-                                    if (buildingKey) {
-                                        // if there is a building that matches, insert it into the report and return.
+                                        // Given that address, check to see if there is a matching one in the database.
                                         connectionPool.handleAPI(
-                                            // INSERT MATCHING BUILDING KEY INTO REPORTS
-                                            req.body.reportID,
+                                            // CHECK TO FIND BUILDING WITH MATCHING ADDRESS
                                             null,
-                                            1,
-                                            1,
-                                            "UPDATE reports SET buildingKey = " +
-                                                buildingKey +
-                                                " WHERE reportID = " +
-                                                val.insertId,
-                                            () => {
-                                                // Done.
-                                                res.json({
-                                                    incidentID: val.insertId
-                                                }); // Exit; all things went through fine, return incident ID.
+                                            null,
+                                            0,
+                                            0,
+                                            buildingQuery,
+                                            valKey => {
+                                                if (valKey.length > 0 && valKey) {
+                                                    // if there is a building that matches, insert it into the report and return.
+                                                    let buildingKey = valKey[0]["buildingKey"];
+                                                    connectionPool.handleAPI(
+                                                        // INSERT MATCHING BUILDING KEY INTO REPORTS
+                                                        null,
+                                                        null,
+                                                        0,
+                                                        0,
+                                                        "UPDATE reports SET buildingKey = " +
+                                                            buildingKey +
+                                                            " WHERE reportID = " +
+                                                            val.insertId,
+                                                        () => {
+                                                            // Done.
+                                                            res.json({
+                                                                incidentID:
+                                                                    val.insertId
+                                                            }); // Exit; all things went through fine, return incident ID.
+                                                        },
+                                                        () => {
+                                                            res.json({
+                                                                message:
+                                                                    "An Error has Occurred. Error Code 02141 - Insert matching building key into reports failed."
+                                                            });
+                                                        }
+                                                    );
+                                                } else {
+                                                    // Else if there isn't, sort the entire database and get the one with lat - x and long - y that is closest to 0.
+                                                    let sf = 3.14159 / 180; // scaling factor
+                                                    const findBuildingQuery =
+                                                        "SELECT buildingKey FROM buildings ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+req.body.incidentLatitude+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+req.body.incidentLatitude+"*"+sf+")*COS((buildingLng-"+req.body.incidentLongitude+")*"+sf+"))";
+                                                    connectionPool.handleAPI(
+                                                        // SORT BUILDINGS BY CLOSEST LAT AND LONG
+                                                        [
+                                                            req.body
+                                                                .incidentLatitude,
+                                                            req.body
+                                                                .incidentLongitude
+                                                        ],
+                                                        null,
+                                                        2,
+                                                        2,
+                                                        findBuildingQuery,
+                                                        closestKey => {
+                                                            let buildingKey =
+                                                                // INSERT CLOSEST BUILDING KEY INTO REPORTS
+                                                                closestKey[0][
+                                                                    "buildingKey"
+                                                                ];
+                                                            connectionPool.handleAPI(
+                                                                null,
+                                                                null,
+                                                                0,
+                                                                0,
+                                                                "UPDATE reports SET buildingKey = " +
+                                                                    buildingKey +
+                                                                    " WHERE reportID = " +
+                                                                    val.insertId,
+                                                                () => {
+                                                                    // Done.
+                                                                    res.json({
+                                                                        incidentID:
+                                                                            val.insertId
+                                                                    }); // Exit; all things went through fine, return incident ID.
+                                                                },
+                                                                () => {
+                                                                    res.json({
+                                                                        message:
+                                                                            "An Error has Occurred. Error Code 70924 - Insert closest building key into reports failed."
+                                                                    });
+                                                                }
+                                                            );
+                                                        },
+                                                        () => {
+                                                            res.json({
+                                                                message:
+                                                                    "An Error has Occurred. Error Code 81923 - Sort buildings by closest lat and long failed."
+                                                            });
+                                                        }
+                                                    );
+                                                }
                                             },
                                             () => {
                                                 res.json({
                                                     message:
-                                                        "An Error has Occurred."
-                                                });
-                                            }
-                                        );
-                                    } else {
-                                        // Else if there isn't, sort the entire database and get the one with lat - x and long - y that is closest to 0.
-                                        const findBuildingQuery =
-                                            "SELECT buildingKey FROM buildings ORDER BY abs(buildingLat - " +
-                                            req.body.incidentLatitude +
-                                            ") DESC, abs(buildingLng - " +
-                                            req.body.incidentLongitude +
-                                            ") DESC";
-                                        connectionPool.handleAPI(
-                                            // SORT BUILDINGS BY CLOSEST LAT AND LONG
-                                            [
-                                                req.body.incidentLatitude,
-                                                req.body.incidentLongitude
-                                            ],
-                                            null,
-                                            2,
-                                            2,
-                                            findBuildingQuery,
-                                            closestKey => {
-                                                let buildingKey =
-                                                    // INSERT CLOSEST BUILDING KEY INTO REPORTS
-                                                    closestKey[0][
-                                                        "buildingKey"
-                                                    ];
-                                                connectionPool.handleAPI(
-                                                    req.body.reportID,
-                                                    null,
-                                                    1,
-                                                    1,
-                                                    "UPDATE reports SET buildingKey = " +
-                                                        buildingKey +
-                                                        " WHERE reportID = " +
-                                                        val.insertId,
-                                                    () => {
-                                                        // Done.
-                                                        res.json({
-                                                            incidentID:
-                                                                val.insertId
-                                                        }); // Exit; all things went through fine, return incident ID.
-                                                    },
-                                                    () => {
-                                                        res.json({
-                                                            message:
-                                                                "An Error has Occurred. "
-                                                        });
-                                                    }
-                                                );
-                                            },
-                                            () => {
-                                                res.json({
-                                                    message:
-                                                        "An Error has Occurred."
+                                                        "An Error has Occurred. Error Code 00623 - Checking to find buildings with matching addresses failed. Query = " + buildingQuery
                                                 });
                                             }
                                         );
                                     }
-                                },
-                                () => {
-                                    res.json({
-                                        message: "An Error has Occurred."
-                                    });
+                                    else{
+                                        res.json({ message: "An Error has Occurred. Error Code 00624 - Converting API failed." });
+                                    }
                                 }
                             );
                         },
@@ -888,6 +903,15 @@ router.post("/updateToken", function(req, res) {
         }
     );
 });
+
+
+/*
+ * Helper function that wraps a string in '' symbols for a SQL query.
+ */
+function addQuotes(string) {
+    return (string = '"' + string + '"');
+}
+
 
 router.post("/updateInc", function(req, res) {
     let reportID = req.body.reports;

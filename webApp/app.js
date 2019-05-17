@@ -372,7 +372,7 @@ connectionPool.handleAPI(
         console.log(valBuildings);
         let buildings = valBuildings;
         // Got all the buildings.
-        if (buildings != null) {
+        if (buildings.length > 0 && buildings) {
             // If no, for each one, run the google map API and insert the longitude and lattitude.
             Array.from(buildings).forEach(function(building) {
                 let buildingAddress =
@@ -394,11 +394,11 @@ connectionPool.handleAPI(
                             console.log("Gotten google result:");
                             console.log(googleResult);
                             let buildingLat =
-                                googleResult["results"][0]["geometry"][
+                                googleResult[0]["geometry"][
                                     "location"
                                 ]["lat"];
                             let buildingLng =
-                                googleResult["results"][0]["geometry"][
+                                googleResult[0]["geometry"][
                                     "location"
                                 ]["lng"];
                             let buildingKey = building["buildingKey"];

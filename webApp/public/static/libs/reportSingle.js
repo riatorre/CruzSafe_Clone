@@ -20,11 +20,12 @@ const reportFields = [
     "body",
     "expireTS"
 ];
-const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 const defaultOptionText = "---Select Option---";
 var period = 6;
 var reportAssigned = {};
+
+const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
 
 setPeriod();
 
