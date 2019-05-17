@@ -87,7 +87,7 @@ function createReportModal() {
     const buildingInfo = document.createElement("DIV");
     buildingInfo.setAttribute("class", "reportBuilding");
     buildingInfo.innerHTML +=
-        "<div><b>Building Name:</b> <span id='buildingName'></span> (<span id='buildingFDX'></span>) - #<span id='buildingKey'></span></div>\n";
+        "<div><b>Closest Building:</b> <span id='buildingName'></span> (<span id='buildingFDX'></span>) - #<span id='buildingKey'></span></div>\n";
      buildingInfo.innerHTML +=
         "<div><b>Region:</b> <span id='buildingLocation'></span>, <span id='buildingRegion'></span></div>\n";
     buildingInfo.innerHTML +=
