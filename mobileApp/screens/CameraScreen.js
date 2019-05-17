@@ -56,14 +56,7 @@ class CameraScreen extends Component {
             quality: Camera.Constants.VideoQuality["720p"],
             maxDuration: 5
         });
-        const vid = await MediaLibrary.createAssetAsync(videoData.uri);
-        const vidInfo = await MediaLibrary.getAssetInfoAsync(vid);
-        MediaLibrary.deleteAssetsAsync(vid);
-        if (vidInfo.duration >= 1) {
-            this.saveMedia(videoData);
-        } else {
-            this.takePhoto();
-        }
+        this.saveMedia(videoData);
     };
 
     startCapture = () => {
@@ -71,7 +64,8 @@ class CameraScreen extends Component {
     };
 
     stopCapture = () => {
-        if (this.state.recording) this.camera.stopRecording();
+        if (this.state.recording)
+            setTimeout(() => this.camera.stopRecording(), 1000);
     };
 
     componentDidMount() {
