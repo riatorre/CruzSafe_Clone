@@ -18,7 +18,18 @@ const reportFields = [
     "phone",
     "email",
     "body",
-    "expireTS"
+    "expireTS",
+    "buildingName",
+    "buildingFDX",
+    "buildingKey",
+    "buildingLocation",
+    "buildingRegion",
+    "buildingStreet",
+    "buildingCity",
+    "buildingState",
+    "buildingZip",
+    "buildingCategory",
+    "buildingPrimaryUse",
 ];
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 const defaultOptionText = "---Select Option---";
@@ -73,6 +84,17 @@ function createReportModal() {
     locationInfo.innerHTML +=
         "<div><b>Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
 
+    const buildingInfo = document.createElement("DIV");
+    buildingInfo.setAttribute("class", "reportBuilding");
+    buildingInfo.innerHTML +=
+        "<div><b>Building Name:</b> <span id='buildingName'></span> (<span id='buildingFDX'></span>) - #<span id='buildingKey'></span></div>\n";
+     buildingInfo.innerHTML +=
+        "<div><b>Region:</b> <span id='buildingLocation'></span>, <span id='buildingRegion'></span></div>\n";
+    buildingInfo.innerHTML +=
+        "<div><b>Address: </b> <span id='buildingStreet'></span>, <span id='buildingCity'></span>, <span id='buildingState'></span> <span id='buildingZip'></span></div>\n";
+    buildingInfo.innerHTML +=
+        "<div><b>Category/Use:</b> <span id='buildingCategory'></span> | <span id='buildingPrimaryUse'></span></div>\n";
+
     const media = document.createElement("DIV");
     media.setAttribute("class", "reportVisuals");
     media.innerHTML = "<iframe id='reportMap'></iframe>";
@@ -120,6 +142,7 @@ function createReportModal() {
     report.appendChild(civilianInfo);
     report.appendChild(reportMetadata);
     report.appendChild(locationInfo);
+    report.appendChild(buildingInfo);
     report.appendChild(media);
     report.appendChild(expiration);
     report.appendChild(reportDesc);
@@ -396,6 +419,17 @@ function generateProductInfo(reportInfo, tags) {
         day: "2-digit",
         hour12: false
     });
+    productInfo["buildingName"] = reportInfo["buildingName"];
+    productInfo["buildingFDX"] = reportInfo["buildingFDX"];
+    productInfo["buildingKey"] = reportInfo["buildingKey"];
+    productInfo["buildingLocation"] = reportInfo["buildingLocation"];
+    productInfo["buildingRegion"] = reportInfo["buildingRegion"];
+    productInfo["buildingStreet"] = reportInfo["buildingStreet"];
+    productInfo["buildingCity"] = reportInfo["buildingCity"];
+    productInfo["buildingState"] = reportInfo["buildingState"];
+    productInfo["buildingZip"] = reportInfo["buildingZip"];
+    productInfo["buildingCategory"] = reportInfo["buildingCategory"];
+    productInfo["buildingPrimaryUse"] = reportInfo["buildingPrimaryUse"];
     // resolved/unresolved
     if (!!reportInfo["completeTS"]) {
         var resolvedUnresolved = "[Complete]"; // Completed; not null

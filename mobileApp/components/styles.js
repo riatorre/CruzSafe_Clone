@@ -39,11 +39,9 @@ const containerBorderRadiusSmall = 10;
 const trafficLightModifier = 1.0;
 const trafficLightHeight =
     Dimensions.get("window").height * trafficLightModifier;
-const trafficLightWidth = Dimensions.get("window").width * trafficLightModifier;
 
 export const trafficDimensions = {
-    height: trafficLightHeight,
-    width: trafficLightWidth
+    height: trafficLightHeight
 };
 
 /*
@@ -301,11 +299,11 @@ export default (styles = StyleSheet.create({
     traffic_text: {
         //color: darktheme ? tertiaryColor : secondaryColor,
         color: tertiaryColor,
-        fontSize: Dimensions.get("window").height * 0.027,
+        fontSize: Dimensions.get("window").height * 0.027 * (Math.min(trafficLightModifier, 1.0)),
         fontWeight: "bold"
     },
     traffic_light_background: {
-        width: trafficLightWidth * 0.6,
+        width: trafficLightHeight * 0.3,
         height: trafficLightHeight * 0.75,
         alignItems: "center"
     },

@@ -53,8 +53,8 @@ const newPre_report = {
     these variables created in styles.js.
 */
 import { trafficDimensions } from "../components/styles.js";
-const trafficLightHeight = trafficDimensions.height;
-const trafficLightWidth = trafficDimensions.width;
+const trafficLightHeight = trafficDimensions.height * 0.75;
+const trafficLightWidth = trafficDimensions.height * 0.3;
 // Modifiers editing the size of the buttons within the image.
 // All are also affected by the primary variables above.
 
@@ -73,12 +73,11 @@ const tlModifierHeight = 0.166;
 const tlModifierMarginPrimary = 0.107;
 const tlModifierMarginSecondary = 0.018;*/
 
-const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
-const tlModifierWidth = screenWidth * 0.000645;
-const tlModifierHeight = screenHeight * 0.000214;
-const tlModifierMarginPrimary = screenHeight * 0.0001455;
-const tlModifierMarginSecondary = screenHeight * 0.0000265;
+const tlModifierWidth = screenHeight * 0.0007;
+const tlModifierHeight = screenHeight * 0.00028;
+const tlModifierMarginPrimary = screenHeight * 0.0001960;
+const tlModifierMarginSecondary = screenHeight * 0.000042;
 
 class HomeScreen extends Component {
     async continue() {

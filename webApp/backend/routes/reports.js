@@ -284,7 +284,7 @@ router.post("/reportIDs", function(req, res) {
 // Get Report by internal ID #, should return either 0 or 1 entry
 router.post("/reportID", function(req, res) {
     const query =
-        "SELECT * FROM reports LEFT JOIN mobileUsers ON reports.mobileID = mobileUsers.mobileID WHERE reportID = " +
+        "SELECT * FROM reports, mobileUsers, buildings WHERE reports.mobileID = mobileUsers.mobileID AND reports.buildingKey = buildings.buildingKey AND reportID = " +
         req.body.id;
     connectionPool.handleAPI(
         req.body.id,
