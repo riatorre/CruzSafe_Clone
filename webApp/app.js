@@ -352,3 +352,71 @@ function verifyAuthentication(req, res, next) {
  *  TODO: Implement a proper function that accomplishes this
  */
 function clearExpiredReports() {}
+
+// Modify all buildings to insert coordinates.
+connectionPool.handleAPI(
+    // GET ALL NULL BUILDINGS.
+    null,
+    null,
+    0,
+    0,
+    "SELECT buildingKey, buildingStreet, buildingCity, buildingState FROM buildings WHERE buildingLat IS NULL AND buildingLng IS NULL",
+    valBuildings => {
+        let buildings = valBuildings;
+        // Got all the buildings.
+        if (buildings != null) {
+            // If no, for each one, run the google map API and insert the longitude and lattitude.
+            Array.from(buildings).forEach(function(building) {
+                let buildingAddress =
+                    building["buildingStreet"] +
+                    ",+" +
+                    building["buildingCity"] +
+                    ",+" +
+                    building["buildingState"]; // Concat all address into one string
+                buildingAddress = buildingAddress.replace(/\s/g, "+"); // Replace whitespace with +.
+                let googleResult = JSON.parse(
+                    "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+                        buildingAddress +
+                        "&key=" +
+                        aPIKey
+                );
+                let buildingLat =
+                    googleResult["results"][0]["geometry"]["location"]["lat"];
+                let buildingLng =
+                    googleResult["results"][0]["geometry"]["location"]["lng"];
+                let buildingKey = building["buildingKey"];
+
+                // For each buildingKey, run through google maps API and insert into database.
+                const buildingQuery =
+                    "UPDATE buildings SET buildingLat = " +
+                    buildingLat +
+                    ", buildingLng = " +
+                    buildingLng +
+                    " WHERE buildingKey = " +
+                    buildingKey;
+                connectionPool.handleAPI(
+                    // UPDATE EACH NULL BUILDING LAT AND LONG
+                    [buildingLat, buildingLng, buildingKey],
+                    null,
+                    3,
+                    3,
+                    buildingQuery,
+                    () => {},
+                    () => {
+                        res.json({
+                            message:
+                                "An Error has Occurred - Updating a building's lat and long."
+                        });
+                    }
+                );
+            });
+        }
+    },
+    () => {
+        res.json({
+            message:
+                "An Error has occurred - Finding buildings that have null lat and long."
+        });
+    }
+);
+// END TANGENT.
