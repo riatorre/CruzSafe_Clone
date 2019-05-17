@@ -33,6 +33,12 @@ const assignments = require("./backend/routes/assignments");
 
 const app = express();
 
+const aPIKey = "AIzaSyDi4bKzq04VojQXEGXec4wDsdRVZhht5vY";
+
+const googleMapsClient = require("@google/maps").createClient({
+    key: aPIKey
+});
+
 // Production Level Session Store
 let sessionStore = new MySQLStore(
     {
@@ -362,6 +368,8 @@ connectionPool.handleAPI(
     0,
     "SELECT buildingKey, buildingStreet, buildingCity, buildingState FROM buildings WHERE buildingLat IS NULL AND buildingLng IS NULL",
     valBuildings => {
+        console.log("Buildings is set to:");
+        console.log(valBuildings);
         let buildings = valBuildings;
         // Got all the buildings.
         if (buildings != null) {
@@ -369,44 +377,58 @@ connectionPool.handleAPI(
             Array.from(buildings).forEach(function(building) {
                 let buildingAddress =
                     building["buildingStreet"] +
-                    ",+" +
+                    ", " +
                     building["buildingCity"] +
-                    ",+" +
+                    ", " +
                     building["buildingState"]; // Concat all address into one string
-                buildingAddress = buildingAddress.replace(/\s/g, "+"); // Replace whitespace with +.
-                let googleResult = JSON.parse(
-                    "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-                        buildingAddress +
-                        "&key=" +
-                        aPIKey
-                );
-                let buildingLat =
-                    googleResult["results"][0]["geometry"]["location"]["lat"];
-                let buildingLng =
-                    googleResult["results"][0]["geometry"]["location"]["lng"];
-                let buildingKey = building["buildingKey"];
+                console.log("Gotten buildingAddress:");
+                console.log(buildingAddress);
 
-                // For each buildingKey, run through google maps API and insert into database.
-                const buildingQuery =
-                    "UPDATE buildings SET buildingLat = " +
-                    buildingLat +
-                    ", buildingLng = " +
-                    buildingLng +
-                    " WHERE buildingKey = " +
-                    buildingKey;
-                connectionPool.handleAPI(
-                    // UPDATE EACH NULL BUILDING LAT AND LONG
-                    [buildingLat, buildingLng, buildingKey],
-                    null,
-                    3,
-                    3,
-                    buildingQuery,
-                    () => {},
-                    () => {
-                        res.json({
-                            message:
-                                "An Error has Occurred - Updating a building's lat and long."
-                        });
+                googleMapsClient.geocode(
+                    {
+                        address: buildingAddress
+                    },
+                    function(err, response) {
+                        if (!err) {
+                            let googleResult = response.json.results;
+                            console.log("Gotten google result:");
+                            console.log(googleResult);
+                            let buildingLat =
+                                googleResult["results"][0]["geometry"][
+                                    "location"
+                                ]["lat"];
+                            let buildingLng =
+                                googleResult["results"][0]["geometry"][
+                                    "location"
+                                ]["lng"];
+                            let buildingKey = building["buildingKey"];
+
+                            // For each buildingKey, run through google maps API and insert into database.
+                            const buildingQuery =
+                                "UPDATE buildings SET buildingLat = " +
+                                buildingLat +
+                                ", buildingLng = " +
+                                buildingLng +
+                                " WHERE buildingKey = " +
+                                buildingKey;
+                            connectionPool.handleAPI(
+                                // UPDATE EACH NULL BUILDING LAT AND LONG
+                                [buildingLat, buildingLng, buildingKey],
+                                null,
+                                3,
+                                3,
+                                buildingQuery,
+                                () => {},
+                                () => {
+                                    res.json({
+                                        message:
+                                            "An Error has Occurred - Updating a building's lat and long."
+                                    });
+                                }
+                            );
+                        } else {
+                            console.log("Google Maps API call failed.");
+                        }
                     }
                 );
             });
