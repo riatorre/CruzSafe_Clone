@@ -472,9 +472,14 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                     );
                                                 } else {
                                                     // Else if there isn't, sort the entire database and get the one with lat - x and long - y that is closest to 0.
+                                                    let lat = req.body.incidentLatitude;
+                                                    let lng = req.body.incidentLongitude;
                                                     let sf = 3.14159 / 180; // scaling factor
-                                                    const findBuildingQuery =
-                                                        "SELECT buildingKey FROM buildings ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+req.body.incidentLatitude+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+req.body.incidentLatitude+"*"+sf+")*COS((buildingLng-"+req.body.incidentLongitude+")*"+sf+"))";
+                                                    let er = 6350; // earth radius in miles, approximate
+                                                    let mr = 100; // max radius
+                                                    const findBuildingQuery = "SELECT buildingKey FROM buildings WHERE "+mr+" >= "+er+" * ACOS(SIN(buildingLat*"+sf+")*SIN("+lat+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+lat+"*"+sf+")*COS((buildingLng-"+lng+")*"+sf+"))ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+lat+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+lat+"*"+sf+")*COS((buildingLng-"+lng+")*"+sf+"))";
+                                                    //const findBuildingQuery =
+                                                     //   "SELECT buildingKey FROM buildings ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+req.body.incidentLatitude+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+req.body.incidentLatitude+"*"+sf+")*COS((buildingLng-"+req.body.incidentLongitude+")*"+sf+"))";
                                                     connectionPool.handleAPI(
                                                         // SORT BUILDINGS BY CLOSEST LAT AND LONG
                                                         [
@@ -520,7 +525,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                         () => {
                                                             res.json({
                                                                 message:
-                                                                    "An Error has Occurred. Error Code 81923 - Sort buildings by closest lat and long failed."
+                                                                    "An Error has Occurred. Error Code 81923 - Sort buildings by closest lat and long failed. Query = " + findBuildingQuery
                                                             });
                                                         }
                                                     );
