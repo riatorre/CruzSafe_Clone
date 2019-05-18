@@ -22,6 +22,7 @@ import {
     Body,
     Icon
 } from "native-base";
+import { MapView } from "expo";
 
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
@@ -58,6 +59,51 @@ class ReportDetail extends Component {
             />
         )
     };
+
+    // Formats the Time component to a user friendly formant; 12 hour
+    formatDate(date) {
+        var d = new Date(date);
+        var hh = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        var dd = "AM";
+        var h = hh;
+        if (h >= 12) {
+            h = hh - 12;
+            dd = "PM";
+        }
+        if (h == 0) {
+            h = 12;
+        }
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+        h = h < 10 ? "0" + h : h;
+        var pattern = new RegExp("0?" + hh + ":" + m + ":" + s);
+        var replace = h + ":" + m;
+        //replace += ":" + s;
+        replace += " " + dd;
+        var edittedTS = date.replace(pattern, replace);
+        var GMTRemovePattern = new RegExp("GMT-[0-9]{4} ");
+        var finalTS = edittedTS.replace(GMTRemovePattern, "");
+        return finalTS;
+    }
+
+    // Formats entire DateTime from MySQL to a user friendly format
+    splitTS(TS) {
+        var TSArray = TS.split(/[-T:.]/);
+        var TStemp = new Date(
+            Date.UTC(
+                TSArray[0],
+                TSArray[1] - 1,
+                TSArray[2],
+                TSArray[3],
+                TSArray[4],
+                TSArray[5]
+            )
+        );
+        var TSString = TStemp.toString();
+        return this.formatDate(TSString);
+    }
 
     async checkAsyncStorage() {
         const itemId = this.props.navigation.getParam("itemId");
@@ -103,18 +149,16 @@ class ReportDetail extends Component {
 
     createReport() {
         const { report } = this.state;
+        console.log("report: " + report);
+        console.log(report.latitude + " " + report.longitude);
+        console.log(typeof report.latitude);
+        console.log(typeof report.longitude);
+        const reportLat = parseFloat(report.latitude);
+        const reportLong = parseFloat(report.longitude);
+        const latlng = { latitude: reportLat, longitude: reportLong };
         return (
-            <View
-                style={{
-                    justifyContent: "center",
-                    flex: 0.8,
-                    width: "80%",
-                    padding: 10,
-                    backgroundColor: "#FFFFFF80",
-                    borderRadius: 10
-                }}
-            >
-                <View style={{ flex: 0.2 }}>
+            <View style={styles.reportSingleContainer}>
+                <View>
                     <Text
                         style={{
                             fontSize: 20
@@ -133,8 +177,34 @@ class ReportDetail extends Component {
                         </Text>
                         {report.incidentID}
                     </Text>
+                    <View>
+                        <Text
+                            style={{
+                                fontSize: 20
+                            }}
+                        >
+                            <Text style={{ fontWeight: "bold" }}>
+                                Created on:{" "}
+                            </Text>
+                            {this.splitTS(report.reportTS)}
+                        </Text>
+                        {report.completeTS !== null ? (
+                            <Text
+                                style={{
+                                    fontSize: 20
+                                }}
+                            >
+                                <Text style={{ fontWeight: "bold" }}>
+                                    Completed on:{" "}
+                                </Text>{" "}
+                                {this.splitTS(report.completeTS)}
+                            </Text>
+                        ) : (
+                            <View />
+                        )}
+                    </View>
                 </View>
-                <View style={{ flex: 0.3 }}>
+                <View>
                     <Text style={{ fontSize: 20 }}>
                         <Text
                             style={{
@@ -146,7 +216,7 @@ class ReportDetail extends Component {
                         {tagsList[report.tag]}
                     </Text>
                 </View>
-                <View style={{ flex: 0.3 }}>
+                <View>
                     <Text style={{ fontSize: 20 }}>
                         <Text
                             style={{
@@ -158,7 +228,7 @@ class ReportDetail extends Component {
                         {report.body}
                     </Text>
                 </View>
-                <View style={{ flex: 0.2 }}>
+                <View>
                     <Text style={{ fontSize: 20 }}>
                         <Text
                             style={{
@@ -170,6 +240,20 @@ class ReportDetail extends Component {
                         {report.location}
                     </Text>
                 </View>
+                <MapView
+                    style={{ flex: 0.5 }}
+                    initialRegion={{
+                        latitude: reportLat,
+                        longitude: reportLong,
+                        latitudeDelta: 0.00461,
+                        longitudeDelta: 0.002105
+                    }}
+                >
+                    <MapView.Marker
+                        coordinate={latlng}
+                        title="Marked Location"
+                    />
+                </MapView>
             </View>
         );
     }
@@ -177,9 +261,8 @@ class ReportDetail extends Component {
     async componentDidMount() {
         this._isMounted = true;
         const foundReportInAsync = await this.checkAsyncStorage();
-        if (!foundReportInAsync) {
-            this.getReportFromDB();
-        }
+        if (!foundReportInAsync) this.getReportFromDB();
+        console.log(this.state.report);
     }
 
     componentWillUnmount() {

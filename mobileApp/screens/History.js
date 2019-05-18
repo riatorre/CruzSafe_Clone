@@ -12,7 +12,6 @@ import {
     FlatList,
     TouchableOpacity,
     AsyncStorage,
-    AppState,
     ActivityIndicator,
     Alert
 } from "react-native";
