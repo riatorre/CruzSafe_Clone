@@ -151,7 +151,8 @@ class ReportScreen extends Component {
                     {
                         text: "Continue",
                         onPress: () => {
-                            this.setState({ isSelectionTipVisible: true });
+                            this._isMounted &&
+                                this.setState({ isSelectionTipVisible: true });
                         }
                     }
                 ]
@@ -211,7 +212,7 @@ class ReportScreen extends Component {
                 "tutorialParams",
                 JSON.stringify(tutorialParams)
             );
-            this.setState({});
+            this._isMounted && this.setState({});
         } catch (error) {
             console.log(error.message);
         }
@@ -275,35 +276,6 @@ class ReportScreen extends Component {
             );
         }
     }
-
-    /*
-    async getNotificationPermission() {
-        const { status } = await Permissions.askAsync(
-            Permissions.NOTIFICATIONS
-        );
-        if (status === "granted") {
-            this._isMounted &&
-                this.setState({
-                    hasNotificationPermission: status === "granted"
-                });
-            this.getRecordingPermission();
-        } else {
-            Alert.alert(
-                "Permission denied",
-                "You need to enable notification for this app to receive response",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => {
-                            this.getRecordingPermission();
-                        }
-                    }
-                ],
-                { cancelable: false }
-            );
-        }
-    }
-    */
 
     async getRecordingPermission() {
         const { status } = await Permissions.askAsync(
@@ -730,12 +702,11 @@ class ReportScreen extends Component {
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isSelectionTipVisible: false
-                                                });
-                                                this.setState({
-                                                    isDescriptionTipVisible: true
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isSelectionTipVisible: false,
+                                                        isDescriptionTipVisible: true
+                                                    });
                                             }}
                                         >
                                             <Text style={styles.continue}>
@@ -744,9 +715,10 @@ class ReportScreen extends Component {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isSelectionTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isSelectionTipVisible: false
+                                                    });
                                                 this.stopTips();
                                             }}
                                         >
@@ -783,12 +755,11 @@ class ReportScreen extends Component {
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isSelectionTipVisible: false
-                                                    });
-                                                    this.setState({
-                                                        isDescriptionTipVisible: true
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isSelectionTipVisible: false,
+                                                            isDescriptionTipVisible: true
+                                                        });
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -797,9 +768,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isSelectionTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isSelectionTipVisible: false
+                                                        });
                                                     this.stopTips();
                                                 }}
                                             >
@@ -866,12 +838,11 @@ class ReportScreen extends Component {
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isDescriptionTipVisible: false
-                                                });
-                                                this.setState({
-                                                    isLocationTipVisible: true
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isDescriptionTipVisible: false,
+                                                        isLocationTipVisible: true
+                                                    });
                                             }}
                                         >
                                             <Text style={styles.continue}>
@@ -880,9 +851,10 @@ class ReportScreen extends Component {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isDescriptionTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isDescriptionTipVisible: false
+                                                    });
                                                 this.stopTips();
                                             }}
                                         >
@@ -920,12 +892,11 @@ class ReportScreen extends Component {
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isDescriptionTipVisible: false
-                                                    });
-                                                    this.setState({
-                                                        isLocationTipVisible: true
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isDescriptionTipVisible: false,
+                                                            isLocationTipVisible: true
+                                                        });
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -934,9 +905,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isDescriptionTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isDescriptionTipVisible: false
+                                                        });
                                                     this.stopTips();
                                                 }}
                                             >
@@ -1002,12 +974,11 @@ class ReportScreen extends Component {
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isLocationTipVisible: false
-                                                });
-                                                this.setState({
-                                                    isCameraTipVisible: true
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isLocationTipVisible: false,
+                                                        isCameraTipVisible: true
+                                                    });
                                             }}
                                         >
                                             <Text style={styles.continue}>
@@ -1016,9 +987,10 @@ class ReportScreen extends Component {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isLocationTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isLocationTipVisible: false
+                                                    });
                                                 this.stopTips();
                                             }}
                                         >
@@ -1055,12 +1027,11 @@ class ReportScreen extends Component {
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isLocationTipVisible: false
-                                                    });
-                                                    this.setState({
-                                                        isCameraTipVisible: true
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isLocationTipVisible: false,
+                                                            isCameraTipVisible: true
+                                                        });
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -1069,9 +1040,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isLocationTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isLocationTipVisible: false
+                                                        });
                                                     this.stopTips();
                                                 }}
                                             >
@@ -1243,12 +1215,11 @@ class ReportScreen extends Component {
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isCameraTipVisible: false
-                                                });
-                                                this.setState({
-                                                    isMapTipVisible: true
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isCameraTipVisible: false,
+                                                        isMapTipVisible: true
+                                                    });
                                             }}
                                         >
                                             <Text style={styles.continue}>
@@ -1257,9 +1228,10 @@ class ReportScreen extends Component {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isCameraTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isCameraTipVisible: false
+                                                    });
                                                 this.stopTips();
                                             }}
                                         >
@@ -1299,12 +1271,11 @@ class ReportScreen extends Component {
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isCameraTipVisible: false
-                                                    });
-                                                    this.setState({
-                                                        isMapTipVisible: true
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isCameraTipVisible: false,
+                                                            isMapTipVisible: true
+                                                        });
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -1313,9 +1284,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isCameraTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isCameraTipVisible: false
+                                                        });
                                                     this.stopTips();
                                                 }}
                                             >
@@ -1411,12 +1383,11 @@ class ReportScreen extends Component {
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isMapTipVisible: false
-                                                });
-                                                this.setState({
-                                                    isSubmissionTipVisible: true
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isMapTipVisible: false,
+                                                        isSubmissionTipVisible: true
+                                                    });
                                             }}
                                         >
                                             <Text style={styles.continue}>
@@ -1425,9 +1396,10 @@ class ReportScreen extends Component {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isMapTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isMapTipVisible: false
+                                                    });
                                                 this.stopTips();
                                             }}
                                         >
@@ -1463,12 +1435,11 @@ class ReportScreen extends Component {
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isMapTipVisible: false
-                                                    });
-                                                    this.setState({
-                                                        isSubmissionTipVisible: true
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isMapTipVisible: false,
+                                                            isSubmissionTipVisible: true
+                                                        });
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -1477,9 +1448,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isMapTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isMapTipVisible: false
+                                                        });
                                                     this.stopTips();
                                                 }}
                                             >
@@ -1546,9 +1518,10 @@ class ReportScreen extends Component {
                                         </Text>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isSubmissionTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isSubmissionTipVisible: false
+                                                    });
                                             }}
                                         >
                                             <Text style={styles.continue}>
@@ -1557,9 +1530,10 @@ class ReportScreen extends Component {
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                this.setState({
-                                                    isSubmissionTipVisible: false
-                                                });
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        isSubmissionTipVisible: false
+                                                    });
                                                 this.stopTips();
                                             }}
                                         >
@@ -1599,9 +1573,10 @@ class ReportScreen extends Component {
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isSubmissionTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isSubmissionTipVisible: false
+                                                        });
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -1610,9 +1585,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this.setState({
-                                                        isSubmissionTipVisible: false
-                                                    });
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isSubmissionTipVisible: false
+                                                        });
                                                     this.stopTips();
                                                 }}
                                             >
