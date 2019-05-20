@@ -7,8 +7,8 @@
     grid-template-rows: repeat(8, 1fr);
     grid-template-areas:
         "reportContact reportExpiry"
-        "reportMetaDetails reportBody"
-        "reportLocAndTag reportNotesField"
+        "reportMetaDetails reportLocAndTag"
+        "reportLocData reportBody"
         "reportBuilding reportNotesField"
         "reportVisuals reportNotesField"
         "reportVisuals reportAux"
@@ -31,6 +31,16 @@
 
 .reportLocAndTag {
     grid-area: reportLocAndTag;
+}
+
+.reportLocData {
+    display: flex;
+    align-items: center;
+    grid-area: reportLocData;
+}
+
+.reportBuilding {
+    grid-area: reportBuilding;
 }
 
 .reportVisuals {

@@ -15,7 +15,7 @@ const reportFields = [
     "tag",
     "fullName",
     "mobileID",
-    "phone",
+    // "phone",
     "email",
     "body",
     "expireTS",
@@ -29,7 +29,7 @@ const reportFields = [
     "buildingState",
     "buildingZip",
     "buildingCategory",
-    "buildingPrimaryUse",
+    "buildingPrimaryUse"
 ];
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 const defaultOptionText = "---Select Option---";
@@ -63,8 +63,8 @@ function createReportModal() {
     civilianInfo.setAttribute("class", "reportContact");
     civilianInfo.innerHTML =
         "<div class = 'name'><div><b>Name:</b> <span id='fullName' placeholder='FullName'></span> - #<span id='mobileID'></span></div></div>";
-    civilianInfo.innerHTML +=
-        "<div class = 'phone'><div><b>Phone:</b> <span id='phone'></span></div></div>";
+    //civilianInfo.innerHTML +=
+    //  "<div class = 'phone'><div><b>Phone:</b> <span id='phone'></span></div></div>";
     civilianInfo.innerHTML +=
         "<div class = 'email'><div><b>Email:</b> <span id='email'></span></div></div>";
 
@@ -81,14 +81,19 @@ function createReportModal() {
 
     const locationInfo = document.createElement("DIV");
     locationInfo.setAttribute("class", "reportLocAndTag");
-    locationInfo.innerHTML +=
-        "<div><b>Reported Location:</b> <span id='location'></span> <span id='actualPinned'></span></div>\n";
+    locationInfo.innerHTML = "<div><b>Reported Location:</b>";
+    locationInfo.innerHTML += "<span id='location'></span></div>\n";
+
+    const locationData = document.createElement("DIV");
+    locationData.setAttribute("class", "reportLocData");
+    locationData.innerHTML =
+        "<div><b>Location Data:</b> <span id='actualPinned'></span></div>\n";
 
     const buildingInfo = document.createElement("DIV");
     buildingInfo.setAttribute("class", "reportBuilding");
     buildingInfo.innerHTML +=
         "<div><b>Closest Building:</b> <span id='buildingName'></span> (<span id='buildingFDX'></span>) - #<span id='buildingKey'></span></div>\n";
-     buildingInfo.innerHTML +=
+    buildingInfo.innerHTML +=
         "<div><b>Region:</b> <span id='buildingLocation'></span>, <span id='buildingRegion'></span></div>\n";
     buildingInfo.innerHTML +=
         "<div><b>Address: </b> <span id='buildingStreet'></span>, <span id='buildingCity'></span>, <span id='buildingState'></span> <span id='buildingZip'></span></div>\n";
@@ -121,7 +126,7 @@ function createReportModal() {
     // Notes regarding the specific report
     const notesDiv = document.createElement("DIV");
     notesDiv.setAttribute("class", "reportNotesField");
-    notesDiv.innerHTML = "<b>Notes:</b>";
+    notesDiv.innerHTML = "<b>Activity Log:</b>";
     notesDiv.innerHTML += "<div id = 'reportNotes' class='reportNotes'></div>";
     notesDiv.innerHTML +=
         "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'/><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
@@ -142,6 +147,7 @@ function createReportModal() {
     report.appendChild(civilianInfo);
     report.appendChild(reportMetadata);
     report.appendChild(locationInfo);
+    report.appendChild(locationData);
     report.appendChild(buildingInfo);
     report.appendChild(media);
     report.appendChild(expiration);
@@ -392,9 +398,9 @@ function generateProductInfo(reportInfo, tags) {
     productInfo["orderNumber"] = reportInfo["orderNumber"];
     // actual/pinned
     if (reportInfo["unchangedLocation"]) {
-        var actualPinned = "(Actual)";
+        var actualPinned = "Actual device location - Possibly inaccurate!";
     } else {
-        var actualPinned = "(Pinned)";
+        var actualPinned = "User pinned location - Usually accurate!";
     }
     productInfo["actualPinned"] = actualPinned;
     // tag
@@ -405,7 +411,7 @@ function generateProductInfo(reportInfo, tags) {
     // mobileID
     productInfo["mobileID"] = reportInfo["mobileID"];
     // phone
-    productInfo["phone"] = reportInfo["phone"];
+    //productInfo["phone"] = reportInfo["phone"];
     // email
     productInfo["email"] = reportInfo["email"];
     // body
@@ -829,9 +835,9 @@ function sendEmail(facilityID, reportID) {
                     "Email: " +
                     reportInfo["email"] +
                     "\n" +
-                    "Phone: " +
-                    reportInfo["phone"] +
-                    "\n" +
+                    //"Phone: " +
+                    //reportInfo["phone"] +
+                    //"\n" +
                     "Latitude: " +
                     reportInfo["latitude"] +
                     "\n" +
