@@ -1,5 +1,12 @@
 import React from "react";
-import { StatusBar, View, SafeAreaView, ScrollView, Image } from "react-native";
+import {
+    StatusBar,
+    View,
+    SafeAreaView,
+    ScrollView,
+    Image,
+    Platform
+} from "react-native";
 import { createDrawerNavigator, DrawerItems } from "react-navigation";
 
 // List of Screen Imports that should be in the Main Stack
@@ -9,13 +16,19 @@ import History from "../screens/History";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import AboutUs from "../screens/AboutUs";
+import Feedback from "../screens/FeedbackScreen";
 
 import styles from "../components/styles.js";
 
 var darktheme = true;
 
 const CustomDrawerComponent = props => (
-    <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+    <SafeAreaView
+        style={{
+            flex: 1,
+            marginTop: Platform.OS == "ios" ? 0 : StatusBar.currentHeight
+        }}
+    >
         <View style={styles.drawerImgContainer}>
             {/* Image that appears at the top of the Side Drawer */}
             <Image
@@ -39,8 +52,8 @@ export default createDrawerNavigator(
         History: History,
         Links: LinksScreen,
         Settings: SettingsScreen,
-        AboutUs: AboutUs
-        // ReportDetail: ReportDetail
+        AboutUs: AboutUs,
+        Feedback: Feedback
     },
     {
         contentComponent: CustomDrawerComponent,

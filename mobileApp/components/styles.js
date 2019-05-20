@@ -229,6 +229,25 @@ export default (styles = StyleSheet.create({
         borderWidth: containerBorderWidthWide,
         borderColor: containerBorderColor
     },
+    feedbackContainer: {
+        flex: 0.95,
+        justifyContent: "center",
+        width: "90%",
+        padding: 10,
+        borderRadius: containerBorderRadius,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidthWide,
+        borderColor: containerBorderColor
+    },
+    feedbackSubmit: {
+        marginTop: 5,
+        padding: 5,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#7BCC53",
+        borderRadius: 10
+    },
     reportBtnFull: {
         marginTop: 5,
         padding: 5,
@@ -349,6 +368,16 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#EEE",
         borderRadius: 5
     },
+    textInputFeedback: {
+        margin: 1,
+        padding: 5,
+        textAlignVertical: "top",
+        backgroundColor: "#EEE",
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: "#3338",
+        flex: 1
+    },
     imageContainer: {
         justifyContent: "center",
         marginTop: 40,
@@ -421,18 +450,35 @@ export default (styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#3338"
     },
-    characterCounter: {
-        borderBottomLeftRadius: 5,
+    fieldFooterBackground: {
+        borderTopLeftRadius: 0,
         borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
         backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
         color: darktheme ? tertiaryColor : secondaryColor,
         textAlign: "right",
         marginLeft: 10,
+        marginRight: 0,
         marginBottom: 5,
         marginTop: 0,
         padding: 5,
         fontSize: 8
+    },
+    fieldHeaderBackground: {
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 0,
+        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
+        color: darktheme ? tertiaryColor : secondaryColor,
+        textAlign: "left",
+        marginLeft: 0,
+        marginRight: 10,
+        marginBottom: 0,
+        marginTop: 5,
+        padding: 5,
+        fontSize: 22
     },
     reportText: {
         color: tertiaryColor,

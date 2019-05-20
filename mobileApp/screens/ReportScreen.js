@@ -371,7 +371,7 @@ class ReportScreen extends Component {
 
     async handleSubmit() {
         // Must convert the Tag from a string to a Int for DB
-        //this._isMounted && this.setState({ submitting: true });
+        this._isMounted && this.setState({ submitting: true });
         this.getUnsubReport().then(async pre_report => {
             var incidentTagID = 6;
             for (i = 0; i < tagsList.length; i++) {
@@ -468,74 +468,88 @@ class ReportScreen extends Component {
             )
                 // Successful Call to API
                 .then(response => response.json()) // Parse response into JSON
-                .then(responseJSON => {
+                .then(async responseJSON => {
                     // Handle data
-                    //this._isMounted && this.setState({ submitting: false });
-                    if (responseJSON.message == null) {
-                        // No Errors from DB
-                        Alert.alert(
-                            pre_report.incidentCategory +
-                                " Report Submitted as #" +
-                                responseJSON.incidentID,
-                            "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
-                            [
-                                {
-                                    text: "OK",
-                                    onPress: () => {
-                                        this._isMounted &&
-                                            this.setState({
-                                                incidentCategory: "",
-                                                incidentDesc: "",
-                                                incidentLocationDesc: "",
-                                                image: null,
-                                                pre_report: newPre_report
-                                            });
-                                        this.storeUnsubReport(newPre_report);
-                                        this.props.navigation.goBack();
-                                    }
-                                },
-                                {
-                                    text: "Check the status of my report",
-                                    onPress: () => {
-                                        this._isMounted &&
-                                            this.setState({
-                                                incidentCategory: "",
-                                                incidentDesc: "",
-                                                incidentLocationDesc: "",
-                                                image: null,
-                                                pre_report: newPre_report
-                                            });
-                                        this.storeUnsubReport(newPre_report);
-                                        this.props.navigation.navigate(
-                                            "ReportDetail",
+                    this._isMounted &&
+                        this.setState({ submitting: false }, () => {
+                            setTimeout(() => {
+                                if (responseJSON.message == null) {
+                                    // No Errors from DB
+                                    Alert.alert(
+                                        pre_report.incidentCategory +
+                                            " Report Submitted as #" +
+                                            responseJSON.incidentID,
+                                        "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
+                                        [
                                             {
-                                                itemId: responseJSON.incidentID,
-                                                callBack: this.props.navigation.goBack.bind(
-                                                    this
-                                                )
+                                                text: "OK",
+                                                onPress: () => {
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            incidentCategory:
+                                                                "",
+                                                            incidentDesc: "",
+                                                            incidentLocationDesc:
+                                                                "",
+                                                            image: null,
+                                                            pre_report: newPre_report
+                                                        });
+                                                    this.storeUnsubReport(
+                                                        newPre_report
+                                                    );
+                                                    this.props.navigation.goBack();
+                                                }
+                                            },
+                                            {
+                                                text:
+                                                    "Check the status of my report",
+                                                onPress: () => {
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            incidentCategory:
+                                                                "",
+                                                            incidentDesc: "",
+                                                            incidentLocationDesc:
+                                                                "",
+                                                            image: null,
+                                                            pre_report: newPre_report
+                                                        });
+                                                    this.storeUnsubReport(
+                                                        newPre_report
+                                                    );
+                                                    this.props.navigation.navigate(
+                                                        "ReportDetail",
+                                                        {
+                                                            itemId:
+                                                                responseJSON.incidentID,
+                                                            callBack: this.props.navigation.goBack.bind(
+                                                                this
+                                                            )
+                                                        }
+                                                    );
+                                                }
                                             }
-                                        );
-                                    }
+                                        ],
+                                        { cancelable: false }
+                                    );
+                                } else {
+                                    // Error from DB
+                                    Alert.alert(
+                                        "Error",
+                                        "An error has occurred. Please try again later.",
+                                        [
+                                            {
+                                                text: "Ok",
+                                                onPress: () => {}
+                                            }
+                                        ],
+                                        { cancelable: false }
+                                    );
+                                    console.log(responseJSON.message);
+                                    return false;
                                 }
-                            ],
-                            { cancelable: false }
-                        );
-                    } else {
-                        // Error from DB
-                        Alert.alert(
-                            "Error",
-                            "An error has occurred. Please try again later.",
-                            [
-                                {
-                                    text: "Ok",
-                                    onPress: () => {}
-                                }
-                            ],
-                            { cancelable: false }
-                        );
-                        console.log(responseJSON.message);
-                        return false;
-                    }
+                            }, 500);
+                        });
                 })
                 // Unsuccessful Call to API; Error from Attempt to connect
                 .catch(err => {
@@ -808,7 +822,7 @@ class ReportScreen extends Component {
                                     }}
                                     value={this.state.incidentDesc}
                                 />
-                                <Text style={styles.characterCounter}>
+                                <Text style={styles.fieldFooterBackground}>
                                     Characters Left:{" "}
                                     {maxDescLength -
                                         this.state.incidentDesc.length}
@@ -944,7 +958,7 @@ class ReportScreen extends Component {
                                     }}
                                     value={this.state.incidentLocationDesc}
                                 />
-                                <Text style={styles.characterCounter}>
+                                <Text style={styles.fieldFooterBackground}>
                                     Characters Left:{" "}
                                     {maxLocationDescLength -
                                         this.state.incidentLocationDesc.length}
