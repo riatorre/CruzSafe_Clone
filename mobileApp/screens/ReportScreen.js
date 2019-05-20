@@ -24,6 +24,7 @@ import {
     Body,
     Icon
 } from "native-base";
+import Swiper from "react-native-swiper";
 import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
@@ -112,7 +113,9 @@ class ReportScreen extends Component {
         isLocationTipVisible: false,
         isCameraTipVisible: false,
         isMapTipVisible: false,
-        isSubmissionTipVisible: false
+        isSubmissionTipVisible: false,
+        IncDescheight: 0,
+        LocDescheight: 0
     };
 
     runTutorial() {
@@ -220,8 +223,6 @@ class ReportScreen extends Component {
 
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        console.log("reportScreen.getUnsubReport");
-        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeUnsubReport(pre_report);
@@ -343,8 +344,6 @@ class ReportScreen extends Component {
     // Used to allow easier transfer of data
     async storeUnsubReport(report) {
         try {
-            console.log("reportScreen.storeUnsubReport");
-            console.log(report);
             await AsyncStorage.setItem("unsub_report", JSON.stringify(report));
         } catch (error) {
             console.log(error.message);
@@ -586,7 +585,6 @@ class ReportScreen extends Component {
             this.getCameraPermission();
         });
         AppState.addEventListener("change", this._handleAppStateChange);
-        //console.log("Mounting ReportScreen");
         this.runTutorial();
     }
 
@@ -625,7 +623,6 @@ class ReportScreen extends Component {
     }
 
     _handleAppStateChange = nextAppState => {
-        //console.log("ReportScreen handleStateChange");
         if (
             this.state.appState.match(/inactive|background/) &&
             nextAppState === "active"
@@ -674,23 +671,22 @@ class ReportScreen extends Component {
                         </Body>
                         <Right />
                     </Header>
-                    <Content contentContainerStyle={styles.container}>
-                        {/* Report Body goes here. Currently has
-                                a dropdown menu & a text field
-                            */}
-                        <View style={styles.reportContainer}>
-                            <ScrollView contentContainerStyle={{ flex: 1 }}>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        justifyContent: "space-between"
-                                    }}
-                                >
-                                    <Text style={styles.reportText}>
-                                        Incident Type:
-                                    </Text>
-                                    <IncidentTypePicker homeScreen={this} />
-                                </View>
+                    <Swiper
+                        loop={false}
+                        ref={swiper => {
+                            this.swiper = swiper;
+                        }}
+                    >
+                        <View style={styles.container}>
+                            <View style={styles.reportContainer}>
+                                <Text style={styles.fieldHeaderBackground}>
+                                    Incident Type:
+                                </Text>
+                                <IncidentTypePicker homeScreen={this} />
+                                <Text style={styles.fieldFooterBackground}>
+                                    Select a Category
+                                </Text>
+
                                 <View
                                     animationType="fade"
                                     transparent={true}
@@ -799,15 +795,17 @@ class ReportScreen extends Component {
                                         />
                                     </View>
                                 </View>
-                                <Text style={styles.reportText}>
+                            </View>
+                        </View>
+                        <View style={styles.container}>
+                            <View style={styles.reportContainer}>
+                                <Text style={styles.fieldHeaderBackground}>
                                     Incident Description:
                                 </Text>
 
                                 <TextInput
-                                    style={styles.textInput}
                                     autoCapitalize="sentences"
                                     multiline={true}
-                                    numberOfLines={4}
                                     placeholder="Description of the Incident"
                                     maxLength={maxDescLength}
                                     onChangeText={incidentDesc => {
@@ -820,6 +818,26 @@ class ReportScreen extends Component {
                                             });
                                         this.storeUnsubReport(pre_report);
                                     }}
+                                    onContentSizeChange={event =>
+                                        this._isMounted &&
+                                        this.setState({
+                                            IncDescheight:
+                                                event.nativeEvent.contentSize
+                                                    .height
+                                        })
+                                    }
+                                    style={[
+                                        styles.textInput,
+                                        {
+                                            height: Math.min(
+                                                120,
+                                                Math.max(
+                                                    35,
+                                                    this.state.IncDescheight
+                                                )
+                                            )
+                                        }
+                                    ]}
                                     value={this.state.incidentDesc}
                                 />
                                 <Text style={styles.fieldFooterBackground}>
@@ -936,14 +954,16 @@ class ReportScreen extends Component {
                                         />
                                     </View>
                                 </View>
-                                <Text style={styles.reportText}>
+                            </View>
+                        </View>
+                        <View style={styles.container}>
+                            <View style={styles.reportContainer}>
+                                <Text style={styles.fieldHeaderBackground}>
                                     Description of Location:
                                 </Text>
                                 <TextInput
-                                    style={styles.textInput}
                                     autoCapitalize="sentences"
                                     multiline={true}
-                                    numberOfLines={2}
                                     maxLength={maxLocationDescLength}
                                     placeholder="Description of the Incident Location (Floor #, room #, etc)"
                                     onChangeText={incidentLocationDesc => {
@@ -956,6 +976,25 @@ class ReportScreen extends Component {
                                             });
                                         this.storeUnsubReport(pre_report);
                                     }}
+                                    onContentSizeChange={event =>
+                                        this.setState({
+                                            LocDescheight:
+                                                event.nativeEvent.contentSize
+                                                    .height
+                                        })
+                                    }
+                                    style={[
+                                        styles.textInput,
+                                        {
+                                            height: Math.min(
+                                                120,
+                                                Math.max(
+                                                    35,
+                                                    this.state.LocDescheight
+                                                )
+                                            )
+                                        }
+                                    ]}
                                     value={this.state.incidentLocationDesc}
                                 />
                                 <Text style={styles.fieldFooterBackground}>
@@ -1174,35 +1213,40 @@ class ReportScreen extends Component {
                                         />
                                     </View>
                                 </View>
-                                {image && (
-                                    <View
-                                        style={{
-                                            flex: 1,
-                                            flexDirection: "column",
-                                            justifyContent: "space-between"
+                            </View>
+                        </View>
+                        <View style={styles.container}>
+                            <View style={styles.reportContainer}>
+                                <Text style={styles.fieldHeaderBackground}>
+                                    Attachment:
+                                </Text>
+                                {image ? (
+                                    <TouchableOpacity
+                                        style={styles.reportBtnImg}
+                                        onPress={() => {
+                                            this.Media();
                                         }}
                                     >
-                                        <Text style={styles.reportText}>
-                                            Attachment:
-                                        </Text>
-                                        <TouchableOpacity
-                                            style={styles.reportBtnImg}
-                                            onPress={() => {
-                                                this.Media();
+                                        <Image
+                                            style={{
+                                                flex: 1,
+                                                height: undefined,
+                                                width: undefined
                                             }}
-                                        >
-                                            <Image
-                                                style={{
-                                                    flex: 1,
-                                                    height: undefined,
-                                                    width: undefined
-                                                }}
-                                                source={{ uri: image }}
-                                                resizeMode="contain"
-                                            />
-                                        </TouchableOpacity>
+                                            source={{ uri: image }}
+                                            resizeMode="contain"
+                                        />
+                                    </TouchableOpacity>
+                                ) : (
+                                    <View style={styles.textInput}>
+                                        <Text style={{ alignSelf: "center" }}>
+                                            No Image/Video Selected
+                                        </Text>
                                     </View>
                                 )}
+                                <Text style={styles.fieldFooterBackground}>
+                                    Optional Image / Video
+                                </Text>
                                 <View
                                     animationType="fade"
                                     transparent={true}
@@ -1619,84 +1663,149 @@ class ReportScreen extends Component {
                                         />
                                     </View>
                                 </View>
-                                <View
+                            </View>
+                        </View>
+                        <View style={styles.container}>
+                            <View style={styles.reportContainer}>
+                                <Text
                                     style={{
-                                        flexDirection: "row",
-                                        justifyContent: "space-between"
+                                        alignSelf: "center",
+                                        fontSize: 30
                                     }}
                                 >
-                                    {/* Button that allows Modal to be closed */}
-                                    <TouchableOpacity
-                                        style={styles.reportBtnCancel}
-                                        onPress={() => {
-                                            tutorialParams.reportOnboarding = false;
-                                            this.setTutorialParams();
-                                            goBack();
-                                        }}
-                                    >
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-close`}
-                                            style={styles.btnTextWhite}
-                                        />
-                                        <Text style={styles.btnTextWhite}>
-                                            Cancel
-                                        </Text>
-                                    </TouchableOpacity>
-                                    {/* Button that allows report to be sent */}
-                                    <TouchableOpacity
-                                        style={styles.reportBtnSubmit}
-                                        onPress={() => {
-                                            if (
-                                                this.state.incidentCategory !=
-                                                    "" &&
-                                                this.state.incidentDesc != "" &&
-                                                this.state
-                                                    .incidentLocationDesc != ""
-                                            ) {
-                                                this.handleSubmit();
-                                            } else {
-                                                Alert.alert(
-                                                    "Empty report",
-                                                    "Please select an Incident Type and provide a Description of the Incident and Location.",
-                                                    [
-                                                        {
-                                                            text:
-                                                                "Back to edit",
-                                                            onPress: () => {}
-                                                        },
-                                                        {
-                                                            text:
-                                                                "Cancel the report",
-                                                            onPress: () => {
-                                                                goBack();
-                                                            }
-                                                        }
-                                                    ],
-                                                    { cancelable: false }
-                                                );
+                                    Summary
+                                </Text>
+                                <ScrollView
+                                    style={{
+                                        flex: 1,
+                                        margin: 2,
+                                        paddingHorizontal: 5,
+                                        borderLeftWidth: 2,
+                                        borderRightWidth: 2,
+                                        borderColor: "#CCC"
+                                    }}
+                                >
+                                    <Text style={styles.summaryHeader}>
+                                        Incident Category:
+                                    </Text>
+                                    <Text style={styles.textInput}>
+                                        {this.state.incidentCategory}
+                                    </Text>
+
+                                    <Text style={styles.summaryHeader}>
+                                        Incident Description:
+                                    </Text>
+                                    <Text
+                                        style={[
+                                            styles.textInput,
+                                            {
+                                                height: Math.min(
+                                                    120,
+                                                    Math.max(
+                                                        35,
+                                                        this.state.IncDescheight
+                                                    )
+                                                )
                                             }
+                                        ]}
+                                    >
+                                        {this.state.incidentDesc}
+                                    </Text>
+                                    <Text style={styles.summaryHeader}>
+                                        Location Description:
+                                    </Text>
+                                    <Text
+                                        style={[
+                                            styles.textInput,
+                                            {
+                                                height: Math.min(
+                                                    120,
+                                                    Math.max(
+                                                        35,
+                                                        this.state.LocDescheight
+                                                    )
+                                                )
+                                            }
+                                        ]}
+                                    >
+                                        {this.state.incidentLocationDesc}
+                                    </Text>
+                                </ScrollView>
+                                {image && (
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            flexDirection: "column",
+                                            justifyContent: "space-between"
                                         }}
                                     >
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-send`}
-                                            style={styles.btnTextWhite}
-                                        />
-                                        <Text style={styles.btnTextWhite}>
-                                            Submit
+                                        <Text style={styles.summaryHeader}>
+                                            Attachment:
                                         </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </ScrollView>
+                                        <TouchableOpacity
+                                            style={styles.reportBtnImg}
+                                            onPress={() => {
+                                                this.Media();
+                                            }}
+                                        >
+                                            <Image
+                                                style={{
+                                                    flex: 1,
+                                                    height: undefined,
+                                                    width: undefined
+                                                }}
+                                                source={{ uri: image }}
+                                                resizeMode="contain"
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                )}
+                                {/* Button that allows report to be sent */}
+                                <TouchableOpacity
+                                    style={styles.reportBtnSubmit}
+                                    onPress={() => {
+                                        if (
+                                            this.state.incidentCategory != "" &&
+                                            this.state.incidentDesc != "" &&
+                                            this.state.incidentLocationDesc !=
+                                                ""
+                                        ) {
+                                            this.handleSubmit();
+                                        } else {
+                                            Alert.alert(
+                                                "Empty report",
+                                                "Please select an Incident Type and provide a Description of the Incident and Location.",
+                                                [
+                                                    {
+                                                        text: "Back to edit",
+                                                        onPress: () => {}
+                                                    },
+                                                    {
+                                                        text:
+                                                            "Cancel the report",
+                                                        onPress: () => {
+                                                            goBack();
+                                                        }
+                                                    }
+                                                ],
+                                                { cancelable: false }
+                                            );
+                                        }
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-send`}
+                                        style={styles.btnTextWhite}
+                                    />
+                                    <Text style={styles.btnTextWhite}>
+                                        Submit
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </Content>
+                    </Swiper>
                     <Footer style={styles.footer}>
                         <Left
                             style={{

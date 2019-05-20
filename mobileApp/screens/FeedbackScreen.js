@@ -31,7 +31,8 @@ class FeedbackScreen extends Component {
     }
 
     state = {
-        feedbackText: ""
+        feedbackText: "",
+        height: 0 //initializing the content text height
     };
 
     handleSubmit = async () => {
@@ -140,11 +141,9 @@ class FeedbackScreen extends Component {
                             </Text>
                             <View style={{ flexDirection: "row" }}>
                                 <TextInput
-                                    style={styles.textInputFeedback}
                                     autoCapitalize="sentences"
                                     placeholder="Your Feedback"
                                     multiline={true}
-                                    numberOfLines={6}
                                     maxLength={maxFeedbackTextLength}
                                     onChangeText={feedbackText => {
                                         this._isMounted &&
@@ -152,6 +151,23 @@ class FeedbackScreen extends Component {
                                                 feedbackText
                                             });
                                     }}
+                                    onContentSizeChange={event =>
+                                        this._isMounted &&
+                                        this.setState({
+                                            height:
+                                                event.nativeEvent.contentSize
+                                                    .height
+                                        })
+                                    }
+                                    style={[
+                                        styles.textInputFeedback,
+                                        {
+                                            height: Math.min(
+                                                120,
+                                                Math.max(35, this.state.height)
+                                            )
+                                        }
+                                    ]}
                                     value={this.state.feedbackText}
                                 />
                             </View>

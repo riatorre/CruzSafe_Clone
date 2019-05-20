@@ -76,14 +76,12 @@ const tlModifierMarginSecondary = 0.018;*/
 const screenHeight = Dimensions.get("window").height;
 const tlModifierWidth = screenHeight * 0.0007;
 const tlModifierHeight = screenHeight * 0.00028;
-const tlModifierMarginPrimary = screenHeight * 0.0001960;
+const tlModifierMarginPrimary = screenHeight * 0.000196;
 const tlModifierMarginSecondary = screenHeight * 0.000042;
 
 class HomeScreen extends Component {
     async continue() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        console.log("Homescreen.continue");
-        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeItem("unsub_report", pre_report);
@@ -112,17 +110,9 @@ class HomeScreen extends Component {
                         onPress: () => {
                             // If the user choose to start a new report,
                             // reset all text states to ""
-                            console.log("Resetting unsub_report");
-                            console.log(newPre_report);
                             this.storeItem("unsub_report", newPre_report).then(
                                 () => {
                                     this.props.navigation.navigate("Report");
-                                }
-                            );
-                            AsyncStorage.getItem("unsub_report").then(
-                                report => {
-                                    console.log("After resetting unsub_report");
-                                    console.log(report);
                                 }
                             );
                         },
@@ -138,7 +128,6 @@ class HomeScreen extends Component {
 
     //actually launches tutorial
     async launchTutorial() {
-        //console.log("launching tutorial: ");
         mobileID = await this.getMobileID();
         await fetch("https://cruzsafe.appspot.com/api/users/updateLogin", {
             method: "POST",
@@ -165,8 +154,6 @@ class HomeScreen extends Component {
 
     //launch tutorial if user's first login
     async checkLogin() {
-        //console.log("Checking login for ");
-        //console.log(await this.getMobileID()); //sometimes returns null?
         await fetch("https://cruzsafe.appspot.com/api/users/checkFirstLogin", {
             method: "POST",
             headers: {
@@ -179,8 +166,6 @@ class HomeScreen extends Component {
         })
             .then(res => res.json())
             .then(result => {
-                //console.log("Result = ");
-                //console.log(result);
                 if (
                     result.message === undefined &&
                     result[0].firstLogin === 1
@@ -263,10 +248,8 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
-        //console.log("HS did mount");
         this._isMounted = true;
         await this.checkLogin();
-        //await this.askReport();
         this.getNotificationPermission();
     }
 

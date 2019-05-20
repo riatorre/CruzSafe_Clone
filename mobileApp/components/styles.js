@@ -280,7 +280,6 @@ export default (styles = StyleSheet.create({
     reportBtnSubmit: {
         marginTop: 5,
         padding: 5,
-        flex: 0.49,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
@@ -289,7 +288,7 @@ export default (styles = StyleSheet.create({
     },
     reportBtnImg: {
         flex: 1,
-        marginTop: 5,
+        marginVertical: 1,
         backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
         borderRadius: 5
     },
@@ -440,8 +439,7 @@ export default (styles = StyleSheet.create({
     },
     dropdown_menu: {
         padding: 5,
-        marginLeft: 5,
-        flex: 1,
+        margin: 1,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -479,6 +477,15 @@ export default (styles = StyleSheet.create({
         marginTop: 5,
         padding: 5,
         fontSize: 22
+    },
+    summaryHeader: {
+        borderRadius: 5,
+        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
+        color: darktheme ? tertiaryColor : secondaryColor,
+        textAlign: "left",
+        padding: 5,
+        fontSize: 20,
+        fontWeight: "bold"
     },
     reportText: {
         color: tertiaryColor,
