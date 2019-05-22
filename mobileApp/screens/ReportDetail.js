@@ -5,6 +5,7 @@
 
 import React, { Component } from "react";
 import {
+    ScrollView,
     View,
     Text,
     SafeAreaView,
@@ -149,10 +150,6 @@ class ReportDetail extends Component {
 
     createReport() {
         const { report } = this.state;
-        console.log("report: " + report);
-        console.log(report.latitude + " " + report.longitude);
-        console.log(typeof report.latitude);
-        console.log(typeof report.longitude);
         const reportLat = parseFloat(report.latitude);
         const reportLong = parseFloat(report.longitude);
         const latlng = { latitude: reportLat, longitude: reportLong };
@@ -216,30 +213,32 @@ class ReportDetail extends Component {
                         {tagsList[report.tag]}
                     </Text>
                 </View>
-                <View>
-                    <Text style={{ fontSize: 20 }}>
-                        <Text
-                            style={{
-                                fontWeight: "bold"
-                            }}
-                        >
-                            Incident Description:
-                        </Text>{" "}
-                        {report.body}
-                    </Text>
-                </View>
-                <View>
-                    <Text style={{ fontSize: 20 }}>
-                        <Text
-                            style={{
-                                fontWeight: "bold"
-                            }}
-                        >
-                            Description of Location:
-                        </Text>{" "}
-                        {report.location}
-                    </Text>
-                </View>
+                <ScrollView style={{ flex: 0.5 }}>
+                    <View>
+                        <Text style={{ fontSize: 20 }}>
+                            <Text
+                                style={{
+                                    fontWeight: "bold"
+                                }}
+                            >
+                                Incident Description:
+                            </Text>{" "}
+                            {report.body}
+                        </Text>
+                    </View>
+                    <View>
+                        <Text style={{ fontSize: 20 }}>
+                            <Text
+                                style={{
+                                    fontWeight: "bold"
+                                }}
+                            >
+                                Description of Location:
+                            </Text>{" "}
+                            {report.location}
+                        </Text>
+                    </View>
+                </ScrollView>
                 <MapView
                     style={{ flex: 0.5 }}
                     initialRegion={{
@@ -262,15 +261,12 @@ class ReportDetail extends Component {
         this._isMounted = true;
         const foundReportInAsync = await this.checkAsyncStorage();
         if (!foundReportInAsync) this.getReportFromDB();
-        console.log(this.state.report);
     }
 
     componentWillUnmount() {
         this._isMounted = false;
         const callBack = this.props.navigation.getParam("callBack", null);
-        if (callBack != null) {
-            callBack();
-        }
+        if (callBack != null) callBack();
     }
 
     render() {

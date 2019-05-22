@@ -417,11 +417,11 @@ class ReportScreen extends Component {
             }
             // Begin storing all report data for submission
             data.append("mobileID", await this.getMobileID());
-            data.append("incidentDesc", pre_report.incidentDesc);
+            data.append("incidentDesc", pre_report.incidentDesc.trim());
             data.append("incidentCategory", incidentTagID);
             data.append(
                 "incidentLocationDesc",
-                pre_report.incidentLocationDesc
+                pre_report.incidentLocationDesc.trim()
             );
             data.append("incidentLatitude", pre_report.incidentLatitude);
             data.append("incidentLongitude", pre_report.incidentLongitude);
@@ -432,140 +432,146 @@ class ReportScreen extends Component {
             data.append("token", JSON.parse(await this.getToken()));
 
             if (tutorialParams.reportOnboarding) {
-                Alert.alert(
-                    "Congratulations!",
-                    "You now understand the reporting process! Please file a real report whenever you encounter a non-emergency issue on campus that you want addressed.",
-                    [
-                        {
-                            text: "OK",
-                            onPress: () => {
-                                tutorialParams.reportOnboarding = false;
-                                this.setTutorialParams();
-                                this.props.navigation.goBack();
-                            }
-                        }
-                    ],
-                    { cancelable: false }
-                );
-                return;
-            }
-
-            // Main Portion of the request, contains all metadata to be sent to link
-            await fetch(
-                "https://cruzsafe.appspot.com/api/reports/submitReport",
-                {
-                    // Defines what type of call is being made; above link is a POST request, so POST is needed Below
-                    method: "POST",
-                    // Metadata in regards as to what is expected to be sent/recieved
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "multipart/form-data"
-                    },
-                    // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
-                    body: data
-                }
-            )
-                // Successful Call to API
-                .then(response => response.json()) // Parse response into JSON
-                .then(async responseJSON => {
-                    // Handle data
-                    this._isMounted &&
-                        this.setState({ submitting: false }, () => {
-                            setTimeout(() => {
-                                if (responseJSON.message == null) {
-                                    // No Errors from DB
-                                    Alert.alert(
-                                        pre_report.incidentCategory +
-                                            " Report Submitted as #" +
-                                            responseJSON.incidentID,
-                                        "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
-                                        [
-                                            {
-                                                text: "OK",
-                                                onPress: () => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            incidentCategory:
-                                                                "",
-                                                            incidentDesc: "",
-                                                            incidentLocationDesc:
-                                                                "",
-                                                            image: null,
-                                                            pre_report: newPre_report
-                                                        });
-                                                    this.storeUnsubReport(
-                                                        newPre_report
-                                                    );
-                                                    this.props.navigation.goBack();
-                                                }
-                                            },
-                                            {
-                                                text:
-                                                    "Check the status of my report",
-                                                onPress: () => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            incidentCategory:
-                                                                "",
-                                                            incidentDesc: "",
-                                                            incidentLocationDesc:
-                                                                "",
-                                                            image: null,
-                                                            pre_report: newPre_report
-                                                        });
-                                                    this.storeUnsubReport(
-                                                        newPre_report
-                                                    );
-                                                    this.props.navigation.navigate(
-                                                        "ReportDetail",
-                                                        {
-                                                            itemId:
-                                                                responseJSON.incidentID,
-                                                            callBack: this.props.navigation.goBack.bind(
-                                                                this
-                                                            )
-                                                        }
-                                                    );
-                                                }
-                                            }
-                                        ],
-                                        { cancelable: false }
-                                    );
-                                } else {
-                                    // Error from DB
-                                    Alert.alert(
-                                        "Error",
-                                        "An error has occurred. Please try again later.",
-                                        [
-                                            {
-                                                text: "Ok",
-                                                onPress: () => {}
-                                            }
-                                        ],
-                                        { cancelable: false }
-                                    );
-                                    console.log(responseJSON.message);
-                                    return false;
-                                }
-                            }, 500);
+                this._isMounted &&
+                    this.setState({ submitting: false }, () => {
+                        setTimeout(() => {
+                            Alert.alert(
+                                "Congratulations!",
+                                "You now understand the reporting process! Please file a real report whenever you encounter a non-emergency issue on campus that you want addressed.",
+                                [
+                                    {
+                                        text: "OK",
+                                        onPress: () => {
+                                            tutorialParams.reportOnboarding = false;
+                                            this.setTutorialParams();
+                                            this.props.navigation.goBack();
+                                        }
+                                    }
+                                ],
+                                { cancelable: false }
+                            );
                         });
-                })
-                // Unsuccessful Call to API; Error from Attempt to connect
-                .catch(err => {
-                    Alert.alert(
-                        "Error",
-                        "An error has occurred. Please try again later.",
-                        [
-                            {
-                                text: "Ok",
-                                onPress: () => {}
-                            }
-                        ],
-                        { cancelable: false }
-                    );
-                    console.log(err);
-                    return false;
-                });
+                    });
+            } else {
+                // Main Portion of the request, contains all metadata to be sent to link
+                await fetch(
+                    "https://cruzsafe.appspot.com/api/reports/submitReport",
+                    {
+                        // Defines what type of call is being made; above link is a POST request, so POST is needed Below
+                        method: "POST",
+                        // Metadata in regards as to what is expected to be sent/recieved
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "multipart/form-data"
+                        },
+                        // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
+                        body: data
+                    }
+                )
+                    // Successful Call to API
+                    .then(response => response.json()) // Parse response into JSON
+                    .then(async responseJSON => {
+                        // Handle data
+                        this._isMounted &&
+                            this.setState({ submitting: false }, () => {
+                                setTimeout(() => {
+                                    if (responseJSON.message == null) {
+                                        // No Errors from DB
+                                        Alert.alert(
+                                            pre_report.incidentCategory +
+                                                " Report Submitted as #" +
+                                                responseJSON.incidentID,
+                                            "Thank you for reporting. We will try our best to solve this issue as soon as possible.",
+                                            [
+                                                {
+                                                    text: "OK",
+                                                    onPress: () => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                incidentCategory:
+                                                                    "",
+                                                                incidentDesc:
+                                                                    "",
+                                                                incidentLocationDesc:
+                                                                    "",
+                                                                image: null,
+                                                                pre_report: newPre_report
+                                                            });
+                                                        this.storeUnsubReport(
+                                                            newPre_report
+                                                        );
+                                                        this.props.navigation.goBack();
+                                                    }
+                                                },
+                                                {
+                                                    text:
+                                                        "Check the status of my report",
+                                                    onPress: () => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                incidentCategory:
+                                                                    "",
+                                                                incidentDesc:
+                                                                    "",
+                                                                incidentLocationDesc:
+                                                                    "",
+                                                                image: null,
+                                                                pre_report: newPre_report
+                                                            });
+                                                        this.storeUnsubReport(
+                                                            newPre_report
+                                                        );
+                                                        this.props.navigation.navigate(
+                                                            "ReportDetail",
+                                                            {
+                                                                itemId:
+                                                                    responseJSON.incidentID,
+                                                                callBack: this.props.navigation.goBack.bind(
+                                                                    this
+                                                                )
+                                                            }
+                                                        );
+                                                    }
+                                                }
+                                            ],
+                                            { cancelable: false }
+                                        );
+                                    } else {
+                                        // Error from DB
+                                        Alert.alert(
+                                            "Error",
+                                            "An error has occurred. Please try again later.",
+                                            [
+                                                {
+                                                    text: "Ok",
+                                                    onPress: () => {}
+                                                }
+                                            ],
+                                            { cancelable: false }
+                                        );
+                                        console.log(responseJSON.message);
+                                        return false;
+                                    }
+                                }, 500);
+                            });
+                    })
+                    // Unsuccessful Call to API; Error from Attempt to connect
+                    .catch(err => {
+                        Alert.alert(
+                            "Error",
+                            "An error has occurred. Please try again later.",
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => {}
+                                }
+                            ],
+                            { cancelable: false }
+                        );
+                        console.log(err);
+                        return false;
+                    });
+            }
         });
     }
 
