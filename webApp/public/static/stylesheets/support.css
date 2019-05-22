@@ -1,0 +1,46 @@
+/*
+ *  support.html Stylesheet
+ *  Contains stylings and styling overrides unique to welcome.html
+ */
+
+main {
+    display: grid;
+    grid-auto-columns: minmax(100px, auto);
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-columns: 1fr 1fr 1fr 1fr !important;
+    grid-template-rows: repeat(2, 1fr) !important;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    grid-template-areas:
+        "supportIntro supportIntro supportIntro supportLogo"
+        "supportPicture supportPicture supportEmails supportEmails" !important;
+}
+
+.supportDiv > * {
+    padding: 5px;
+    background-color: slategray;
+}
+
+.supportIntro {
+    grid-area: supportIntro;
+}
+
+.supportLogo {
+    grid-area: supportLogo;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.supportPicture {
+    grid-area: supportPicture;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.supportEmails {
+    grid-area: supportEmails;
+}
