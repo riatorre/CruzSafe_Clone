@@ -339,7 +339,7 @@ export default (styles = StyleSheet.create({
         fontWeight: "bold"
     },
     traffic_light_background: {
-        width: trafficLightHeight * 0.3,
+        width: trafficLightHeight * 0.29,
         height: trafficLightHeight * 0.75,
         alignItems: "center"
     },

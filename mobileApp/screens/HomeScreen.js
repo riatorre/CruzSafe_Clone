@@ -53,31 +53,14 @@ const newPre_report = {
     these variables created in styles.js.
 */
 import { trafficDimensions } from "../components/styles.js";
-const trafficLightHeight = trafficDimensions.height * 0.75;
-const trafficLightWidth = trafficDimensions.height * 0.3;
+const trafficLightHeight = trafficDimensions.height;
 // Modifiers editing the size of the buttons within the image.
 // All are also affected by the primary variables above.
 
-/*
-// These modifiers work for my phone 2,560 x 1,312 (1.9512)
-const tlModifierWidth = 0.28;
-const tlModifierHeight = 0.162;
-const tlModifierMarginPrimary = 0.11;
-const tlModifierMarginSecondary = 0.022;
-*/
-
-// These modifiers work for Richard's Phone 2,220 x 1,080 (2.05556)
-/*
-const tlModifierWidth = 0.32;
-const tlModifierHeight = 0.166;
-const tlModifierMarginPrimary = 0.107;
-const tlModifierMarginSecondary = 0.018;*/
-
-const screenHeight = Dimensions.get("window").height;
-const tlModifierWidth = screenHeight * 0.0007;
-const tlModifierHeight = screenHeight * 0.00028;
-const tlModifierMarginPrimary = screenHeight * 0.000196;
-const tlModifierMarginSecondary = screenHeight * 0.000042;
+const tlModifierWidth = trafficLightHeight * 0.16;
+const tlModifierHeight = trafficLightHeight * 0.16;
+const tlModifierMarginPrimary = trafficLightHeight * 0.11145;
+const tlModifierMarginSecondary = trafficLightHeight * 0.0232;
 
 class HomeScreen extends Component {
     async continue() {
@@ -309,21 +292,17 @@ class HomeScreen extends Component {
                             {/* Emergency Light */}
                             <TouchableOpacity
                                 style={{
-                                    marginTop:
-                                        trafficLightHeight *
-                                        tlModifierMarginPrimary,
+                                    marginTop: tlModifierMarginPrimary,
                                     borderWidth: 1,
                                     borderColor: "rgba(0,0,0,0.2)",
                                     backgroundColor: "#f00",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    width: trafficLightWidth * tlModifierWidth,
-                                    height:
-                                        trafficLightHeight * tlModifierHeight,
+                                    width: tlModifierWidth,
+                                    height: tlModifierHeight,
                                     borderRadius:
                                         Math.round(
-                                            trafficLightHeight +
-                                                trafficLightWidth
+                                            tlModifierWidth + tlModifierHeight
                                         ) * tlModifierWidth
                                 }}
                                 onPress={() => {
@@ -356,11 +335,8 @@ class HomeScreen extends Component {
                                     style={{
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        width:
-                                            trafficLightWidth * tlModifierWidth,
-                                        height:
-                                            trafficLightHeight *
-                                            tlModifierHeight
+                                        width: tlModifierWidth,
+                                        height: tlModifierHeight
                                     }}
                                 >
                                     <Text style={styles.traffic_text}>
@@ -373,19 +349,15 @@ class HomeScreen extends Component {
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 1,
-                                    marginTop:
-                                        trafficLightHeight *
-                                        tlModifierMarginSecondary,
+                                    marginTop: tlModifierMarginSecondary,
                                     borderColor: "rgba(0,0,0,0.2)",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    width: trafficLightWidth * tlModifierWidth,
-                                    height:
-                                        trafficLightHeight * tlModifierHeight,
+                                    width: tlModifierWidth,
+                                    height: tlModifierHeight,
                                     borderRadius:
                                         Math.round(
-                                            trafficLightHeight +
-                                                trafficLightWidth
+                                            tlModifierWidth + tlModifierHeight
                                         ) * tlModifierWidth,
                                     backgroundColor: "#ff0"
                                 }}
@@ -419,11 +391,8 @@ class HomeScreen extends Component {
                                     style={{
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        width:
-                                            trafficLightWidth * tlModifierWidth,
-                                        height:
-                                            trafficLightHeight *
-                                            tlModifierHeight
+                                        width: tlModifierWidth,
+                                        height: tlModifierHeight
                                     }}
                                 >
                                     <Text style={styles.traffic_text}>
@@ -436,19 +405,15 @@ class HomeScreen extends Component {
                             <TouchableOpacity
                                 style={{
                                     borderWidth: 1,
-                                    marginTop:
-                                        trafficLightHeight *
-                                        tlModifierMarginSecondary,
+                                    marginTop: tlModifierMarginSecondary,
                                     borderColor: "rgba(0,0,0,0.2)",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    width: trafficLightWidth * tlModifierWidth,
-                                    height:
-                                        trafficLightHeight * tlModifierHeight,
+                                    width: tlModifierWidth,
+                                    height: tlModifierHeight,
                                     borderRadius:
                                         Math.round(
-                                            trafficLightHeight +
-                                                trafficLightWidth
+                                            tlModifierWidth + tlModifierHeight
                                         ) * tlModifierWidth,
                                     backgroundColor: "#0f0"
                                 }}
@@ -504,11 +469,8 @@ class HomeScreen extends Component {
                                     style={{
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        width:
-                                            trafficLightWidth * tlModifierWidth,
-                                        height:
-                                            trafficLightHeight *
-                                            tlModifierHeight
+                                        width: tlModifierWidth,
+                                        height: tlModifierHeight
                                     }}
                                 >
                                     <Text style={styles.traffic_text}>
