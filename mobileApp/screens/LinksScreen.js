@@ -109,6 +109,80 @@ class LinksScreen extends Component {
                                 </View>
                             </TouchableOpacity>
                         </View>
+                        {/* Individual Link*/}
+                        <View style={styles.linkRow}>
+                            <TouchableOpacity
+                                style={styles.linkContainer}
+                                onPress={() => {
+                                    Linking.openURL(
+                                        "https://pubsci.ucsc.edu/facilities/index.html"
+                                    );
+                                }}
+                            >
+                                <Image
+                                    source={require("../assets/images/pbsci.jpg")}
+                                    style={styles.linkPicture}
+                                />
+                                <View style={styles.linkbtn}>
+                                    <Text style={styles.linkText}>
+                                        PBSci Facilities
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.linkContainer}
+                                onPress={() => {
+                                    Linking.openURL(
+                                        "https://physicalplant.ucsc.edu"
+                                    );
+                                }}
+                            >
+                                <Image
+                                    source={require("../assets/images/physicalplant.jpg")}
+                                    style={styles.linkPicture}
+                                />
+                                <View style={styles.linkbtn}>
+                                    <Text style={styles.linkText}>
+                                        Physical Plant
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                        {/* Individual Link*/}
+                        <View style={styles.linkRow}>
+                            <TouchableOpacity
+                                style={styles.linkContainer}
+                                onPress={() => {
+                                    Linking.openURL("https://ehs.ucsc.edu");
+                                }}
+                            >
+                                <Image
+                                    source={require("../assets/images/environmentalhealthandsafety.jpg")}
+                                    style={styles.linkPicture}
+                                />
+                                <View style={styles.linkbtn}>
+                                    <Text style={styles.linkText}>
+                                        Environmental Health and Safety
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.linkContainer}
+                                onPress={() => {
+                                    Linking.openURL("risk.ucsc.edu");
+                                }}
+                            >
+                                <Image
+                                    source={require("../assets/images/riskservices.jpg")}
+                                    style={styles.linkPicture}
+                                />
+                                <View style={styles.linkbtn}>
+                                    <Text style={styles.linkText}>
+                                        Risk Services
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                         <View style={styles.linkRow}>
                             <TouchableOpacity
                                 style={styles.linkContainer}
