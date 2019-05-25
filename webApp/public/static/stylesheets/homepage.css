@@ -3,102 +3,103 @@
     Contains sytlings and styling overrides unique to homepage.html
 */
 main {
-    display: grid;
-    grid-auto-columns: minmax(100px, auto);
-    grid-auto-rows: minmax(100px, auto);
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: repeat(2, 1fr);
-    grid-template-areas:
-        "graph1 map"
-        "graph2 map";
+  display: grid;
+  grid-auto-columns: minmax(100px, auto);
+  grid-auto-rows: minmax(100px, auto);
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: repeat(2, 1fr);
+  grid-template-areas:
+    "graph1 map"
+    "graph2 map";
 }
 
 main .reportsOverviewChart {
-    grid-area: graph1;
+  grid-area: graph1;
 }
 
 main .firstOpenedDelayChart {
-    grid-area: graph2;
+  grid-area: graph2;
 }
 
 main .map {
-    grid-area: map;
+  grid-area: map;
 }
 
 html,
 body {
-    background-color: #376f9e;
+  background-color: #376f9e;
 }
 hr {
-    border: 1px solid black;
-    margin-bottom: 5px;
-    margin-top: 5px;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 .gm-style .gm-style-iw {
-    color: #376f9e;
+  /* color: #376f9e; */
+  color: #fffeff;
 }
 
 #chartDiv {
-    background-color: #376f9e;
-    opacity: 1;
-    border-top: 1px solid Black;
-    border-bottom: 1px solid Black;
-    border-left: 2px solid Black;
-    border-right: 2px solid Black;
-    border-radius: 0px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background-color: #376f9e;
+  opacity: 1;
+  border-top: 1px solid Black;
+  border-bottom: 1px solid Black;
+  border-left: 2px solid Black;
+  border-right: 2px solid Black;
+  border-radius: 0px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 canvas {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #tagList {
-    background-color: Black;
-    opacity: 1;
-    border: 3px solid #376f9e;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    float: top;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-top: 10px;
-    margin-right: 20px;
-    margin-bottom: 25px;
-    right: 0px;
-    bottom: 0px;
-    position: fixed;
-    overflow: scroll;
-    max-height: 50vh;
+  background-color: Black;
+  opacity: 1;
+  border: 3px solid #376f9e;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  float: top;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-right: 20px;
+  margin-bottom: 25px;
+  right: 0px;
+  bottom: 0px;
+  position: fixed;
+  overflow: scroll;
+  max-height: 50vh;
 }
 #tagList:hover {
-    cursor: default;
+  cursor: default;
 }
 #tagListTag {
-    color: #376f9e;
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 20px;
-    line-height: 30px;
-    margin-right: 5px;
+  color: #376f9e;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 30px;
+  margin-right: 5px;
 }
 
 #goBoth,
 #goMain,
 #goCoastal {
-    background-color: Black;
-    opacity: 1;
-    border: 2px solid #376f9e;
-    border-radius: 5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    float: top;
-    margin-top: 10px;
-    margin-left: 20px;
-    text-align: center;
+  background-color: Black;
+  opacity: 1;
+  border: 2px solid #376f9e;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  float: top;
+  margin-top: 10px;
+  margin-left: 20px;
+  text-align: center;
 }
 
 /* Change the color of links on hover */
@@ -106,29 +107,29 @@ canvas {
 #goBoth:hover,
 #goMain:hover,
 #goCoastal:hover {
-    background-color: #29364f;
-    color: black;
+  background-color: #29364f;
+  color: black;
 }
 
 #goBoth:focus,
 #goMain:focus,
 #goCoastal:focus {
-    background-color: #29364f;
-    color: black;
+  background-color: #29364f;
+  color: black;
 }
 
 #tagListText,
 #goBothText,
 #goMainText,
 #goCoastalText {
-    color: #095ea3;
-    font-family: Roboto, Arial, sans-serif;
-    font-size: 20px;
-    line-height: 30px;
-    padding-left: 7px;
-    padding-right: 7px;
+  color: #095ea3;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 30px;
+  padding-left: 7px;
+  padding-right: 7px;
 }
 #goMain,
 #goCoastal {
-    margin-top: 10px;
+  margin-top: 10px;
 }
