@@ -6,7 +6,7 @@ body {
 
 main {
   display: grid;
-  padding: 5px;
+  padding: 10px;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(10, 1fr);
   grid-template-areas:
@@ -47,6 +47,7 @@ main .navigationButtonsGridWrapper {
 }
 
 .filterOptions {
+  margin: 10px;
   padding: 5px;
   -moz-border-radius: 8;
   -webkit-border-radius: 8px;
