@@ -27,7 +27,7 @@ main .map {
 
 html,
 body {
-  background-color: #376f9e;
+  background-color: #fffeff;
 }
 hr {
   border: 1px solid black;
@@ -40,7 +40,7 @@ hr {
 }
 
 #chartDiv {
-  background-color: #376f9e;
+  background-color: #fffeff;
   opacity: 1;
   border-top: 1px solid Black;
   border-bottom: 1px solid Black;
