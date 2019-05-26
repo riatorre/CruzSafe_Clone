@@ -14,11 +14,15 @@ main {
 }
 
 main .reportsOverviewChart {
+  margin-top: 75px;
+  margin-bottom: 135px;
   grid-area: graph1;
 }
 
 main .firstOpenedDelayChart {
   grid-area: graph2;
+  margin-top: 1px;
+  margin-bottom: 65px;
 }
 
 main .map {
