@@ -52,26 +52,26 @@ main .navigationButtonsGridWrapper {
   -moz-border-radius: 8;
   -webkit-border-radius: 8px;
   border-radius: 12px;
-  color: #376f9e;
+  color: #fffeff;
   width: 90%;
   height: auto;
   margin: 0px;
   border: 0px solid black;
-  background-color: green;
+  background-color: #376f9e;
 }
 
 .filterOptions p {
   display: inline;
-  color: #095ea3;
+  color: #fffeff;
 }
 
 .filterOptions div h3 {
-  color: #095ea3;
+  color: #fffeff;
 }
 
 .filterOptions div a,
 .filterOptions div p {
-  color: #095ea3;
+  color: #fffeff;
 }
 
 /*
