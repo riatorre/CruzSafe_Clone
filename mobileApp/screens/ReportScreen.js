@@ -223,6 +223,8 @@ class ReportScreen extends Component {
 
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
+        console.log("reportScreen.getUnsubReport");
+        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeUnsubReport(pre_report);
@@ -322,6 +324,7 @@ class ReportScreen extends Component {
 
     async getLocation() {
         try {
+            console.log("GetLocation");
             var pre_report = this.state.pre_report;
             if (pre_report.unchangedLocation && !this.state.isLoading) {
                 const loc = await Location.getCurrentPositionAsync({
@@ -344,6 +347,8 @@ class ReportScreen extends Component {
     // Used to allow easier transfer of data
     async storeUnsubReport(report) {
         try {
+            console.log("reportScreen.storeUnsubReport");
+            console.log(report);
             await AsyncStorage.setItem("unsub_report", JSON.stringify(report));
         } catch (error) {
             console.log(error.message);
@@ -591,6 +596,7 @@ class ReportScreen extends Component {
             this.getCameraPermission();
         });
         AppState.addEventListener("change", this._handleAppStateChange);
+        //console.log("Mounting ReportScreen");
         this.runTutorial();
     }
 
@@ -629,6 +635,7 @@ class ReportScreen extends Component {
     }
 
     _handleAppStateChange = nextAppState => {
+        //console.log("ReportScreen handleStateChange");
         if (
             this.state.appState.match(/inactive|background/) &&
             nextAppState === "active"

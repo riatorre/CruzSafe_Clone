@@ -18,7 +18,8 @@ import {
     Left,
     Right,
     Body,
-    Icon
+    Icon,
+    Toast
 } from "native-base";
 import { Permissions, Location, MapView } from "expo";
 
@@ -95,8 +96,6 @@ class LocationScreen extends Component {
     // Should allows for ease of transfer between screens
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        console.log("getUnsubReport");
-        console.log(pre_report);
         this._isMounted &&
             this.setState({
                 latitude: parseFloat(pre_report.incidentLatitude),
@@ -111,8 +110,6 @@ class LocationScreen extends Component {
     // Used to allow easier transfer of data
     async storeUnsubReport(report) {
         try {
-            console.log("LocationScreen.storeUnsubReport");
-            console.log(report);
             await AsyncStorage.setItem("unsub_report", JSON.stringify(report));
         } catch (error) {
             console.log(error.message);
@@ -120,16 +117,21 @@ class LocationScreen extends Component {
     }
 
     async inGeofence(loc) {
+        console.log("loc = " + loc);
         for (polygon in geofence) {
             if (await GeoFencing.containsLocation(loc, polygon)) {
+                console.log("geofence true");
                 return true;
             }
         }
+        console.log("geofence false");
         return false;
     }
 
     async getLocation() {
         try {
+            console.log("unchanged location = " + this.state.unchangedLocation);
+            console.log("isloading = " + this.state.isLoading);
             if (this.state.unchangedLocation && !this.state.isLoading) {
                 var pre_report = this.state.pre_report;
                 const loc = await Location.getCurrentPositionAsync({
@@ -156,12 +158,15 @@ class LocationScreen extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
-        console.log(this.state);
         this.getUnsubReport().then(() => {
-            console.log("componentDidMount after getUnsubReport");
+            console.log("component did mount");
             console.log(this.state);
-            if (this.state == null || this.state.latitude == null)
+            if (
+                this.state == null ||
+                this.state.latitude == null ||
+                (this.state.latitude == LATITUDE &&
+                    this.state.longitide == LONGITUDE)
+            )
                 this.getLocation();
         });
         this._isMounted = true;
@@ -200,8 +205,7 @@ class LocationScreen extends Component {
                 </View>
             );
         }
-        console.log("render");
-        console.log(this.state);
+        console.log("Render: mounted");
         const { goBack } = this.props.navigation;
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -261,9 +265,6 @@ class LocationScreen extends Component {
                                 longitudeDelta: 0.021
                             }}
                             onRegionChangeComplete={region => {
-                                console.log("onRegionChangeComplete");
-                                console.log(this.state.pre_report);
-                                console.log(region);
                                 var pre_report = this.state.pre_report;
                                 pre_report.incidentLatitude = region.latitude;
                                 pre_report.incidentLongitude = region.longitude;
