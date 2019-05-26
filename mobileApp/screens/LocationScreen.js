@@ -50,12 +50,13 @@ const coastalCampusPolygon = [
 
 const geofence = [mainCampusPolygon, coastalCampusPolygon];
 
-/* locations with latitude: 
-    this.state.latitude                                 -- is this used?
+/*
+    locations with latitude: 
+
     this.pre_report.incidentLatitude                    -- available copy of incident location
     AsyncStorage "unsub_report" incidentLatitude        -- current reports incident location
     MapView.region                                      -- for us
-    MapView.initialRegion                               -- set from ?????
+    MapView.initialRegion                               -- set from pre_report
 
     Flow:
         render
@@ -70,17 +71,18 @@ class LocationScreen extends Component {
     }
 
     state = {
-        location: null,
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: null,
-        longitudeDelta: null,
-        c_latDel: null,
-        c_lngDel: null,
-        unchangedLocation: true,
+        // location: null,
+        // latitude: LATITUDE,
+        // longitude: LONGITUDE,
+        // latitudeDelta: null,
+        // longitudeDelta: null,
+        // c_latDel: null,
+        // c_lngDel: null,
+        // unchangedLocation: true,
         pre_report: null,
+        region: null,
         appState: AppState.currentState,
-        isLoading: true,
+        // isLoading: true,
         marginBottom: 1
     };
 
@@ -96,14 +98,16 @@ class LocationScreen extends Component {
     // Should allows for ease of transfer between screens
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        this._isMounted &&
-            this.setState({
-                latitude: parseFloat(pre_report.incidentLatitude),
-                longitude: parseFloat(pre_report.incidentLongitude),
-                unchangedLocation: pre_report.unchangedLocation,
-                pre_report: pre_report,
-                isLoading: false
-            });
+        console.log("getUnsubReport");
+        console.log(pre_report);
+        this._isMounted = true;
+        this.setState({
+            // latitude: parseFloat(pre_report.incidentLatitude),
+            // longitude: parseFloat(pre_report.incidentLongitude),
+            // unchangedLocation: pre_report.unchangedLocation,
+            pre_report: pre_report
+            // isLoading: false
+        });
     }
 
     // Stores unsubmitted report into AsyncStorage
@@ -128,48 +132,52 @@ class LocationScreen extends Component {
         return false;
     }
 
-    async getLocation() {
-        try {
-            console.log("unchanged location = " + this.state.unchangedLocation);
-            console.log("isloading = " + this.state.isLoading);
-            if (this.state.unchangedLocation && !this.state.isLoading) {
-                var pre_report = this.state.pre_report;
-                const loc = await Location.getCurrentPositionAsync({
-                    enableHighAccuracy: true
-                });
-                if (await inGeofence(loc)) {
-                    console.log("inGeofence");
-                    pre_report.incidentLatitude = loc.coords.latitude;
-                    pre_report.incidentLongitude = loc.coords.longitude;
-                    pre_report.unchangedLocation = true;
-                    this._isMounted &&
-                        this.setState({
-                            location: loc,
-                            latitude: loc.coords.latitude,
-                            longitude: loc.coords.longitude,
-                            pre_report: pre_report
-                        });
-                    this.storeUnsubReport(pre_report);
-                }
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+    // async getLocation() {
+    //     try {
+    //         console.log("unchanged location = " + this.state.unchangedLocation);
+    //         console.log("isloading = " + this.state.isLoading);
+    //         if (this.state.unchangedLocation && !this.state.isLoading) {
+    //             var pre_report = this.state.pre_report;
+    //             const loc = await Location.getCurrentPositionAsync({
+    //                 enableHighAccuracy: true
+    //             });
+    //             if (await inGeofence(loc)) {
+    //                 console.log("inGeofence");
+    //                 pre_report.incidentLatitude = loc.coords.latitude;
+    //                 pre_report.incidentLongitude = loc.coords.longitude;
+    //                 pre_report.unchangedLocation = true;
+    //                 this._isMounted &&
+    //                     this.setState({
+    //                         // location: loc,
+    //                         // latitude: loc.coords.latitude,
+    //                         // longitude: loc.coords.longitude,
+    //                         pre_report: pre_report
+    //                     });
+    //                 this.storeUnsubReport(pre_report);
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.log(error.message);
+    //     }
+    // }
 
     componentDidMount() {
+        this._isMounted = false;
+        this.setState({
+            pre_report: null
+        });
         this.getUnsubReport().then(() => {
+            // Don't check the location.  That will have happened in ReportScreen.
             console.log("component did mount");
             console.log(this.state);
-            if (
-                this.state == null ||
-                this.state.latitude == null ||
-                (this.state.latitude == LATITUDE &&
-                    this.state.longitide == LONGITUDE)
-            )
-                this.getLocation();
+            // if (
+            //     this.state == null ||
+            //     this.state.latitude == null ||
+            //     (this.state.latitude == LATITUDE &&
+            //         this.state.longitide == LONGITUDE)
+            // )
+            //     this.getLocation();
         });
-        this._isMounted = true;
     }
 
     componentWillUnmount() {
@@ -179,15 +187,15 @@ class LocationScreen extends Component {
         params.callBack();
     }
 
-    setToinit() {
-        console.log("setToInit");
-        return {
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: this.state.latitudeDelta,
-            longitudeDelta: this.state.longitudeDelta
-        };
-    }
+    // setToinit() {
+    //     console.log("setToInit");
+    //     return {
+    //         latitude: this.state.latitude,
+    //         longitude: this.state.longitude,
+    //         latitudeDelta: this.state.latitudeDelta,
+    //         longitudeDelta: this.state.longitudeDelta
+    //     };
+    // }
 
     async _onMapReady() {
         const { status, permissions } = await Permissions.askAsync(
@@ -197,7 +205,7 @@ class LocationScreen extends Component {
     }
 
     render() {
-        if (!this._isMounted) {
+        if (!(this._isMounted && this.state.pre_report)) {
             console.log("Render: not mounted");
             return (
                 <View>
@@ -259,23 +267,19 @@ class LocationScreen extends Component {
                             showsUserLocation={true}
                             zoomControlEnabled={true}
                             initialRegion={{
-                                latitude: this.state.latitude,
-                                longitude: this.state.longitude,
+                                latitude: this.state.pre_report
+                                    .incidentLatitude,
+                                longitude: this.state.pre_report
+                                    .incidentLongitude,
                                 latitudeDelta: 0.0461,
                                 longitudeDelta: 0.021
                             }}
                             onRegionChangeComplete={region => {
-                                var pre_report = this.state.pre_report;
-                                pre_report.incidentLatitude = region.latitude;
-                                pre_report.incidentLongitude = region.longitude;
-                                pre_report.unchangedLocation = false;
-                                this._isMounted &&
-                                    this.setState({
-                                        c_latDel: region.latitudeDelta,
-                                        c_lngDel: region.longitudeDelta,
-                                        unchangedLocation: false,
-                                        pre_report: pre_report
-                                    });
+                                console.log("On region change complete");
+                                if (this._isMounted) {
+                                    // geofencing!
+                                    this.setState({ region: region });
+                                }
                             }}
                         />
                         <View
@@ -297,6 +301,17 @@ class LocationScreen extends Component {
                                     padding: 5
                                 }}
                                 onPress={() => {
+                                    var pre_report = this.state.pre_report;
+                                    pre_report.incidentLatitude = this.state.region.latitude;
+                                    pre_report.incidentLongitude = this.state.region.longitude;
+                                    pre_report.unchangedLocation = false;
+                                    this._isMounted &&
+                                        this.setState({
+                                            // c_latDel: region.latitudeDelta,
+                                            // c_lngDel: region.longitudeDelta,
+                                            // unchangedLocation: false,
+                                            pre_report: pre_report
+                                        });
                                     goBack();
                                 }}
                             >
