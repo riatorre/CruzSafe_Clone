@@ -38,10 +38,10 @@ hr {
   margin-bottom: 5px;
   margin-top: 5px;
 }
-.gm-style .gm-style-iw {
+/* .gm-style .gm-style-iw {
   /* color: #376f9e; */
-  color: #fffeff;
-}
+/* color: black; */
+/* } */
 
 #chartDiv {
   background-color: #fffeff;
@@ -60,9 +60,9 @@ canvas {
 }
 
 #tagList {
-  background-color: Black;
+  background-color: #376f9e;
   opacity: 1;
-  border: 3px solid #376f9e;
+  /* border: 3px solid #376f9e; */
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
@@ -94,9 +94,9 @@ canvas {
 #goBoth,
 #goMain,
 #goCoastal {
-  background-color: Black;
+  background-color: #376f9e;
   opacity: 1;
-  border: 2px solid #376f9e;
+  /* border: 2px solid #376f9e; */
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
@@ -111,14 +111,14 @@ canvas {
 #goBoth:hover,
 #goMain:hover,
 #goCoastal:hover {
-  background-color: #29364f;
-  color: black;
+  background-color: #87b0d1;
+  color: #fffeff;
 }
 
 #goBoth:focus,
 #goMain:focus,
 #goCoastal:focus {
-  background-color: #29364f;
+  background-color: #155f9b;
   color: black;
 }
 
@@ -126,7 +126,7 @@ canvas {
 #goBothText,
 #goMainText,
 #goCoastalText {
-  color: #095ea3;
+  color: #fffeff;
   font-family: Roboto, Arial, sans-serif;
   font-size: 20px;
   line-height: 30px;
