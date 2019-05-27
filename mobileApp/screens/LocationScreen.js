@@ -50,20 +50,6 @@ const coastalCampusPolygon = [
 
 const geofence = [mainCampusPolygon, coastalCampusPolygon];
 
-/*
-    locations with latitude: 
-
-    this.pre_report.incidentLatitude                    -- available copy of incident location
-    AsyncStorage "unsub_report" incidentLatitude        -- current reports incident location
-    MapView.region                                      -- for us
-    MapView.initialRegion                               -- set from pre_report
-
-    Flow:
-        render
-        componentDidMount
-            getUnsubReport
-*/
-
 class LocationScreen extends Component {
     constructor(props) {
         super(props);
@@ -71,18 +57,9 @@ class LocationScreen extends Component {
     }
 
     state = {
-        // location: null,
-        // latitude: LATITUDE,
-        // longitude: LONGITUDE,
-        // latitudeDelta: null,
-        // longitudeDelta: null,
-        // c_latDel: null,
-        // c_lngDel: null,
-        // unchangedLocation: true,
         pre_report: null,
         region: null,
         appState: AppState.currentState,
-        // isLoading: true,
         marginBottom: 1
     };
 
@@ -102,11 +79,7 @@ class LocationScreen extends Component {
         console.log(pre_report);
         this._isMounted = true;
         this.setState({
-            // latitude: parseFloat(pre_report.incidentLatitude),
-            // longitude: parseFloat(pre_report.incidentLongitude),
-            // unchangedLocation: pre_report.unchangedLocation,
             pre_report: pre_report
-            // isLoading: false
         });
     }
 
@@ -132,52 +105,12 @@ class LocationScreen extends Component {
         return false;
     }
 
-    // async getLocation() {
-    //     try {
-    //         console.log("unchanged location = " + this.state.unchangedLocation);
-    //         console.log("isloading = " + this.state.isLoading);
-    //         if (this.state.unchangedLocation && !this.state.isLoading) {
-    //             var pre_report = this.state.pre_report;
-    //             const loc = await Location.getCurrentPositionAsync({
-    //                 enableHighAccuracy: true
-    //             });
-    //             if (await inGeofence(loc)) {
-    //                 console.log("inGeofence");
-    //                 pre_report.incidentLatitude = loc.coords.latitude;
-    //                 pre_report.incidentLongitude = loc.coords.longitude;
-    //                 pre_report.unchangedLocation = true;
-    //                 this._isMounted &&
-    //                     this.setState({
-    //                         // location: loc,
-    //                         // latitude: loc.coords.latitude,
-    //                         // longitude: loc.coords.longitude,
-    //                         pre_report: pre_report
-    //                     });
-    //                 this.storeUnsubReport(pre_report);
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.log(error.message);
-    //     }
-    // }
-
     componentDidMount() {
         this._isMounted = false;
         this.setState({
             pre_report: null
         });
-        this.getUnsubReport().then(() => {
-            // Don't check the location.  That will have happened in ReportScreen.
-            console.log("component did mount");
-            console.log(this.state);
-            // if (
-            //     this.state == null ||
-            //     this.state.latitude == null ||
-            //     (this.state.latitude == LATITUDE &&
-            //         this.state.longitide == LONGITUDE)
-            // )
-            //     this.getLocation();
-        });
+        this.getUnsubReport();
     }
 
     componentWillUnmount() {
@@ -186,16 +119,6 @@ class LocationScreen extends Component {
         this.storeUnsubReport(this.state.pre_report);
         params.callBack();
     }
-
-    // setToinit() {
-    //     console.log("setToInit");
-    //     return {
-    //         latitude: this.state.latitude,
-    //         longitude: this.state.longitude,
-    //         latitudeDelta: this.state.latitudeDelta,
-    //         longitudeDelta: this.state.longitudeDelta
-    //     };
-    // }
 
     async _onMapReady() {
         const { status, permissions } = await Permissions.askAsync(
@@ -206,14 +129,12 @@ class LocationScreen extends Component {
 
     render() {
         if (!(this._isMounted && this.state.pre_report)) {
-            console.log("Render: not mounted");
             return (
                 <View>
                     <Text>Loading...</Text>
                 </View>
             );
         }
-        console.log("Render: mounted");
         const { goBack } = this.props.navigation;
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -307,9 +228,6 @@ class LocationScreen extends Component {
                                     pre_report.unchangedLocation = false;
                                     this._isMounted &&
                                         this.setState({
-                                            // c_latDel: region.latitudeDelta,
-                                            // c_lngDel: region.longitudeDelta,
-                                            // unchangedLocation: false,
                                             pre_report: pre_report
                                         });
                                     goBack();

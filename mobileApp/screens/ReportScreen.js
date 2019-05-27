@@ -17,7 +17,7 @@ import {
 import {
     Container,
     Header,
-    Content,
+    Toast,
     Footer,
     Left,
     Right,
@@ -28,6 +28,8 @@ import Swiper from "react-native-swiper";
 import { Permissions, Location, ImagePicker } from "expo";
 
 import SelectableListScene from "./SelectableListScene";
+
+import GeoFencing from "react-native-geo-fencing";
 
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
@@ -54,6 +56,27 @@ const newPre_report = {
     unchangedLocation: true,
     imageURI: null
 };
+
+const mainCampusPolygon = [
+    { lat: 36.9973, lng: -122.071065 },
+    { lat: 37.003264, lng: -122.067803 },
+    { lat: 37.002577, lng: -122.050079 },
+    { lat: 36.983451, lng: -122.046994 },
+    { lat: 36.976337, lng: -122.05238 },
+    { lat: 36.976062, lng: -122.057616 },
+    { lat: 36.984249, lng: -122.069675 },
+    { lat: 36.9973, lng: -122.071065 } // last point has to be same as first point
+];
+
+const coastalCampusPolygon = [
+    { lat: 36.955097, lng: -122.066376 },
+    { lat: 36.947878, lng: -122.06629 },
+    { lat: 36.948186, lng: -122.062084 },
+    { lat: 36.955217, lng: -122.062126 },
+    { lat: 36.955097, lng: -122.066376 } // last point has to be same as first point
+];
+
+const geofence = [mainCampusPolygon, coastalCampusPolygon];
 
 //Initialize tutorialParams. We will later pull the proper parameters.
 var tutorialParams = {
@@ -330,25 +353,45 @@ class ReportScreen extends Component {
                 const loc = await Location.getCurrentPositionAsync({
                     enableHighAccuracy: true
                 });
-                pre_report.incidentLatitude = loc.coords.latitude;
-                pre_report.incidentLongitude = loc.coords.longitude;
-                this._isMounted &&
-                    this.setState({
-                        pre_report: pre_report
-                    });
-                this.storeUnsubReport(pre_report);
+                if (await this.inGeofence(loc)) {
+                    pre_report.incidentLatitude = loc.coords.latitude;
+                    pre_report.incidentLongitude = loc.coords.longitude;
+                    this._isMounted &&
+                        this.setState({
+                            pre_report: pre_report
+                        });
+                    this.storeUnsubReport(pre_report);
+                } else {
+                    Toast.show({ text: "Please enter campus region." });
+                }
             }
         } catch (error) {
             console.log(error.message);
         }
     }
 
+    async inGeofence(loc) {
+        console.log(loc);
+        // let location = { lat: loc.coords.latitude, lng: loc.coords.longitude };
+        let location = { lat: LATITUDE, lng: LONGITUDE };
+        console.log(location);
+        for (i in geofence) {
+            console.log(geofence[i]);
+            if (
+                await GeoFencing.containsLocation(location, mainCampusPolygon)
+            ) {
+                console.log("geofence success");
+                return true;
+            }
+        }
+        console.log("geofence false");
+        return false;
+    }
+
     // Stores unsubmitted report into AsyncStorage
     // Used to allow easier transfer of data
     async storeUnsubReport(report) {
         try {
-            console.log("reportScreen.storeUnsubReport");
-            console.log(report);
             await AsyncStorage.setItem("unsub_report", JSON.stringify(report));
         } catch (error) {
             console.log(error.message);
