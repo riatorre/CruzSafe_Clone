@@ -247,8 +247,6 @@ class ReportScreen extends Component {
 
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        console.log("reportScreen.getUnsubReport");
-        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeUnsubReport(pre_report);
@@ -377,12 +375,9 @@ class ReportScreen extends Component {
     }
 
     inGeofence(loc) {
-        console.log(loc);
         let location = { lat: loc.coords.latitude, lng: loc.coords.longitude };
         // let location = { lat: LATITUDE, lng: LONGITUDE };
-        console.log(location);
         for (i in geofence) {
-            console.log(geofence[i]);
             // if (await GeoFencing.containsLocation(location, geofence[i])) {
             if (this.ourContainsLocation(location, geofence[i])) {
                 console.log("geofence true");
@@ -398,19 +393,6 @@ class ReportScreen extends Component {
         let y = point.lat;
         let inside = false;
         for (var i = 1; i < poly.length; i++) {
-            console.log(
-                x +
-                    ", " +
-                    y +
-                    " " +
-                    poly[i - 1].lat +
-                    "," +
-                    poly[i - 1].lng +
-                    " " +
-                    poly[i].lat +
-                    ", " +
-                    poly[i].lng
-            );
             if (
                 poly[i].lat > y != poly[i - 1].lat > y &&
                 x <
