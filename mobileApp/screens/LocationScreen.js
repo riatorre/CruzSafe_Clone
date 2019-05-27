@@ -5,10 +5,11 @@ import {
     Platform,
     AsyncStorage,
     AppState,
+    Alert,
     SafeAreaView,
     TouchableOpacity
 } from "react-native";
-import GeoFencing from "react-native-geo-fencing";
+//import GeoFencing from "react-native-geo-fencing";
 import {
     Container,
     Header,
@@ -63,7 +64,8 @@ class LocationScreen extends Component {
         pre_report: null,
         region: null,
         appState: AppState.currentState,
-        marginBottom: 1
+        marginBottom: 1,
+        pinColor: "red"
     };
 
     async storeItem(key, value) {
@@ -106,8 +108,11 @@ class LocationScreen extends Component {
         console.log(inside);
         if (inside != wasInGeofence) {
             wasInGeofence = inside;
-            if (!inside) {
-                console.log("TOAST");
+            if (inside) {
+                this.setState({ pinColor: "red" });
+            } else {
+                console.log("Not in geofence!");
+                this.setState({ pinColor: "indigo" });
                 Toast.show({
                     text:
                         "You have exited the bounds of campus. Please move the marker back to a campus region.",
@@ -223,7 +228,7 @@ class LocationScreen extends Component {
                                     marginLeft: -9,
                                     left: "50%",
                                     top: "50%",
-                                    color: "red"
+                                    color: this.state.pinColor
                                 }}
                                 size={40}
                                 color="#f00"
@@ -276,14 +281,33 @@ class LocationScreen extends Component {
                                     }}
                                     onPress={() => {
                                         var pre_report = this.state.pre_report;
-                                        pre_report.incidentLatitude = this.state.region.latitude;
-                                        pre_report.incidentLongitude = this.state.region.longitude;
-                                        pre_report.unchangedLocation = false;
-                                        this._isMounted &&
-                                            this.setState({
-                                                pre_report: pre_report
-                                            });
-                                        goBack();
+                                        if (
+                                            this.inGeofence({
+                                                lat: this.state.region.latitude,
+                                                lng: this.state.region.longitude
+                                            })
+                                        ) {
+                                            pre_report.incidentLatitude = this.state.region.latitude;
+                                            pre_report.incidentLongitude = this.state.region.longitude;
+                                            pre_report.unchangedLocation = false;
+                                            this._isMounted &&
+                                                this.setState({
+                                                    pre_report: pre_report
+                                                });
+                                            goBack();
+                                        } else {
+                                            Alert.alert(
+                                                "Off Campus",
+                                                "Please select a region on the UCSC main campus or coastal sciences.",
+                                                [
+                                                    {
+                                                        text: "OK",
+                                                        onPress: () => {}
+                                                    }
+                                                ],
+                                                { cancelable: false }
+                                            );
+                                        }
                                     }}
                                 >
                                     <Icon
