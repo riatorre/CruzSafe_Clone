@@ -4,8 +4,6 @@ import {
     createStackNavigator
 } from "react-navigation";
 
-import Root from "native-base";
-
 //Main App
 import MainTabNavigator from "../navigation/MainTabNavigator";
 // Screen for Authentication

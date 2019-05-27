@@ -6,9 +6,7 @@ import {
     AsyncStorage,
     AppState,
     SafeAreaView,
-    TouchableOpacity,
-    Dimensions,
-    StyleSheet
+    TouchableOpacity
 } from "react-native";
 import GeoFencing from "react-native-geo-fencing";
 import {
@@ -19,7 +17,8 @@ import {
     Right,
     Body,
     Icon,
-    Toast
+    Toast,
+    Root
 } from "native-base";
 import { Permissions, Location, MapView } from "expo";
 
@@ -49,6 +48,10 @@ const coastalCampusPolygon = [
 ];
 
 const geofence = [mainCampusPolygon, coastalCampusPolygon];
+
+var lastRegion = null;
+var wasInGeofence = true;
+var intervalId = null;
 
 class LocationScreen extends Component {
     constructor(props) {
@@ -93,16 +96,59 @@ class LocationScreen extends Component {
         }
     }
 
-    async inGeofence(loc) {
-        console.log("loc = " + loc);
-        for (polygon in geofence) {
-            if (await GeoFencing.containsLocation(loc, polygon)) {
+    checkGeofence(region) {
+        if (lastRegion == region) return;
+        lastRegion = region;
+        var inside = this.inGeofence({
+            lat: region.latitude,
+            lng: region.longitude
+        });
+        console.log(inside);
+        if (inside != wasInGeofence) {
+            wasInGeofence = inside;
+            if (!inside) {
+                console.log("TOAST");
+                Toast.show({
+                    text:
+                        "You have exited the bounds of campus. Please move the marker back to a campus region.",
+                    duration: 5000
+                });
+            }
+        }
+    }
+
+    inGeofence(location) {
+        console.log("Location Screen.inGeofence");
+        console.log(this.state);
+        // location = { lat: LATITUDE, lng: LONGITUDE };
+        for (i in geofence) {
+            // if (await GeoFencing.containsLocation(location, geofence[i])) {
+            if (this.ourContainsLocation(location, geofence[i])) {
                 console.log("geofence true");
                 return true;
             }
         }
         console.log("geofence false");
         return false;
+    }
+
+    ourContainsLocation(point, poly) {
+        let x = point.lng;
+        let y = point.lat;
+        let inside = false;
+        for (var i = 1; i < poly.length; i++) {
+            if (
+                poly[i].lat > y != poly[i - 1].lat > y &&
+                x <
+                    ((poly[i - 1].lng - poly[i].lng) * (y - poly[i].lat)) /
+                        (poly[i - 1].lat - poly[i].lat) +
+                        poly[i].lng
+            ) {
+                console.log(poly.length + " " + i);
+                inside = !inside;
+            }
+        }
+        return inside;
     }
 
     componentDidMount() {
@@ -114,6 +160,9 @@ class LocationScreen extends Component {
     }
 
     componentWillUnmount() {
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
         const { params } = this.props.navigation.state;
         this._isMounted = false;
         this.storeUnsubReport(this.state.pre_report);
@@ -137,143 +186,148 @@ class LocationScreen extends Component {
         }
         const { goBack } = this.props.navigation;
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <Container>
-                    <Header style={styles.header}>
-                        <Left>
-                            <Icon
-                                name={`${
-                                    Platform.OS === "ios" ? "ios" : "md"
-                                }-arrow-back`}
-                                style={styles.icon}
-                                onPress={() => {
-                                    goBack();
-                                }}
-                            />
-                        </Left>
-                        <Body>
-                            <Text style={styles.header_text}>Location</Text>
-                        </Body>
-                        <Right />
-                    </Header>
-                    <View
-                        style={{
-                            flex: 1,
-                            paddingTop: this.state.statusBarHeight
-                        }}
-                    >
-                        <Icon
-                            name={`${Platform.OS === "ios" ? "ios" : "md"}-pin`}
-                            style={{
-                                zIndex: 3,
-                                position: "absolute",
-                                marginTop: -26,
-                                marginLeft: -9,
-                                left: "50%",
-                                top: "50%",
-                                color: "red"
-                            }}
-                            size={40}
-                            color="#f00"
-                        />
-                        <MapView
-                            style={{
-                                flex: 1,
-                                marginBottom: this.state.marginBottom
-                            }}
-                            onMapReady={() => {
-                                this._onMapReady();
-                            }}
-                            showsMyLocationButton={true}
-                            showsUserLocation={true}
-                            zoomControlEnabled={true}
-                            initialRegion={{
-                                latitude: this.state.pre_report
-                                    .incidentLatitude,
-                                longitude: this.state.pre_report
-                                    .incidentLongitude,
-                                latitudeDelta: 0.0461,
-                                longitudeDelta: 0.021
-                            }}
-                            onRegionChangeComplete={region => {
-                                console.log("On region change complete");
-                                if (this._isMounted) {
-                                    // geofencing!
-                                    this.setState({ region: region });
-                                }
-                            }}
-                        />
-                        <View
-                            style={{
-                                position: "absolute",
-                                backgroundColor: "transparenb",
-                                padding: 10,
-                                top: "84%"
-                            }}
-                        >
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: "#ffffffc0",
-                                    alignItems: "center",
-                                    borderWidth: 0.2,
-                                    borderColor: "#00000050",
-                                    width: 50,
-                                    height: 50,
-                                    padding: 5
-                                }}
-                                onPress={() => {
-                                    var pre_report = this.state.pre_report;
-                                    pre_report.incidentLatitude = this.state.region.latitude;
-                                    pre_report.incidentLongitude = this.state.region.longitude;
-                                    pre_report.unchangedLocation = false;
-                                    this._isMounted &&
-                                        this.setState({
-                                            pre_report: pre_report
-                                        });
-                                    goBack();
-                                }}
-                            >
+            <Root>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <Container>
+                        <Header style={styles.header}>
+                            <Left>
                                 <Icon
                                     name={`${
                                         Platform.OS === "ios" ? "ios" : "md"
-                                    }-checkmark`}
-                                    style={{
-                                        fontSize: 40,
-                                        color: "#00b000"
+                                    }-arrow-back`}
+                                    style={styles.icon}
+                                    onPress={() => {
+                                        goBack();
                                     }}
                                 />
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Footer style={styles.footer}>
-                        <Left
+                            </Left>
+                            <Body>
+                                <Text style={styles.header_text}>Location</Text>
+                            </Body>
+                            <Right />
+                        </Header>
+                        <View
                             style={{
                                 flex: 1,
-                                alignItems: "center",
-                                justifyContent: "center"
-                            }}
-                        />
-                        <Body
-                            style={{
-                                flex: 1,
-                                alignItems: "center",
-                                justifyContent: "center"
+                                paddingTop: this.state.statusBarHeight
                             }}
                         >
-                            <Text style={styles.footer_text}>
-                                {textConstants.footerText}
-                            </Text>
-                        </Body>
-                        <Right
-                            style={{
-                                flex: 1,
-                                alignItems: "center",
-                                justifyContent: "center"
-                            }}
-                        />
-                    </Footer>
-                </Container>
-            </SafeAreaView>
+                            <Icon
+                                name={`${
+                                    Platform.OS === "ios" ? "ios" : "md"
+                                }-pin`}
+                                style={{
+                                    zIndex: 3,
+                                    position: "absolute",
+                                    marginTop: -26,
+                                    marginLeft: -9,
+                                    left: "50%",
+                                    top: "50%",
+                                    color: "red"
+                                }}
+                                size={40}
+                                color="#f00"
+                            />
+                            <MapView
+                                style={{
+                                    flex: 1,
+                                    marginBottom: this.state.marginBottom
+                                }}
+                                onMapReady={() => {
+                                    this._onMapReady();
+                                }}
+                                showsMyLocationButton={true}
+                                showsUserLocation={true}
+                                zoomControlEnabled={true}
+                                initialRegion={{
+                                    latitude: this.state.pre_report
+                                        .incidentLatitude,
+                                    longitude: this.state.pre_report
+                                        .incidentLongitude,
+                                    latitudeDelta: 0.0461,
+                                    longitudeDelta: 0.021
+                                }}
+                                onRegionChangeComplete={region => {
+                                    console.log("On region change complete");
+                                    if (this._isMounted) {
+                                        // geofencing!
+                                        this.setState({ region: region });
+                                        this.checkGeofence(region);
+                                    }
+                                }}
+                            />
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    backgroundColor: "transparenb",
+                                    padding: 10,
+                                    top: "84%"
+                                }}
+                            >
+                                <TouchableOpacity
+                                    style={{
+                                        backgroundColor: "#ffffffc0",
+                                        alignItems: "center",
+                                        borderWidth: 0.2,
+                                        borderColor: "#00000050",
+                                        width: 50,
+                                        height: 50,
+                                        padding: 5
+                                    }}
+                                    onPress={() => {
+                                        var pre_report = this.state.pre_report;
+                                        pre_report.incidentLatitude = this.state.region.latitude;
+                                        pre_report.incidentLongitude = this.state.region.longitude;
+                                        pre_report.unchangedLocation = false;
+                                        this._isMounted &&
+                                            this.setState({
+                                                pre_report: pre_report
+                                            });
+                                        goBack();
+                                    }}
+                                >
+                                    <Icon
+                                        name={`${
+                                            Platform.OS === "ios" ? "ios" : "md"
+                                        }-checkmark`}
+                                        style={{
+                                            fontSize: 40,
+                                            color: "#00b000"
+                                        }}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <Footer style={styles.footer}>
+                            <Left
+                                style={{
+                                    flex: 1,
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}
+                            />
+                            <Body
+                                style={{
+                                    flex: 1,
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}
+                            >
+                                <Text style={styles.footer_text}>
+                                    {textConstants.footerText}
+                                </Text>
+                            </Body>
+                            <Right
+                                style={{
+                                    flex: 1,
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}
+                            />
+                        </Footer>
+                    </Container>
+                </SafeAreaView>
+            </Root>
         );
     }
 }

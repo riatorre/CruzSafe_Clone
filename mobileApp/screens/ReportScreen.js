@@ -353,7 +353,12 @@ class ReportScreen extends Component {
                     enableHighAccuracy: true
                 });
                 // if (await this.inGeofence(loc)) {
-                if (this.inGeofence(loc)) {
+                if (
+                    this.inGeofence({
+                        lat: loc.coords.latitude,
+                        lng: loc.coords.longitude
+                    })
+                ) {
                     pre_report.incidentLatitude = loc.coords.latitude;
                     pre_report.incidentLongitude = loc.coords.longitude;
                     this._isMounted &&
@@ -374,9 +379,8 @@ class ReportScreen extends Component {
         }
     }
 
-    inGeofence(loc) {
-        let location = { lat: loc.coords.latitude, lng: loc.coords.longitude };
-        // let location = { lat: LATITUDE, lng: LONGITUDE };
+    inGeofence(location) {
+        // location = { lat: LATITUDE, lng: LONGITUDE };
         for (i in geofence) {
             // if (await GeoFencing.containsLocation(location, geofence[i])) {
             if (this.ourContainsLocation(location, geofence[i])) {
