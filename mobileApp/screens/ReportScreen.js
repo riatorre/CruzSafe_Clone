@@ -353,7 +353,8 @@ class ReportScreen extends Component {
                 const loc = await Location.getCurrentPositionAsync({
                     enableHighAccuracy: true
                 });
-                if (await this.inGeofence(loc)) {
+                // if (await this.inGeofence(loc)) {
+                if (this.inGeofence(loc)) {
                     pre_report.incidentLatitude = loc.coords.latitude;
                     pre_report.incidentLongitude = loc.coords.longitude;
                     this._isMounted &&
@@ -370,22 +371,53 @@ class ReportScreen extends Component {
         }
     }
 
-    async inGeofence(loc) {
+    inGeofence(loc) {
         console.log(loc);
-        // let location = { lat: loc.coords.latitude, lng: loc.coords.longitude };
-        let location = { lat: LATITUDE, lng: LONGITUDE };
+        let location = { lat: loc.coords.latitude, lng: loc.coords.longitude };
+        // let location = { lat: LATITUDE, lng: LONGITUDE };
         console.log(location);
         for (i in geofence) {
             console.log(geofence[i]);
-            if (
-                await GeoFencing.containsLocation(location, mainCampusPolygon)
-            ) {
-                console.log("geofence success");
+            // if (await GeoFencing.containsLocation(location, geofence[i])) {
+            if (this.ourContainsLocation(location, geofence[i])) {
+                console.log("geofence true");
                 return true;
             }
         }
         console.log("geofence false");
         return false;
+    }
+
+    ourContainsLocation(point, poly) {
+        let x = point.lng;
+        let y = point.lat;
+        let inside = false;
+        for (var i = 1; i < poly.length; i++) {
+            console.log(
+                x +
+                    ", " +
+                    y +
+                    " " +
+                    poly[i - 1].lat +
+                    "," +
+                    poly[i - 1].lng +
+                    " " +
+                    poly[i].lat +
+                    ", " +
+                    poly[i].lng
+            );
+            if (
+                poly[i].lat > y != poly[i - 1].lat > y &&
+                x <
+                    ((poly[i - 1].lng - poly[i].lng) * (y - poly[i].lat)) /
+                        (poly[i - 1].lat - poly[i].lat) +
+                        poly[i].lng
+            ) {
+                console.log(poly.length + " " + i);
+                inside = !inside;
+            }
+        }
+        return inside;
     }
 
     // Stores unsubmitted report into AsyncStorage
