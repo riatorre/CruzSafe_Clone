@@ -1585,8 +1585,8 @@ class ReportScreen extends Component {
                                         <View style={styles.tipBubbleSmallest}>
                                             <Text style={styles.mainTipText}>
                                                 To mark the location of the
-                                                incident, press the “Mark on
-                                                Map” button.
+                                                incident, press the “Mark
+                                                location” button.
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {

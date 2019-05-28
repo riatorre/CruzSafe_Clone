@@ -557,6 +557,10 @@ export default (styles = StyleSheet.create({
         padding: 10,
         backgroundColor: "rgba(0,204,0,0.2)"
     },
+    markLocation: {
+        fontSize: 18,
+        color: "white"
+    },
     refreshBtn: {
         flex: 0.09,
         margin: 1,

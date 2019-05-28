@@ -270,15 +270,16 @@ class LocationScreen extends Component {
                                 }}
                             >
                                 <TouchableOpacity
-                                    style={{
-                                        backgroundColor: "#ffffffc0",
-                                        alignItems: "center",
-                                        borderWidth: 0.2,
-                                        borderColor: "#00000050",
-                                        width: 50,
-                                        height: 50,
-                                        padding: 5
-                                    }}
+                                    // style={{
+                                    //     backgroundColor: "#ffffffc0",
+                                    //     alignItems: "center",
+                                    //     borderWidth: 0.2,
+                                    //     borderColor: "#00000050",
+                                    //     width: 100,
+                                    //     height: 50,
+                                    //     padding: 5
+                                    // }}
+                                    style={styles.btn}
                                     onPress={() => {
                                         var pre_report = this.state.pre_report;
                                         if (
@@ -310,15 +311,19 @@ class LocationScreen extends Component {
                                         }
                                     }}
                                 >
-                                    <Icon
+                                    {/* <Icon
                                         name={`${
                                             Platform.OS === "ios" ? "ios" : "md"
                                         }-checkmark`}
                                         style={{
                                             fontSize: 40,
-                                            color: "#00b000"
+                                            color: "#00b000",
+                                            text: "Mark current location"
                                         }}
-                                    />
+                                    /> */}
+                                    <Text style={styles.markLocation}>
+                                        Mark location
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
