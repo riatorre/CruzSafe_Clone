@@ -304,6 +304,34 @@ export default (styles = StyleSheet.create({
         backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
         borderRadius: 10
     },
+    reportNavigation: {
+        height: Dimensions.get("window").height * 0.08,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 15
+    },
+    reportNavigationBtnHalf: {
+        marginTop: 5,
+        padding: 5,
+        flex: 0.49,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#00000090",
+        borderColor: "#000000",
+        borderRadius: 10
+    },
+    reportNavigationBtnFull: {
+        marginTop: 5,
+        padding: 5,
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#00000090",
+        borderColor: "#000000",
+        borderRadius: 10
+    },
     reportBtnHalf: {
         marginTop: 5,
         padding: 5,

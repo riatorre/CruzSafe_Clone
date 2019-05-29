@@ -860,9 +860,30 @@ class ReportScreen extends Component {
                                     </ScrollView>
 
                                     {/*<IncidentTypePicker homeScreen={this} />*/}
-                                    <Text style={styles.fieldFooterBackground}>
-                                        Select a Category
-                                    </Text>
+                                    <Text
+                                        style={styles.fieldFooterBackground}
+                                    />
+                                    {/*Navigation*/}
+                                    <View style={styles.reportNavigation}>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnFull
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-forward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
 
                                     <View
                                         animationType="fade"
@@ -1045,6 +1066,45 @@ class ReportScreen extends Component {
                                             this.state.incidentDesc.length}
                                         /{maxDescLength}
                                     </Text>
+                                    {/*Navigation*/}
+                                    <View style={styles.reportNavigation}>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnHalf
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(-1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-backward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnHalf
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-forward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                     <View
                                         animationType="fade"
                                         transparent={true}
@@ -1229,6 +1289,45 @@ class ReportScreen extends Component {
                                                 .length}
                                         /{maxLocationDescLength}
                                     </Text>
+                                    {/*Navigation*/}
+                                    <View style={styles.reportNavigation}>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnHalf
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(-1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-backward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnHalf
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-forward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                     <View
                                         animationType="fade"
                                         transparent={true}
@@ -1496,9 +1595,9 @@ class ReportScreen extends Component {
                                             </Text>
                                         </View>
                                     )}
-                                    <Text style={styles.fieldFooterBackground}>
+                                    {/*<Text style={styles.fieldFooterBackground}>
                                         Optional Image / Video
-                                    </Text>
+                                    </Text>*/}
                                     <View
                                         animationType="fade"
                                         transparent={true}
@@ -1828,18 +1927,45 @@ class ReportScreen extends Component {
                                             Mark on Map
                                         </Text>
                                     </TouchableOpacity>
-                                    {/* Button that indicates all of the above options are optional! */}
-                                    <TouchableOpacity
-                                        style={styles.reportBtnFull}
-                                        onPress={() => {
-                                            this.swiper.scrollBy(1);
-                                            Keyboard.dismiss();
-                                        }}
-                                    >
-                                        <Text style={styles.incidentText}>
-                                            Finalize Report!
-                                        </Text>
-                                    </TouchableOpacity>
+                                    {/*Navigation*/}
+                                    <View style={styles.reportNavigation}>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnHalf
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(-1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-backward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnHalf
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-forward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                     <View
                                         animationType="fade"
                                         transparent={true}
@@ -2068,6 +2194,27 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                         </View>
                                     )}
+                                    {/*Navigation*/}
+                                    <View style={styles.reportNavigation}>
+                                        <TouchableOpacity
+                                            style={
+                                                styles.reportNavigationBtnFull
+                                            }
+                                            onPress={() => {
+                                                this.swiper.scrollBy(-1);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-skip-backward`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                     {/* Button that allows report to be sent */}
                                     <TouchableOpacity
                                         style={styles.reportBtnSubmit}
