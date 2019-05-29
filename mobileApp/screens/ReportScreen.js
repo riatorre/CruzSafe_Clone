@@ -12,7 +12,10 @@ import {
     Alert,
     Image,
     ActivityIndicator,
-    Modal
+    ImageBackground,
+    Modal,
+    Keyboard,
+    RNFS
 } from "react-native";
 import {
     Container,
@@ -35,12 +38,24 @@ import GeoFencing from "react-native-geo-fencing";
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
 
+// TODO: Make this process automated for arbitrary lengths of tags.
 const tagsList = [
     "Water Leak",
     "Broken Light",
     "Broken Window",
     "Lighting Deficiency",
     "Excess Trash"
+];
+
+// TODO: Make this process automated for arbitrary lengths of tags.
+// TODO: Make sure that if any tags don't have pictures, implement tagNull.jpg
+const tagsImages = [
+    require("../assets/images/tag1.jpg"),
+    require("../assets/images/tag2.jpg"),
+    require("../assets/images/tag3.jpg"),
+    require("../assets/images/tag4.jpg"),
+    require("../assets/images/tag5.jpg"),
+    require("../assets/images/tag6.jpg")
 ];
 
 const maxDescLength = 1000;
@@ -89,6 +104,7 @@ var tutorialParams = {
     inHistoryOnboarding: false
 };
 
+/*
 function createIncidentTypePicker(props) {
     return (
         <TouchableOpacity
@@ -107,6 +123,76 @@ function createIncidentTypePicker(props) {
                 style={{ fontSize: 14 }}
             />
         </TouchableOpacity>
+    );
+}
+*/
+
+/*
+    Helper function that generates an array of incident touchableOpacity objects.
+*/
+function createIncidentPictures(props) {
+    let incidentsComponent;
+    // Create touchable opacity for each tag.
+    incidentsComponent = tagsList.map(function(tag) {
+        tagNumber = tagsList.indexOf(tag) + 1; // The actual tagNumber as present in the database
+        tagClass = "tag" + tagNumber + "Container";
+        // Create from default template (no picture)
+        return (
+            <TouchableOpacity
+                key={tagNumber}
+                class="incidentContainer"
+                style={styles.incidentContainer}
+                onPress={() => {
+                    var pre_report = props.homeScreen.state.pre_report;
+                    pre_report.incidentCategory == tagNumber;
+                    props.homeScreen._isMounted &&
+                        props.homeScreen.setState({
+                            incidentCategory: tag,
+                            pre_report: pre_report
+                        });
+                    props.homeScreen.storeUnsubReport(pre_report);
+
+                    // TODO: Change colors.
+
+                    props.homeScreen.swiper.scrollBy(1);
+                }}
+            >
+                <ImageBackground
+                    source={tagsImages[tagNumber - 1]}
+                    class="incidentPicture"
+                    style={styles.incidentPicture}
+                >
+                    <View style={styles.incidentbtn}>
+                        <Text class="incidentText" style={styles.incidentText}>
+                            {tag}
+                        </Text>
+                    </View>
+                </ImageBackground>
+            </TouchableOpacity>
+        );
+    });
+    let pairedArray = [];
+    // Convert the array (1,1,1,1,1...) into pairs (2,2,2....2/1).
+    for (i = 0; i < incidentsComponent.length / 2; i++) {
+        pairedArray.push(
+            pairComponents(
+                incidentsComponent[i * 2],
+                incidentsComponent[i * 2 + 1],
+                i
+            )
+        );
+    }
+    return pairedArray;
+}
+
+function pairComponents(component1, component2, key) {
+    return (
+        <View key={key} style={styles.incidentRow}>
+            <React.Fragment>
+                {component1}
+                {component2}
+            </React.Fragment>
+        </View>
     );
 }
 
@@ -727,7 +813,8 @@ class ReportScreen extends Component {
 
     render() {
         const { goBack } = this.props.navigation;
-        const IncidentTypePicker = createIncidentTypePicker;
+        /*const IncidentTypePicker = createIncidentTypePicker;*/
+        const IncidentPictures = createIncidentPictures;
         var { image } = this.state;
         return (
             <Root>
@@ -762,7 +849,17 @@ class ReportScreen extends Component {
                                     <Text style={styles.fieldHeaderBackground}>
                                         Incident Type:
                                     </Text>
-                                    <IncidentTypePicker homeScreen={this} />
+                                    {/*Primary container of all incidents. To be populated.*/}
+                                    <ScrollView
+                                        class="incidentsContainer"
+                                        contentContainerStyle={
+                                            styles.incidentsContainer
+                                        }
+                                    >
+                                        <IncidentPictures homeScreen={this} />
+                                    </ScrollView>
+
+                                    {/*<IncidentTypePicker homeScreen={this} />*/}
                                     <Text style={styles.fieldFooterBackground}>
                                         Select a Category
                                     </Text>
@@ -901,15 +998,24 @@ class ReportScreen extends Component {
                                         placeholder="Description of the Incident"
                                         maxLength={maxDescLength}
                                         onChangeText={incidentDesc => {
-                                            var pre_report = this.state
-                                                .pre_report;
-                                            pre_report.incidentDesc = incidentDesc;
-                                            this._isMounted &&
-                                                this.setState({
-                                                    incidentDesc: incidentDesc,
-                                                    pre_report: pre_report
-                                                });
-                                            this.storeUnsubReport(pre_report);
+                                            if (
+                                                incidentDesc.slice(-1) === "\n"
+                                            ) {
+                                                this.swiper.scrollBy(1);
+                                                Keyboard.dismiss();
+                                            } else {
+                                                var pre_report = this.state
+                                                    .pre_report;
+                                                pre_report.incidentDesc = incidentDesc;
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        incidentDesc: incidentDesc,
+                                                        pre_report: pre_report
+                                                    });
+                                                this.storeUnsubReport(
+                                                    pre_report
+                                                );
+                                            }
                                         }}
                                         onContentSizeChange={event =>
                                             this._isMounted &&
@@ -1074,15 +1180,26 @@ class ReportScreen extends Component {
                                         maxLength={maxLocationDescLength}
                                         placeholder="Description of the Incident Location (Floor #, room #, etc)"
                                         onChangeText={incidentLocationDesc => {
-                                            var pre_report = this.state
-                                                .pre_report;
-                                            pre_report.incidentLocationDesc = incidentLocationDesc;
-                                            this._isMounted &&
-                                                this.setState({
-                                                    incidentLocationDesc: incidentLocationDesc,
-                                                    pre_report: pre_report
-                                                });
-                                            this.storeUnsubReport(pre_report);
+                                            if (
+                                                incidentLocationDesc.slice(
+                                                    -1
+                                                ) === "\n"
+                                            ) {
+                                                this.swiper.scrollBy(1);
+                                                Keyboard.dismiss();
+                                            } else {
+                                                var pre_report = this.state
+                                                    .pre_report;
+                                                pre_report.incidentLocationDesc = incidentLocationDesc;
+                                                this._isMounted &&
+                                                    this.setState({
+                                                        incidentLocationDesc: incidentLocationDesc,
+                                                        pre_report: pre_report
+                                                    });
+                                                this.storeUnsubReport(
+                                                    pre_report
+                                                );
+                                            }
                                         }}
                                         onContentSizeChange={event =>
                                             this.setState({
@@ -1351,7 +1468,7 @@ class ReportScreen extends Component {
                             <View style={styles.container}>
                                 <View style={styles.reportContainer}>
                                     <Text style={styles.fieldHeaderBackground}>
-                                        Attachment:
+                                        Optional Attachments:
                                     </Text>
                                     {image ? (
                                         <TouchableOpacity
@@ -1711,6 +1828,18 @@ class ReportScreen extends Component {
                                             Mark on Map
                                         </Text>
                                     </TouchableOpacity>
+                                    {/* Button that indicates all of the above options are optional! */}
+                                    <TouchableOpacity
+                                        style={styles.reportBtnFull}
+                                        onPress={() => {
+                                            this.swiper.scrollBy(1);
+                                            Keyboard.dismiss();
+                                        }}
+                                    >
+                                        <Text style={styles.incidentText}>
+                                            Finalize Report!
+                                        </Text>
+                                    </TouchableOpacity>
                                     <View
                                         animationType="fade"
                                         transparent={true}
@@ -1919,7 +2048,7 @@ class ReportScreen extends Component {
                                             }}
                                         >
                                             <Text style={styles.summaryHeader}>
-                                                Attachment:
+                                                Optional Attachments:
                                             </Text>
                                             <TouchableOpacity
                                                 style={styles.reportBtnImg}
@@ -2018,6 +2147,7 @@ class ReportScreen extends Component {
                         </Footer>
                     </Container>
                     {/* iOS picker Modal*/}
+                    {/*
                     <Modal
                         animationType="fade"
                         transparent={true}
@@ -2065,7 +2195,7 @@ class ReportScreen extends Component {
                                 </ScrollView>
                             </View>
                         </View>
-                    </Modal>
+                    </Modal>*/}
                     <Modal
                         animationType="fade"
                         transparent={true}

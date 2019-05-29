@@ -132,6 +132,53 @@ export default (styles = StyleSheet.create({
         borderWidth: containerBorderWidth,
         borderColor: containerBorderColor
     },
+    incidentsContainer: {
+        /*flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "stretch",*/
+        backgroundColor: darktheme ? primaryColor : quaternaryColor
+    },
+    incidentRow: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "stretch",
+        //backgroundColor: darktheme ? primaryColor : quaternaryColor,
+        alignItems: "center"
+    },
+    incidentContainer: {
+        height: Dimensions.get("window").height * 0.2,
+        width: "45%",
+        justifyContent: "center",
+        padding: Dimensions.get("window").width * 0.02,
+        borderRadius: Dimensions.get("window").width * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.02,
+        marginVertical: Dimensions.get("window").height * 0.01,
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor
+    },
+    incidentPicture: {
+        flex: 1,
+        width: "100%",
+        height: "auto"
+    },
+    incidentbtn: {
+        position: "absolute",
+        width: "100%",
+        paddingTop: 5,
+        paddingBottom: 5,
+        bottom: 0,
+        backgroundColor: "#00000040"
+    },
+    incidentText: {
+        fontSize: Dimensions.get("window").height * 0.025,
+        fontWeight: "bold",
+        color: secondaryColor,
+        textAlign: "center"
+    },
     AboutUSRow: {
         flex: 1,
         flexDirection: "row",
