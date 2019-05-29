@@ -144,7 +144,7 @@ function createIncidentPictures(props) {
                 style={styles.incidentContainer}
                 onPress={() => {
                     var pre_report = props.homeScreen.state.pre_report;
-                    pre_report.incidentCategory == tagNumber;
+                    pre_report.incidentCategory = tag;
                     props.homeScreen._isMounted &&
                         props.homeScreen.setState({
                             incidentCategory: tag,
