@@ -1,393 +1,403 @@
 html,
 body {
-  /* background-color: #376f9e; */
-  background-color: #fffeff;
+    /* background-color: #376f9e; */
+    background-color: #fffeff;
 }
 
 main {
-  display: grid;
-  padding: 10px;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-  grid-template-areas:
-    "filter header header header header"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter reports reports reports reports"
-    "filter navigation navigation navigation navigation";
+    display: grid;
+    padding: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-template-areas:
+        "filter header header header header"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter reports reports reports reports"
+        "filter navigation navigation navigation navigation";
 }
 
 main .filterOptionsGridWrapper,
 main .reportHeaderGridWrapper,
 main .reportListGridWrapper,
 main .navigationButtonsGridWrapper {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 main .filterOptionsGridWrapper {
-  grid-area: filter;
+    grid-area: filter;
 }
 
 main .reportHeaderGridWrapper {
-  grid-area: header;
+    grid-area: header;
 }
 
 main .reportListGridWrapper {
-  grid-area: reports;
+    grid-area: reports;
 }
 
 main .navigationButtonsGridWrapper {
-  grid-area: navigation;
+    grid-area: navigation;
 }
 
 .filterOptions {
-  margin: 10px;
-  padding: 5px;
-  -moz-border-radius: 8;
-  -webkit-border-radius: 8px;
-  border-radius: 12px;
-  color: #fffeff;
-  width: 90%;
-  height: auto;
-  margin: 0px;
-  border: 0px solid black;
-  background-color: #376f9e;
+    margin: 10px;
+    padding: 5px;
+    -moz-border-radius: 8;
+    -webkit-border-radius: 8px;
+    border-radius: 12px;
+    color: #fffeff;
+    width: 90%;
+    height: auto;
+    margin: 0px;
+    border: 0px solid black;
+    background-color: #376f9e;
 }
 
 .filterOptions p {
-  display: inline;
-  color: #fffeff;
+    display: inline;
+    color: #fffeff;
 }
 
 .filterOptions div h3 {
-  color: #fffeff;
+    color: #fffeff;
 }
 
 .filterOptions div a,
 .filterOptions div p {
-  color: #fffeff;
-}
-
-/*
-.filterOptions :not(:first-child) {
-    display: none;
-}*/
-
-.filterOptions div a.icon {
-  float: right;
-  display: block;
+    color: #fffeff;
 }
 
 .filterOptions .btn {
-  margin: 0px;
+    margin: 0px;
 }
 
 .filterOptions .btn:hover {
-  background-color: slategray;
-}
-
-.filterOptions.responsive {
-  position: relative;
-  height: auto;
-}
-
-.filterOptions.responsive * {
-  float: none;
-  display: inline-flex;
-  text-align: left;
+    background-color: slategray;
 }
 
 .filterFix {
-  justify-content: flex-start;
+    justify-content: flex-start;
 }
 
 .filterInputs {
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  flex-wrap: wrap;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .filterDropdowns {
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    justify-content: space-between;
 }
 
 .reportHeader {
-  width: 90%;
-  justify-content: space-between;
-  padding: 15px;
-  color: #fffeff;
-  background: #376f9e;
-  font-size: 15px;
-  text-align: left;
-  display: flex;
-  font-weight: bold;
+    width: 90%;
+    justify-content: space-between;
+    padding: 15px;
+    color: #fffeff;
+    background: #376f9e;
+    font-size: 15px;
+    text-align: left;
+    display: flex;
+    font-weight: bold;
 }
 
 .reportList {
-  width: 90%;
-  height: 100%;
-  border: 0px solid black;
-  background: #919ba5;
-  overflow: auto;
-  padding: 10px;
+    width: 90%;
+    height: 100%;
+    border: 0px solid black;
+    background: #919ba5;
+    overflow: auto;
+    padding: 10px;
 }
 
 .report {
-  width: 100%;
-  height: 44px;
-  justify-content: space-between;
-  padding: 5px;
-  font-size: 15px;
-  text-align: left;
-  display: flex;
-  white-space: pre;
+    width: 100%;
+    height: 44px;
+    justify-content: space-between;
+    padding: 5px;
+    font-size: 15px;
+    text-align: left;
+    display: flex;
+    white-space: pre;
 }
 
 .check_header {
-  width: 0.5%;
+    width: 0.5%;
 }
 
 #inc {
-  height: 25px;
-  width: 50px;
-  min-width: 50px;
-  font-size: 15px;
-  font-weight: bold;
-  -webkit-appearance: textfield;
-  background-color: white;
-  -webkit-rtl-ordering: logical;
-  cursor: text;
-  padding: 0px;
-  border-width: 1px;
-  border-style: inset;
-  border-color: initial;
-  border-image: initial;
-  padding: 0px 0px;
-  margin: 0px;
-  display: none;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
+    height: 25px;
+    width: 50px;
+    min-width: 50px;
+    font-size: 15px;
+    font-weight: bold;
+    -webkit-appearance: textfield;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 0px;
+    border-width: 1px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+    padding: 0px 0px;
+    margin: 0px;
+    display: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 [type="button"] {
-  height: 25px;
-  min-width: 70px;
-  padding: 0;
-  margin: 0;
-  display: none;
-  background-color: #eee;
-  color: #000;
+    height: 25px;
+    min-width: 70px;
+    padding: 0;
+    margin: 0;
+    display: none;
+    background-color: #eee;
+    color: #000;
 }
 
 [type="button"]:hover {
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  background-color: #ccc;
-  color: black;
-  cursor: pointer;
-  box-shadow: 0;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    background-color: #ccc;
+    color: black;
+    cursor: pointer;
+    box-shadow: 0;
 }
 
 .btn {
-  margin-left: 0px;
-  margin-right: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .navigationButtons > .btn + .btn {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .buttonResolvedUnresolved {
-  width: 4.5%;
+    width: 4.5%;
 }
 
 .buttonReportIDText,
 .buttonIncidentIDText {
-  margin-left: 30px;
-  width: 5%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    margin-left: 30px;
+    width: 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .buttonReportTSText,
 .buttonTagText,
 .buttonFullNameText {
-  width: 15%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    width: 15%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .buttonLocationText {
-  width: 20%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    width: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .buttonBodyText {
-  width: 20%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    width: 20%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .report > .buttonLocationText {
-  font-style: italic;
+    font-style: italic;
 }
 
 .check {
-  min-width: 15px;
-  -webkit-appearance: checkbox;
-  cursor: pointer;
+    min-width: 15px;
+    -webkit-appearance: checkbox;
+    cursor: pointer;
 }
 
 /* Customize the label (the container) */
 .container {
-  display: block;
-  position: relative;
-  padding-left: 0px;
-  cursor: pointer;
-  font-size: 15px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    display: block;
+    position: relative;
+    padding-left: 0px;
+    cursor: pointer;
+    font-size: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Hide the browser's default checkbox */
 .container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
 }
 
 /* Create a custom checkbox */
 .checkmark {
-  position: absolute;
-  top: 15px;
-  left: 5px;
-  height: 15px;
-  width: 15px;
-  background-color: #eee;
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
 }
 
 #checkmark_hd {
-  position: absolute;
-  top: -6.5px;
-  left: 0;
-  height: 15px;
-  width: 15px;
-  background-color: #eee;
+    position: absolute;
+    top: -6.5px;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
 }
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ #checkmark_hd,
 .container:hover input ~ .checkmark {
-  background-color: #ccc;
+    background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ #checkmark_hd,
 .container input:checked ~ .checkmark {
-  /* background-color: #2196f3; */
-  background-color: #fffeff;
+    /* background-color: #2196f3; */
+    background-color: #fffeff;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 #checkmark_hd:after,
 .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+    content: "";
+    position: absolute;
+    display: none;
 }
 
 /* Show the checkmark when checked */
 .container input:checked ~ #checkmark_hd:after,
 .container input:checked ~ .checkmark:after {
-  display: block;
+    display: block;
 }
 
 /* Style the checkmark/indicator */
 .container #checkmark_hd:after,
 .container .checkmark:after {
-  left: 5.3px;
-  top: 2.6px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+    left: 5.3px;
+    top: 2.6px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 .navigationButtons {
-  display: inline-flex;
-  margin-top: 20px;
-  margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .navigationButtons > button {
-  display: inline-block;
-  font-size: 15px;
-  padding-right: 20px;
-  padding-left: 20px;
+    display: inline-block;
+    font-size: 15px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 .navigationButtons > div {
-  display: inline-block;
-  font-size: 15px;
-  padding-right: 20px;
-  padding-left: 20px;
+    display: inline-block;
+    font-size: 15px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 @media only screen and (max-width: 600px) {
-  .navigationButtons {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  .navigationButtons > div {
-    padding: 0px;
-  }
-  .navigationButtons > button {
-    margin: 0px;
-    padding: 5px 10px;
-  }
+    .navigationButtons {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .navigationButtons > div {
+        padding: 0px;
+    }
+    .navigationButtons > button {
+        margin: 0px;
+        padding: 5px 10px;
+    }
 
-  .buttonResolvedUnresolved,
-  .buttonReportIDText,
-  .buttonIncidentIDText {
-    width: 20%;
-  }
+    .buttonResolvedUnresolved,
+    .buttonReportIDText,
+    .buttonIncidentIDText {
+        width: 20%;
+    }
 
-  .buttonBodyText {
-    width: 40%;
-  }
+    .buttonBodyText {
+        width: 40%;
+    }
 
-  .buttonTagText,
-  .buttonFullNameText,
-  .buttonLocationText,
-  .buttonReportTSText {
-    display: none;
-  }
+    .buttonTagText,
+    .buttonFullNameText,
+    .buttonLocationText,
+    .buttonReportTSText {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 600px) {
-  .reportList {
-    max-height: 250px;
-  }
+    main {
+        display: grid;
+        grid-auto-columns: minmax(100px, auto) !important;
+        grid-auto-rows: minmax(100px, auto) !important;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: repeat(4, 1fr);
+        grid-template:
+            "filter"
+            "header"
+            "reports"
+            "navigation";
+    }
+    .reportList {
+        max-height: 250px;
+    }
+
+    .filterOptions :not(:first-child) {
+        display: none;
+    }
+
+    .filterOptions div a.icon {
+        float: right;
+        display: block;
+    }
+
+    .filterOptions.responsive {
+        position: relative;
+        height: auto;
+    }
+
+    .filterOptions.responsive * {
+        float: none;
+        display: inline-flex;
+        text-align: left;
+    }
 }
