@@ -115,7 +115,7 @@ class LinksScreen extends Component {
                                 style={styles.linkContainer}
                                 onPress={() => {
                                     Linking.openURL(
-                                        "https://pubsci.ucsc.edu/facilities/index.html"
+                                        "https://pbsbo.ucsc.edu/facilities/index.html"
                                     );
                                 }}
                             >
@@ -169,7 +169,7 @@ class LinksScreen extends Component {
                             <TouchableOpacity
                                 style={styles.linkContainer}
                                 onPress={() => {
-                                    Linking.openURL("risk.ucsc.edu");
+                                    Linking.openURL("https://risk.ucsc.edu");
                                 }}
                             >
                                 <Image
