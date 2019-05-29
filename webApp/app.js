@@ -394,13 +394,9 @@ connectionPool.handleAPI(
                             console.log("Gotten google result:");
                             console.log(googleResult);
                             let buildingLat =
-                                googleResult[0]["geometry"][
-                                    "location"
-                                ]["lat"];
+                                googleResult[0]["geometry"]["location"]["lat"];
                             let buildingLng =
-                                googleResult[0]["geometry"][
-                                    "location"
-                                ]["lng"];
+                                googleResult[0]["geometry"]["location"]["lng"];
                             let buildingKey = building["buildingKey"];
 
                             // For each buildingKey, run through google maps API and insert into database.
@@ -421,7 +417,7 @@ connectionPool.handleAPI(
                                 () => {},
                                 () => {
                                     myConsole.log(
-                                            "An Error has Occurred - Updating a building's lat and long."
+                                        "An Error has Occurred - Updating a building's lat and long."
                                     );
                                 }
                             );
@@ -435,7 +431,7 @@ connectionPool.handleAPI(
     },
     () => {
         myConsole.log(
-                "An Error has occurred - Finding buildings that have null lat and long."
+            "An Error has occurred - Finding buildings that have null lat and long."
         );
     }
 );
