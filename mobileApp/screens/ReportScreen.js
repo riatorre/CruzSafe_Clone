@@ -840,6 +840,7 @@ class ReportScreen extends Component {
                         </Header>
                         <Swiper
                             loop={false}
+                            showsButtons={true}
                             ref={swiper => {
                                 this.swiper = swiper;
                             }}

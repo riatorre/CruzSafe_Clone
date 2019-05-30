@@ -309,7 +309,11 @@ router.post("/reportID", function(req, res) {
 
 // Get Report By Incident ID #, may return 0+ entries
 router.post("/incidentID", function(req, res) {
-    const query = "SELECT * FROM reports WHERE incidentID = " + req.body.id;
+    const query =
+        "SELECT * FROM reports WHERE incidentID = " +
+        req.body.id +
+        " OR reportID = " +
+        req.body.id;
     connectionPool.handleAPI(
         req.body.id,
         null,
@@ -358,6 +362,12 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
             connectionPool.sanitizeString(req.body.token)
         ]
     ];
+
+    /*
+        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token, expireTS) VALUES ("
+        + [values]
+        + ", DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 90 DAY))"
+    */
     const primaryQuery =
         "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
         [values] +
@@ -400,15 +410,16 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
 
                             googleMapsClient.reverseGeocode(
                                 {
-                                    latlng:
-                                        [req.body.incidentLatitude,
-                                        req.body.incidentLongitude]
+                                    latlng: [
+                                        req.body.incidentLatitude,
+                                        req.body.incidentLongitude
+                                    ]
                                 },
                                 function(err, response) {
                                     if (!err) {
                                         let googleResult =
                                             response.json.results;
-                                        let buildingStreet = 
+                                        let buildingStreet =
                                             googleResult[0][
                                                 "address_components"
                                             ][0]["long_name"] +
@@ -416,23 +427,29 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                             googleResult[0][
                                                 "address_components"
                                             ][1]["long_name"];
-                                        let buildingCity = 
+                                        let buildingCity =
                                             googleResult[0][
                                                 "address_components"
                                             ][2]["long_name"];
-                                        //let buildingCounty = addQuotes(googleResult["address_components"][3]["long_name"]);
-                                        let buildingState = 
+                                        //let buildingCounty = connectionPool.sanitizeString(googleResult["address_components"][3]["long_name"]);
+                                        let buildingState =
                                             googleResult[0][
                                                 "address_components"
                                             ][4]["short_name"];
 
                                         const buildingQuery =
                                             "SELECT buildingKey FROM buildings WHERE buildingStreet=" +
-                                            addQuotes(buildingStreet) +
+                                            connectionPool.sanitizeString(
+                                                buildingStreet
+                                            ) +
                                             " AND buildingCity = " +
-                                            addQuotes(buildingCity) +
+                                            connectionPool.sanitizeString(
+                                                buildingCity
+                                            ) +
                                             " AND buildingState = " +
-                                            addQuotes(buildingState);
+                                            connectionPool.sanitizeString(
+                                                buildingState
+                                            );
 
                                         // Given that address, check to see if there is a matching one in the database.
                                         connectionPool.handleAPI(
@@ -443,9 +460,15 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                             0,
                                             buildingQuery,
                                             valKey => {
-                                                if (valKey.length > 0 && valKey) {
+                                                if (
+                                                    valKey.length > 0 &&
+                                                    valKey
+                                                ) {
                                                     // if there is a building that matches, insert it into the report and return.
-                                                    let buildingKey = valKey[0]["buildingKey"];
+                                                    let buildingKey =
+                                                        valKey[0][
+                                                            "buildingKey"
+                                                        ];
                                                     connectionPool.handleAPI(
                                                         // INSERT MATCHING BUILDING KEY INTO REPORTS
                                                         null,
@@ -472,14 +495,55 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                     );
                                                 } else {
                                                     // Else if there isn't, sort the entire database and get the one with lat - x and long - y that is closest to 0.
-                                                    let lat = req.body.incidentLatitude;
-                                                    let lng = req.body.incidentLongitude;
+                                                    let lat =
+                                                        req.body
+                                                            .incidentLatitude;
+                                                    let lng =
+                                                        req.body
+                                                            .incidentLongitude;
                                                     let sf = 3.14159 / 180; // scaling factor
                                                     let er = 6350; // earth radius in miles, approximate
                                                     let mr = 100; // max radius
-                                                    const findBuildingQuery = "SELECT buildingKey FROM buildings WHERE "+mr+" >= "+er+" * ACOS(SIN(buildingLat*"+sf+")*SIN("+lat+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+lat+"*"+sf+")*COS((buildingLng-"+lng+")*"+sf+"))ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+lat+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+lat+"*"+sf+")*COS((buildingLng-"+lng+")*"+sf+"))";
+                                                    const findBuildingQuery =
+                                                        "SELECT buildingKey FROM buildings WHERE " +
+                                                        mr +
+                                                        " >= " +
+                                                        er +
+                                                        " * ACOS(SIN(buildingLat*" +
+                                                        sf +
+                                                        ")*SIN(" +
+                                                        lat +
+                                                        "*" +
+                                                        sf +
+                                                        ") + COS(buildingLat*" +
+                                                        sf +
+                                                        ")*COS(" +
+                                                        lat +
+                                                        "*" +
+                                                        sf +
+                                                        ")*COS((buildingLng-" +
+                                                        lng +
+                                                        ")*" +
+                                                        sf +
+                                                        "))ORDER BY ACOS(SIN(buildingLat*" +
+                                                        sf +
+                                                        ")*SIN(" +
+                                                        lat +
+                                                        "*" +
+                                                        sf +
+                                                        ") + COS(buildingLat*" +
+                                                        sf +
+                                                        ")*COS(" +
+                                                        lat +
+                                                        "*" +
+                                                        sf +
+                                                        ")*COS((buildingLng-" +
+                                                        lng +
+                                                        ")*" +
+                                                        sf +
+                                                        "))";
                                                     //const findBuildingQuery =
-                                                     //   "SELECT buildingKey FROM buildings ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+req.body.incidentLatitude+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+req.body.incidentLatitude+"*"+sf+")*COS((buildingLng-"+req.body.incidentLongitude+")*"+sf+"))";
+                                                    //   "SELECT buildingKey FROM buildings ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+req.body.incidentLatitude+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+req.body.incidentLatitude+"*"+sf+")*COS((buildingLng-"+req.body.incidentLongitude+")*"+sf+"))";
                                                     connectionPool.handleAPI(
                                                         // SORT BUILDINGS BY CLOSEST LAT AND LONG
                                                         [
@@ -525,7 +589,8 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                         () => {
                                                             res.json({
                                                                 message:
-                                                                    "An Error has Occurred. Error Code 81923 - Sort buildings by closest lat and long failed. Query = " + findBuildingQuery
+                                                                    "An Error has Occurred. Error Code 81923 - Sort buildings by closest lat and long failed. Query = " +
+                                                                    findBuildingQuery
                                                             });
                                                         }
                                                     );
@@ -534,13 +599,16 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                             () => {
                                                 res.json({
                                                     message:
-                                                        "An Error has Occurred. Error Code 00623 - Checking to find buildings with matching addresses failed. Query = " + buildingQuery
+                                                        "An Error has Occurred. Error Code 00623 - Checking to find buildings with matching addresses failed. Query = " +
+                                                        buildingQuery
                                                 });
                                             }
                                         );
-                                    }
-                                    else{
-                                        res.json({ message: "An Error has Occurred. Error Code 00624 - Converting API failed." });
+                                    } else {
+                                        res.json({
+                                            message:
+                                                "An Error has Occurred. Error Code 00624 - Converting API failed."
+                                        });
                                     }
                                 }
                             );
@@ -908,15 +976,6 @@ router.post("/updateToken", function(req, res) {
         }
     );
 });
-
-
-/*
- * Helper function that wraps a string in '' symbols for a SQL query.
- */
-function addQuotes(string) {
-    return (string = '"' + string + '"');
-}
-
 
 router.post("/updateInc", function(req, res) {
     let reportID = req.body.reports;
