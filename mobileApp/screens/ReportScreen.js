@@ -6,6 +6,7 @@ import {
     SafeAreaView,
     TouchableOpacity,
     Platform,
+    Dimensions,
     ScrollView,
     AsyncStorage,
     AppState,
@@ -72,6 +73,9 @@ const newPre_report = {
     unchangedLocation: true,
     imageURI: null
 };
+
+const maxTextHeight = Dimensions.get("window").height * 0.7;
+const minTextHeight = Dimensions.get("window").height * 0.15;
 
 const mainCampusPolygon = [
     { lat: 36.9973, lng: -122.071065 },
@@ -173,12 +177,29 @@ function createIncidentPictures(props) {
     });
     let pairedArray = [];
     // Convert the array (1,1,1,1,1...) into pairs (2,2,2....2/1).
-    for (i = 0; i < incidentsComponent.length / 2; i++) {
+    for (i = 0; i < Math.floor(incidentsComponent.length / 2); i++) {
         pairedArray.push(
             pairComponents(
                 incidentsComponent[i * 2],
                 incidentsComponent[i * 2 + 1],
                 i
+            )
+        );
+    }
+    // For stragglers (only 1 instead of 2; odd length)
+    if (incidentsComponent.length % 2 != 0) {
+        pairedArray.push(
+            pairComponents(
+                incidentsComponent[incidentsComponent.length - 1],
+                <View
+                    style={[
+                        styles.incidentContainer,
+                        {
+                            backgroundColor: "#00000000"
+                        }
+                    ]}
+                />,
+                incidentsComponent.length - 1
             )
         );
     }
@@ -848,76 +869,105 @@ class ReportScreen extends Component {
                             <View style={styles.container}>
                                 {/* REPORT STYLING: INCIDENT TYPE */}
                                 <View style={styles.reportContainer}>
-                                    <Text style={styles.fieldHeaderBackground}>
-                                        Incident Type:
-                                    </Text>
-                                    {/*Primary container of all incidents. To be populated.*/}
-                                    <ScrollView
-                                        class="incidentsContainer"
-                                        contentContainerStyle={
-                                            styles.incidentsContainer
-                                        }
-                                    >
-                                        <IncidentPictures homeScreen={this} />
-                                    </ScrollView>
-
-                                    {/*<IncidentTypePicker homeScreen={this} />*/}
-                                    <Text
-                                        style={styles.fieldFooterBackground}
-                                    />
-                                    <View
-                                        animationType="fade"
-                                        transparent={true}
-                                        style={
-                                            this.isIOS &&
-                                            tutorialParams.reportOnboarding &&
-                                            tutorialParams.tips &&
-                                            this.state.isSelectionTipVisible &&
-                                            !(
-                                                tutorialParams.thumbnailOnboarding &&
-                                                image
-                                            )
-                                                ? styles.selectionLocationIOS
-                                                : styles.locationHidden
-                                        }
-                                    >
-                                        <View style={styles.tipBubbleSquare}>
-                                            <Text style={styles.mainTipText}>
-                                                Select the type of issue you
-                                                want to report. For example, if
-                                                you think the area is too dark,
-                                                select “Lighting Deficiency”.
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isSelectionTipVisible: false,
-                                                            isDescriptionTipVisible: true
-                                                        });
-                                                }}
-                                            >
-                                                <Text style={styles.continue}>
-                                                    Continue
-                                                </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isSelectionTipVisible: false
-                                                        });
-                                                    this.stopTips();
-                                                }}
-                                            >
-                                                <Text style={styles.stopTips}>
-                                                    Stop showing tips
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
+                                    <View style={styles.reportSubcontainer}>
+                                        {/*<Text
+                                            style={{
+                                                alignSelf: "center",
+                                                fontSize: 30
+                                            }}
+                                        >
+                                            
+                                        </Text>*/}
+                                        <Text
+                                            style={styles.fieldHeaderBackground}
+                                        >
+                                            Select Category:
+                                        </Text>
+                                        {/*Primary container of all incidents. To be populated.*/}
                                         <View
-                                            style={styles.selectionTriangle}
+                                            style={
+                                                styles.incidentsScrollContainer
+                                            }
+                                        >
+                                            <ScrollView
+                                                class="incidentsContainer"
+                                                contentContainerStyle={
+                                                    styles.incidentsContainer
+                                                }
+                                            >
+                                                <IncidentPictures
+                                                    homeScreen={this}
+                                                />
+                                            </ScrollView>
+                                        </View>
+                                        <Text
+                                            style={styles.fieldFooterBackground}
                                         />
+                                        {/*<IncidentTypePicker homeScreen={this} />*/}
+                                        <View
+                                            animationType="fade"
+                                            transparent={true}
+                                            style={
+                                                this.isIOS &&
+                                                tutorialParams.reportOnboarding &&
+                                                tutorialParams.tips &&
+                                                this.state
+                                                    .isSelectionTipVisible &&
+                                                !(
+                                                    tutorialParams.thumbnailOnboarding &&
+                                                    image
+                                                )
+                                                    ? styles.selectionLocationIOS
+                                                    : styles.locationHidden
+                                            }
+                                        >
+                                            <View
+                                                style={styles.tipBubbleSquare}
+                                            >
+                                                <Text
+                                                    style={styles.mainTipText}
+                                                >
+                                                    Select the type of issue you
+                                                    want to report. For example,
+                                                    if you think the area is too
+                                                    dark, select “Lighting
+                                                    Deficiency”.
+                                                </Text>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isSelectionTipVisible: false,
+                                                                isDescriptionTipVisible: true
+                                                            });
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.continue}
+                                                    >
+                                                        Continue
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isSelectionTipVisible: false
+                                                            });
+                                                        this.stopTips();
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.stopTips}
+                                                    >
+                                                        Stop showing tips
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View
+                                                style={styles.selectionTriangle}
+                                            />
+                                        </View>
                                     </View>
                                     <View>
                                         <View
@@ -988,118 +1038,137 @@ class ReportScreen extends Component {
                                 </View>
                             </View>
                             <View style={styles.container}>
+                                {/* REPORT STYLING: INCIDENT DESCRIPTION */}
                                 <View style={styles.reportContainer}>
-                                    <Text style={styles.fieldHeaderBackground}>
-                                        Incident Description:
-                                    </Text>
+                                    <View style={styles.reportSubcontainer}>
+                                        <Text
+                                            style={styles.fieldHeaderBackground}
+                                        >
+                                            Describe Issue:
+                                        </Text>
 
-                                    <TextInput
-                                        autoCapitalize="sentences"
-                                        multiline={true}
-                                        placeholder="Description of the Incident"
-                                        maxLength={maxDescLength}
-                                        onChangeText={incidentDesc => {
-                                            if (
-                                                incidentDesc.slice(-1) === "\n"
-                                            ) {
-                                                this.swiper.scrollBy(1);
-                                                Keyboard.dismiss();
-                                            } else {
-                                                var pre_report = this.state
-                                                    .pre_report;
-                                                pre_report.incidentDesc = incidentDesc;
+                                        <TextInput
+                                            autoCapitalize="sentences"
+                                            multiline={true}
+                                            placeholder="Please describe the problem"
+                                            maxLength={maxDescLength}
+                                            onChangeText={incidentDesc => {
+                                                if (
+                                                    incidentDesc.slice(-1) ===
+                                                    "\n"
+                                                ) {
+                                                    this.swiper.scrollBy(1);
+                                                    Keyboard.dismiss();
+                                                } else {
+                                                    var pre_report = this.state
+                                                        .pre_report;
+                                                    pre_report.incidentDesc = incidentDesc;
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            incidentDesc: incidentDesc,
+                                                            pre_report: pre_report
+                                                        });
+                                                    this.storeUnsubReport(
+                                                        pre_report
+                                                    );
+                                                }
+                                            }}
+                                            onContentSizeChange={event =>
                                                 this._isMounted &&
-                                                    this.setState({
-                                                        incidentDesc: incidentDesc,
-                                                        pre_report: pre_report
-                                                    });
-                                                this.storeUnsubReport(
-                                                    pre_report
-                                                );
+                                                this.setState({
+                                                    IncDescheight:
+                                                        event.nativeEvent
+                                                            .contentSize.height
+                                                })
                                             }
-                                        }}
-                                        onContentSizeChange={event =>
-                                            this._isMounted &&
-                                            this.setState({
-                                                IncDescheight:
-                                                    event.nativeEvent
-                                                        .contentSize.height
-                                            })
-                                        }
-                                        style={[
-                                            styles.textInput,
-                                            {
-                                                height: Math.min(
-                                                    120,
-                                                    Math.max(
-                                                        35,
-                                                        this.state.IncDescheight
+                                            style={[
+                                                styles.textInput,
+                                                {
+                                                    height: Math.min(
+                                                        maxTextHeight,
+                                                        Math.max(
+                                                            minTextHeight,
+                                                            this.state
+                                                                .IncDescheight
+                                                        )
                                                     )
-                                                )
-                                            }
-                                        ]}
-                                        value={this.state.incidentDesc}
-                                    />
-                                    <Text style={styles.fieldFooterBackground}>
-                                        Characters Left:{" "}
-                                        {maxDescLength -
-                                            this.state.incidentDesc.length}
-                                        /{maxDescLength}
-                                    </Text>
-                                    <View
-                                        animationType="fade"
-                                        transparent={true}
-                                        style={
-                                            this.isIOS &&
-                                            tutorialParams.reportOnboarding &&
-                                            tutorialParams.tips &&
-                                            this.state
-                                                .isDescriptionTipVisible &&
-                                            !(
-                                                tutorialParams.thumbnailOnboarding &&
-                                                image
-                                            )
-                                                ? styles.descriptionLocationIOS
-                                                : styles.locationHidden
-                                        }
-                                    >
-                                        <View style={styles.tipBubbleSmaller}>
-                                            <Text style={styles.mainTipText}>
-                                                Describe the problem in detail.
-                                                For example, “I almost tripped
-                                                in the hall because it is very
-                                                dark.”
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isDescriptionTipVisible: false,
-                                                            isLocationTipVisible: true
-                                                        });
-                                                }}
-                                            >
-                                                <Text style={styles.continue}>
-                                                    Continue
-                                                </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isDescriptionTipVisible: false
-                                                        });
-                                                    this.stopTips();
-                                                }}
-                                            >
-                                                <Text style={styles.stopTips}>
-                                                    Stop showing tips
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View
-                                            style={styles.descriptionTriangle}
+                                                }
+                                            ]}
+                                            value={this.state.incidentDesc}
                                         />
+                                        <Text
+                                            style={styles.fieldFooterBackground}
+                                        >
+                                            Characters Left:{" "}
+                                            {maxDescLength -
+                                                this.state.incidentDesc.length}
+                                            /{maxDescLength}
+                                        </Text>
+                                        <View
+                                            animationType="fade"
+                                            transparent={true}
+                                            style={
+                                                this.isIOS &&
+                                                tutorialParams.reportOnboarding &&
+                                                tutorialParams.tips &&
+                                                this.state
+                                                    .isDescriptionTipVisible &&
+                                                !(
+                                                    tutorialParams.thumbnailOnboarding &&
+                                                    image
+                                                )
+                                                    ? styles.descriptionLocationIOS
+                                                    : styles.locationHidden
+                                            }
+                                        >
+                                            <View
+                                                style={styles.tipBubbleSmaller}
+                                            >
+                                                <Text
+                                                    style={styles.mainTipText}
+                                                >
+                                                    Describe the problem in
+                                                    detail. For example, “I
+                                                    almost tripped in the hall
+                                                    because it is very dark.”
+                                                </Text>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isDescriptionTipVisible: false,
+                                                                isLocationTipVisible: true
+                                                            });
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.continue}
+                                                    >
+                                                        Continue
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isDescriptionTipVisible: false
+                                                            });
+                                                        this.stopTips();
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.stopTips}
+                                                    >
+                                                        Stop showing tips
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View
+                                                style={
+                                                    styles.descriptionTriangle
+                                                }
+                                            />
+                                        </View>
                                     </View>
                                     <View>
                                         <View
@@ -1171,116 +1240,138 @@ class ReportScreen extends Component {
                                 </View>
                             </View>
                             <View style={styles.container}>
+                                {/* REPORT STYLING: DESCRIPTION OF LOCATION */}
                                 <View style={styles.reportContainer}>
-                                    <Text style={styles.fieldHeaderBackground}>
-                                        Description of Location:
-                                    </Text>
-                                    <TextInput
-                                        autoCapitalize="sentences"
-                                        multiline={true}
-                                        maxLength={maxLocationDescLength}
-                                        placeholder="Description of the Incident Location (Floor #, room #, etc)"
-                                        onChangeText={incidentLocationDesc => {
-                                            if (
-                                                incidentLocationDesc.slice(
-                                                    -1
-                                                ) === "\n"
-                                            ) {
-                                                this.swiper.scrollBy(1);
-                                                Keyboard.dismiss();
-                                            } else {
-                                                var pre_report = this.state
-                                                    .pre_report;
-                                                pre_report.incidentLocationDesc = incidentLocationDesc;
-                                                this._isMounted &&
-                                                    this.setState({
-                                                        incidentLocationDesc: incidentLocationDesc,
-                                                        pre_report: pre_report
-                                                    });
-                                                this.storeUnsubReport(
-                                                    pre_report
-                                                );
+                                    <View style={styles.reportSubcontainer}>
+                                        <Text
+                                            style={styles.fieldHeaderBackground}
+                                        >
+                                            Specify Location:
+                                        </Text>
+                                        <TextInput
+                                            autoCapitalize="sentences"
+                                            multiline={true}
+                                            maxLength={maxLocationDescLength}
+                                            placeholder="Please describe the location (floor #, room #, etc)"
+                                            onChangeText={incidentLocationDesc => {
+                                                if (
+                                                    incidentLocationDesc.slice(
+                                                        -1
+                                                    ) === "\n"
+                                                ) {
+                                                    this.swiper.scrollBy(1);
+                                                    Keyboard.dismiss();
+                                                } else {
+                                                    var pre_report = this.state
+                                                        .pre_report;
+                                                    pre_report.incidentLocationDesc = incidentLocationDesc;
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            incidentLocationDesc: incidentLocationDesc,
+                                                            pre_report: pre_report
+                                                        });
+                                                    this.storeUnsubReport(
+                                                        pre_report
+                                                    );
+                                                }
+                                            }}
+                                            onContentSizeChange={event =>
+                                                this.setState({
+                                                    LocDescheight:
+                                                        event.nativeEvent
+                                                            .contentSize.height
+                                                })
                                             }
-                                        }}
-                                        onContentSizeChange={event =>
-                                            this.setState({
-                                                LocDescheight:
-                                                    event.nativeEvent
-                                                        .contentSize.height
-                                            })
-                                        }
-                                        style={[
-                                            styles.textInput,
-                                            {
-                                                height: Math.min(
-                                                    120,
-                                                    Math.max(
-                                                        35,
-                                                        this.state.LocDescheight
+                                            style={[
+                                                styles.textInput,
+                                                {
+                                                    height: Math.min(
+                                                        maxTextHeight,
+                                                        Math.max(
+                                                            minTextHeight,
+                                                            this.state
+                                                                .LocDescheight
+                                                        )
                                                     )
-                                                )
+                                                }
+                                            ]}
+                                            value={
+                                                this.state.incidentLocationDesc
                                             }
-                                        ]}
-                                        value={this.state.incidentLocationDesc}
-                                    />
-                                    <Text style={styles.fieldFooterBackground}>
-                                        Characters Left:{" "}
-                                        {maxLocationDescLength -
-                                            this.state.incidentLocationDesc
-                                                .length}
-                                        /{maxLocationDescLength}
-                                    </Text>
-                                    <View
-                                        animationType="fade"
-                                        transparent={true}
-                                        style={
-                                            this.isIOS &&
-                                            tutorialParams.reportOnboarding &&
-                                            tutorialParams.tips &&
-                                            this.state.isLocationTipVisible &&
-                                            !(
-                                                tutorialParams.thumbnailOnboarding &&
-                                                image
-                                            )
-                                                ? styles.locationLocationIOS
-                                                : styles.locationHidden
-                                        }
-                                    >
-                                        <View style={styles.tipBubbleSmaller}>
-                                            <Text style={styles.mainTipText}>
-                                                Clearly describe where you found
-                                                the issue. For example, “Hallway
-                                                outside Baskin Engineering room
-                                                102.”
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isLocationTipVisible: false,
-                                                            isCameraTipVisible: true
-                                                        });
-                                                }}
+                                        />
+                                        <Text
+                                            style={styles.fieldFooterBackground}
+                                        >
+                                            Characters Left:{" "}
+                                            {maxLocationDescLength -
+                                                this.state.incidentLocationDesc
+                                                    .length}
+                                            /{maxLocationDescLength}
+                                        </Text>
+                                        <View
+                                            animationType="fade"
+                                            transparent={true}
+                                            style={
+                                                this.isIOS &&
+                                                tutorialParams.reportOnboarding &&
+                                                tutorialParams.tips &&
+                                                this.state
+                                                    .isLocationTipVisible &&
+                                                !(
+                                                    tutorialParams.thumbnailOnboarding &&
+                                                    image
+                                                )
+                                                    ? styles.locationLocationIOS
+                                                    : styles.locationHidden
+                                            }
+                                        >
+                                            <View
+                                                style={styles.tipBubbleSmaller}
                                             >
-                                                <Text style={styles.continue}>
-                                                    Continue
+                                                <Text
+                                                    style={styles.mainTipText}
+                                                >
+                                                    Clearly describe where you
+                                                    found the issue. For
+                                                    example, “Hallway outside
+                                                    Baskin Engineering room
+                                                    102.”
                                                 </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isLocationTipVisible: false
-                                                        });
-                                                    this.stopTips();
-                                                }}
-                                            >
-                                                <Text style={styles.stopTips}>
-                                                    Stop showing tips
-                                                </Text>
-                                            </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isLocationTipVisible: false,
+                                                                isCameraTipVisible: true
+                                                            });
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.continue}
+                                                    >
+                                                        Continue
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isLocationTipVisible: false
+                                                            });
+                                                        this.stopTips();
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.stopTips}
+                                                    >
+                                                        Stop showing tips
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View
+                                                style={styles.locationTriangle}
+                                            />
                                         </View>
-                                        <View style={styles.locationTriangle} />
                                     </View>
                                     <View>
                                         <View
@@ -1467,100 +1558,50 @@ class ReportScreen extends Component {
                                 </View>
                             </View>
                             <View style={styles.container}>
+                                {/* REPORT STYLING: OPTIONAL ATTACHMENTS */}
                                 <View style={styles.reportContainer}>
-                                    <Text style={styles.fieldHeaderBackground}>
-                                        Optional Attachments:
-                                    </Text>
-                                    {image ? (
-                                        <TouchableOpacity
-                                            style={styles.reportBtnImg}
-                                            onPress={() => {
-                                                this.Media();
-                                            }}
+                                    <View style={styles.reportSubcontainer}>
+                                        <Text
+                                            style={styles.fieldHeaderBackground}
                                         >
-                                            <Image
-                                                style={{
-                                                    flex: 1,
-                                                    height: undefined,
-                                                    width: undefined
+                                            Optional Attachments:
+                                        </Text>
+                                        {image ? (
+                                            <TouchableOpacity
+                                                style={styles.reportBtnImg}
+                                                onPress={() => {
+                                                    this.Media();
                                                 }}
-                                                source={{ uri: image }}
-                                                resizeMode="contain"
-                                            />
-                                        </TouchableOpacity>
-                                    ) : (
-                                        <View style={styles.textInput}>
-                                            <Text
-                                                style={{ alignSelf: "center" }}
                                             >
-                                                No Image/Video Selected
-                                            </Text>
-                                        </View>
-                                    )}
-                                    {/*<Text style={styles.fieldFooterBackground}>
+                                                <Image
+                                                    style={{
+                                                        flex: 1,
+                                                        height: undefined,
+                                                        width: undefined
+                                                    }}
+                                                    source={{ uri: image }}
+                                                    resizeMode="contain"
+                                                />
+                                            </TouchableOpacity>
+                                        ) : (
+                                            <View style={styles.textInput}>
+                                                <Text
+                                                    style={{
+                                                        alignSelf: "center"
+                                                    }}
+                                                >
+                                                    No Image/Video Selected
+                                                </Text>
+                                            </View>
+                                        )}
+                                        {/*<Text style={styles.fieldFooterBackground}>
                                         Optional Image / Video
                                     </Text>*/}
-                                    <View
-                                        animationType="fade"
-                                        transparent={true}
-                                        style={
-                                            this.isIOS &&
-                                            tutorialParams.reportOnboarding &&
-                                            tutorialParams.tips &&
-                                            this.state.isCameraTipVisible &&
-                                            !(
-                                                tutorialParams.thumbnailOnboarding &&
-                                                image
-                                            )
-                                                ? styles.cameraLocationIOS
-                                                : styles.locationHidden
-                                        }
-                                    >
-                                        <View style={styles.tipBubbleSquare}>
-                                            <Text style={styles.mainTipText}>
-                                                If you wish to take a photo or
-                                                video to add to the report,
-                                                press the "Camera” button. If
-                                                you would prefer to select one
-                                                from the gallery, press
-                                                “Gallery”.
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isCameraTipVisible: false,
-                                                            isMapTipVisible: true
-                                                        });
-                                                }}
-                                            >
-                                                <Text style={styles.continue}>
-                                                    Continue
-                                                </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isCameraTipVisible: false
-                                                        });
-                                                    this.stopTips();
-                                                }}
-                                            >
-                                                <Text style={styles.stopTips}>
-                                                    Stop showing tips
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View style={styles.cameraTriangle1} />
-                                        <View style={styles.cameraTriangle2} />
-                                    </View>
-                                    <View>
                                         <View
                                             animationType="fade"
                                             transparent={true}
                                             style={
-                                                !this.isIOS &&
+                                                this.isIOS &&
                                                 tutorialParams.reportOnboarding &&
                                                 tutorialParams.tips &&
                                                 this.state.isCameraTipVisible &&
@@ -1568,7 +1609,7 @@ class ReportScreen extends Component {
                                                     tutorialParams.thumbnailOnboarding &&
                                                     image
                                                 )
-                                                    ? styles.cameraLocationAndroid
+                                                    ? styles.cameraLocationIOS
                                                     : styles.locationHidden
                                             }
                                         >
@@ -1623,124 +1664,158 @@ class ReportScreen extends Component {
                                                 style={styles.cameraTriangle2}
                                             />
                                         </View>
-                                    </View>
-                                    <View
-                                        style={{
-                                            flexDirection: "row",
-                                            justifyContent: "space-between"
-                                        }}
-                                    >
-                                        {/* Button that allows Camera (Modal) to be opened */}
-                                        <TouchableOpacity
-                                            style={styles.reportBtnHalf}
-                                            onPress={() => {
-                                                if (
+                                        <View>
+                                            <View
+                                                animationType="fade"
+                                                transparent={true}
+                                                style={
+                                                    !this.isIOS &&
+                                                    tutorialParams.reportOnboarding &&
+                                                    tutorialParams.tips &&
                                                     this.state
-                                                        .hasCameraPermission
-                                                ) {
-                                                    this.props.navigation.navigate(
-                                                        "Camera",
-                                                        {
-                                                            callBack: this.returnFromCamera.bind(
-                                                                this
-                                                            )
-                                                        }
-                                                    );
-                                                } else {
-                                                    alert(
-                                                        "This feature requires Camera Permission to be Enabled"
-                                                    );
+                                                        .isCameraTipVisible &&
+                                                    !(
+                                                        tutorialParams.thumbnailOnboarding &&
+                                                        image
+                                                    )
+                                                        ? styles.cameraLocationAndroid
+                                                        : styles.locationHidden
                                                 }
+                                            >
+                                                <View
+                                                    style={
+                                                        styles.tipBubbleSquare
+                                                    }
+                                                >
+                                                    <Text
+                                                        style={
+                                                            styles.mainTipText
+                                                        }
+                                                    >
+                                                        If you wish to take a
+                                                        photo or video to add to
+                                                        the report, press the
+                                                        "Camera” button. If you
+                                                        would prefer to select
+                                                        one from the gallery,
+                                                        press “Gallery”.
+                                                    </Text>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this._isMounted &&
+                                                                this.setState({
+                                                                    isCameraTipVisible: false,
+                                                                    isMapTipVisible: true
+                                                                });
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            style={
+                                                                styles.continue
+                                                            }
+                                                        >
+                                                            Continue
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this._isMounted &&
+                                                                this.setState({
+                                                                    isCameraTipVisible: false
+                                                                });
+                                                            this.stopTips();
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            style={
+                                                                styles.stopTips
+                                                            }
+                                                        >
+                                                            Stop showing tips
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                <View
+                                                    style={
+                                                        styles.cameraTriangle1
+                                                    }
+                                                />
+                                                <View
+                                                    style={
+                                                        styles.cameraTriangle2
+                                                    }
+                                                />
+                                            </View>
+                                        </View>
+                                        <View
+                                            style={{
+                                                flexDirection: "row",
+                                                justifyContent: "space-between"
                                             }}
                                         >
-                                            <Icon
-                                                name={`${
-                                                    Platform.OS === "ios"
-                                                        ? "ios"
-                                                        : "md"
-                                                }-camera`}
-                                                style={styles.btnTextWhite}
-                                            />
-                                            <Text style={styles.btnTextWhite}>
-                                                Camera
-                                            </Text>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={styles.reportBtnHalf}
-                                            onPress={() => {
-                                                this.pickImage();
-                                            }}
-                                        >
-                                            <Icon
-                                                name={`${
-                                                    Platform.OS === "ios"
-                                                        ? "ios"
-                                                        : "md"
-                                                }-image`}
-                                                style={styles.btnTextWhite}
-                                            />
-                                            <Text style={styles.btnTextWhite}>
-                                                Gallery
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View
-                                        animationType="fade"
-                                        transparent={true}
-                                        style={
-                                            this.isIOS &&
-                                            tutorialParams.reportOnboarding &&
-                                            tutorialParams.tips &&
-                                            this.state.isMapTipVisible &&
-                                            !(
-                                                tutorialParams.thumbnailOnboarding &&
-                                                image
-                                            )
-                                                ? styles.mapLocationIOS
-                                                : styles.locationHidden
-                                        }
-                                    >
-                                        <View style={styles.tipBubbleSmallest}>
-                                            <Text style={styles.mainTipText}>
-                                                To mark the location of the
-                                                incident, press the “Mark
-                                                location” button.
-                                            </Text>
+                                            {/* Button that allows Camera (Modal) to be opened */}
                                             <TouchableOpacity
+                                                style={styles.reportBtnHalf}
                                                 onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isMapTipVisible: false,
-                                                            isSubmissionTipVisible: true
-                                                        });
+                                                    if (
+                                                        this.state
+                                                            .hasCameraPermission
+                                                    ) {
+                                                        this.props.navigation.navigate(
+                                                            "Camera",
+                                                            {
+                                                                callBack: this.returnFromCamera.bind(
+                                                                    this
+                                                                )
+                                                            }
+                                                        );
+                                                    } else {
+                                                        alert(
+                                                            "This feature requires Camera Permission to be Enabled"
+                                                        );
+                                                    }
                                                 }}
                                             >
-                                                <Text style={styles.continue}>
-                                                    Continue
+                                                <Icon
+                                                    name={`${
+                                                        Platform.OS === "ios"
+                                                            ? "ios"
+                                                            : "md"
+                                                    }-camera`}
+                                                    style={styles.btnTextWhite}
+                                                />
+                                                <Text
+                                                    style={styles.btnTextWhite}
+                                                >
+                                                    Camera
                                                 </Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity
+                                                style={styles.reportBtnHalf}
                                                 onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isMapTipVisible: false
-                                                        });
-                                                    this.stopTips();
+                                                    this.pickImage();
                                                 }}
                                             >
-                                                <Text style={styles.stopTips}>
-                                                    Stop showing tips
+                                                <Icon
+                                                    name={`${
+                                                        Platform.OS === "ios"
+                                                            ? "ios"
+                                                            : "md"
+                                                    }-image`}
+                                                    style={styles.btnTextWhite}
+                                                />
+                                                <Text
+                                                    style={styles.btnTextWhite}
+                                                >
+                                                    Gallery
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
-                                        <View style={styles.mapTriangle} />
-                                    </View>
-                                    <View>
                                         <View
                                             animationType="fade"
                                             transparent={true}
                                             style={
-                                                !this.isIOS &&
+                                                this.isIOS &&
                                                 tutorialParams.reportOnboarding &&
                                                 tutorialParams.tips &&
                                                 this.state.isMapTipVisible &&
@@ -1748,7 +1823,7 @@ class ReportScreen extends Component {
                                                     tutorialParams.thumbnailOnboarding &&
                                                     image
                                                 )
-                                                    ? styles.mapLocationAndroid
+                                                    ? styles.mapLocationIOS
                                                     : styles.locationHidden
                                             }
                                         >
@@ -1759,8 +1834,8 @@ class ReportScreen extends Component {
                                                     style={styles.mainTipText}
                                                 >
                                                     To mark the location of the
-                                                    incident, press the “Mark on
-                                                    Map” button.
+                                                    incident, press the “Mark
+                                                    location” button.
                                                 </Text>
                                                 <TouchableOpacity
                                                     onPress={() => {
@@ -1795,40 +1870,113 @@ class ReportScreen extends Component {
                                             </View>
                                             <View style={styles.mapTriangle} />
                                         </View>
-                                    </View>
-                                    <TouchableOpacity
-                                        style={styles.reportBtnFull}
-                                        onPress={() => {
-                                            if (
-                                                this.state.hasLocationPermission
-                                            ) {
-                                                this.props.navigation.navigate(
-                                                    "Location",
-                                                    {
-                                                        callBack: this.returnFromLocation.bind(
-                                                            this
-                                                        )
+                                        <View>
+                                            <View
+                                                animationType="fade"
+                                                transparent={true}
+                                                style={
+                                                    !this.isIOS &&
+                                                    tutorialParams.reportOnboarding &&
+                                                    tutorialParams.tips &&
+                                                    this.state
+                                                        .isMapTipVisible &&
+                                                    !(
+                                                        tutorialParams.thumbnailOnboarding &&
+                                                        image
+                                                    )
+                                                        ? styles.mapLocationAndroid
+                                                        : styles.locationHidden
+                                                }
+                                            >
+                                                <View
+                                                    style={
+                                                        styles.tipBubbleSmallest
                                                     }
-                                                );
-                                            } else {
-                                                alert(
-                                                    "This feature requires Location Permission to be Enabled"
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-pin`}
-                                            style={styles.btnTextWhite}
-                                        />
-                                        <Text style={styles.btnTextWhite}>
-                                            Mark on Map
-                                        </Text>
-                                    </TouchableOpacity>
+                                                >
+                                                    <Text
+                                                        style={
+                                                            styles.mainTipText
+                                                        }
+                                                    >
+                                                        To mark the location of
+                                                        the incident, press the
+                                                        “Mark on Map” button.
+                                                    </Text>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this._isMounted &&
+                                                                this.setState({
+                                                                    isMapTipVisible: false,
+                                                                    isSubmissionTipVisible: true
+                                                                });
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            style={
+                                                                styles.continue
+                                                            }
+                                                        >
+                                                            Continue
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        onPress={() => {
+                                                            this._isMounted &&
+                                                                this.setState({
+                                                                    isMapTipVisible: false
+                                                                });
+                                                            this.stopTips();
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            style={
+                                                                styles.stopTips
+                                                            }
+                                                        >
+                                                            Stop showing tips
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                <View
+                                                    style={styles.mapTriangle}
+                                                />
+                                            </View>
+                                        </View>
+                                        <TouchableOpacity
+                                            style={styles.reportBtnFull}
+                                            onPress={() => {
+                                                if (
+                                                    this.state
+                                                        .hasLocationPermission
+                                                ) {
+                                                    this.props.navigation.navigate(
+                                                        "Location",
+                                                        {
+                                                            callBack: this.returnFromLocation.bind(
+                                                                this
+                                                            )
+                                                        }
+                                                    );
+                                                } else {
+                                                    alert(
+                                                        "This feature requires Location Permission to be Enabled"
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-pin`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                            <Text style={styles.btnTextWhite}>
+                                                Mark on Map
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     <View
                                         animationType="fade"
                                         transparent={true}
@@ -1960,150 +2108,162 @@ class ReportScreen extends Component {
                                     </View>
                                 </View>
                             </View>
+                            {/* REPORT STYLING: SUMMARY */}
                             <View style={styles.container}>
                                 <View style={styles.reportContainer}>
-                                    <Text
-                                        style={{
-                                            alignSelf: "center",
-                                            fontSize: 30
-                                        }}
-                                    >
-                                        Summary
-                                    </Text>
-                                    <ScrollView
-                                        style={{
-                                            flex: 1,
-                                            margin: 2,
-                                            paddingHorizontal: 5,
-                                            borderLeftWidth: 2,
-                                            borderRightWidth: 2,
-                                            borderColor: "#CCC"
-                                        }}
-                                    >
-                                        <Text style={styles.summaryHeader}>
-                                            Incident Category:
-                                        </Text>
-                                        <Text style={styles.textInput}>
-                                            {this.state.incidentCategory}
-                                        </Text>
-
-                                        <Text style={styles.summaryHeader}>
-                                            Incident Description:
-                                        </Text>
+                                    <View style={styles.reportSubcontainer}>
                                         <Text
-                                            style={[
-                                                styles.textInput,
-                                                {
-                                                    height: Math.min(
-                                                        120,
-                                                        Math.max(
-                                                            35,
-                                                            this.state
-                                                                .IncDescheight
-                                                        )
-                                                    )
-                                                }
-                                            ]}
+                                            style={{
+                                                alignSelf: "center",
+                                                fontSize: 30
+                                            }}
                                         >
-                                            {this.state.incidentDesc}
+                                            Summary
                                         </Text>
-                                        <Text style={styles.summaryHeader}>
-                                            Location Description:
-                                        </Text>
-                                        <Text
-                                            style={[
-                                                styles.textInput,
-                                                {
-                                                    height: Math.min(
-                                                        120,
-                                                        Math.max(
-                                                            35,
-                                                            this.state
-                                                                .LocDescheight
-                                                        )
-                                                    )
-                                                }
-                                            ]}
-                                        >
-                                            {this.state.incidentLocationDesc}
-                                        </Text>
-                                    </ScrollView>
-                                    {image && (
-                                        <View
+                                        <ScrollView
                                             style={{
                                                 flex: 1,
-                                                flexDirection: "column",
-                                                justifyContent: "space-between"
+                                                margin: 2,
+                                                paddingHorizontal: 5,
+                                                borderLeftWidth: 2,
+                                                borderRightWidth: 2,
+                                                borderColor: "#CCC"
                                             }}
                                         >
                                             <Text style={styles.summaryHeader}>
-                                                Optional Attachments:
+                                                Incident Category:
                                             </Text>
-                                            <TouchableOpacity
-                                                style={styles.reportBtnImg}
-                                                onPress={() => {
-                                                    this.Media();
+                                            <Text style={styles.textInput}>
+                                                {this.state.incidentCategory}
+                                            </Text>
+
+                                            <Text style={styles.summaryHeader}>
+                                                Incident Description:
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.textInput,
+                                                    {
+                                                        height: Math.min(
+                                                            120,
+                                                            Math.max(
+                                                                35,
+                                                                this.state
+                                                                    .IncDescheight
+                                                            )
+                                                        )
+                                                    }
+                                                ]}
+                                            >
+                                                {this.state.incidentDesc}
+                                            </Text>
+                                            <Text style={styles.summaryHeader}>
+                                                Location Description:
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.textInput,
+                                                    {
+                                                        height: Math.min(
+                                                            120,
+                                                            Math.max(
+                                                                35,
+                                                                this.state
+                                                                    .LocDescheight
+                                                            )
+                                                        )
+                                                    }
+                                                ]}
+                                            >
+                                                {
+                                                    this.state
+                                                        .incidentLocationDesc
+                                                }
+                                            </Text>
+                                        </ScrollView>
+                                        {image && (
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    flexDirection: "column",
+                                                    justifyContent:
+                                                        "space-between"
                                                 }}
                                             >
-                                                <Image
-                                                    style={{
-                                                        flex: 1,
-                                                        height: undefined,
-                                                        width: undefined
+                                                <Text
+                                                    style={styles.summaryHeader}
+                                                >
+                                                    Optional Attachments:
+                                                </Text>
+                                                <TouchableOpacity
+                                                    style={styles.reportBtnImg}
+                                                    onPress={() => {
+                                                        this.Media();
                                                     }}
-                                                    source={{ uri: image }}
-                                                    resizeMode="contain"
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )}
-                                    {/* Button that allows report to be sent */}
-                                    <TouchableOpacity
-                                        style={styles.reportBtnSubmit}
-                                        onPress={() => {
-                                            if (
-                                                this.state.incidentCategory !=
-                                                    "" &&
-                                                this.state.incidentDesc != "" &&
-                                                this.state
-                                                    .incidentLocationDesc != ""
-                                            ) {
-                                                this.handleSubmit();
-                                            } else {
-                                                Alert.alert(
-                                                    "Empty report",
-                                                    "Please select an Incident Type and provide a Description of the Incident and Location.",
-                                                    [
-                                                        {
-                                                            text:
-                                                                "Back to edit",
-                                                            onPress: () => {}
-                                                        },
-                                                        {
-                                                            text:
-                                                                "Cancel the report",
-                                                            onPress: () => {
-                                                                goBack();
+                                                >
+                                                    <Image
+                                                        style={{
+                                                            flex: 1,
+                                                            height: undefined,
+                                                            width: undefined
+                                                        }}
+                                                        source={{ uri: image }}
+                                                        resizeMode="contain"
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        )}
+                                        {/* Button that allows report to be sent */}
+                                        <TouchableOpacity
+                                            style={styles.reportBtnSubmit}
+                                            onPress={() => {
+                                                if (
+                                                    this.state
+                                                        .incidentCategory !=
+                                                        "" &&
+                                                    this.state.incidentDesc !=
+                                                        "" &&
+                                                    this.state
+                                                        .incidentLocationDesc !=
+                                                        ""
+                                                ) {
+                                                    this.handleSubmit();
+                                                } else {
+                                                    Alert.alert(
+                                                        "Empty report",
+                                                        "Please select an Incident Type and provide a Description of the Incident and Location.",
+                                                        [
+                                                            {
+                                                                text:
+                                                                    "Back to edit",
+                                                                onPress: () => {}
+                                                            },
+                                                            {
+                                                                text:
+                                                                    "Cancel the report",
+                                                                onPress: () => {
+                                                                    goBack();
+                                                                }
                                                             }
-                                                        }
-                                                    ],
-                                                    { cancelable: false }
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        <Icon
-                                            name={`${
-                                                Platform.OS === "ios"
-                                                    ? "ios"
-                                                    : "md"
-                                            }-send`}
-                                            style={styles.btnTextWhite}
-                                        />
-                                        <Text style={styles.btnTextWhite}>
-                                            Submit
-                                        </Text>
-                                    </TouchableOpacity>
+                                                        ],
+                                                        { cancelable: false }
+                                                    );
+                                                }
+                                            }}
+                                        >
+                                            <Icon
+                                                name={`${
+                                                    Platform.OS === "ios"
+                                                        ? "ios"
+                                                        : "md"
+                                                }-send`}
+                                                style={styles.btnTextWhite}
+                                            />
+                                            <Text style={styles.btnTextWhite}>
+                                                Submit
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                         </Swiper>

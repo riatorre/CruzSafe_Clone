@@ -28,6 +28,8 @@ const quaternaryColor = "#e8e8e8"; // Background Colors (containers, drawer)
 //const containerColor = "#00000040";
 //const containerColor = "#bfbfbf";
 const containerColor = "#fffeff";
+const containerSecondaryColor = quaternaryColor;
+const containerTertiaryColor = "#00000040";
 
 const containerBorderColor = "#00000090";
 //const containerBorderWidth = 0;
@@ -117,27 +119,36 @@ export default (styles = StyleSheet.create({
     linkPicture: {
         flex: 1,
         width: "100%",
-        height: "65%"
+        height: "65%",
+        borderRadius: Dimensions.get("window").width * 0.02,
+        overflow: "hidden"
     },
     linkContainer: {
         height: Dimensions.get("window").height * 0.29,
         width: Dimensions.get("window").width * 0.45,
         justifyContent: "center",
-        padding: Dimensions.get("window").width * 0.02,
+        padding: Dimensions.get("window").width * 0.01,
         borderRadius: Dimensions.get("window").width * 0.02,
-        marginHorizontal: Dimensions.get("window").width * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.01,
         marginVertical: Dimensions.get("window").height * 0.01,
         borderRadius: containerBorderRadiusSmall,
         backgroundColor: containerColor,
         borderWidth: containerBorderWidth,
         borderColor: containerBorderColor
     },
+    incidentsScrollContainer: {
+        marginVertical: Dimensions.get("window").height * 0.007,
+        maxHeight: Dimensions.get("window").height * 0.7
+    },
     incidentsContainer: {
         /*flex: 1,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "stretch",*/
-        backgroundColor: darktheme ? primaryColor : quaternaryColor
+        //backgroundColor: darktheme ? primaryColor : quaternaryColor
+        //maxHeight: Dimensions.get("window").height * 0.6,
+        overflow: "scroll",
+        backgroundColor: secondaryColor
     },
     incidentRow: {
         flex: 1,
@@ -148,22 +159,26 @@ export default (styles = StyleSheet.create({
         alignItems: "center"
     },
     incidentContainer: {
-        height: Dimensions.get("window").height * 0.2,
-        width: "45%",
+        height: Dimensions.get("window").height * 0.13,
+        width: "47%",
+        //height: Dimensions.get("window").height * 0.17,
+        //width: "30%",
         justifyContent: "center",
-        padding: Dimensions.get("window").width * 0.02,
+        padding: Dimensions.get("window").width * 0.012,
         borderRadius: Dimensions.get("window").width * 0.02,
-        marginHorizontal: Dimensions.get("window").width * 0.02,
-        marginVertical: Dimensions.get("window").height * 0.01,
+        marginHorizontal: Dimensions.get("window").width * 0.015,
+        marginVertical: Dimensions.get("window").height * 0.007,
         borderRadius: containerBorderRadiusSmall,
-        backgroundColor: containerColor,
+        backgroundColor: containerSecondaryColor,
         borderWidth: containerBorderWidth,
         borderColor: containerBorderColor
     },
     incidentPicture: {
         flex: 1,
         width: "100%",
-        height: "auto"
+        height: "auto",
+        borderRadius: Dimensions.get("window").width * 0.02,
+        overflow: "hidden"
     },
     incidentbtn: {
         position: "absolute",
@@ -171,10 +186,10 @@ export default (styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
         bottom: 0,
-        backgroundColor: "#00000040"
+        backgroundColor: containerTertiaryColor
     },
     incidentText: {
-        fontSize: Dimensions.get("window").height * 0.025,
+        fontSize: Dimensions.get("window").height * 0.02,
         fontWeight: "bold",
         color: secondaryColor,
         textAlign: "center"
@@ -190,14 +205,16 @@ export default (styles = StyleSheet.create({
     aboutUsPicture: {
         flex: 1,
         width: "100%",
-        height: "100%"
+        height: "100%",
+        borderRadius: Dimensions.get("window").width * 0.02,
+        overflow: "hidden"
     },
     aboutUsPictureContainer: {
         height: Dimensions.get("window").height * 0.18,
         width: Dimensions.get("window").width * 0.25,
         justifyContent: "center",
-        paddingVertical: Dimensions.get("window").width * 0.02,
-        paddingHorizontal: Dimensions.get("window").width * 0.02,
+        paddingVertical: Dimensions.get("window").width * 0.012,
+        paddingHorizontal: Dimensions.get("window").width * 0.012,
         borderRadius: Dimensions.get("window").width * 0.02,
         marginHorizontal: Dimensions.get("window").width * 0.01,
         marginVertical: Dimensions.get("window").height * 0.01,
@@ -257,14 +274,19 @@ export default (styles = StyleSheet.create({
         justifyContent: "center"
     },
     reportContainer: {
-        flex: 0.95,
-        justifyContent: "center",
+        //flex: 0.95,
+        //justifyContent: "center",
         width: "90%",
         padding: 10,
         borderRadius: containerBorderRadius,
         backgroundColor: containerColor,
         borderWidth: containerBorderWidthWide,
-        borderColor: containerBorderColor
+        borderColor: containerBorderColor,
+        height: Dimensions.get("window").height * 0.8
+    },
+    reportSubcontainer: {
+        width: "100%",
+        height: "97%"
     },
     reportSingleContainer: {
         flex: 0.95,
@@ -433,7 +455,8 @@ export default (styles = StyleSheet.create({
         backgroundColor: "#EEE",
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: "#3338"
+        borderColor: "#3338",
+        fontSize: Dimensions.get("window").width * 0.04
     },
     textInputWelcome: {
         width: "90%",
@@ -528,8 +551,8 @@ export default (styles = StyleSheet.create({
         borderTopRightRadius: 5,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
-        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
-        color: darktheme ? tertiaryColor : secondaryColor,
+        backgroundColor: primaryColor,
+        color: secondaryColor,
         textAlign: "right",
         marginLeft: 10,
         marginRight: 0,
@@ -538,20 +561,37 @@ export default (styles = StyleSheet.create({
         padding: 5,
         fontSize: 8
     },
+    fieldHeaderBackgroundFull: {
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomRightRadius: 5,
+        backgroundColor: primaryColor,
+        color: secondaryColor,
+        textAlign: "left",
+        marginLeft: 0,
+        marginRight: 0,
+        marginBottom: 0,
+        marginTop: 5,
+        padding: 5,
+        fontSize: Dimensions.get("window").height * 0.027,
+        fontWeight: "bold"
+    },
     fieldHeaderBackground: {
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 0,
-        backgroundColor: darktheme ? "#E8E5E5" : primaryColor,
-        color: darktheme ? tertiaryColor : secondaryColor,
+        backgroundColor: primaryColor,
+        color: secondaryColor,
         textAlign: "left",
         marginLeft: 0,
         marginRight: 10,
         marginBottom: 0,
         marginTop: 5,
         padding: 5,
-        fontSize: 22
+        fontSize: Dimensions.get("window").height * 0.027,
+        fontWeight: "bold"
     },
     summaryHeader: {
         borderRadius: 5,
