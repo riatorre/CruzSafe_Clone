@@ -22,7 +22,14 @@ import { textConstants } from "../components/styles.js";
 
 const authDomain = "https://cruzsafe.appspot.com/login";
 
-var tutorialParams = null;
+var tutorialParams = {
+    tips: false,
+    reportOnboarding: false,
+    thumbnailOnboarding: false,
+    historyOnboarding: false,
+    sidebarOnboarding: false,
+    inHistoryOnboarding: false
+};
 
 function toQueryString(params) {
     return (
