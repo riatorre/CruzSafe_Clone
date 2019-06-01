@@ -247,10 +247,12 @@ class LocationScreen extends Component {
                                 showsUserLocation={true}
                                 zoomControlEnabled={true}
                                 initialRegion={{
-                                    latitude: this.state.pre_report
-                                        .incidentLatitude,
-                                    longitude: this.state.pre_report
-                                        .incidentLongitude,
+                                    latitude:
+                                        this.state.pre_report
+                                            .incidentLatitude || LATITUDE,
+                                    longitude:
+                                        this.state.pre_report
+                                            .incidentLongitude || LONGITUDE,
                                     latitudeDelta: 0.0461,
                                     longitudeDelta: 0.021
                                 }}

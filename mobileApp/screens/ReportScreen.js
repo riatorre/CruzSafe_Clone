@@ -62,14 +62,12 @@ const tagsImages = [
 const maxDescLength = 1000;
 const maxLocationDescLength = 50;
 
-const LATITUDE = "36.9916";
-const LONGITUDE = "-122.0583";
 const newPre_report = {
     incidentDesc: "",
     incidentCategory: "",
     incidentLocationDesc: "",
-    incidentLatitude: LATITUDE,
-    incidentLongitude: LONGITUDE,
+    incidentLatitude: null,
+    incidentLongitude: null,
     unchangedLocation: true,
     imageURI: null
 };
@@ -2219,19 +2217,11 @@ class ReportScreen extends Component {
                                             onPress={() => {
                                                 if (
                                                     this.state
-                                                        .incidentCategory !=
-                                                        "" &&
-                                                    this.state.incidentDesc !=
-                                                        "" &&
-                                                    this.state
-                                                        .incidentLocationDesc !=
-                                                        ""
+                                                        .incidentCategory == ""
                                                 ) {
-                                                    this.handleSubmit();
-                                                } else {
                                                     Alert.alert(
-                                                        "Empty report",
-                                                        "Please select an Incident Type and provide a Description of the Incident and Location.",
+                                                        "Incomplete Report",
+                                                        "Please select an incident type.",
                                                         [
                                                             {
                                                                 text:
@@ -2248,6 +2238,103 @@ class ReportScreen extends Component {
                                                         ],
                                                         { cancelable: false }
                                                     );
+                                                } else if (
+                                                    this.state.incidentDesc ==
+                                                    ""
+                                                ) {
+                                                    Alert.alert(
+                                                        "Incomplete Report",
+                                                        "Please provide a description of the incident.",
+                                                        [
+                                                            {
+                                                                text:
+                                                                    "Back to edit",
+                                                                onPress: () => {}
+                                                            },
+                                                            {
+                                                                text:
+                                                                    "Cancel the report",
+                                                                onPress: () => {
+                                                                    goBack();
+                                                                }
+                                                            }
+                                                        ],
+                                                        { cancelable: false }
+                                                    );
+                                                } else if (
+                                                    this.state
+                                                        .incidentLocationDesc ==
+                                                    ""
+                                                ) {
+                                                    Alert.alert(
+                                                        "Incomplete Report",
+                                                        "Please provide a description of the incident location.",
+                                                        [
+                                                            {
+                                                                text:
+                                                                    "Back to edit",
+                                                                onPress: () => {}
+                                                            },
+                                                            {
+                                                                text:
+                                                                    "Cancel the report",
+                                                                onPress: () => {
+                                                                    goBack();
+                                                                }
+                                                            }
+                                                        ],
+                                                        { cancelable: false }
+                                                    );
+                                                } else if (
+                                                    this.state
+                                                        .incidentLatitude ==
+                                                    null
+                                                ) {
+                                                    Alert.alert(
+                                                        "Incomplete Report",
+                                                        "Please mark the location of the incident on the map.",
+                                                        [
+                                                            {
+                                                                text:
+                                                                    "Back to edit",
+                                                                onPress: () => {}
+                                                            },
+                                                            {
+                                                                text:
+                                                                    "Cancel the report",
+                                                                onPress: () => {
+                                                                    goBack();
+                                                                }
+                                                            }
+                                                        ],
+                                                        { cancelable: false }
+                                                    );
+                                                } else if (
+                                                    this.state
+                                                        .incidentLongitude !=
+                                                    null
+                                                ) {
+                                                    Alert.alert(
+                                                        "Incomplete Report",
+                                                        "Please mark the location of the incident on the map.",
+                                                        [
+                                                            {
+                                                                text:
+                                                                    "Back to edit",
+                                                                onPress: () => {}
+                                                            },
+                                                            {
+                                                                text:
+                                                                    "Cancel the report",
+                                                                onPress: () => {
+                                                                    goBack();
+                                                                }
+                                                            }
+                                                        ],
+                                                        { cancelable: false }
+                                                    );
+                                                } else {
+                                                    this.handleSubmit();
                                                 }
                                             }}
                                         >
