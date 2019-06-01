@@ -32,8 +32,10 @@ const LONGITUDE = -122.0583;
 const mainCampusPolygon = [
     { lat: 36.9973, lng: -122.071065 },
     { lat: 37.003264, lng: -122.067803 },
+    { lat: 37.004941, lng: -122.060606 },
     { lat: 37.002577, lng: -122.050079 },
     { lat: 36.983451, lng: -122.046994 },
+    { lat: 36.979636, lng: -122.0475 }, //new
     { lat: 36.976337, lng: -122.05238 },
     { lat: 36.976062, lng: -122.057616 },
     { lat: 36.984249, lng: -122.069675 },
@@ -245,10 +247,12 @@ class LocationScreen extends Component {
                                 showsUserLocation={true}
                                 zoomControlEnabled={true}
                                 initialRegion={{
-                                    latitude: this.state.pre_report
-                                        .incidentLatitude,
-                                    longitude: this.state.pre_report
-                                        .incidentLongitude,
+                                    latitude:
+                                        this.state.pre_report
+                                            .incidentLatitude || LATITUDE,
+                                    longitude:
+                                        this.state.pre_report
+                                            .incidentLongitude || LONGITUDE,
                                     latitudeDelta: 0.0461,
                                     longitudeDelta: 0.021
                                 }}
@@ -260,7 +264,35 @@ class LocationScreen extends Component {
                                         this.checkGeofence(region);
                                     }
                                 }}
-                            />
+                            >
+                                {/* //Code to print out the geofence boundaries. Do not remove.
+                                {mainCampusPolygon.map(
+                                    ({ lat, lng }, index) => {
+                                        console.log("lat, lng");
+                                        return (
+                                            <MapView.Marker
+                                                coordinate={{
+                                                    latitude: lat,
+                                                    longitude: lng
+                                                }}
+                                            />
+                                        );
+                                    }
+                                )}
+                                {coastalCampusPolygon.map(
+                                    ({ lat, lng }, index) => {
+                                        console.log("lat, lng");
+                                        return (
+                                            <MapView.Marker
+                                                coordinate={{
+                                                    latitude: lat,
+                                                    longitude: lng
+                                                }}
+                                            />
+                                        );
+                                    }
+                                )} */}
+                            </MapView>
                             <View
                                 style={{
                                     position: "absolute",

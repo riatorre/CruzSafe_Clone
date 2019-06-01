@@ -33,7 +33,8 @@ const tagsList = [
     "Broken Light",
     "Broken Window",
     "Lighting Deficiency",
-    "Excess Trash"
+    "Excess Trash",
+    "UNDEFINED"
 ];
 
 class ReportDetail extends Component {
@@ -210,7 +211,7 @@ class ReportDetail extends Component {
                         >
                             Incident Category:
                         </Text>{" "}
-                        {tagsList[report.tag]}
+                        {tagsList[report.tag - 1]}
                     </Text>
                 </View>
                 <ScrollView style={{ flex: 0.5 }}>
