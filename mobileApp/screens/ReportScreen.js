@@ -155,9 +155,7 @@ function createIncidentPictures(props) {
                             pre_report: pre_report
                         });
                     props.homeScreen.storeUnsubReport(pre_report);
-
                     // TODO: Change colors.
-
                     props.homeScreen.swiper.scrollBy(1);
                 }}
             >
