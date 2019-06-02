@@ -300,6 +300,8 @@ class ReportScreen extends Component {
 
     returnFromLocation() {
         this.getUnsubReport().then(pre_report => {
+            console.log("return from Location");
+            console.log(pre_report);
             this._isMounted &&
                 this.setState({
                     pre_report: pre_report
@@ -449,7 +451,6 @@ class ReportScreen extends Component {
 
     async getLocation() {
         try {
-            console.log("GetLocation");
             var pre_report = this.state.pre_report;
             if (pre_report.unchangedLocation && !this.state.isLoading) {
                 const loc = await Location.getCurrentPositionAsync({
@@ -487,11 +488,9 @@ class ReportScreen extends Component {
         for (i in geofence) {
             // if (await GeoFencing.containsLocation(location, geofence[i])) {
             if (this.ourContainsLocation(location, geofence[i])) {
-                console.log("geofence true");
                 return true;
             }
         }
-        console.log("geofence false");
         return false;
     }
 
@@ -507,7 +506,6 @@ class ReportScreen extends Component {
                         (poly[i - 1].lat - poly[i].lat) +
                         poly[i].lng
             ) {
-                console.log(poly.length + " " + i);
                 inside = !inside;
             }
         }
@@ -2284,7 +2282,7 @@ class ReportScreen extends Component {
                                                         { cancelable: false }
                                                     );
                                                 } else if (
-                                                    this.state
+                                                    this.state.pre_report
                                                         .incidentLatitude ==
                                                     null
                                                 ) {
@@ -2308,8 +2306,8 @@ class ReportScreen extends Component {
                                                         { cancelable: false }
                                                     );
                                                 } else if (
-                                                    this.state
-                                                        .incidentLongitude !=
+                                                    this.state.pre_report
+                                                        .incidentLongitude ==
                                                     null
                                                 ) {
                                                     Alert.alert(

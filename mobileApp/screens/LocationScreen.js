@@ -82,8 +82,6 @@ class LocationScreen extends Component {
     // Should allows for ease of transfer between screens
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        console.log("getUnsubReport");
-        console.log(pre_report);
         this._isMounted = true;
         this.setState({
             pre_report: pre_report
@@ -107,13 +105,11 @@ class LocationScreen extends Component {
             lat: region.latitude,
             lng: region.longitude
         });
-        console.log(inside);
         if (inside != wasInGeofence) {
             wasInGeofence = inside;
             if (inside) {
                 this.setState({ pinColor: "red" });
             } else {
-                console.log("Not in geofence!");
                 this.setState({ pinColor: "indigo" });
                 Toast.show({
                     text:
@@ -125,17 +121,13 @@ class LocationScreen extends Component {
     }
 
     inGeofence(location) {
-        console.log("Location Screen.inGeofence");
-        console.log(this.state);
         // location = { lat: LATITUDE, lng: LONGITUDE };
         for (i in geofence) {
             // if (await GeoFencing.containsLocation(location, geofence[i])) {
             if (this.ourContainsLocation(location, geofence[i])) {
-                console.log("geofence true");
                 return true;
             }
         }
-        console.log("geofence false");
         return false;
     }
 
@@ -151,7 +143,6 @@ class LocationScreen extends Component {
                         (poly[i - 1].lat - poly[i].lat) +
                         poly[i].lng
             ) {
-                console.log(poly.length + " " + i);
                 inside = !inside;
             }
         }
@@ -257,7 +248,6 @@ class LocationScreen extends Component {
                                     longitudeDelta: 0.021
                                 }}
                                 onRegionChangeComplete={region => {
-                                    console.log("On region change complete");
                                     if (this._isMounted) {
                                         // geofencing!
                                         this.setState({ region: region });
@@ -268,7 +258,6 @@ class LocationScreen extends Component {
                                 {/* //Code to print out the geofence boundaries. Do not remove.
                                 {mainCampusPolygon.map(
                                     ({ lat, lng }, index) => {
-                                        console.log("lat, lng");
                                         return (
                                             <MapView.Marker
                                                 coordinate={{
@@ -281,7 +270,6 @@ class LocationScreen extends Component {
                                 )}
                                 {coastalCampusPolygon.map(
                                     ({ lat, lng }, index) => {
-                                        console.log("lat, lng");
                                         return (
                                             <MapView.Marker
                                                 coordinate={{
