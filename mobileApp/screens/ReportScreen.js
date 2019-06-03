@@ -474,7 +474,7 @@ class ReportScreen extends Component {
                     Toast.show({
                         text:
                             "Your current location is not on campus. Before submitting, please mark the campus location of the incident you wish to report.",
-                        duration: 10000
+                        duration: 6000
                     });
                 }
             }

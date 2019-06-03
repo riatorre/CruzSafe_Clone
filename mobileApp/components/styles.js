@@ -39,6 +39,8 @@ const containerBorderWidthWide = 0;
 const containerBorderRadius = 22;
 const containerBorderRadiusSmall = 10;
 
+const tipColor = "#795CBC";
+
 /*
     Traffic light variables; based around the dimensions of the encompassing window. 
     In order to make the traffic light bigger/smaller, make the modifier value larger or smaller.
@@ -648,13 +650,17 @@ export default (styles = StyleSheet.create({
         justifyContent: "flex-start"
     },
     slideText: {
-        fontSize: 16
+        fontSize: 15
     },
     slideText4: {
         fontSize: 13
     },
     slideText7: {
-        fontSize: 15
+        fontSize: 14
+    },
+    slideblue: {
+        padding: 10,
+        backgroundColor: "rgba(20,93,153,0.2)"
     },
     slidetan: {
         padding: 10,
@@ -694,7 +700,7 @@ export default (styles = StyleSheet.create({
     },
     selectionLocationIOS: {
         zIndex: 2,
-        top: 15,
+        top: -80,
         left: -6,
         height: 0
     },
@@ -706,14 +712,14 @@ export default (styles = StyleSheet.create({
     },
     selectionTriangle: {
         position: "absolute",
-        left: 240,
+        left: 195,
         top: -16,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
         borderRightWidth: 9,
         borderBottomWidth: 16,
-        borderBottomColor: "#744CA8",
+        borderBottomColor: tipColor,
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
@@ -738,7 +744,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 9,
         borderBottomWidth: 16,
-        borderBottomColor: "#744CA8",
+        borderBottomColor: tipColor,
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
@@ -763,7 +769,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 9,
         borderBottomWidth: 16,
-        borderBottomColor: "#744CA8",
+        borderBottomColor: tipColor,
         borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
@@ -788,7 +794,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#744CA8",
+        borderTopColor: tipColor,
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
@@ -801,7 +807,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#744CA8",
+        borderTopColor: tipColor,
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
@@ -826,7 +832,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#744CA8",
+        borderTopColor: tipColor,
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
@@ -851,7 +857,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#744CA8",
+        borderTopColor: tipColor,
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
@@ -864,7 +870,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#744CA8",
+        borderTopColor: tipColor,
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
@@ -889,7 +895,7 @@ export default (styles = StyleSheet.create({
         borderRightColor: "transparent",
         borderRightWidth: 10,
         borderTopWidth: 18,
-        borderTopColor: "#744CA8",
+        borderTopColor: tipColor,
         borderLeftWidth: 10,
         borderLeftColor: "transparent"
     },
@@ -899,10 +905,10 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#744CA8",
+        backgroundColor: tipColor,
         borderRadius: 15,
         borderWidth: 8,
-        borderColor: "#744CA8"
+        borderColor: tipColor
     },
     tipBubbleBig: {
         width: 280,
@@ -910,10 +916,10 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#744CA8",
+        backgroundColor: tipColor,
         borderRadius: 15,
         borderWidth: 8,
-        borderColor: "#744CA8"
+        borderColor: tipColor
     },
     tipBubbleSmallest: {
         width: 280,
@@ -921,10 +927,10 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#744CA8",
+        backgroundColor: tipColor,
         borderRadius: 15,
         borderWidth: 8,
-        borderColor: "#744CA8"
+        borderColor: tipColor
     },
     tipBubbleSmaller: {
         width: 280,
@@ -932,10 +938,10 @@ export default (styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#744CA8",
+        backgroundColor: tipColor,
         borderRadius: 15,
         borderWidth: 8,
-        borderColor: "#744CA8"
+        borderColor: tipColor
     },
     mainTipText: {
         fontSize: 15,
