@@ -285,8 +285,9 @@ class LocationScreen extends Component {
                                 style={{
                                     position: "absolute",
                                     backgroundColor: "transparenb",
-                                    padding: 10,
-                                    top: "84%"
+                                    padding: 0,
+                                    bottom: "3%",
+                                    left: "39%"
                                 }}
                             >
                                 <TouchableOpacity
@@ -299,7 +300,7 @@ class LocationScreen extends Component {
                                     //     height: 50,
                                     //     padding: 5
                                     // }}
-                                    style={styles.btn}
+                                    style={styles.locbtn}
                                     onPress={() => {
                                         var pre_report = this.state.pre_report;
                                         if (
@@ -342,7 +343,7 @@ class LocationScreen extends Component {
                                         }}
                                     /> */}
                                     <Text style={styles.markLocation}>
-                                        Mark location
+                                        Confirm
                                     </Text>
                                 </TouchableOpacity>
                             </View>

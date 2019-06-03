@@ -506,6 +506,16 @@ export default (styles = StyleSheet.create({
         borderRadius: 125,
         backgroundColor: darktheme ? tertiaryColor : primaryColor
     },
+    locbtn: {
+        margin: 1,
+        padding: 5,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 90,
+        borderRadius: 5,
+        backgroundColor: darktheme ? tertiaryColor : primaryColor
+    },
     btnTextWhite: {
         color: secondaryColor
     },
@@ -679,7 +689,7 @@ export default (styles = StyleSheet.create({
         backgroundColor: "rgba(0,204,0,0.2)"
     },
     markLocation: {
-        fontSize: 18,
+        fontSize: 17,
         color: "white"
     },
     refreshBtn: {
