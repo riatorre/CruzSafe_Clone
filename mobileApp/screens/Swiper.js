@@ -1,31 +1,29 @@
 import React from "react";
 import {
-    SafeAreaView,
-    View,
-    Image,
-    Text,
-    AsyncStorage,
-    TouchableOpacity,
-    StatusBar
+  SafeAreaView,
+  View,
+  Image,
+  Text,
+  AsyncStorage,
+  TouchableOpacity,
+  StatusBar
 } from "react-native";
 import Swiper from "react-native-swiper";
 
 import styles from "../components/styles.js";
 
 export default class Screen extends React.Component {
-    render() {
-        swiper = this;
-        return (
-            <SafeAreaView
-                style={{ flex: 1, marginTop: StatusBar.currentHeight }}
-            >
-                <Swiper
-                    loop={false}
-                    ref={swiper => {
-                        this.swiper = swiper;
-                    }}
-                >
-                    <View
+  render() {
+    swiper = this;
+    return (
+      <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
+        <Swiper
+          loop={false}
+          ref={swiper => {
+            this.swiper = swiper;
+          }}
+        >
+          {/* <View
                         style={[styles.slideOuterContainer, styles.slideblue]}
                     >
                         <View style={[styles.slideTextContainer]}>
@@ -58,8 +56,8 @@ export default class Screen extends React.Component {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    {/* <View style={[styles.slideOuterContainer, styles.slidetan]}>
+                    </View> */}
+          {/* <View style={[styles.slideOuterContainer, styles.slidetan]}>
                         <View style={[styles.slideTextContainer]}>
                             <Text style={styles.slideText}>
                                 Have you seen non-emergency issues on campus
@@ -133,103 +131,98 @@ export default class Screen extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </View> */}
-                    <View
-                        style={[styles.slideOuterContainer, styles.slideblue]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                Before you report an issue, it's important to
-                                stop and think about the urgency of the
-                                situation. We have created buttons corresponding
-                                to the level of urgency of situations you may
-                                encounter.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/trafic.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={[styles.slideOuterContainer, styles.slidered]}>
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText4}>
-                                If there is an imminent threat to life or
-                                property, it is important to quickly call 911.
-                                For example:
-                            </Text>
-                            <Text style={styles.slideText4}>
-                                - A fire, even if it is still small
-                            </Text>
-                            <Text style={styles.slideText4}>
-                                - A medical emergency (difficulty breathing,
-                                chest pain, fainting, severe bleeding/burns,
-                                etc)
-                            </Text>
-                            <Text style={styles.slideText4}>
-                                - A crime in progress or imminently possible
-                                crime (eg. assault, burglary, suspicious person)
-                            </Text>
-                            <Text style={styles.slideText4}>
-                                - A car crash, particularly if at higher speeds
-                                or someone feels dizzy/unwell
-                            </Text>
-                            <Text />
-                            <Text style={styles.slideText4}>
-                                You can contact emergency services through our
-                                app by pressing the red "emergency" button.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/EmergencyNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
+          <View style={[styles.slideOuterContainer, styles.slideblue]}>
+            <View style={[styles.slideTextContainer]}>
+              <Text style={styles.slideText}>
+                Before you report an issue, it's important to stop and think
+                about the urgency of the situation. We have created buttons
+                corresponding to the level of urgency of situations you may
+                encounter.
+              </Text>
+            </View>
+            <View style={[styles.slideImageContainer]}>
+              <Image
+                source={require("../assets/images/trafic.png")}
+                style={{
+                  width: 250,
+                  height: 250
+                }}
+              />
+            </View>
+            <View style={styles.slideOuterButton}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  this.swiper.scrollBy(1);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "white"
+                  }}
+                >
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={[styles.slideOuterContainer, styles.slidered]}>
+            <View style={[styles.slideTextContainer]}>
+              <Text style={styles.slideText4}>
+                If there is an imminent threat to life or property, it is
+                important to quickly call 911. For example:
+              </Text>
+              <Text style={styles.slideText4}>
+                - A fire, even if it is still small
+              </Text>
+              <Text style={styles.slideText4}>
+                - A medical emergency (difficulty breathing, chest pain,
+                fainting, severe bleeding/burns, etc)
+              </Text>
+              <Text style={styles.slideText4}>
+                - A crime in progress or imminently possible crime (eg. assault,
+                burglary, suspicious person)
+              </Text>
+              <Text style={styles.slideText4}>
+                - A car crash, particularly if at higher speeds or someone feels
+                dizzy/unwell
+              </Text>
+              <Text />
+              <Text style={styles.slideText4}>
+                You can contact emergency services through our app by pressing
+                the red "emergency" button.
+              </Text>
+            </View>
+            <View style={[styles.slideImageContainer]}>
+              <Image
+                source={require("../assets/images/EmergencyNew.png")}
+                style={{
+                  width: 250,
+                  height: 250
+                }}
+              />
+            </View>
 
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    {/* <View style={[styles.slideOuterContainer, styles.slidered]}>
+            <View style={styles.slideOuterButton}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  this.swiper.scrollBy(1);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "white"
+                  }}
+                >
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* <View style={[styles.slideOuterContainer, styles.slidered]}>
                         <View style={[styles.slideTextContainer]}>
                             <Text style={styles.slideText}>
                                 If you press the red stoplight button, CruzSafe
@@ -264,105 +257,96 @@ export default class Screen extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </View> */}
-                    <View
-                        style={[styles.slideOuterContainer, styles.slideyellow]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                If you become aware of a completed crime or an
-                                urgent problem on campus that does not merit a
-                                call to emergency services, it is still NOT
-                                appropriate to report it through this app.
-                                Responses to reports from this app can take 24
-                                hours or more and the reporting system is not
-                                designed to handle crimes. Instead, please press
-                                the yellow "urgent" button to call the UC Santa
-                                Cruz non-emergency dispatch at
-                            </Text>
-                            <Text>(831) 459-2231. </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/UrgentNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View
-                        style={[styles.slideOuterContainer, styles.slideyellow]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText7}>
-                                Examples of non-emergency situations where you
-                                should call dispatch include:
-                            </Text>
-                            <Text style={styles.slideText7}>
-                                -Property crimes such as theft or vandalism
-                                where no evidence, witnesses, or suspects are
-                                known
-                            </Text>
-                            <Text style={styles.slideText7}>
-                                -A minor car crash in which there is motor
-                                damage but you are certain no one has been hurt
-                                and the crash does not present a danger to other
-                                drivers
-                            </Text>
-                            <Text style={styles.slideText7}>
-                                -Illegally parked or abandoned vehicles
-                            </Text>
-                            <Text style={styles.slideText7}>
-                                -Questions for the police that are not related
-                                to an emergency
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/UrgentNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    {/* <View
+          <View style={[styles.slideOuterContainer, styles.slideyellow]}>
+            <View style={[styles.slideTextContainer]}>
+              <Text style={styles.slideText}>
+                If you become aware of a completed crime or an urgent problem on
+                campus that does not merit a call to emergency services, it is
+                still NOT appropriate to report it through this app. Responses
+                to reports from this app can take 24 hours or more and the
+                reporting system is not designed to handle crimes. Instead,
+                please press the yellow "urgent" button to call the UC Santa
+                Cruz non-emergency dispatch at
+              </Text>
+              <Text>(831) 459-2231. </Text>
+            </View>
+            <View style={[styles.slideImageContainer]}>
+              <Image
+                source={require("../assets/images/UrgentNew.png")}
+                style={{
+                  width: 250,
+                  height: 250
+                }}
+              />
+            </View>
+            <View style={styles.slideOuterButton}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  this.swiper.scrollBy(1);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "white"
+                  }}
+                >
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={[styles.slideOuterContainer, styles.slideyellow]}>
+            <View style={[styles.slideTextContainer]}>
+              <Text style={styles.slideText7}>
+                Examples of non-emergency situations where you should call
+                dispatch include:
+              </Text>
+              <Text style={styles.slideText7}>
+                -Property crimes such as theft or vandalism where no evidence,
+                witnesses, or suspects are known
+              </Text>
+              <Text style={styles.slideText7}>
+                -A minor car crash in which there is motor damage but you are
+                certain no one has been hurt and the crash does not present a
+                danger to other drivers
+              </Text>
+              <Text style={styles.slideText7}>
+                -Illegally parked or abandoned vehicles
+              </Text>
+              <Text style={styles.slideText7}>
+                -Questions for the police that are not related to an emergency
+              </Text>
+            </View>
+            <View style={[styles.slideImageContainer]}>
+              <Image
+                source={require("../assets/images/UrgentNew.png")}
+                style={{
+                  width: 250,
+                  height: 250
+                }}
+              />
+            </View>
+            <View style={styles.slideOuterButton}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  this.swiper.scrollBy(1);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "white"
+                  }}
+                >
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          {/* <View
                         style={[styles.slideOuterContainer, styles.slideyellow]}
                     >
                         <View style={[styles.slideTextContainer]}>
@@ -400,61 +384,56 @@ export default class Screen extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </View> */}
-                    <View
-                        style={[styles.slideOuterContainer, styles.slidegreen]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText7}>
-                                If there is an issue on campus which is neither
-                                very urgent nor likely to be connected to a
-                                crime, it is appropriate to submit a report.
-                                Examples of such situations include:
-                            </Text>
-                            <Text style={styles.slideText7}>
-                                -Inadequate or broken lighting
-                            </Text>
-                            <Text style={styles.slideText7}>
-                                -Tripping hazards
-                            </Text>
-                            <Text style={styles.slideText7}>-A water leak</Text>
-                            <Text style={styles.slideText7}>
-                                -A broken window, door, or lock
-                            </Text>
-                            <Text />
-                            <Text style={styles.slideText7}>
-                                To get started, exit the tutorial and press the
-                                green report button.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/ReportNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.props.navigation.navigate("Home");
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Exit
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+          <View style={[styles.slideOuterContainer, styles.slidegreen]}>
+            <View style={[styles.slideTextContainer]}>
+              <Text style={styles.slideText7}>
+                If there is an issue on campus which is neither very urgent nor
+                likely to be connected to a crime, it is appropriate to submit a
+                report. Examples of such situations include:
+              </Text>
+              <Text style={styles.slideText7}>
+                -Inadequate or broken lighting
+              </Text>
+              <Text style={styles.slideText7}>-Tripping hazards</Text>
+              <Text style={styles.slideText7}>-A water leak</Text>
+              <Text style={styles.slideText7}>
+                -A broken window, door, or lock
+              </Text>
+              <Text />
+              <Text style={styles.slideText7}>
+                To get started, exit the tutorial and press the green report
+                button.
+              </Text>
+            </View>
+            <View style={[styles.slideImageContainer]}>
+              <Image
+                source={require("../assets/images/ReportNew.png")}
+                style={{
+                  width: 250,
+                  height: 250
+                }}
+              />
+            </View>
+            <View style={styles.slideOuterButton}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  this.props.navigation.navigate("Home");
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "white"
+                  }}
+                >
+                  Exit
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-                    {/* <View
+          {/* <View
                         style={[styles.slideOuterContainer, styles.slidegreen]}
                     >
                         <View style={[styles.slideTextContainer]}>
@@ -491,8 +470,8 @@ export default class Screen extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </View> */}
-                </Swiper>
-            </SafeAreaView>
-        );
-    }
+        </Swiper>
+      </SafeAreaView>
+    );
+  }
 }
