@@ -132,8 +132,8 @@ export default class Screen extends React.Component {
                         </View>
                     </View> */}
           <View style={[styles.slideOuterContainer, styles.slideblue]}>
-            <View style={[styles.slideTextContainer]}>
-              <Text style={styles.slideText}>
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>
                 Before you report an issue, it's important to stop and think
                 about the urgency of the situation. We have created buttons
                 corresponding to the level of urgency of situations you may
@@ -167,8 +167,9 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
+
           <View style={[styles.slideOuterContainer, styles.slidered]}>
-            <View style={[styles.slideTextContainer]}>
+            <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText4}>
                 If there is an imminent threat to life or property, it is
                 important to quickly call 911. For example:
@@ -258,18 +259,27 @@ export default class Screen extends React.Component {
                         </View>
                     </View> */}
           <View style={[styles.slideOuterContainer, styles.slideyellow]}>
-            <View style={[styles.slideTextContainer]}>
-              <Text style={styles.slideText}>
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>
                 If you become aware of a completed crime or an urgent problem on
                 campus that does not merit a call to emergency services, it is
-                still NOT appropriate to report it through this app. Responses
-                to reports from this app can take 24 hours or more and the
-                reporting system is not designed to handle crimes. Instead,
+                still NOT appropriate to report it through this app.
+              </Text>
+            </View>
+
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>
+                Responses to reports from this app can take 24 hours or more and
+                the reporting system is not designed to handle crimes.Instead,
                 please press the yellow "urgent" button to call the UC Santa
                 Cruz non-emergency dispatch at
               </Text>
-              <Text>(831) 459-2231. </Text>
             </View>
+
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>(831) 459-2231.</Text>
+            </View>
+
             <View style={[styles.slideImageContainer]}>
               <Image
                 source={require("../assets/images/UrgentNew.png")}
