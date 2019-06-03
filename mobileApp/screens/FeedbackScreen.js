@@ -53,7 +53,7 @@ class FeedbackScreen extends Component {
         if (responseJSON.message == null) {
           Alert.alert(
             "Feedback Submitted",
-            "Thank you for your feedback! We will try our best to take it into account in the near future. We appreciate your help and support.",
+            "Thank you for your feedback! We appreciate your help and support.",
             [
               {
                 text: "OK",
