@@ -366,7 +366,9 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
     /*
         "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token, expireTS) VALUES ("
         + [values]
-        + ", DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 90 DAY))"
+        + ", DATE_ADD(CURRENT_TIMESTAMP, INTERVAL " 
+        + numDays 
+        + " DAY))"
     */
     const primaryQuery =
         "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
@@ -1033,5 +1035,39 @@ Date.prototype.toMysqlFormat = function() {
         twoDigits(this.getUTCSeconds())
     );
 };
+
+router.post("/submitFeedback", (req, res) => {
+    let query = "";
+    if (req.body.mobileID != null) {
+        query =
+            "INSERT INTO feedback (mobileID, feedbackEntry) VALUES (" +
+            req.body.mobileID +
+            ", " +
+            connectionPool.santitizeString(req.body.feedback) +
+            ")";
+    } else if (req.body.webID != null) {
+        query =
+            "INSERT INTO feedback (webID, feedbackEntry) VALUES (" +
+            req.body.webID +
+            ", " +
+            connectionPool.santitizeString(req.body.feedback) +
+            ")";
+    } else {
+        res.json({ message: "An Error has Occurred." });
+    }
+    connectionPool.handleAPI(
+        null,
+        req.body.feedback,
+        0,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
+});
 
 module.exports = router;

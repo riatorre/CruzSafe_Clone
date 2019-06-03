@@ -22,7 +22,7 @@ import {
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
 
-const maxFeedbackTextLength = 1000;
+const maxFeedbackTextLength = 500;
 
 class FeedbackScreen extends Component {
     constructor(props) {
@@ -35,6 +35,15 @@ class FeedbackScreen extends Component {
         height: 0 //initializing the content text height
     };
 
+    async getMobileID() {
+        try {
+            const id = await AsyncStorage.getItem("mobileID");
+            return Number(id);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     handleSubmit = async () => {
         await fetch("https://cruzsafe.appspot.com/api/reports/submitFeedback", {
             // Defines what type of call is being made; above link is a POST request, so POST is needed Below
@@ -45,7 +54,10 @@ class FeedbackScreen extends Component {
                 "Content-Type": "multipart/form-data"
             },
             // Pass all data here; make sure all variables are named the same as in the API, and that the data types match
-            body: JSON.stringify({ feedbackText: this.state.feedbackText })
+            body: JSON.stringify({
+                feedback: this.state.feedbackText,
+                mobileID: this.state.mobileID
+            })
         })
             // Successful Call to API
             .then(response => response.json()) // Parse response into JSON
@@ -92,8 +104,10 @@ class FeedbackScreen extends Component {
         )
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         this._isMounted = true;
+        mobileID = await this.getMobileID();
+        this._isMounted && this.setState({ mobileID });
     }
 
     componentWillUnmount() {
