@@ -791,7 +791,7 @@ export default (styles = StyleSheet.create({
     },
     cameraLocationIOS: {
         zIndex: 2,
-        top: -142,
+        top: 77,
         left: -6,
         height: 0
     },
@@ -803,28 +803,28 @@ export default (styles = StyleSheet.create({
     },
     cameraTriangle1: {
         position: "absolute",
-        left: 61,
-        top: 130,
+        left: 70,
+        top: -16,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
-        borderRightWidth: 10,
-        borderTopWidth: 18,
-        borderTopColor: tipColor,
-        borderLeftWidth: 10,
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: tipColor,
+        borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
     cameraTriangle2: {
         position: "absolute",
         left: 200,
-        top: 130,
+        top: -16,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
-        borderRightWidth: 10,
-        borderTopWidth: 18,
-        borderTopColor: tipColor,
-        borderLeftWidth: 10,
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: tipColor,
+        borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
     mapLocationIOS: {
