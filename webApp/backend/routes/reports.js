@@ -81,6 +81,10 @@ router.post("/reportsTags", function(req, res) {
         0,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -113,6 +117,10 @@ router.post("/", function(req, res) {
         -1,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -131,6 +139,10 @@ router.post("/allReports", function(req, res) {
         0,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -149,6 +161,10 @@ router.post("/incompleteReports", function(req, res) {
         0,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -167,6 +183,10 @@ router.post("/allOpenedReports", function(req, res) {
         0,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -294,6 +314,10 @@ router.post("/reportID", function(req, res) {
         query,
         val => {
             if (val.length > 0) {
+                for (i = 0; i < val.length; i++) {
+                    if (val[i].incidentID == null)
+                        val[i].incidentID = val[i].reportID;
+                }
                 res.json(val);
             } else {
                 res.json({
@@ -322,6 +346,10 @@ router.post("/incidentID", function(req, res) {
         query,
         val => {
             if (val.length > 0) {
+                for (i = 0; i < val.length; i++) {
+                    if (val[i].incidentID == null)
+                        val[i].incidentID = val[i].reportID;
+                }
                 res.json(val);
             } else {
                 res.json({
@@ -363,7 +391,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
         ]
     ];
 
-    /*
     googleMapsClient.reverseGeocode(
         {
             latlng: [req.body.incidentLatitude, req.body.incidentLongitude]
@@ -377,7 +404,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                     googleResult[0]["address_components"][1]["long_name"];
                 let buildingCity =
                     googleResult[0]["address_components"][2]["long_name"];
-                //let buildingCounty = connectionPool.sanitizeString(googleResult["address_components"][3]["long_name"]);
                 let buildingState =
                     googleResult[0]["address_components"][4]["short_name"];
 
@@ -440,7 +466,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                     buildingWhereClause1 +
                     " OR " +
                     buildingWhereClause2 +
-                    "))";
+                    " LIMIT 1))";
                 connectionPool.handleAPI(
                     [req.body.mobileID, req.body.incidentCategory],
                     [
@@ -467,266 +493,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
             }
         }
     );
-    /* */
-    const primaryQuery =
-        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
-        [values] +
-        ")";
-    connectionPool.handleAPI(
-        [req.body.mobileID, req.body.incidentCategory],
-        [
-            req.body.incidentDesc,
-            req.body.incidentLocationDesc,
-            attachment,
-            req.body.token
-        ],
-        2,
-        6,
-        primaryQuery,
-        val => {
-            connectionPool.handleAPI(
-                null,
-                null,
-                0,
-                0,
-                "SELECT reportTS FROM reports WHERE reportID = " + val.insertId,
-                row => {
-                    const expireTS = row[0].reportTS;
-                    expireTS.setDate(expireTS.getDate() + numDays);
-                    expireTS.toMysqlFormat();
-                    connectionPool.handleAPI(
-                        null,
-                        null,
-                        0,
-                        0,
-                        "UPDATE reports SET incidentID = " +
-                            val.insertId +
-                            ", expireTS = " +
-                            connectionPool.sanitizeString(expireTS) +
-                            " WHERE reportID = " +
-                            val.insertId,
-                        () => {
-                            // Given that every single building has coordinates, insert the x and y into the google maps API.
-
-                            googleMapsClient.reverseGeocode(
-                                {
-                                    latlng: [
-                                        req.body.incidentLatitude,
-                                        req.body.incidentLongitude
-                                    ]
-                                },
-                                function(err, response) {
-                                    if (!err) {
-                                        let googleResult =
-                                            response.json.results;
-                                        let buildingStreet =
-                                            googleResult[0][
-                                                "address_components"
-                                            ][0]["long_name"] +
-                                            " " +
-                                            googleResult[0][
-                                                "address_components"
-                                            ][1]["long_name"];
-                                        let buildingCity =
-                                            googleResult[0][
-                                                "address_components"
-                                            ][2]["long_name"];
-                                        //let buildingCounty = connectionPool.sanitizeString(googleResult["address_components"][3]["long_name"]);
-                                        let buildingState =
-                                            googleResult[0][
-                                                "address_components"
-                                            ][4]["short_name"];
-
-                                        const buildingQuery =
-                                            "SELECT buildingKey FROM buildings WHERE buildingStreet=" +
-                                            connectionPool.sanitizeString(
-                                                buildingStreet
-                                            ) +
-                                            " AND buildingCity = " +
-                                            connectionPool.sanitizeString(
-                                                buildingCity
-                                            ) +
-                                            " AND buildingState = " +
-                                            connectionPool.sanitizeString(
-                                                buildingState
-                                            );
-
-                                        // Given that address, check to see if there is a matching one in the database.
-                                        connectionPool.handleAPI(
-                                            // CHECK TO FIND BUILDING WITH MATCHING ADDRESS
-                                            null,
-                                            null,
-                                            0,
-                                            0,
-                                            buildingQuery,
-                                            valKey => {
-                                                if (
-                                                    valKey.length > 0 &&
-                                                    valKey
-                                                ) {
-                                                    // if there is a building that matches, insert it into the report and return.
-                                                    let buildingKey =
-                                                        valKey[0][
-                                                            "buildingKey"
-                                                        ];
-                                                    connectionPool.handleAPI(
-                                                        // INSERT MATCHING BUILDING KEY INTO REPORTS
-                                                        null,
-                                                        null,
-                                                        0,
-                                                        0,
-                                                        "UPDATE reports SET buildingKey = " +
-                                                            buildingKey +
-                                                            " WHERE reportID = " +
-                                                            val.insertId,
-                                                        () => {
-                                                            // Done.
-                                                            res.json({
-                                                                incidentID:
-                                                                    val.insertId
-                                                            }); // Exit; all things went through fine, return incident ID.
-                                                        },
-                                                        () => {
-                                                            res.json({
-                                                                message:
-                                                                    "An Error has Occurred. Error Code 02141 - Insert matching building key into reports failed."
-                                                            });
-                                                        }
-                                                    );
-                                                } else {
-                                                    // Else if there isn't, sort the entire database and get the one with lat - x and long - y that is closest to 0.
-                                                    let lat =
-                                                        req.body
-                                                            .incidentLatitude;
-                                                    let lng =
-                                                        req.body
-                                                            .incidentLongitude;
-                                                    let sf = 3.14159 / 180; // scaling factor
-                                                    let er = 6350; // earth radius in miles, approximate
-                                                    let mr = 100; // max radius
-                                                    const findBuildingQuery =
-                                                        "SELECT buildingKey FROM buildings WHERE " +
-                                                        mr +
-                                                        " >= " +
-                                                        er +
-                                                        " * ACOS(SIN(buildingLat*" +
-                                                        sf +
-                                                        ")*SIN(" +
-                                                        lat +
-                                                        "*" +
-                                                        sf +
-                                                        ") + COS(buildingLat*" +
-                                                        sf +
-                                                        ")*COS(" +
-                                                        lat +
-                                                        "*" +
-                                                        sf +
-                                                        ")*COS((buildingLng-" +
-                                                        lng +
-                                                        ")*" +
-                                                        sf +
-                                                        "))ORDER BY ACOS(SIN(buildingLat*" +
-                                                        sf +
-                                                        ")*SIN(" +
-                                                        lat +
-                                                        "*" +
-                                                        sf +
-                                                        ") + COS(buildingLat*" +
-                                                        sf +
-                                                        ")*COS(" +
-                                                        lat +
-                                                        "*" +
-                                                        sf +
-                                                        ")*COS((buildingLng-" +
-                                                        lng +
-                                                        ")*" +
-                                                        sf +
-                                                        "))";
-                                                    //const findBuildingQuery =
-                                                    //   "SELECT buildingKey FROM buildings ORDER BY ACOS(SIN(buildingLat*"+sf+")*SIN("+req.body.incidentLatitude+"*"+sf+") + COS(buildingLat*"+sf+")*COS("+req.body.incidentLatitude+"*"+sf+")*COS((buildingLng-"+req.body.incidentLongitude+")*"+sf+"))";
-                                                    connectionPool.handleAPI(
-                                                        // SORT BUILDINGS BY CLOSEST LAT AND LONG
-                                                        [
-                                                            req.body
-                                                                .incidentLatitude,
-                                                            req.body
-                                                                .incidentLongitude
-                                                        ],
-                                                        null,
-                                                        2,
-                                                        2,
-                                                        findBuildingQuery,
-                                                        closestKey => {
-                                                            let buildingKey =
-                                                                // INSERT CLOSEST BUILDING KEY INTO REPORTS
-                                                                closestKey[0][
-                                                                    "buildingKey"
-                                                                ];
-                                                            connectionPool.handleAPI(
-                                                                null,
-                                                                null,
-                                                                0,
-                                                                0,
-                                                                "UPDATE reports SET buildingKey = " +
-                                                                    buildingKey +
-                                                                    " WHERE reportID = " +
-                                                                    val.insertId,
-                                                                () => {
-                                                                    // Done.
-                                                                    res.json({
-                                                                        incidentID:
-                                                                            val.insertId
-                                                                    }); // Exit; all things went through fine, return incident ID.
-                                                                },
-                                                                () => {
-                                                                    res.json({
-                                                                        message:
-                                                                            "An Error has Occurred. Error Code 70924 - Insert closest building key into reports failed."
-                                                                    });
-                                                                }
-                                                            );
-                                                        },
-                                                        () => {
-                                                            res.json({
-                                                                message:
-                                                                    "An Error has Occurred. Error Code 81923 - Sort buildings by closest lat and long failed. Query = " +
-                                                                    findBuildingQuery
-                                                            });
-                                                        }
-                                                    );
-                                                }
-                                            },
-                                            () => {
-                                                res.json({
-                                                    message:
-                                                        "An Error has Occurred. Error Code 00623 - Checking to find buildings with matching addresses failed. Query = " +
-                                                        buildingQuery
-                                                });
-                                            }
-                                        );
-                                    } else {
-                                        res.json({
-                                            message:
-                                                "An Error has Occurred. Error Code 00624 - Converting API failed."
-                                        });
-                                    }
-                                }
-                            );
-                        },
-                        () => {
-                            res.json({ message: "An Error has Occurred." });
-                        }
-                    );
-                },
-                () => {
-                    res.json({ message: "An Error has Occurred." });
-                }
-            );
-        },
-        () => {
-            res.json({ message: "An Error has Occurred." });
-        }
-    );
 });
 
 /*
@@ -744,6 +510,10 @@ router.post("/userReports", function(req, res) {
         1,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -763,6 +533,10 @@ router.post("/latestReports", function(req, res) {
         0,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -1029,6 +803,10 @@ router.post("/reportTS", function(req, res) {
         1,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
@@ -1048,6 +826,10 @@ router.post("/getToken", function(req, res) {
         1,
         query,
         val => {
+            for (i = 0; i < val.length; i++) {
+                if (val[i].incidentID == null)
+                    val[i].incidentID = val[i].reportID;
+            }
             res.json(val);
         },
         () => {
