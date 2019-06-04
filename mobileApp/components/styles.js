@@ -279,12 +279,13 @@ export default (styles = StyleSheet.create({
         //flex: 0.95,
         //justifyContent: "center",
         width: "90%",
-        padding: 10,
+        padding: "4%",
         borderRadius: containerBorderRadius,
         backgroundColor: containerColor,
         borderWidth: containerBorderWidthWide,
         borderColor: containerBorderColor,
-        height: Dimensions.get("window").height * 0.8
+        height: "96%"
+        //height: Dimensions.get("window").height * 0.8
     },
     reportSubcontainer: {
         width: "100%",
