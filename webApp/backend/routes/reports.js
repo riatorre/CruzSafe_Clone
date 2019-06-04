@@ -310,9 +310,9 @@ router.post("/reportID", function(req, res) {
 // Get Report By Incident ID #, may return 0+ entries
 router.post("/incidentID", function(req, res) {
     const query =
-        "SELECT * FROM reports WHERE incidentID = " +
+        "SELECT * FROM reports WHERE (reportID = " +
         req.body.id +
-        " OR reportID = " +
+        " AND incidentID IS NULL) OR incidentID = " +
         req.body.id;
     connectionPool.handleAPI(
         req.body.id,
@@ -364,12 +364,110 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
     ];
 
     /*
-        "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token, expireTS) VALUES ("
-        + [values]
-        + ", DATE_ADD(CURRENT_TIMESTAMP, INTERVAL " 
-        + numDays 
-        + " DAY))"
-    */
+    googleMapsClient.reverseGeocode(
+        {
+            latlng: [req.body.incidentLatitude, req.body.incidentLongitude]
+        },
+        function(err, response) {
+            if (!err) {
+                let googleResult = response.json.results;
+                let buildingStreet =
+                    googleResult[0]["address_components"][0]["long_name"] +
+                    " " +
+                    googleResult[0]["address_components"][1]["long_name"];
+                let buildingCity =
+                    googleResult[0]["address_components"][2]["long_name"];
+                //let buildingCounty = connectionPool.sanitizeString(googleResult["address_components"][3]["long_name"]);
+                let buildingState =
+                    googleResult[0]["address_components"][4]["short_name"];
+
+                const buildingWhereClause1 =
+                    "buildingStreet=" +
+                    connectionPool.sanitizeString(buildingStreet) +
+                    " AND buildingCity = " +
+                    connectionPool.sanitizeString(buildingCity) +
+                    " AND buildingState = " +
+                    connectionPool.sanitizeString(buildingState);
+
+                let lat = req.body.incidentLatitude;
+                let lng = req.body.incidentLongitude;
+                let sf = 3.14159 / 180; // scaling factor
+                let er = 6350; // earth radius in miles, approximate
+                let mr = 100; // max radius
+                const buildingWhereClause2 =
+                    mr +
+                    " >= " +
+                    er +
+                    " * ACOS(SIN(buildingLat*" +
+                    sf +
+                    ")*SIN(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ") + COS(buildingLat*" +
+                    sf +
+                    ")*COS(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ")*COS((buildingLng-" +
+                    lng +
+                    ")*" +
+                    sf +
+                    "))ORDER BY ACOS(SIN(buildingLat*" +
+                    sf +
+                    ")*SIN(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ") + COS(buildingLat*" +
+                    sf +
+                    ")*COS(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ")*COS((buildingLng-" +
+                    lng +
+                    ")*" +
+                    sf +
+                    "))";
+                const primaryQuery =
+                    "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token, expireTS, buildingKey) VALUES (" +
+                    [values] +
+                    ", DATE_ADD(CURRENT_TIMESTAMP, INTERVAL " +
+                    numDays +
+                    " DAY), (SELECT buildingKey FROM buildings WHERE " +
+                    buildingWhereClause1 +
+                    " OR " +
+                    buildingWhereClause2 +
+                    "))";
+                connectionPool.handleAPI(
+                    [req.body.mobileID, req.body.incidentCategory],
+                    [
+                        req.body.incidentDesc,
+                        req.body.incidentLocationDesc,
+                        attachment,
+                        req.body.token
+                    ],
+                    2,
+                    6,
+                    primaryQuery,
+                    val => {
+                        // Done.
+                        res.json({
+                            incidentID: val.insertId
+                        }); // Exit; all things went through fine, return incident ID.},
+                    },
+                    () => {
+                        res.json({ message: "An Error has Occurred." });
+                    }
+                );
+            } else {
+                res.json({ message: "An Error has Occurred" });
+            }
+        }
+    );
+    /* */
     const primaryQuery =
         "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token) VALUES (" +
         [values] +

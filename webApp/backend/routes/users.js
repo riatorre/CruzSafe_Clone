@@ -293,4 +293,37 @@ router.post("/reportsUsers", function(req, res) {
     );
 });
 
+router.post("/timeoutMobileUser", (req, res) => {
+    const query = "UPDATE mobileUsers () VALUES () WHERE mobileID = ";
+});
+router.post("/timeoutWebUser", (req, res) => {
+    const query = "UPDATE webUsers () VALUES () WHERE webID = ";
+});
+router.post("/banMobileUser", (req, res) => {
+    const query = "UPDATE mobileUsers () VALUES () WHERE mobileID = ";
+});
+router.post("/banWebUser", (req, res) => {
+    const query = "UPDATE webUsers () VALUES () WHERE webID = ";
+});
+
+router.post("/untimeoutMobileUser", (req, res) => {
+    const query = "UPDATE mobileUsers () VALUES () WHERE mobileID = ";
+});
+router.post("/untimeoutWebUser", (req, res) => {
+    const query = "UPDATE webUsers () VALUES () WHERE webID = ";
+});
+router.post("/unbanMobileUser", (req, res) => {
+    const query = "UPDATE mobileUsers () VALUES () WHERE mobileID = ";
+});
+router.post("/unbanWebUser", (req, res) => {
+    const query = "UPDATE webUsers () VALUES () WHERE webID = ";
+});
+
+router.post("/checkBannedMobileUser", (req, res) => {
+    const query = "SELECT max() FROM mobileUsers WHERE mobileID = ";
+});
+router.post("/checkBannedWebUser", (req, res) => {
+    const query = "SELECT max() FROM webUsers WHERE webID = ";
+});
+
 module.exports = router;

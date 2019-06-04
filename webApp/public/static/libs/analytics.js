@@ -33,11 +33,23 @@ function setChartLine() {
             scales: {
                 yAxes: [
                     {
+                        display:true,
+                        gridLines: {
+                            display: false,
+                            color: "white"
+                         },
                         ticks: {
                             beginAtZero: true
                         }
                     }
-                ]
+                ],
+                xAxes:[{
+                    display: true,
+                    gridLines: {
+                        display: false,
+                        color: "white"
+                     }
+                }]
             }
         };
         if (savedDict != null) {

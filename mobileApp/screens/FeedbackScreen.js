@@ -145,10 +145,7 @@ class FeedbackScreen extends Component {
                                     fontSize: 24
                                 }}
                             >
-                                We would love to hear about what you have to say
-                                about our mobile app! Please send us your
-                                feedback so that we can keep improving your
-                                experience!
+                                Submit your feedback.
                             </Text>
                             <Text style={styles.fieldHeaderBackground}>
                                 Feedback
