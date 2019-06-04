@@ -20,14 +20,8 @@ main > * {
     width: 100%;
     height: 100%;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-rows: 1fr 1fr;
     grid-template-areas:
-        "welcomeModalText"
-        "welcomeModalText"
-        "welcomeModalText"
-        "welcomeModalText"
-        "welcomeModalText"
-        "welcomeModalText"
         "welcomeModalText"
         "welcomeModalBtns";
 }
@@ -81,4 +75,19 @@ h1 {
 
 .fa-heart:hover {
     color: red;
+}
+
+#loginButton{
+    height: auto;
+    width: 15%;
+    text-align: center;
+    font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+    line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px) / (1600 - 300)));
+    font-weight: bold;
+    background-color: #145d99;
+}
+
+#loginButton:hover {
+    color: white;
+    background-color: #87b0d1;
 }
