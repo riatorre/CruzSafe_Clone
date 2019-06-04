@@ -403,17 +403,42 @@ function renderReportsOverviewHelper(facilityDict) {
         options: {
             legend: {
                 labels: {
-                    fontSize: 15
+                    fontSize: 15,
+                    fontColor: "white"
                 }
+            },
+            labels:{
+                color: "white"
             },
             scales: {
                 yAxes: [
                     {
+                        display:true,
+                        gridLines: {
+                            display: false,
+                            color: "white"
+                         },
                         ticks: {
+                            fontColor: "white",
                             beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: "# Reports",
+                            fontColor: "white"
                         }
                     }
-                ]
+                ],
+                xAxes:[{
+                    display: true,
+                    ticks: {
+                        fontColor: "white"
+                    },
+                    gridLines: {
+                        display:false,
+                        color: "white"
+                     },
+                }]
             }
         }
     });
@@ -509,7 +534,8 @@ function renderfirstOpenedDelayHelper(data) {
         options: {
             legend: {
                 labels: {
-                    fontSize: 15
+                    fontSize: 15,
+                    fontColor: "white"
                 }
             }
         }
