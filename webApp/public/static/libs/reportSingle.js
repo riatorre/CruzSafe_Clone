@@ -569,7 +569,7 @@ function insertTS(initialOpenTS, reportID, webID) {
                 const request_ntf = new XMLHttpRequest("no-cors");
                 request_ntf.open(
                     "POST",
-                    "https://exp.host/--/api/v2/push/send"
+                    "https://cors-anywhere.herokuapp.com/https://exp.host/--/api/v2/push/send"
                 );
                 request_ntf.setRequestHeader(
                     "Content-Type",
@@ -739,7 +739,7 @@ function sendMessage(reportID, webID, message) {
                 const request_ntf = new XMLHttpRequest("no-cors");
                 request_ntf.open(
                     "POST",
-                    "https://exp.host/--/api/v2/push/send"
+                    "https://cors-anywhere.herokuapp.com/https://exp.host/--/api/v2/push/send"
                 );
                 request_ntf.setRequestHeader(
                     "Content-Type",
