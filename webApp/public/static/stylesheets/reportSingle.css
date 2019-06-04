@@ -3,7 +3,7 @@
     width: 100%;
     height: 100%;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 10px;
+    grid-column-gap: 1.1em;
     grid-template-rows: repeat(8, 1fr);
     grid-template-areas:
         "reportContact reportExpiry"
@@ -17,30 +17,37 @@
 }
 
 .reportModalGrid > * {
-    padding: 5px;
-    background-color: slategray;
+    padding: 0.7em;
+    background-color: #145d99;
+    font-size: 1.1em;
 }
 
 .reportContact {
     grid-area: reportContact;
+    color: white;
+    flex: 1;
 }
 
 .reportMetaDetails {
     grid-area: reportMetaDetails;
+    color: white;
 }
 
 .reportLocAndTag {
     grid-area: reportLocAndTag;
+    color: white;
 }
 
 .reportLocData {
     display: flex;
     align-items: center;
     grid-area: reportLocData;
+    color: white;
 }
 
 .reportBuilding {
     grid-area: reportBuilding;
+    color: white;
 }
 
 .reportVisuals {
@@ -54,10 +61,12 @@
 
 .reportExpiry {
     grid-area: reportExpiry;
+    color: white;
 }
 
 .reportBody {
     grid-area: reportBody;
+    color: white;
 }
 
 .reportNotesField {

@@ -279,12 +279,13 @@ export default (styles = StyleSheet.create({
         //flex: 0.95,
         //justifyContent: "center",
         width: "90%",
-        padding: 10,
+        padding: "4%",
         borderRadius: containerBorderRadius,
         backgroundColor: containerColor,
         borderWidth: containerBorderWidthWide,
         borderColor: containerBorderColor,
-        height: Dimensions.get("window").height * 0.8
+        height: "96%"
+        //height: Dimensions.get("window").height * 0.8
     },
     reportSubcontainer: {
         width: "100%",
@@ -659,6 +660,12 @@ export default (styles = StyleSheet.create({
     slideTextContainer: {
         justifyContent: "flex-start"
     },
+    slideTextContainerTutorial: {
+        justifyContent: "flex-start",
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10
+    },
     slideText: {
         fontSize: 15
     },
@@ -785,7 +792,7 @@ export default (styles = StyleSheet.create({
     },
     cameraLocationIOS: {
         zIndex: 2,
-        top: -142,
+        top: 77,
         left: -6,
         height: 0
     },
@@ -797,28 +804,28 @@ export default (styles = StyleSheet.create({
     },
     cameraTriangle1: {
         position: "absolute",
-        left: 61,
-        top: 130,
+        left: 70,
+        top: -16,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
-        borderRightWidth: 10,
-        borderTopWidth: 18,
-        borderTopColor: tipColor,
-        borderLeftWidth: 10,
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: tipColor,
+        borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
     cameraTriangle2: {
         position: "absolute",
         left: 200,
-        top: 130,
+        top: -16,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
-        borderRightWidth: 10,
-        borderTopWidth: 18,
-        borderTopColor: tipColor,
-        borderLeftWidth: 10,
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: tipColor,
+        borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
     mapLocationIOS: {

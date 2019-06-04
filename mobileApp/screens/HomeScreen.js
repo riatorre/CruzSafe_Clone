@@ -35,14 +35,12 @@ import { Permissions, Notifications } from "expo";
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
 
-const LATITUDE = 36.9916;
-const LONGITUDE = -122.0583;
 const newPre_report = {
     incidentDesc: "",
     incidentCategory: "",
     incidentLocationDesc: "",
-    incidentLatitude: LATITUDE,
-    incidentLongitude: LONGITUDE,
+    incidentLatitude: null,
+    incidentLongitude: null,
     unchangedLocation: true,
     imageURI: null
 };

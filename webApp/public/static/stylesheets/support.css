@@ -11,8 +11,8 @@ main {
     grid-auto-rows: minmax(100px, auto);*/
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr !important;
     grid-template-rows: 1fr 1fr !important;
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    grid-column-gap: 0.8em;
+    grid-row-gap:  0.8em;
     overflow: scroll;
     padding: 5px;
     /* grid-template-areas:
@@ -22,7 +22,7 @@ main {
 
 main > * {
     padding: 5px;
-    background-color: slategray;
+    background-color: #145d99;
     border-radius: 20px;
 }
 
@@ -36,6 +36,7 @@ main > * {
     align-content: center;
     text-align: left;
     padding: 7%;
+    color: white;
 }
 
 .supportPictureDiv {
@@ -84,6 +85,7 @@ main > * {
     grid-row-end: 3;
     padding: 5%;
     overflow: scroll;
+    color: white;
 }
 .supportEmailsText {
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
@@ -94,4 +96,10 @@ main > * {
 .supportEmailLink {
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 1000)));
     font-weight: bold;
+    color: gold;
 }
+#loginButton{
+    height: 100px;
+    width: 100px;
+}
+

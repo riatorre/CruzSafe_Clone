@@ -126,7 +126,7 @@ function createReportModal() {
     // Notes regarding the specific report
     const notesDiv = document.createElement("DIV");
     notesDiv.setAttribute("class", "reportNotesField");
-    notesDiv.innerHTML = "<b>Activity Log:</b>";
+    notesDiv.innerHTML = "<b style='color:white'>Activity Log:</b>";
     notesDiv.innerHTML += "<div id = 'reportNotes' class='reportNotes'></div>";
     notesDiv.innerHTML +=
         "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'/><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
