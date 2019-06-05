@@ -1,3 +1,8 @@
+/*
+    reportSingle.css
+    Styling for report modal; paired with reportSingle.js with an embedded report modal object.
+*/
+
 .reportModalGrid {
     display: grid;
     width: 100%;

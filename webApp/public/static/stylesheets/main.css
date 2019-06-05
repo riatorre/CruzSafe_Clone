@@ -1,9 +1,10 @@
 /*
+    main.css
     Major CSS elements. Standard across all stylesheets.
 */
 :root {
     --primary-color: #145d99;
-    --secondary-color: whitesmoke;
+    --secondary-color: #eaeaea;
 }
 
 html {
