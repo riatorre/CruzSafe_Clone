@@ -89,7 +89,7 @@ canvas {
     right: 0px;
     bottom: 0px;
     position: fixed;
-    overflow: scroll;
+    overflow: auto;
     max-height: 50vh;
 }
 #tagList:hover {

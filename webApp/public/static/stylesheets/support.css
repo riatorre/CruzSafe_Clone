@@ -14,7 +14,7 @@ main {
     grid-template-rows: 1fr 1fr !important;
     grid-column-gap: 0.8em;
     grid-row-gap: 0.8em;
-    overflow: scroll;
+    overflow: auto;
     /* grid-template-areas:
         "supportIntro supportIntro supportIntro supportLogo"
         "supportPicture supportPicture supportEmails supportEmails" !important;*/
@@ -32,7 +32,7 @@ main > * {
     grid-column-end: 4;
     grid-row-start: 1;
     grid-row-end: 2;
-    overflow: scroll;
+    overflow: auto;
     align-content: center;
     text-align: left;
     padding: 7%;
@@ -84,7 +84,7 @@ main > * {
     grid-row-start: 2;
     grid-row-end: 3;
     padding: 5%;
-    overflow: scroll;
+    overflow: auto;
     color: var(--secondary-color);
 }
 .supportEmailsText {

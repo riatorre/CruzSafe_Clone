@@ -121,7 +121,7 @@
     border-color: gray;
     border-style: ridge;
     background-color: var(--secondary-color);
-    overflow: scroll;
+    overflow: auto;
     min-height: 10vh;
     height: 60%;
     max-height: 60vh;
