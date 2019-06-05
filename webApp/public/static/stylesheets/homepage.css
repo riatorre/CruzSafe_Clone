@@ -17,7 +17,7 @@ main .chartscrolldiv {
     overflow-y: scroll;
     align-self: top;
     align-content: top;
-    background-color: white;
+    background-color: whitesmoke;
 }
 
 main .map {
@@ -26,7 +26,7 @@ main .map {
 
 html,
 body {
-    background-color: #fffeff;
+    background-color: whitesmoke;
 }
 hr {
     border: 1px solid black;
@@ -124,7 +124,7 @@ canvas {
 #goMain:hover,
 #goCoastal:hover {
     background-color: #87b0d1;
-    color: #fffeff;
+    color: whitesmoke;
 }
 
 #goBoth:focus,
@@ -138,7 +138,7 @@ canvas {
 #goBothText,
 #goMainText,
 #goCoastalText {
-    color: #fffeff;
+    color: whitesmoke;
     font-family: Roboto, Arial, sans-serif;
     font-size: 20px;
     line-height: 30px;

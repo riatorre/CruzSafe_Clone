@@ -135,7 +135,7 @@ button,
     margin: 0 0.5em 0.5em 0;
     display: inline-block;
     background-color: #26a69a;
-    color: white;
+    color: whitesmoke;
 }
 
 .btn:hover,
@@ -144,7 +144,7 @@ button:hover,
 [type="submit"]:hover {
     -moz-border-radius: 4px;
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: whitesmoke;
     color: black;
     cursor: pointer;
     box-shadow: 0 0 10px #666;
@@ -315,7 +315,7 @@ td {
 
 .topnav a {
     float: left;
-    color: #fffeff;
+    color: whitesmoke;
     text-align: center;
     margin-top: 1vh;
     padding: 0.8vh;
@@ -332,7 +332,7 @@ td {
     /* background-color: #145d99; */
     /* border: 2px solid #145d99; */
     background-color: #87b0d1;
-    color: #fffeff;
+    color: whitesmoke;
 }
 
 /* Add an active class to highlight the current page */
@@ -342,7 +342,7 @@ td {
     border-radius: 1vh 1vh 0px 0px;
     /* background-color: #145d99;
   color: black; */
-    background-color: #fffeff;
+    background-color: whitesmoke;
     color: #145d99;
 }
 
@@ -423,10 +423,10 @@ td {
 }
 .indicator.active {
     background-color: #001f3f;
-    color: #ffffff;
+    color: whitesmoke;
 }
 .indicator:hover {
-    background-color: white;
+    background-color: whitesmoke;
     color: #202020;
 }
 
@@ -436,12 +436,12 @@ td {
 
 .navy {
     background-color: #001f3f;
-    color: white;
+    color: whitesmoke;
 }
 
 .blue {
     background-color: #0074d9;
-    color: white;
+    color: whitesmoke;
 }
 
 .aqua {
@@ -451,22 +451,22 @@ td {
 
 .teal {
     background-color: #39cccc;
-    color: white;
+    color: whitesmoke;
 }
 
 .olive {
     background-color: #3d9970;
-    color: white;
+    color: whitesmoke;
 }
 
 .green {
     background-color: #2ecc40;
-    color: white;
+    color: whitesmoke;
 }
 
 .aquamarine {
     background-color: #26a69a;
-    color: white;
+    color: whitesmoke;
 }
 
 .lime {
@@ -481,32 +481,32 @@ td {
 
 .orange {
     background-color: #ff851b;
-    color: white;
+    color: whitesmoke;
 }
 
 .red {
     background-color: #cc1f00;
-    color: white;
+    color: whitesmoke;
 }
 
 .fuchsia {
     background-color: #f012be;
-    color: white;
+    color: whitesmoke;
 }
 
 .pink {
     background-color: #ee6e73;
-    color: white;
+    color: whitesmoke;
 }
 
 .purple {
     background-color: #b10dc9;
-    color: white;
+    color: whitesmoke;
 }
 
 .maroon {
     background-color: #85144b;
-    color: white;
+    color: whitesmoke;
 }
 
 .white {
@@ -519,7 +519,7 @@ td {
 
 .gray {
     background-color: #aaa;
-    color: white;
+    color: whitesmoke;
 }
 
 .silver {
@@ -529,7 +529,7 @@ td {
 
 .black {
     background-color: #111111;
-    color: white;
+    color: whitesmoke;
 }
 
 .glass {

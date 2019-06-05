@@ -24,30 +24,30 @@
 
 .reportContact {
     grid-area: reportContact;
-    color: white;
+    color: whitesmoke;
     flex: 1;
 }
 
 .reportMetaDetails {
     grid-area: reportMetaDetails;
-    color: white;
+    color: whitesmoke;
 }
 
 .reportLocAndTag {
     grid-area: reportLocAndTag;
-    color: white;
+    color: whitesmoke;
 }
 
 .reportLocData {
     display: flex;
     align-items: center;
     grid-area: reportLocData;
-    color: white;
+    color: whitesmoke;
 }
 
 .reportBuilding {
     grid-area: reportBuilding;
-    color: white;
+    color: whitesmoke;
 }
 
 .reportVisuals {
@@ -61,12 +61,12 @@
 
 .reportExpiry {
     grid-area: reportExpiry;
-    color: white;
+    color: whitesmoke;
 }
 
 .reportBody {
     grid-area: reportBody;
-    color: white;
+    color: whitesmoke;
 }
 
 .reportNotesField {
@@ -97,7 +97,7 @@
     border-width: 2px;
     border-color: gray;
     border-style: ridge;
-    background-color: white;
+    background-color: whitesmoke;
     overflow: auto;
     min-height: 10vh;
     height: 60%;
