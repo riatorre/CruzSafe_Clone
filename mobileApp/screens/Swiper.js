@@ -402,22 +402,26 @@ export default class Screen extends React.Component {
                         </View>
                     </View> */}
           <View style={[styles.slideOuterContainer, styles.slidegreen]}>
-            <View style={[styles.slideTextContainer]}>
-              <Text style={styles.slideText7}>
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>
                 If there is an issue on campus which is neither very urgent nor
                 likely to be connected to a crime, it is appropriate to submit a
                 report. Examples of such situations include:
               </Text>
-              <Text style={styles.slideText7}>
-                -Inadequate or broken lighting
-              </Text>
-              <Text style={styles.slideText7}>-Tripping hazards</Text>
-              <Text style={styles.slideText7}>-A water leak</Text>
-              <Text style={styles.slideText7}>
-                -A broken window, door, or lock
+              <Text />
+              <Text style={styles.slideText4}>
+                Inadequate or broken lighting
               </Text>
               <Text />
-              <Text style={styles.slideText7}>
+              <Text style={styles.slideText4}>Tripping hazards</Text>
+              <Text />
+              <Text style={styles.slideText4}>A water leak</Text>
+              <Text />
+              <Text style={styles.slideText4}>
+                A broken window, door, or lock
+              </Text>
+              <Text />
+              <Text style={styles.slideText4}>
                 To get started, exit the tutorial and press the green report
                 button.
               </Text>
