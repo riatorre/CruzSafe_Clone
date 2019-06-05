@@ -8,11 +8,10 @@ main {
     grid-auto-rows: minmax(100px, auto);
     grid-template-columns: 1.3fr 4fr;
     grid-template-rows: 1fr;
-    grid-template-areas:
-        "graphs map"
+    grid-template-areas: "graphs map";
 }
 
-main .chartscrolldiv{
+main .chartscrolldiv {
     flex: 1;
     grid-area: graphs;
     overflow-y: scroll;
@@ -35,11 +34,11 @@ hr {
     margin-top: 5px;
 }
 /* .gm-style .gm-style-iw {
-  /* color: #376f9e; */
+  /* color: #145d99; */
 /* color: black; */
 /* } */
 
-.chartPanel{
+.chartPanel {
     flex: 1;
     background-color: #145d99;
     padding: 5px;
@@ -47,7 +46,7 @@ hr {
     margin-bottom: 1.2em;
     margin-left: 0.7em;
     margin-right: 0.7em;
-    border-radius: .5em;
+    border-radius: 0.5em;
 }
 
 .chartDiv {
@@ -60,11 +59,11 @@ hr {
     border-right: 2px solid Black;
     border-radius: 0px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);*/
-    margin-top: .5em;
-    margin-bottom: .5em;
-    margin-left: .5em;
-    margin-right: .5em;
-    border-radius: .5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 0.5em;
 }
 
 canvas {
@@ -73,9 +72,9 @@ canvas {
 }
 
 #tagList {
-    background-color: #376f9e;
+    background-color: #145d99;
     opacity: 1;
-    border: 3px solid #376f9e;
+    border: 3px solid #145d99;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -97,7 +96,7 @@ canvas {
     cursor: default;
 }
 #tagListTag {
-    color: #376f9e;
+    color: #145d99;
     font-family: Roboto, Arial, sans-serif;
     font-size: 20px;
     line-height: 30px;
@@ -107,9 +106,9 @@ canvas {
 #goBoth,
 #goMain,
 #goCoastal {
-    background-color: #376f9e;
+    background-color: #145d99;
     opacity: 1;
-    border: 2px solid #376f9e;
+    border: 2px solid #145d99;
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;

@@ -329,8 +329,8 @@ td {
     -moz-border-radius: 1vh 1vh 0px 0px;
     border-radius: 1vh 1vh 0px 0px;
     /* background-color: red; */
-    /* background-color: #376f9e; */
-    /* border: 2px solid #376f9e; */
+    /* background-color: #145d99; */
+    /* border: 2px solid #145d99; */
     background-color: #87b0d1;
     color: #fffeff;
 }
@@ -340,10 +340,10 @@ td {
 .topnav a.active {
     -moz-border-radius: 1vh 1vh 0px 0px;
     border-radius: 1vh 1vh 0px 0px;
-    /* background-color: #376f9e;
+    /* background-color: #145d99;
   color: black; */
     background-color: #fffeff;
-    color: #376f9e;
+    color: #145d99;
 }
 
 /* Hide the link that should open and close the topnav on small screens */

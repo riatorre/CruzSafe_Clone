@@ -12,9 +12,8 @@ main {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr !important;
     grid-template-rows: 1fr 1fr !important;
     grid-column-gap: 0.8em;
-    grid-row-gap:  0.8em;
+    grid-row-gap: 0.8em;
     overflow: scroll;
-    padding: 5px;
     /* grid-template-areas:
         "supportIntro supportIntro supportIntro supportLogo"
         "supportPicture supportPicture supportEmails supportEmails" !important;*/
@@ -98,8 +97,7 @@ main > * {
     font-weight: bold;
     color: gold;
 }
-#loginButton{
+#loginButton {
     height: 100px;
     width: 100px;
 }
-
