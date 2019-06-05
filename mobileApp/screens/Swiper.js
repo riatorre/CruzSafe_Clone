@@ -116,17 +116,17 @@ export default class Screen extends React.Component {
               <Text style={styles.slideText4}>
                 A fire, even if it is still small
               </Text>
-              <Text />
+
               <Text style={styles.slideText4}>
                 A medical emergency (difficulty breathing, chest pain, fainting,
                 severe bleeding, etc)
               </Text>
-              <Text />
+
               <Text style={styles.slideText4}>
                 A crime in progress or imminently possible crime (eg. assault,
                 burglary, suspicious person)
               </Text>
-              <Text />
+
               <Text style={styles.slideText4}>
                 A car crash, particularly if at higher speeds or someone feels
                 dizzy/unwell
@@ -240,7 +240,7 @@ export default class Screen extends React.Component {
               <Text style={styles.slideText4}>
                 Illegally parked or abandoned vehicles
               </Text>
-              <Text />
+
               <Text style={styles.slideText4}>
                 Questions for the police that are not related to an emergency
               </Text>
