@@ -1,3 +1,7 @@
+/*
+ * Swiper.js
+ * A screen that creates a swiper tutorial
+ */
 import React from "react";
 import {
   SafeAreaView,
@@ -23,6 +27,7 @@ export default class Screen extends React.Component {
             this.swiper = swiper;
           }}
         >
+          {/* Used different containers to split the page and to add styling */}
           <View style={[styles.slideOuterContainer, styles.slideblue]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>Welcome to CruzSafe!</Text>
@@ -57,6 +62,8 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
+
+          {/* Used different containers to split the page and to add styling */}
           <View style={[styles.slideOuterContainer, styles.slideblue]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>
@@ -97,6 +104,7 @@ export default class Screen extends React.Component {
             </View>
           </View>
 
+          {/* Used different containers to split the page and to add styling */}
           <View style={[styles.slideOuterContainer, styles.slidered]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>
@@ -159,6 +167,7 @@ export default class Screen extends React.Component {
             </View>
           </View>
 
+          {/* Used different containers to split the page and to add styling */}
           <View style={[styles.slideOuterContainer, styles.slideyellow]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText4}>
@@ -208,6 +217,8 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
+
+          {/* Used different containers to split the page and to add styling */}
           <View style={[styles.slideOuterContainer, styles.slideyellow]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>
@@ -262,12 +273,10 @@ export default class Screen extends React.Component {
             </View>
           </View>
 
+          {/* Used different containers to split the page and to add styling */}
           <View style={[styles.slideOuterContainer, styles.slidegreen]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>
-                {/* If there is an issue on campus which is neither very urgent nor
-                likely to be connected to a crime, it is appropriate to submit a
-                report. Examples of such situations include: */}
                 Issue on campus? Neither urgent nor crime, submit a report.
               </Text>
               <Text />
