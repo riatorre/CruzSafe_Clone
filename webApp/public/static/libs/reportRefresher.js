@@ -1,4 +1,5 @@
 /*
+    reportRefresher.js
     Code meant specifically for reports.html. Allows for the refreshing of the page on a timed basis. 
 */
 

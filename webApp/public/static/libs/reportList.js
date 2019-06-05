@@ -1,4 +1,5 @@
 /*
+    reportList.js
     Code meant specifically for reports.html. Allows for the fetching of pages of reports as well as filtering of reports.
 */
 

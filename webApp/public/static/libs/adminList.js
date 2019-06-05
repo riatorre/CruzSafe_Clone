@@ -1,5 +1,6 @@
 /*
- * Administrative page setup
+    adminList.js
+    Administrative page setup
  */
 
 // Standard options for graphs.

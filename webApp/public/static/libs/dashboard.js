@@ -1,4 +1,5 @@
 /*
+   dashboard.js
     Code to setup primary elements on homepage.html.
 */
 var map;
@@ -407,17 +408,17 @@ function renderReportsOverviewHelper(facilityDict) {
                     fontColor: "white"
                 }
             },
-            labels:{
+            labels: {
                 color: "white"
             },
             scales: {
                 yAxes: [
                     {
-                        display:true,
+                        display: true,
                         gridLines: {
                             display: false,
                             color: "white"
-                         },
+                        },
                         ticks: {
                             fontColor: "white",
                             beginAtZero: true
@@ -429,16 +430,18 @@ function renderReportsOverviewHelper(facilityDict) {
                         }
                     }
                 ],
-                xAxes:[{
-                    display: true,
-                    ticks: {
-                        fontColor: "white"
-                    },
-                    gridLines: {
-                        display:false,
-                        color: "white"
-                     },
-                }]
+                xAxes: [
+                    {
+                        display: true,
+                        ticks: {
+                            fontColor: "white"
+                        },
+                        gridLines: {
+                            display: false,
+                            color: "white"
+                        }
+                    }
+                ]
             }
         }
     });

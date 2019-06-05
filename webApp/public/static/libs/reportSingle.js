@@ -1,4 +1,5 @@
 /*
+    reportSingle.js
     Standardized code across reports.html and homepage.html (and potentially more.)
     Is paired stand-alone with the Report Modal portion in both html and css files. 
 */

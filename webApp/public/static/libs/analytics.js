@@ -1,3 +1,8 @@
+/*
+    analytics.js
+    Code for the various graphs appearing on the admin page.
+*/
+
 var standardOptions = {
     legend: {
         labels: {
@@ -33,23 +38,25 @@ function setChartLine() {
             scales: {
                 yAxes: [
                     {
-                        display:true,
+                        display: true,
                         gridLines: {
                             display: false,
                             color: "white"
-                         },
+                        },
                         ticks: {
                             beginAtZero: true
                         }
                     }
                 ],
-                xAxes:[{
-                    display: true,
-                    gridLines: {
-                        display: false,
-                        color: "white"
-                     }
-                }]
+                xAxes: [
+                    {
+                        display: true,
+                        gridLines: {
+                            display: false,
+                            color: "white"
+                        }
+                    }
+                ]
             }
         };
         if (savedDict != null) {

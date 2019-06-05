@@ -1,5 +1,6 @@
 /*
- * Navigation Library
+    navLib.js
+    Navigation Library
  */
 
 var topNav = document.getElementById("topNav");

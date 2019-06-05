@@ -1,5 +1,6 @@
 /*
- * Administrative commands.
+    adminCommands.js
+    Administrative commands.
  */
 
 /*

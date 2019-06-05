@@ -1,3 +1,8 @@
+/*
+    send.js
+    API meant to send an email
+*/
+
 function sendEmail() {
     const email = new XMLHttpRequest();
     email.onreadystatechange = function() {

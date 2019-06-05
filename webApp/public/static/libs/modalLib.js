@@ -1,3 +1,8 @@
+/*
+    modalLib.js
+    General code to support the display of animated modals in the website.
+*/
+
 // Store modals && Keys in global variable for ease of handling
 var modals = [];
 var modalKeys = [];
