@@ -172,17 +172,21 @@ export default class Screen extends React.Component {
                 important to quickly call 911. For example:
               </Text>
               <Text />
+              <Text />
               <Text style={styles.slideText4}>
                 A fire, even if it is still small
               </Text>
+              <Text />
               <Text style={styles.slideText4}>
                 A medical emergency (difficulty breathing, chest pain, fainting,
                 severe bleeding, etc)
               </Text>
+              <Text />
               <Text style={styles.slideText4}>
                 A crime in progress or imminently possible crime (eg. assault,
                 burglary, suspicious person)
               </Text>
+              <Text />
               <Text style={styles.slideText4}>
                 A car crash, particularly if at higher speeds or someone feels
                 dizzy/unwell
@@ -307,25 +311,29 @@ export default class Screen extends React.Component {
             </View>
           </View>
           <View style={[styles.slideOuterContainer, styles.slideyellow]}>
-            <View style={[styles.slideTextContainer]}>
-              <Text style={styles.slideText7}>
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>
                 Examples of non-emergency situations where you should call
                 dispatch include:
               </Text>
-              <Text style={styles.slideText7}>
-                -Property crimes such as theft or vandalism where no evidence,
+              <Text />
+              <Text style={styles.slideText4}>
+                Property crimes such as theft or vandalism where no evidence,
                 witnesses, or suspects are known
               </Text>
-              <Text style={styles.slideText7}>
-                -A minor car crash in which there is motor damage but you are
+              <Text />
+              <Text style={styles.slideText4}>
+                A minor car crash in which there is motor damage but you are
                 certain no one has been hurt and the crash does not present a
                 danger to other drivers
               </Text>
-              <Text style={styles.slideText7}>
-                -Illegally parked or abandoned vehicles
+              <Text />
+              <Text style={styles.slideText4}>
+                Illegally parked or abandoned vehicles
               </Text>
-              <Text style={styles.slideText7}>
-                -Questions for the police that are not related to an emergency
+              <Text />
+              <Text style={styles.slideText4}>
+                Questions for the police that are not related to an emergency
               </Text>
             </View>
             <View style={[styles.slideImageContainer]}>
