@@ -673,7 +673,8 @@ export default (styles = StyleSheet.create({
     fontSize: 18
   },
   slideText7: {
-    fontSize: 14
+    fontSize: 20,
+    fontWeight: "bold"
   },
   slideblue: {
     padding: 10,

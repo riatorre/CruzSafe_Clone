@@ -25,9 +25,12 @@ export default class Screen extends React.Component {
         >
           <View style={[styles.slideOuterContainer, styles.slideblue]}>
             <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText7}>Welcome to CruzSafe!</Text>
+              <Text />
+
               <Text style={styles.slideText4}>
-                Welcome to CruzSafe! Thank you for downloading our app. You are
-                helping make the campus safer for everyone!
+                Thank you for downloading our app. You are helping make the
+                campus safer for everyone!
               </Text>
             </View>
             <View style={[styles.slideImageContainer]}>
@@ -130,13 +133,16 @@ export default class Screen extends React.Component {
                     </View> */}
           <View style={[styles.slideOuterContainer, styles.slideblue]}>
             <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText7}>
+                Stop and think about the urgency of the situation.
+              </Text>
+              <Text />
               <Text style={styles.slideText4}>
-                Before you report an issue, it's important to stop and think
-                about the urgency of the situation. We have created buttons
-                corresponding to the level of urgency of situations you may
-                encounter.
+                We have created buttons corresponding to the level of urgency of
+                situations you may encounter.
               </Text>
             </View>
+
             <View style={[styles.slideImageContainer]}>
               <Image
                 source={require("../assets/images/trafic.png")}
@@ -167,11 +173,11 @@ export default class Screen extends React.Component {
 
           <View style={[styles.slideOuterContainer, styles.slidered]}>
             <View style={[styles.slideTextContainerTutorial]}>
-              <Text style={styles.slideText4}>
+              <Text style={styles.slideText7}>
                 If there is an imminent threat to life or property, it is
-                important to quickly call 911. For example:
+                important to quickly call 911.
               </Text>
-              <Text />
+
               <Text />
               <Text style={styles.slideText4}>
                 A fire, even if it is still small
@@ -280,7 +286,7 @@ export default class Screen extends React.Component {
             </View>
 
             <View style={[styles.slideTextContainerTutorial]}>
-              <Text style={styles.slideText4}>(831) 459-2231.</Text>
+              <Text style={styles.slideText7}>(831) 459-2231.</Text>
             </View>
 
             <View style={[styles.slideImageContainer]}>
@@ -312,7 +318,7 @@ export default class Screen extends React.Component {
           </View>
           <View style={[styles.slideOuterContainer, styles.slideyellow]}>
             <View style={[styles.slideTextContainerTutorial]}>
-              <Text style={styles.slideText4}>
+              <Text style={styles.slideText7}>
                 Examples of non-emergency situations where you should call
                 dispatch include:
               </Text>
@@ -403,10 +409,11 @@ export default class Screen extends React.Component {
                     </View> */}
           <View style={[styles.slideOuterContainer, styles.slidegreen]}>
             <View style={[styles.slideTextContainerTutorial]}>
-              <Text style={styles.slideText4}>
-                If there is an issue on campus which is neither very urgent nor
+              <Text style={styles.slideText7}>
+                {/* If there is an issue on campus which is neither very urgent nor
                 likely to be connected to a crime, it is appropriate to submit a
-                report. Examples of such situations include:
+                report. Examples of such situations include: */}
+                Issue on campus? Neither urgent nor crime, submit a report.
               </Text>
               <Text />
               <Text style={styles.slideText4}>
@@ -420,11 +427,6 @@ export default class Screen extends React.Component {
               <Text style={styles.slideText4}>
                 A broken window, door, or lock
               </Text>
-              <Text />
-              <Text style={styles.slideText4}>
-                To get started, exit the tutorial and press the green report
-                button.
-              </Text>
             </View>
             <View style={[styles.slideImageContainer]}>
               <Image
@@ -435,6 +437,14 @@ export default class Screen extends React.Component {
                 }}
               />
             </View>
+            <View style={[styles.slideTextContainer]}>
+              <Text style={styles.slideText4}>
+                To get started, exit the tutorial and press the green report
+                button.
+              </Text>
+              <Text />
+            </View>
+
             <View style={styles.slideOuterButton}>
               <TouchableOpacity
                 style={styles.btn}
