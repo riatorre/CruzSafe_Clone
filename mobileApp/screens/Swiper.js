@@ -57,80 +57,6 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {/* <View style={[styles.slideOuterContainer, styles.slidetan]}>
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                Have you seen non-emergency issues on campus
-                                which cause inconvenience or a safety hazard?
-                                Perhaps a hallway with inadequate lighting, a
-                                broken window, or a road partially blocked by
-                                trash?
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/building.jpg")}
-                                style={{
-                                    width: 300,
-                                    height: 200
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <View style={[styles.slideOuterContainer, styles.slidetan]}>
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                Some cities have a number to call for such
-                                issues, often 211, but many do not. The CruzSafe
-                                app was created as a way to address this
-                                oversight by giving students a way to text
-                                reports of non-emergency issues on campus.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/call211.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
           <View style={[styles.slideOuterContainer, styles.slideblue]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>
@@ -232,41 +158,7 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {/* <View style={[styles.slideOuterContainer, styles.slidered]}>
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                If you press the red stoplight button, CruzSafe
-                                will ask you to confirm that you wish to call
-                                911 through your phone app.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/EmergencyNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
+
           <View style={[styles.slideOuterContainer, styles.slideyellow]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText4}>
@@ -369,44 +261,7 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          {/* <View
-                        style={[styles.slideOuterContainer, styles.slideyellow]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                If you press the yellow stoplight button,
-                                CruzSafe will ask you to confirm that you wish
-                                to call the police non-emergency number.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/UrgentNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
 
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
           <View style={[styles.slideOuterContainer, styles.slidegreen]}>
             <View style={[styles.slideTextContainerTutorial]}>
               <Text style={styles.slideText7}>
@@ -463,44 +318,6 @@ export default class Screen extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* <View
-                        style={[styles.slideOuterContainer, styles.slidegreen]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                To get started, exit the tutorial and press the
-                                green report button.
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/ReportNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.props.navigation.navigate("Home");
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Exit
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
         </Swiper>
       </SafeAreaView>
     );
