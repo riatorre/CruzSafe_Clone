@@ -1433,122 +1433,6 @@ class ReportScreen extends Component {
                                             />
                                         </View>
                                     </View>
-
-                                    <View
-                                        animationType="fade"
-                                        transparent={true}
-                                        style={
-                                            this.isIOS &&
-                                            tutorialParams.reportOnboarding &&
-                                            tutorialParams.thumbnailOnboarding &&
-                                            tutorialParams.tips &&
-                                            image
-                                                ? styles.thumbnailLocationIOS
-                                                : styles.locationHidden
-                                        }
-                                    >
-                                        <View style={styles.tipBubbleSmallest}>
-                                            <Text style={styles.mainTipText}>
-                                                You can click on the thumbnail
-                                                below to view the full-size
-                                                image/video.
-                                            </Text>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    tutorialParams.thumbnailOnboarding = false;
-                                                    if (
-                                                        this.state
-                                                            .isCameraTipVisible
-                                                    ) {
-                                                        this.state.isCameraTipVisible = false;
-                                                        this.state.isMapTipVisible = true;
-                                                    }
-                                                    this.setTutorialParams();
-                                                }}
-                                            >
-                                                <Text style={styles.continue}>
-                                                    Continue
-                                                </Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                onPress={() => {
-                                                    tutorialParams.thumbnailOnboarding = false;
-                                                    this.setTutorialParams();
-                                                    this.stopTips();
-                                                }}
-                                            >
-                                                <Text style={styles.stopTips}>
-                                                    Stop showing tips
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View
-                                            style={styles.thumbnailTriangle}
-                                        />
-                                    </View>
-
-                                    <View>
-                                        <View
-                                            animationType="fade"
-                                            transparent={true}
-                                            style={
-                                                !this.isIOS &&
-                                                tutorialParams.reportOnboarding &&
-                                                tutorialParams.thumbnailOnboarding &&
-                                                tutorialParams.tips &&
-                                                image
-                                                    ? styles.thumbnailLocationAndroid
-                                                    : styles.locationHidden
-                                            }
-                                        >
-                                            <View
-                                                style={styles.tipBubbleSmallest}
-                                            >
-                                                <Text
-                                                    style={styles.mainTipText}
-                                                >
-                                                    You can click on the
-                                                    thumbnail below to view the
-                                                    full-size image/video.
-                                                </Text>
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                        tutorialParams.thumbnailOnboarding = false;
-                                                        if (
-                                                            this.state
-                                                                .isCameraTipVisible
-                                                        ) {
-                                                            this.state.isCameraTipVisible = false;
-                                                            this.state.isMapTipVisible = true;
-                                                        }
-                                                        this.setTutorialParams();
-                                                    }}
-                                                >
-                                                    <Text
-                                                        style={styles.continue}
-                                                    >
-                                                        Continue
-                                                    </Text>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                        tutorialParams.thumbnailOnboarding = false;
-                                                        this.setTutorialParams();
-                                                        this.stopTips();
-                                                    }}
-                                                >
-                                                    <Text
-                                                        style={styles.stopTips}
-                                                    >
-                                                        Stop showing tips
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            <View
-                                                style={styles.thumbnailTriangle}
-                                            />
-                                        </View>
-                                    </View>
                                 </View>
                             </View>
                             <View style={styles.container}>
@@ -1755,6 +1639,16 @@ class ReportScreen extends Component {
                                                         this.state
                                                             .hasCameraPermission
                                                     ) {
+                                                        if (
+                                                            this.state
+                                                                .isCameraTipVisible
+                                                        ) {
+                                                            this._isMounted &&
+                                                                this.setState({
+                                                                    isCameraTipVisible: false,
+                                                                    isMapTipVisible: true
+                                                                });
+                                                        }
                                                         this.props.navigation.navigate(
                                                             "Camera",
                                                             {
@@ -1787,6 +1681,16 @@ class ReportScreen extends Component {
                                             <TouchableOpacity
                                                 style={styles.reportBtnHalf}
                                                 onPress={() => {
+                                                    if (
+                                                        this.state
+                                                            .isCameraTipVisible
+                                                    ) {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isCameraTipVisible: false,
+                                                                isMapTipVisible: true
+                                                            });
+                                                    }
                                                     this.pickImage();
                                                 }}
                                             >
@@ -1943,6 +1847,11 @@ class ReportScreen extends Component {
                                                     this.state
                                                         .hasLocationPermission
                                                 ) {
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isMapTipVisible: false,
+                                                            isSubmissionTipVisible: true
+                                                        });
                                                     this.props.navigation.navigate(
                                                         "Location",
                                                         {
@@ -1977,31 +1886,30 @@ class ReportScreen extends Component {
                                         style={
                                             this.isIOS &&
                                             tutorialParams.reportOnboarding &&
+                                            tutorialParams.thumbnailOnboarding &&
                                             tutorialParams.tips &&
-                                            this.state.isSubmissionTipVisible &&
-                                            !(
-                                                tutorialParams.thumbnailOnboarding &&
-                                                image
-                                            )
-                                                ? styles.submissionLocationIOS
+                                            image
+                                                ? styles.thumbnailLocationIOS
                                                 : styles.locationHidden
                                         }
                                     >
-                                        <View style={styles.tipBubbleBig}>
+                                        <View style={styles.tipBubbleSmallest}>
                                             <Text style={styles.mainTipText}>
-                                                Press the “submit” button to
-                                                test report submission (recall
-                                                that it will not actually be
-                                                sent while in tour mode), or
-                                                “cancel” to erase the test
-                                                report.
+                                                You can click on the thumbnail
+                                                above to view the full-size
+                                                image/video.
                                             </Text>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isSubmissionTipVisible: false
-                                                        });
+                                                    tutorialParams.thumbnailOnboarding = false;
+                                                    if (
+                                                        this.state
+                                                            .isCameraTipVisible
+                                                    ) {
+                                                        this.state.isCameraTipVisible = false;
+                                                        this.state.isMapTipVisible = true;
+                                                    }
+                                                    this.setTutorialParams();
                                                 }}
                                             >
                                                 <Text style={styles.continue}>
@@ -2010,10 +1918,8 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    this._isMounted &&
-                                                        this.setState({
-                                                            isSubmissionTipVisible: false
-                                                        });
+                                                    tutorialParams.thumbnailOnboarding = false;
+                                                    this.setTutorialParams();
                                                     this.stopTips();
                                                 }}
                                             >
@@ -2023,12 +1929,10 @@ class ReportScreen extends Component {
                                             </TouchableOpacity>
                                         </View>
                                         <View
-                                            style={styles.submissionTriangle1}
-                                        />
-                                        <View
-                                            style={styles.submissionTriangle2}
+                                            style={styles.thumbnailTriangle}
                                         />
                                     </View>
+
                                     <View>
                                         <View
                                             animationType="fade"
@@ -2036,34 +1940,34 @@ class ReportScreen extends Component {
                                             style={
                                                 !this.isIOS &&
                                                 tutorialParams.reportOnboarding &&
+                                                tutorialParams.thumbnailOnboarding &&
                                                 tutorialParams.tips &&
-                                                this.state
-                                                    .isSubmissionTipVisible &&
-                                                !(
-                                                    tutorialParams.thumbnailOnboarding &&
-                                                    image
-                                                )
-                                                    ? styles.submissionLocationAndroid
+                                                image
+                                                    ? styles.thumbnailLocationAndroid
                                                     : styles.locationHidden
                                             }
                                         >
-                                            <View style={styles.tipBubbleBig}>
+                                            <View
+                                                style={styles.tipBubbleSmallest}
+                                            >
                                                 <Text
                                                     style={styles.mainTipText}
                                                 >
-                                                    Press the “submit” button to
-                                                    test report submission
-                                                    (recall that it will not
-                                                    actually be sent while in
-                                                    tour mode), or “cancel” to
-                                                    erase the test report.
+                                                    You can click on the
+                                                    thumbnail above to view the
+                                                    full-size image/video.
                                                 </Text>
                                                 <TouchableOpacity
                                                     onPress={() => {
-                                                        this._isMounted &&
-                                                            this.setState({
-                                                                isSubmissionTipVisible: false
-                                                            });
+                                                        tutorialParams.thumbnailOnboarding = false;
+                                                        if (
+                                                            this.state
+                                                                .isCameraTipVisible
+                                                        ) {
+                                                            this.state.isCameraTipVisible = false;
+                                                            this.state.isMapTipVisible = true;
+                                                        }
+                                                        this.setTutorialParams();
                                                     }}
                                                 >
                                                     <Text
@@ -2074,10 +1978,8 @@ class ReportScreen extends Component {
                                                 </TouchableOpacity>
                                                 <TouchableOpacity
                                                     onPress={() => {
-                                                        this._isMounted &&
-                                                            this.setState({
-                                                                isSubmissionTipVisible: false
-                                                            });
+                                                        tutorialParams.thumbnailOnboarding = false;
+                                                        this.setTutorialParams();
                                                         this.stopTips();
                                                     }}
                                                 >
@@ -2089,14 +1991,7 @@ class ReportScreen extends Component {
                                                 </TouchableOpacity>
                                             </View>
                                             <View
-                                                style={
-                                                    styles.submissionTriangle1
-                                                }
-                                            />
-                                            <View
-                                                style={
-                                                    styles.submissionTriangle2
-                                                }
+                                                style={styles.thumbnailTriangle}
                                             />
                                         </View>
                                     </View>
@@ -2346,6 +2241,135 @@ class ReportScreen extends Component {
                                                 Submit
                                             </Text>
                                         </TouchableOpacity>
+                                    </View>
+                                    <View
+                                        animationType="fade"
+                                        transparent={true}
+                                        style={
+                                            this.isIOS &&
+                                            tutorialParams.reportOnboarding &&
+                                            tutorialParams.tips &&
+                                            this.state.isSubmissionTipVisible &&
+                                            !(
+                                                tutorialParams.thumbnailOnboarding &&
+                                                image
+                                            )
+                                                ? styles.submissionLocationIOS
+                                                : styles.locationHidden
+                                        }
+                                    >
+                                        <View style={styles.tipBubbleBig}>
+                                            <Text style={styles.mainTipText}>
+                                                Press the “submit” button to
+                                                test report submission (recall
+                                                that it will not actually be
+                                                sent while in tour mode), or
+                                                “cancel” to erase the test
+                                                report.
+                                            </Text>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isSubmissionTipVisible: false
+                                                        });
+                                                }}
+                                            >
+                                                <Text style={styles.continue}>
+                                                    Continue
+                                                </Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    this._isMounted &&
+                                                        this.setState({
+                                                            isSubmissionTipVisible: false
+                                                        });
+                                                    this.stopTips();
+                                                }}
+                                            >
+                                                <Text style={styles.stopTips}>
+                                                    Stop showing tips
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View
+                                            style={styles.submissionTriangle1}
+                                        />
+                                        <View
+                                            style={styles.submissionTriangle2}
+                                        />
+                                    </View>
+                                    <View>
+                                        <View
+                                            animationType="fade"
+                                            transparent={true}
+                                            style={
+                                                !this.isIOS &&
+                                                tutorialParams.reportOnboarding &&
+                                                tutorialParams.tips &&
+                                                this.state
+                                                    .isSubmissionTipVisible &&
+                                                !(
+                                                    tutorialParams.thumbnailOnboarding &&
+                                                    image
+                                                )
+                                                    ? styles.submissionLocationAndroid
+                                                    : styles.locationHidden
+                                            }
+                                        >
+                                            <View style={styles.tipBubbleBig}>
+                                                <Text
+                                                    style={styles.mainTipText}
+                                                >
+                                                    Press the “submit” button to
+                                                    test report submission
+                                                    (recall that it will not
+                                                    actually be sent while in
+                                                    tour mode), or “cancel” to
+                                                    erase the test report.
+                                                </Text>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isSubmissionTipVisible: false
+                                                            });
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.continue}
+                                                    >
+                                                        Continue
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    onPress={() => {
+                                                        this._isMounted &&
+                                                            this.setState({
+                                                                isSubmissionTipVisible: false
+                                                            });
+                                                        this.stopTips();
+                                                    }}
+                                                >
+                                                    <Text
+                                                        style={styles.stopTips}
+                                                    >
+                                                        Stop showing tips
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View
+                                                style={
+                                                    styles.submissionTriangle1
+                                                }
+                                            />
+                                            <View
+                                                style={
+                                                    styles.submissionTriangle2
+                                                }
+                                            />
+                                        </View>
                                     </View>
                                 </View>
                             </View>

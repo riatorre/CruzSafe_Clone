@@ -63,8 +63,6 @@ const tlModifierMarginSecondary = trafficLightHeight * 0.0232;
 class HomeScreen extends Component {
     async continue() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
-        console.log("Homescreen.continue");
-        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             await this.storeItem("unsub_report", pre_report);
