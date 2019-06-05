@@ -83,7 +83,7 @@ main .navigationButtonsGridWrapper {
     margin: 0px;
     background-color: var(--primary-color);
     justify-content: center;
-    overflow: scroll;
+    overflow: auto;
     border-radius: 0.7em;
 }
 
@@ -201,7 +201,7 @@ main .navigationButtonsGridWrapper {
     height: 84%;
     border: 0px solid black;
     background-color: #919ba5;
-    overflow: scroll;
+    overflow: auto;
     padding: 10px;
 }
 
