@@ -1,4 +1,5 @@
 /*
+ *  welcome.css
  *  Welcome.html Stylesheet
  *  Contains stylings and styling overrides unique to welcome.html
  */
@@ -43,12 +44,12 @@ main > * {
 
 .welcomeHeader,
 .welcomeFooter {
-    background-color: #0d3c6c;
-    color: #ffffff;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
 }
 
 h1 {
-    color: #0d3c6c;
+    color: var(--primary-color);
 }
 
 .logoContainer {
@@ -77,17 +78,17 @@ h1 {
     color: red;
 }
 
-#loginButton{
+#loginButton {
     height: auto;
     width: 15%;
     text-align: center;
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
     line-height: calc(1.3em + (1.5 - 1.2) * ((100vw - 300px) / (1600 - 300)));
     font-weight: bold;
-    background-color: #145d99;
+    background-color: var(--primary-color);
 }
 
 #loginButton:hover {
-    color: white;
+    color: var(--secondary-color);
     background-color: #87b0d1;
 }

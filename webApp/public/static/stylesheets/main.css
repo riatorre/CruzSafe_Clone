@@ -1,3 +1,13 @@
+/*
+    main.css
+    Major CSS elements. Standard across all stylesheets.
+*/
+:root {
+    --primary-color: #145d99;
+    --secondary-color: #eaeaea;
+    --tertiary-color: #145d99; /* Currently only applied to navigation elements. */
+}
+
 html {
     box-sizing: border-box;
     -webkit-background-size: cover;
@@ -96,11 +106,6 @@ footer {
     width: 100%;
 }
 
-header,
-footer {
-    height: 6%;
-}
-
 main {
     height: 100%;
 }
@@ -111,7 +116,7 @@ main.withFooter {
 }
 
 main.withHeaderAndFooter {
-    height: 88%;
+    height: 89%;
 }
 
 select {
@@ -135,7 +140,7 @@ button,
     margin: 0 0.5em 0.5em 0;
     display: inline-block;
     background-color: #26a69a;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .btn:hover,
@@ -144,7 +149,7 @@ button:hover,
 [type="submit"]:hover {
     -moz-border-radius: 4px;
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: var(--secondary-color);
     color: black;
     cursor: pointer;
     box-shadow: 0 0 10px #666;
@@ -303,24 +308,106 @@ td {
 /*** topnav Top Navigation Bar
   /* Add a black background color to the top navigation */
 
+header,
+footer {
+    height: 5.5%;
+}
+
+.topnavLogo {
+    width: auto;
+    height: 90%;
+    align-content: center;
+    align-self: auto;
+    overflow: hidden;
+    left: 0;
+    float: left;
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+}
+
 .topnav {
     width: 100%;
     height: 100%;
+    padding-top: 0.3em;
     /* background-color: Black; */
-    background-color: #145d99;
+    background-color: var(--tertiary-color);
     overflow: hidden;
 }
 
 /* Style the links inside the navigation bar */
 
-.topnav a {
-    float: left;
-    color: #fffeff;
+.topnav #rightEdge {
+    float: right;
+    height: 200px;
+    color: var(--secondary-color);
     text-align: center;
-    margin-top: 1vh;
-    padding: 0.8vh;
+    margin-top: 0.1em;
+    padding: 0.5vh;
     text-decoration: none;
     font-size: 3vh;
+    margin-right: 0.7em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.topnav #rightEdge.active {
+    float: right;
+    height: 200px;
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    margin-right: 0.7em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -moz-border-radius: 1vh 1vh 0px 0px;
+    border-radius: 1vh 1vh 0px 0px;
+    /* background-color: var(--primary-color);
+  color: black; */
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+.topnav #right {
+    float: right;
+    height: 200px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.topnav #right.active {
+    float: right;
+    height: 200px;
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -moz-border-radius: 1vh 1vh 0px 0px;
+    border-radius: 1vh 1vh 0px 0px;
+    /* background-color: var(--primary-color);
+  color: black; */
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
+}
+
+.topnav a {
+    float: left;
+    color: var(--secondary-color);
+    height: 200px;
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    padding-left: 0.7vh;
+    padding-right: 0.7vh;
 }
 
 /* Change the color of links on hover */
@@ -329,10 +416,10 @@ td {
     -moz-border-radius: 1vh 1vh 0px 0px;
     border-radius: 1vh 1vh 0px 0px;
     /* background-color: red; */
-    /* background-color: #376f9e; */
-    /* border: 2px solid #376f9e; */
+    /* background-color: var(--primary-color); */
+    /* border: 2px solid var(--primary-color); */
     background-color: #87b0d1;
-    color: #fffeff;
+    color: var(--secondary-color);
 }
 
 /* Add an active class to highlight the current page */
@@ -340,10 +427,10 @@ td {
 .topnav a.active {
     -moz-border-radius: 1vh 1vh 0px 0px;
     border-radius: 1vh 1vh 0px 0px;
-    /* background-color: #376f9e;
+    /* background-color: var(--primary-color);
   color: black; */
-    background-color: #fffeff;
-    color: #376f9e;
+    background-color: var(--secondary-color);
+    color: var(--tertiary-color);
 }
 
 /* Hide the link that should open and close the topnav on small screens */
@@ -423,10 +510,10 @@ td {
 }
 .indicator.active {
     background-color: #001f3f;
-    color: #ffffff;
+    color: var(--secondary-color);
 }
 .indicator:hover {
-    background-color: white;
+    background-color: var(--secondary-color);
     color: #202020;
 }
 
@@ -436,12 +523,12 @@ td {
 
 .navy {
     background-color: #001f3f;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .blue {
     background-color: #0074d9;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .aqua {
@@ -451,22 +538,22 @@ td {
 
 .teal {
     background-color: #39cccc;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .olive {
     background-color: #3d9970;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .green {
     background-color: #2ecc40;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .aquamarine {
     background-color: #26a69a;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .lime {
@@ -481,32 +568,32 @@ td {
 
 .orange {
     background-color: #ff851b;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .red {
     background-color: #cc1f00;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .fuchsia {
     background-color: #f012be;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .pink {
     background-color: #ee6e73;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .purple {
     background-color: #b10dc9;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .maroon {
     background-color: #85144b;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .white {
@@ -519,7 +606,7 @@ td {
 
 .gray {
     background-color: #aaa;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .silver {
@@ -529,7 +616,7 @@ td {
 
 .black {
     background-color: #111111;
-    color: white;
+    color: var(--secondary-color);
 }
 
 .glass {

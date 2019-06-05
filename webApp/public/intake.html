@@ -24,10 +24,14 @@
     <body>
         <header>
             <div class="topnav" id="topNav">
+                <img
+                    class="topnavLogo"
+                    src="./static/assets/images/CruzSafeMain.png"
+                />
                 <a href="./homepage.html"
                     ><i class="fa fa-home" aria-hidden="true"></i> Home</a
                 >
-                <a class="active" href="./intake.html"
+                <a class="active"href="./intake.html"
                     ><i class="fa fa-paper-plane" aria-hidden="true"></i>
                     Intake</a
                 >
@@ -42,16 +46,15 @@
                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                     Admin</a
                 >
-                <a href="./settings.html"
-                    ><i class="fa fa-cog" aria-hidden="true"></i> Settings</a
-                >
-                <a href="./support.html"
-                    ><i class="fa fa-question-circle" aria-hidden="true"></i>
-                    Support</a
-                >
-                <a href="./logout"
+                <a href="./logout" id="rightEdge"
                     ><i class="fa fa-sign-out" aria-hidden="true"></i>
-                    Sign-Out</a
+                    </a
+                >
+                <a href="./support.html" id="right"
+                    ><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+                </a>
+                <a href="./settings.html" id="right"
+                    ><i class="fa fa-cog" aria-hidden="true"></i></a
                 >
                 <a class="icon" onclick="toggleTopNav()">
                     <i class="fa fa-bars" aria-hidden="true"></i>
@@ -61,118 +64,162 @@
         <main class="withHeader">
             <div class="filterOptionsGridWrapper">
                 <div id="filterOptions" class="filterOptions">
-                    <div style="display:flex; justify-content: space-between">
+                    <div
+                        class="filterTitle"
+                        style="display:flex; justify-content: space-between"
+                    >
                         <h3>Filters:</h3>
-                        <a
-                            class="btn clear rounded icon"
-                            onclick="toggleFilters()"
-                        >
-                            <i class="fa fa-bars" aria-hidden="true"></i>
-                        </a>
                     </div>
                     <div class="filterInputs">
-                        <input id="filterReportID" placeholder="Report id(s)" />
+                        <input
+                            class="filterInput"
+                            id="filterReportID"
+                            placeholder="Report id(s)"
+                        />
                         <input
                             id="filterIncidentID"
+                            class="filterInput"
                             placeholder="Incident id(s)"
                         />
-                        <input id="filterTag" placeholder="Tag" />
+                    </div>
+                    <div class="filterInputs">
+                        <input
+                            class="filterInput"
+                            id="filterTag"
+                            placeholder="Tag"
+                        />
+                    </div>
+                    <div class="filterInputs">
                         <input
                             id="filterMobileID"
+                            class="filterInput"
                             placeholder="Mobile user id(s)"
                         />
-                        <input id="filterFirstName" placeholder="First name" />
-                        <input id="filterLastName" placeholder="Last name" />
+                        <input
+                            class="filterInput"
+                            id="filterFirstName"
+                            placeholder="First name"
+                        />
+                        <input
+                            class="filterInput"
+                            id="filterLastName"
+                            placeholder="Last name"
+                        />
                         <input
                             id="filterEmail"
+                            class="filterInput"
                             placeholder="Email (Enter xxx@ucsc.edu)"
                         />
                         <input
                             id="filterPhone"
+                            class="filterInput"
                             placeholder="Phone (Enter 555555555)"
                         />
+                    </div>
+                    <div class="filterInputs">
                         <input
                             id="filterDate"
+                            class="filterInput"
                             placeholder="Report date (MM/DD/YYYY)"
                         />
                         <input
                             id="filterTime"
+                            class="filterInput"
                             placeholder="Report time (HH:MM)"
                         />
-                        <input id="filterBody" placeholder="Body contains" />
-                        <input id="filterLocation" placeholder="Location" />
+                    </div>
+                    <div class="filterInputs">
                         <input
+                            class="filterInput"
+                            id="filterBody"
+                            placeholder="Body contains"
+                        />
+                        <input
+                            class="filterInput"
+                            id="filterLocation"
+                            placeholder="Location"
+                        />
+                        <input
+                            class="filterInput"
                             id="filterCoordinates"
                             placeholder="Coordinates"
                         />
                         <input
+                            class="filterInput"
                             id="filterExpire"
                             placeholder="Expiring within day"
                         />
                     </div>
-                    <div>
-                        <p>
-                            Location method:
-                            <select
-                                id="filterUnchangedLocation"
-                                autocomplete="off"
-                            >
-                                <option value="" selected="selected"
-                                    >Any</option
+                    <div class="filterDropdownOptions">
+                        <div>
+                            <p>
+                                Location method:
+                                <select
+                                    id="filterUnchangedLocation"
+                                    autocomplete="off"
                                 >
-                                <option value="device reported"
-                                    >Device reported</option
+                                    <option value="" selected="selected"
+                                        >Any</option
+                                    >
+                                    <option value="device reported"
+                                        >Device reported</option
+                                    >
+                                    <option value="pinned location"
+                                        >Pinned location</option
+                                    >
+                                </select>
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                Status:
+                                <select id="filterStatus" autocomplete="off">
+                                    <option value="" selected="selected"
+                                        >Any</option
+                                    >
+                                    <option value="New">New</option>
+                                    <option value="Incomplete"
+                                        >Incomplete</option
+                                    >
+                                    <option value="Complete">Complete</option>
+                                </select>
+                            </p>
+                        </div>
+                        <div>
+                            <p>
+                                Attachments:
+                                <select
+                                    id="filterAttachments"
+                                    autocomplete="off"
                                 >
-                                <option value="pinned location"
-                                    >Pinned location</option
-                                >
-                            </select>
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            Status:
-                            <select id="filterStatus" autocomplete="off">
-                                <option value="" selected="selected"
-                                    >Any</option
-                                >
-                                <option value="New">New</option>
-                                <option value="Incomplete">Incomplete</option>
-                                <option value="Complete">Complete</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            Attachments:
-                            <select id="filterAttachments" autocomplete="off">
-                                <option value="" selected="selected"
-                                    >Any</option
-                                >
-                                <option value="yes">Yes</option>
-                                <option value="no">No</option>
-                            </select>
-                        </p>
-                    </div>
-                    <div>
-                        <button
-                            onclick="applyFilters()"
-                            id="applyFilters"
-                            class="btn navy rounded"
-                        >
-                            Apply Filters
-                        </button>
-                        <button
-                            onclick="location.reload()"
-                            id="resetPage"
-                            class="btn navy rounded"
-                        >
-                            Reset
-                        </button>
+                                    <option value="" selected="selected"
+                                        >Any</option
+                                    >
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <div class="filterButtons">
+                    <button
+                        onclick="applyFilters()"
+                        id="applyFilters"
+                        class="btn navy rounded"
+                    >
+                        Apply Filters
+                    </button>
+                    <button
+                        onclick="location.reload()"
+                        id="resetPage"
+                        class="btn navy rounded"
+                    >
+                        Reset
+                    </button>
+                </div>
             </div>
-            <div class="reportHeaderGridWrapper">
+            <div class="reportWrapper">
                 <div class="reportHeader">
                     <table>
                         <tbody>
@@ -242,12 +289,8 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="reportListGridWrapper">
                 <!--Div to be filled by setupListReports()-->
                 <div id="reportList" class="reportList"></div>
-            </div>
-            <div class="navigationButtonsGridWrapper">
                 <div class="navigationButtons">
                     <button
                         id="firstBtn"
