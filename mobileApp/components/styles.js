@@ -717,7 +717,7 @@ export default (styles = StyleSheet.create({
     },
     selectionLocationIOS: {
         zIndex: 2,
-        top: -80,
+        top: -110,
         left: -6,
         height: 0
     },
@@ -855,7 +855,7 @@ export default (styles = StyleSheet.create({
     },
     submissionLocationIOS: {
         zIndex: 2,
-        top: -155,
+        top: -225,
         left: -6,
         height: 0
     },
@@ -905,15 +905,15 @@ export default (styles = StyleSheet.create({
     },
     thumbnailTriangle: {
         position: "absolute",
-        left: 190,
-        top: 95,
+        left: 145,
+        top: -16,
         width: 3,
         height: 3,
         borderRightColor: "transparent",
-        borderRightWidth: 10,
-        borderTopWidth: 18,
-        borderTopColor: tipColor,
-        borderLeftWidth: 10,
+        borderRightWidth: 9,
+        borderBottomWidth: 16,
+        borderBottomColor: tipColor,
+        borderLeftWidth: 9,
         borderLeftColor: "transparent"
     },
     tipBubbleSquare: {
