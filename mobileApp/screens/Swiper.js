@@ -23,40 +23,37 @@ export default class Screen extends React.Component {
             this.swiper = swiper;
           }}
         >
-          {/* <View
-                        style={[styles.slideOuterContainer, styles.slideblue]}
-                    >
-                        <View style={[styles.slideTextContainer]}>
-                            <Text style={styles.slideText}>
-                                Welcome to CruzSafe! Thank you for downloading
-                                our app. You are helping make the campus safer
-                                for everyone!
-                            </Text>
-                        </View>
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/CruzSafeMain.png")}
-                                style={styles.welcomeScreenLogo}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
+          <View style={[styles.slideOuterContainer, styles.slideblue]}>
+            <View style={[styles.slideTextContainerTutorial]}>
+              <Text style={styles.slideText4}>
+                Welcome to CruzSafe! Thank you for downloading our app. You are
+                helping make the campus safer for everyone!
+              </Text>
+            </View>
+            <View style={[styles.slideImageContainer]}>
+              <Image
+                source={require("../assets/images/CruzSafeMain.png")}
+                style={styles.welcomeScreenLogo}
+              />
+            </View>
+            <View style={styles.slideOuterButton}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={() => {
+                  this.swiper.scrollBy(1);
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: "white"
+                  }}
+                >
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           {/* <View style={[styles.slideOuterContainer, styles.slidetan]}>
                         <View style={[styles.slideTextContainer]}>
                             <Text style={styles.slideText}>
