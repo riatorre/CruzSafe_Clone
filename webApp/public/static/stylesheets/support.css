@@ -21,7 +21,7 @@ main {
 
 main > * {
     padding: 5px;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     border-radius: 20px;
 }
 
@@ -35,7 +35,7 @@ main > * {
     align-content: center;
     text-align: left;
     padding: 7%;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .supportPictureDiv {
@@ -84,7 +84,7 @@ main > * {
     grid-row-end: 3;
     padding: 5%;
     overflow: scroll;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 .supportEmailsText {
     font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));

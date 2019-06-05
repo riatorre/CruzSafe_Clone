@@ -17,7 +17,7 @@ main .chartscrolldiv {
     overflow-y: scroll;
     align-self: top;
     align-content: top;
-    background-color: whitesmoke;
+    background-color: var(--secondary-color);
 }
 
 main .map {
@@ -26,7 +26,7 @@ main .map {
 
 html,
 body {
-    background-color: whitesmoke;
+    background-color: var(--secondary-color);
 }
 hr {
     border: 1px solid black;
@@ -34,13 +34,13 @@ hr {
     margin-top: 5px;
 }
 /* .gm-style .gm-style-iw {
-  /* color: #145d99; */
+  /* color: var(--primary-color); */
 /* color: black; */
 /* } */
 
 .chartPanel {
     flex: 1;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     padding: 5px;
     margin-top: 1.2em;
     margin-bottom: 1.2em;
@@ -51,7 +51,7 @@ hr {
 
 .chartDiv {
     flex: 1;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     opacity: 1;
     /*border-top: 1px solid Black;
     border-bottom: 1px solid Black;
@@ -72,9 +72,9 @@ canvas {
 }
 
 #tagList {
-    background-color: #145d99;
+    background-color: var(--primary-color);
     opacity: 1;
-    border: 3px solid #145d99;
+    border: 3px solid var(--primary-color);
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -96,7 +96,7 @@ canvas {
     cursor: default;
 }
 #tagListTag {
-    color: #145d99;
+    color: var(--primary-color);
     font-family: Roboto, Arial, sans-serif;
     font-size: 20px;
     line-height: 30px;
@@ -106,9 +106,9 @@ canvas {
 #goBoth,
 #goMain,
 #goCoastal {
-    background-color: #145d99;
+    background-color: var(--primary-color);
     opacity: 1;
-    border: 2px solid #145d99;
+    border: 2px solid var(--primary-color);
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     cursor: pointer;
@@ -124,7 +124,7 @@ canvas {
 #goMain:hover,
 #goCoastal:hover {
     background-color: #87b0d1;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 #goBoth:focus,
@@ -138,7 +138,7 @@ canvas {
 #goBothText,
 #goMainText,
 #goCoastalText {
-    color: whitesmoke;
+    color: var(--secondary-color);
     font-family: Roboto, Arial, sans-serif;
     font-size: 20px;
     line-height: 30px;

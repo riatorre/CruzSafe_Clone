@@ -1,7 +1,7 @@
 html,
 body {
-    /* background-color: #145d99; */
-    background-color: whitesmoke;
+    /* background-color: var(--primary-color); */
+    background-color: var(--secondary-color);
 }
 
 main {
@@ -39,7 +39,7 @@ main .reportWrapper {
     width: 100%;
     border-radius: 0.7em;
     grid-area: reportWrapper;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     /*padding-left: 1.8em;
     padding-right: 1.8em;*/
     overflow: hidden;
@@ -72,11 +72,11 @@ main .navigationButtonsGridWrapper {
 */
 .filterOptions {
     padding: 1.1em;
-    color: whitesmoke;
+    color: var(--secondary-color);
     width: 100%;
     height: 90%;
     margin: 0px;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     justify-content: center;
     overflow: scroll;
     border-radius: 0.7em;
@@ -84,16 +84,16 @@ main .navigationButtonsGridWrapper {
 
 .filterOptions p {
     display: inline;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .filterOptions div h3 {
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .filterOptions div a,
 .filterOptions div p {
-    color: whitesmoke;
+    color: var(--secondary-color);
     padding-left: 1.1em;
 }
 
@@ -126,7 +126,7 @@ main .navigationButtonsGridWrapper {
     width: 100%;
     height: 20%;
     border-radius: 0.7em;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     /*padding-left: 1.8em;
     padding-right: 1.8em;*/
     overflow: hidden;
@@ -180,8 +180,8 @@ main .navigationButtonsGridWrapper {
     top: 0;
     justify-content: space-between;
     align-content: center;
-    color: whitesmoke;
-    background: #145d99;
+    color: var(--secondary-color);
+    background: var(--primary-color);
     padding-top: 1.1em;
     padding-left: 1.1em;
     padding-right: 1.1em;
@@ -201,7 +201,7 @@ main .navigationButtonsGridWrapper {
 }
 
 .navigationButtons {
-    background-color: #145d99;
+    background-color: var(--primary-color);
     padding: 1.1em;
     padding-top: 1.6em;
     padding-left: 1.8em;
@@ -234,7 +234,7 @@ main .navigationButtonsGridWrapper {
     font-size: 15px;
     font-weight: bold;
     -webkit-appearance: textfield;
-    background-color: whitesmoke;
+    background-color: var(--secondary-color);
     -webkit-rtl-ordering: logical;
     cursor: text;
     padding: 0px;
@@ -397,7 +397,7 @@ main .navigationButtonsGridWrapper {
     top: 2.6px;
     width: 5px;
     height: 10px;
-    border: solid whitesmoke;
+    border: solid var(--secondary-color);
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);

@@ -18,36 +18,36 @@
 
 .reportModalGrid > * {
     padding: 0.7em;
-    background-color: #145d99;
+    background-color: var(--primary-color);
     font-size: 1.1em;
 }
 
 .reportContact {
     grid-area: reportContact;
-    color: whitesmoke;
+    color: var(--secondary-color);
     flex: 1;
 }
 
 .reportMetaDetails {
     grid-area: reportMetaDetails;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .reportLocAndTag {
     grid-area: reportLocAndTag;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .reportLocData {
     display: flex;
     align-items: center;
     grid-area: reportLocData;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .reportBuilding {
     grid-area: reportBuilding;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .reportVisuals {
@@ -61,12 +61,12 @@
 
 .reportExpiry {
     grid-area: reportExpiry;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .reportBody {
     grid-area: reportBody;
-    color: whitesmoke;
+    color: var(--secondary-color);
 }
 
 .reportNotesField {
@@ -97,7 +97,7 @@
     border-width: 2px;
     border-color: gray;
     border-style: ridge;
-    background-color: whitesmoke;
+    background-color: var(--secondary-color);
     overflow: auto;
     min-height: 10vh;
     height: 60%;

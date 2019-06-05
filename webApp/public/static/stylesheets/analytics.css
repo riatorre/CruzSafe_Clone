@@ -1,6 +1,6 @@
 html,
 body {
-    background-color: #fffeff;
+    background-color: var(--secondary-color);
 }
 
 main {
@@ -38,19 +38,19 @@ main {
 /* }  */
 
 button {
-    background-color: #145d99;
+    background-color: var(--primary-color);
     /* border: 2px solid #095ea3; */
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     padding: 1;
-    color: #fffeff;
+    color: var(--secondary-color);
     font-family: Roboto, Arial, sans-serif;
     font-size: 15px;
 }
 
 button:hover {
     background-color: #87b0d1;
-    color: #fffeff;
+    color: var(--secondary-color);
 }
 
 button:focus {
