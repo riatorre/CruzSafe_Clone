@@ -47,10 +47,10 @@ const tipColor = "#795CBC";
 */
 const trafficLightModifier = 1.0;
 const trafficLightHeight =
-  Dimensions.get("window").height * trafficLightModifier;
+    Dimensions.get("window").height * trafficLightModifier;
 
 export const trafficDimensions = {
-  height: trafficLightHeight
+    height: trafficLightHeight
 };
 
 /*
@@ -60,90 +60,90 @@ const footerText = "CruzSafe";
 export const textConstants = { footerText: footerText };
 
 export default (styles = StyleSheet.create({
-  drawerImgContainer: {
-    height: 150,
-    backgroundColor: darktheme ? "#49ACE5" : quaternaryColor,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  drawerScrollViewBackground: {
-    backgroundColor: darktheme ? tertiaryColor : quaternaryColor
-  },
-  drawerText: {
-    fontSize: Dimensions.get("window").height * 0.027,
-    fontWeight: "bold",
-    color: primaryColor
-  },
-  welcomeScreenLogo: {
-    width: Dimensions.get("window").width * 0.75,
-    height: Dimensions.get("window").width * 0.65,
-    marginBottom: Dimensions.get("window").width * 0.15
-  },
-  linkText: {
-    fontSize: Dimensions.get("window").height * 0.025,
-    fontWeight: "bold",
-    color: secondaryColor,
-    textAlign: "center"
-  },
-  linkTextContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: containerBorderRadiusSmall,
-    backgroundColor: containerColor,
-    borderWidth: containerBorderWidth,
-    borderColor: containerBorderColor,
-    marginVertical: Dimensions.get("window").height * 0.02,
-    marginHorizontal: Dimensions.get("window").width * 0.03
-  },
-  linkDescriptionText: {
-    fontSize: Dimensions.get("window").height * 0.025,
-    fontWeight: "bold",
-    color: tertiaryColor,
-    textAlign: "center",
-    marginVertical: Dimensions.get("window").height * 0.02,
-    marginHorizontal: Dimensions.get("window").width * 0.04
-  },
-  linksContainer: {
-    /*flex: 1,
+    drawerImgContainer: {
+        height: 150,
+        backgroundColor: darktheme ? "#49ACE5" : quaternaryColor,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    drawerScrollViewBackground: {
+        backgroundColor: darktheme ? tertiaryColor : quaternaryColor
+    },
+    drawerText: {
+        fontSize: Dimensions.get("window").height * 0.027,
+        fontWeight: "bold",
+        color: primaryColor
+    },
+    welcomeScreenLogo: {
+        width: Dimensions.get("window").width * 0.75,
+        height: Dimensions.get("window").width * 0.65,
+        marginBottom: Dimensions.get("window").width * 0.15
+    },
+    linkText: {
+        fontSize: Dimensions.get("window").height * 0.025,
+        fontWeight: "bold",
+        color: secondaryColor,
+        textAlign: "center"
+    },
+    linkTextContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor,
+        marginVertical: Dimensions.get("window").height * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.03
+    },
+    linkDescriptionText: {
+        fontSize: Dimensions.get("window").height * 0.025,
+        fontWeight: "bold",
+        color: tertiaryColor,
+        textAlign: "center",
+        marginVertical: Dimensions.get("window").height * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.04
+    },
+    linksContainer: {
+        /*flex: 1,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "stretch",*/
-    backgroundColor: darktheme ? primaryColor : quaternaryColor
-  },
-  linkRow: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "stretch",
-    backgroundColor: darktheme ? primaryColor : quaternaryColor,
-    alignItems: "center"
-  },
-  linkPicture: {
-    flex: 1,
-    width: "100%",
-    height: "65%",
-    borderRadius: Dimensions.get("window").width * 0.02,
-    overflow: "hidden"
-  },
-  linkContainer: {
-    height: Dimensions.get("window").height * 0.29,
-    width: Dimensions.get("window").width * 0.45,
-    justifyContent: "center",
-    padding: Dimensions.get("window").width * 0.01,
-    borderRadius: Dimensions.get("window").width * 0.02,
-    marginHorizontal: Dimensions.get("window").width * 0.01,
-    marginVertical: Dimensions.get("window").height * 0.01,
-    borderRadius: containerBorderRadiusSmall,
-    backgroundColor: containerColor,
-    borderWidth: containerBorderWidth,
-    borderColor: containerBorderColor
-  },
-  incidentsScrollContainer: {
-    marginVertical: Dimensions.get("window").height * 0.007,
-    maxHeight: Dimensions.get("window").height * 0.7
-  },
-  incidentsContainer: {
-    /*flex: 1,
+        backgroundColor: darktheme ? primaryColor : quaternaryColor
+    },
+    linkRow: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "stretch",
+        backgroundColor: darktheme ? primaryColor : quaternaryColor,
+        alignItems: "center"
+    },
+    linkPicture: {
+        flex: 1,
+        width: "100%",
+        height: "65%",
+        borderRadius: Dimensions.get("window").width * 0.02,
+        overflow: "hidden"
+    },
+    linkContainer: {
+        height: Dimensions.get("window").height * 0.29,
+        width: Dimensions.get("window").width * 0.45,
+        justifyContent: "center",
+        padding: Dimensions.get("window").width * 0.01,
+        borderRadius: Dimensions.get("window").width * 0.02,
+        marginHorizontal: Dimensions.get("window").width * 0.01,
+        marginVertical: Dimensions.get("window").height * 0.01,
+        borderRadius: containerBorderRadiusSmall,
+        backgroundColor: containerColor,
+        borderWidth: containerBorderWidth,
+        borderColor: containerBorderColor
+    },
+    incidentsScrollContainer: {
+        marginVertical: Dimensions.get("window").height * 0.007,
+        maxHeight: Dimensions.get("window").height * 0.7
+    },
+    incidentsContainer: {
+        /*flex: 1,
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "stretch",*/
@@ -981,5 +981,4 @@ export default (styles = StyleSheet.create({
         alignItems: "flex-end",
         justifyContent: "center"
     }
->>>>>>> 32093e505989c0bac14f866f098b23553b7e6f89
 }));
