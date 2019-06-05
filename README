@@ -1,2 +1,74 @@
-CruzSafe 2019:
-See something? CruzSafe something!
+------------------------------------------------------------------------------
+
+CRUZSAFE 2019 
+MAIN REPOSITORY
+
+------------------------------------------------------------------------------
+
+Description:
+
+Mobile application mimicking a 211 system wherein student users are provided 
+the ability to report non-emergencies to UCSC facilities and the UCSC Police 
+Department through text, photo, video, and location services. Also provides 
+functionality to bring the student population closer with on-campus law 
+enforcement such as police bulletins, lost-and-found announcements, produced 
+educational videos, and more.
+
+Web application allowing facilities and police users to receive and respond 
+to incoming reports sent by mobile application users. Provides thorough tools 
+allowing for the data analysis of past reports as well as the ability to link, 
+compile, and forward reports according to user demand. Features varying levels 
+of user privileges with secure login in cooperation with university information 
+technology technicians.
+
+Both mobile and web applications will require Shibboleth login to ensure only 
+authorized usage (no prank calls).
+
+Planned for permanent integration with the UCSC Police Department Response Center. 
+As well as Facilities. In full cooperation with UCSC Police Chief Nader Oweis and
+PPC Assistant Vice Chancellor Traci Ferdolage. 
+
+Planned for release in June of 2019.
+
+
+Primary Contcts:
+
+Nader Oweis UCSC Chief of Police 
+noweis@ucsc.edu
+
+
+Development Web Address:
+
+https://cruzsafe.appspot.com
+
+
+Date of Release: 
+
+6/14/19
+
+
+------------------------------------------------------------------------------
+Setup - Mobile Application (mobileApp)
+------------------------------------------------------------------------------
+
+1) <TO BE DETERMINED IN RELEASE 1.0>
+ 
+-------------------------------------------------------------------------------
+ Setup - Web Application (webApp)
+------------------------------------------------------------------------------
+
+1) <TO BE DETERMINED IN RELEASE 1.0>
+    
+
+
+--------------------------------<Files>--------------------------------------
+
+Documents (dir)         : Folder containing various documentation relating to
+                          development.
+external (dir)          : Various external files that are crucial to operation
+                          but are not part of either directory.
+learningProjects (dir)  : Projects from memebers of the group meant as warm-up
+                          projects to learn new technologies at the beginning
+                          of development
+mobileApp (dir)         : Primary directory of mobile application files
+webApp (dir)            : Primary directory of web/server files.
