@@ -5,7 +5,7 @@
 :root {
     --primary-color: #145d99;
     --secondary-color: #eaeaea;
-    --tertiary-color: gold;
+    --tertiary-color: #145d99; /* Currently only applied to navigation elements. */
 }
 
 html {
@@ -116,7 +116,7 @@ main.withFooter {
 }
 
 main.withHeaderAndFooter {
-    height: 88%;
+    height: 89%;
 }
 
 select {
@@ -330,7 +330,7 @@ footer {
     height: 100%;
     padding-top: 0.3em;
     /* background-color: Black; */
-    background-color: var(--primary-color);
+    background-color: var(--tertiary-color);
     overflow: hidden;
 }
 
@@ -394,7 +394,7 @@ footer {
     /* background-color: var(--primary-color);
   color: black; */
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: var(--tertiary-color);
 }
 
 .topnav a {
@@ -430,7 +430,7 @@ footer {
     /* background-color: var(--primary-color);
   color: black; */
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: var(--tertiary-color);
 }
 
 /* Hide the link that should open and close the topnav on small screens */

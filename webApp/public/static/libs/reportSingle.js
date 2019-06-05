@@ -32,7 +32,7 @@ const reportFields = [
     "buildingPrimaryUse"
 ];
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
-const defaultOptionText = "---Select Option---";
+const messageDefault = "---Send a notification to the reporter---";
 var period = 6;
 var reportAssigned = {};
 
@@ -114,8 +114,8 @@ function createReportModal() {
         "<div><b>Expiration Date:</b> <span id='expireTS'></span></div>";
     expiration.innerHTML +=
         "<span class='dropdown'><select id='whitelistDropdown' autocomplete = 'off'><option value = ''>" +
-        defaultOptionText +
-        "</option><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist Report</a></span>";
+        "---Modify report expiration date---" +
+        "</option><option value='1'>Expire in 1(?) days from submission date</option><option value='3'>Expire in 3(?) days from submission date</option><option value='90'>Expire in 90 days from submission date</option><option value='180'>Expire in 180 days from submission date</option><option value='730'>Expire in 2 years from submission date</option></select><a id = 'whitelistBtn' class='btn rounded navy'>Whitelist</a></span>";
 
     // Description of the Incident
     const reportDesc = document.createElement("DIV");
@@ -129,18 +129,18 @@ function createReportModal() {
     notesDiv.innerHTML = "<b style='color:white'>Activity Log:</b>";
     notesDiv.innerHTML += "<div id = 'reportNotes' class='reportNotes'></div>";
     notesDiv.innerHTML +=
-        "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'/><a id = 'submitNote' class='btn small rounded navy Respondbtn'>Submit</a></div>";
+        "<div class='notesInput'><input id = 'reportNoteInput' placeholder = 'Add Notes...'/><a id = 'submitNote' class='btn rounded navy Respondbtn'>Submit</a></div>";
 
     // All options that do not fit elsewhere
     const optionBtns = document.createElement("DIV");
     optionBtns.setAttribute("class", "reportAux");
 
     optionBtns.innerHTML =
-        "<span><input id='workOrderNum' placeholder='Assign a workorder #'/><a id='workOrderBtn' class='btn rounded navy'>Assign Workorder #</a></span>";
+        "<span><div class='notesInput'><input id='workOrderNum' placeholder='Assign a workorder #'/><a id='workOrderBtn' class='btn rounded navy'>Set Order</a></div></span>";
     optionBtns.innerHTML +=
-        "<span class='dropdown'><select id='messageDropdown' autocomplete='off' onchange='checkCustom()'></select><input id='customResponse' style='display:none' placeholder='Enter a Custom Response'/><a id='respondBtn' class='btn rounded navy'>Respond</a></span>";
+        "<span class='dropdown'><select id='messageDropdown' autocomplete='off' onchange='checkCustom()'></select><input id='customResponse' style='display:none' placeholder='Enter a Custom Response'/><a id='respondBtn' class='btn rounded navy'>Send</a></span>";
     optionBtns.innerHTML +=
-        "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'></select><a id='forwardBtn' class='btn rounded navy'>Assign Report</a></span>";
+        "<span class='dropdown'><select id='forwardDropdown' autocomplete='off'></select><a id='forwardBtn' class='btn rounded navy'>Forward</a></span>";
     optionBtns.innerHTML +=
         "<a class='btn rounded green' id='reportResolve'></a>";
 
@@ -453,16 +453,21 @@ function generateProductInfo(reportInfo, tags) {
 */
 function initializeWhitelist(reportID) {
     var whitelistDropdownObj = document.getElementById("whitelistDropdown");
-    const whitelistDays =
-        whitelistDropdownObj.options[whitelistDropdownObj.selectedIndex].value;
-    insertNote(
-        reportID,
-        webID,
-        "{[ADMIN] - Expiration date changed to " +
-            whitelistDays +
-            " days after submission}"
-    );
-    modifyExpireSingle(whitelistDays, reportID);
+    if (whitelistDropdownObj.value != "") {
+        const whitelistDays =
+            whitelistDropdownObj.options[whitelistDropdownObj.selectedIndex]
+                .value;
+        insertNote(
+            reportID,
+            webID,
+            "{[ADMIN] - Expiration date changed to " +
+                whitelistDays +
+                " days after submission}"
+        );
+        modifyExpireSingle(whitelistDays, reportID);
+    } else {
+        alert("ERROR - No whitelist date selected!");
+    }
 }
 
 /*
@@ -471,19 +476,23 @@ function initializeWhitelist(reportID) {
 */
 function initializeMessage(reportID, webID) {
     const messageDropdownObj = document.getElementById("messageDropdown");
-    var message =
-        messageDropdownObj.options[messageDropdownObj.selectedIndex].value;
-    if (message === "custom") {
-        message = document.getElementById("customResponse").value;
-    }
-    if (message != "") {
-        insertNote(
-            reportID,
-            webID,
-            "{Sent pre-written response: " + message + "}"
-        ); // Adds note that a response has been sent.
-        sendMessage(reportID, webID, message);
-        document.getElementById("customResponse").value = "";
+    if (messageDropdownObj.value != "") {
+        var message =
+            messageDropdownObj.options[messageDropdownObj.selectedIndex].value;
+        if (message === "custom") {
+            message = document.getElementById("customResponse").value;
+        }
+        if (message != "") {
+            insertNote(
+                reportID,
+                webID,
+                "{Sent pre-written response: " + message + "}"
+            ); // Adds note that a response has been sent.
+            sendMessage(reportID, webID, message);
+            document.getElementById("customResponse").value = "";
+        }
+    } else {
+        alert("ERROR - No message option selected!");
     }
 }
 
@@ -544,7 +553,7 @@ function initializeForward(reportID, webID, resolvedUnresolved) {
                 })
             );
         } else {
-            alert("ERROR - No report selected!");
+            alert("ERROR - No facility selected!");
         }
     } else {
         alert("ERROR - Cannot forward a completed report!");
@@ -643,7 +652,7 @@ function displayPrewrittenResponses(tagID) {
     }
     const defaultOption = document.createElement("option");
     defaultOption.setAttribute("value", "");
-    defaultOption.innerHTML = defaultOptionText;
+    defaultOption.innerHTML = messageDefault;
     messageDropdown.appendChild(defaultOption);
     // Query the database for the responses.
     const request = new XMLHttpRequest();
@@ -660,7 +669,7 @@ function displayPrewrittenResponses(tagID) {
             });
             const customResponse = document.createElement("option");
             customResponse.setAttribute("value", "custom");
-            customResponse.innerHTML = "---Enter Custom Response---";
+            customResponse.innerHTML = "***Enter a custom response***";
             messageDropdown.appendChild(customResponse);
         }
     };
@@ -683,7 +692,7 @@ function displayFacilities() {
     }
     const defaultOption = document.createElement("option");
     defaultOption.setAttribute("value", "");
-    defaultOption.innerHTML = defaultOptionText;
+    defaultOption.innerHTML = "---Forward a report to a different facility---";
     forwardDropdown.appendChild(defaultOption);
 
     const request = new XMLHttpRequest();
@@ -972,9 +981,13 @@ function displayNotes(reportID) {
 function submitNote(reportID) {
     // Submit notes into database
     var reportNoteInput = document.getElementById("reportNoteInput");
-    // Insert note into database
-    insertNote(reportID, webID, reportNoteInput.value);
-    reportNoteInput.value = ""; // Clear the input.
+    if (reportNoteInput.value != "") {
+        // Insert note into database
+        insertNote(reportID, webID, reportNoteInput.value);
+        reportNoteInput.value = ""; // Clear the input.
+    } else {
+        alert("ERROR - No note content found!");
+    }
 }
 
 /*
