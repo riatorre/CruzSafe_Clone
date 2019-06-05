@@ -5,6 +5,7 @@
 :root {
     --primary-color: #145d99;
     --secondary-color: #eaeaea;
+    --tertiary-color: gold;
 }
 
 html {
@@ -103,11 +104,6 @@ main,
 footer {
     display: block;
     width: 100%;
-}
-
-header,
-footer {
-    height: 6%;
 }
 
 main {
@@ -312,9 +308,27 @@ td {
 /*** topnav Top Navigation Bar
   /* Add a black background color to the top navigation */
 
+header,
+footer {
+    height: 5.5%;
+}
+
+.topnavLogo {
+    width: auto;
+    height: 90%;
+    align-content: center;
+    align-self: auto;
+    overflow: hidden;
+    left: 0;
+    float: left;
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+}
+
 .topnav {
     width: 100%;
     height: 100%;
+    padding-top: 0.3em;
     /* background-color: Black; */
     background-color: var(--primary-color);
     overflow: hidden;
@@ -322,14 +336,78 @@ td {
 
 /* Style the links inside the navigation bar */
 
+.topnav #rightEdge {
+    float: right;
+    height: 200px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    margin-right: 0.7em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.topnav #rightEdge.active {
+    float: right;
+    height: 200px;
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    margin-right: 0.7em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -moz-border-radius: 1vh 1vh 0px 0px;
+    border-radius: 1vh 1vh 0px 0px;
+    /* background-color: var(--primary-color);
+  color: black; */
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+.topnav #right {
+    float: right;
+    height: 200px;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+.topnav #right.active {
+    float: right;
+    height: 200px;
+    text-align: center;
+    margin-top: 0.1em;
+    padding: 0.5vh;
+    text-decoration: none;
+    font-size: 3vh;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    -moz-border-radius: 1vh 1vh 0px 0px;
+    border-radius: 1vh 1vh 0px 0px;
+    /* background-color: var(--primary-color);
+  color: black; */
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
 .topnav a {
     float: left;
     color: var(--secondary-color);
+    height: 200px;
     text-align: center;
-    margin-top: 1vh;
-    padding: 0.8vh;
+    margin-top: 0.1em;
+    padding: 0.5vh;
     text-decoration: none;
     font-size: 3vh;
+    padding-left: 0.7vh;
+    padding-right: 0.7vh;
 }
 
 /* Change the color of links on hover */
