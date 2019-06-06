@@ -856,7 +856,7 @@ export default (styles = StyleSheet.create({
     },
     submissionLocationIOS: {
         zIndex: 2,
-        top: -155,
+        top: -210,
         left: -6,
         height: 0
     },
