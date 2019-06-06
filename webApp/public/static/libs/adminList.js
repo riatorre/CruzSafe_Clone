@@ -86,7 +86,7 @@ function setupUsersList() {
         if (this.readyState == 4 && this.status == 200) {
             users = JSON.parse(request.response);
 
-            userList = document.getElementById("userList"); // Remove all items in list if any
+            userList = document.getElementsByClassName("usersList")[0]; // Remove all items in list if any
             while (userList.firstChild) {
                 userList.removeChild(userList.firstChild);
             }

@@ -70,110 +70,38 @@
             </div>
         </header>
         <main class="withHeader">
-            <div class="facilityHeader">
-                <div class="reportHeader">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td class="buttonFirstNameText">
-                                    First
-                                </td>
-                                <td class="buttonlastNameText">
-                                    Last
-                                </td>
-                                <td class="buttonTitleText">
-                                    Title
-                                </td>
-                                <td class="buttonFacilityNameText">
-                                    Facility
-                                </td>
-                                <td class="buttonRoleText">Role</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="usersManagement">
+                <div class="userOptions">
+                    Here is where the buttons will go. 
                 </div>
-            </div>
-            <div class="facilityList">
-                <div id="userList"></div>
-            </div>
-            <div class="reportDropdown">
-                <span class="dropdown"
-                    ><select
-                        id="forwardDropdownAdmin"
-                        autocomplete="off"
-                        onchange="refreshPage()"
-                    ></select
-                ></span>
-            </div>
-            <div class="reportHeaderContainer">
-                <div class="reportHeader">
-                    <table>
-                        <tbody>
-                            <tr onclick="console.log('Row has been clicked')">
-                                <td class="buttonResolvedUnresolved">
-                                    Status
-                                </td>
-                                <td class="buttonReportIDText">
-                                    Report #
-                                </td>
-                                <td class="buttonIncidentIDText">
-                                    Inc #
-                                </td>
-                                <td class="buttonReportTSText">
-                                    Date & Time
-                                </td>
-                                <td class="buttonTagText">Tag</td>
-                                <td class="buttonLocationText">
-                                    Location
-                                </td>
-                                <td class="buttonFullNameText">
-                                    Name (Last, First)
-                                </td>
-                                <td class="buttonBodyText">
-                                    Description
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="reportListContainer">
-                <div id="reportList" class="reportList"></div>
-            </div>
-            <div class="reportBtns">
-                <center>
-                    <div class="navigationButtons">
-                        <button
-                            id="firstBtn"
-                            class="btn navy rounded"
-                            onClick="firstLast('reportList','first')"
-                        >
-                            First
-                        </button>
-                        <button
-                            id="prevBtn"
-                            class="btn navy rounded"
-                            onClick="nextPrev('reportList',-1)"
-                        >
-                            Prev
-                        </button>
-                        <div id="reportListIndicators"></div>
-                        <button
-                            id="nextBtn"
-                            class="btn navy rounded"
-                            onClick="nextPrev('reportList',1)"
-                        >
-                            Next
-                        </button>
-                        <button
-                            id="lastBtn"
-                            class="btn navy rounded"
-                            onClick="firstLast('reportList','last')"
-                        >
-                            Last
-                        </button>
+                <div class="allUsers">
+                    <div class="reportHeader">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="buttonFirstNameText">
+                                        First
+                                    </td>
+                                    <td class="buttonlastNameText">
+                                        Last
+                                    </td>
+                                    <td class="buttonTitleText">
+                                        Title
+                                    </td>
+                                    <td class="buttonFacilityNameText">
+                                        Facility
+                                    </td>
+                                    <td class="buttonRoleText">Role</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </center>
+                    <div class="usersList"></div>
+                    <div class="usersListFooter"></div>
+                </div>
+            </div>
+            <div class="userDetails">
+                <div class="userInfo">BLAH BLAH BLAH</div>
             </div>
         </main>
         <div id="modalTarget"></div>
@@ -188,7 +116,7 @@
         <script src="./libs/cookieLib.js"></script>
         <!--User Refreshing code-->
         <script>
-            const pageID = 1; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
+            const pageID = 3; // pageID tells getLatestTS what to do with gotten TS. 0 - homepage, 1 - intake, 2 - reports, 3 - analytics/admin (no impact on current screen)
             const webID = getCookie("cruzsafe_webID");
             if (webID == "") {
                 window.location.href = "./"; // Returns to homepage if no webID cookie is present.
@@ -198,8 +126,8 @@
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
                 setupUsersList();
-                setupListReports();
-                displayFacilitiesAdmin();
+                //setupListReports();
+                //displayFacilitiesAdmin();
             });
         </script>
     </body>

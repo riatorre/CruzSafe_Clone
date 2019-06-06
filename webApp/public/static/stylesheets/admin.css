@@ -5,23 +5,90 @@
 
 html,
 body {
-    background-color: #145d99;
+    background-color: var(--secondary-color);
 }
 
 main {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) !important;
-    grid-template-rows: repeat(8, 1fr) !important;
-    grid-template-areas:
-        "facilityHeader reportDropdown reportDropdown"
-        "facilityList reportHeader reportHeader"
-        "facilityList reportList reportList"
-        "facilityList reportList reportList"
-        "facilityList reportList reportList"
-        "facilityList reportList reportList"
-        "facilityList reportList reportList"
-        "facilityList reportBtns reportBtns" !important;
+    display: grid !important;
+    padding-top: 1.1em !important;
+    padding-bottom: 1.1em !important;
+    padding-left: 1.1em !important;
+    padding-right: 1.1em !important;
+    grid-template-columns: 2fr 4fr !important;
+    grid-column-gap: 1.1em !important;
+    grid-template-rows: 100% !important;
+    grid-template-areas: "usersManagement userDetails" !important;
 }
+
+main .usersManagement {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    border-radius: 0.7em;
+    justify-content: center;
+    overflow: hidden;
+    grid-area: usersManagement;
+}
+
+.allUsers {
+    color: var(--secondary-color);
+    /*background-color: var(--primary-color);*/
+    overflow: auto;
+    border-radius: 0.7em;
+    height: 100%;
+}
+
+.userOptions {
+    border-radius: 0.7em;
+    padding: 1.1em;
+    margin-bottom: 1.1em;
+    color: var(--secondary-color);
+    background-color: var(--primary-color);
+}
+
+.usersList {
+    width: 100%;
+    height: 80%;
+    border: 0px solid black;
+    background-color: #919ba5;
+    overflow: auto;
+}
+
+.usersListFooter {
+    background-color: var(--primary-color);
+    padding: 1.1em;
+    padding-top: 1.6em;
+    padding-left: 1.8em;
+    width: 100%;
+    height: 6%;
+    align-content: center;
+    position: relative;
+    bottom: 0;
+}
+
+main .userDetails {
+    grid-area: userDetails;
+    background-color: var(--primary-color);
+    border-radius: 0.7em;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding-top: 4%;
+    justify-content: center;
+    /*padding-left: 1.8em;
+    padding-right: 1.8em;*/
+}
+
+.userInfo {
+    overflow: auto;
+    background-color: #919ba5;
+    color: var(--secondary-color);
+    height: 100%;
+    width: 100%;
+}
+
+/*
 
 .facilityHeader,
 .facilityList,
@@ -61,7 +128,7 @@ main {
 #userHistory,
 #userList {
     overflow: auto;
-}
+}*/
 
 #userHistoryButton,
 #userButton {
@@ -71,12 +138,14 @@ main {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     height: 40px;
     min-width: 70px;
-    padding: 2;
+    padding-top: 2px;
+    padding-bottom: 2px;
     margin-bottom: 2px;
     margin-top: 2px;
     color: #095ea3;
     font-family: Roboto, Arial, sans-serif;
     font-size: 12px;
+    width: 100%;
 }
 #userHistoryButton:hover,
 #userButton:hover {
