@@ -138,8 +138,8 @@ export default class Screen extends React.Component {
                             </Text>
 
                             <Text style={styles.slideText4}>
-                                A car crash, particularly if at higher speeds or
-                                someone feels dizzy/unwell
+                                A car crash, particularly if someone feels
+                                dizzy/unwell
                             </Text>
                             <Text />
 
