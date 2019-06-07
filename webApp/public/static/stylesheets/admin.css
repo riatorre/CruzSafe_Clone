@@ -41,6 +41,7 @@ main .usersManagement {
 .userOptions {
     border-radius: 0.7em;
     padding: 1.1em;
+    height: 20%;
     margin-bottom: 1.1em;
     color: var(--secondary-color);
     background-color: var(--primary-color);
@@ -48,7 +49,7 @@ main .usersManagement {
 
 .usersList {
     width: 100%;
-    height: 80%;
+    height: 64%;
     border: 0px solid black;
     background-color: #919ba5;
     overflow: auto;
@@ -74,18 +75,70 @@ main .userDetails {
     width: 100%;
     height: 100%;
     margin: 0px;
-    padding-top: 4%;
     justify-content: center;
     /*padding-left: 1.8em;
     padding-right: 1.8em;*/
 }
 
 .userInfo {
-    overflow: auto;
+    overflow: hidden;
     background-color: #919ba5;
-    color: var(--secondary-color);
     height: 100%;
     width: 100%;
+    display: grid !important;
+    padding-top: 1.1em !important;
+    padding-bottom: 1.1em !important;
+    padding-left: 1.1em !important;
+    padding-right: 1.1em !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-column-gap: 1.1em !important;
+    grid-row-gap: 1.1em !important;
+    grid-template-rows: auto !important;
+    grid-template-areas:
+        "userDetailsPanel userGraph"
+        "latestActivity latestActivity"
+        "userHistoryList userHistoryList" !important;
+}
+
+.userSummaryTitle {
+    height: 6%;
+    top: 0;
+    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 0.3em;
+    color: var(--secondary-color);
+}
+
+.userInfo .userDetailsPanel,
+.userInfo .userGraph,
+.userInfo .latestActivity,
+.userInfo .userHistoryList {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-radius: 0.7em;
+    align-content: center;
+    justify-content: center;
+    padding: 1.1em;
+}
+
+.userDetailsPanel {
+    grid-area: userDetailsPanel;
+}
+.userGraph {
+    grid-area: userGraph;
+}
+.latestActivity {
+    grid-area: latestActivity;
+}
+.userHistoryTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+.userHistoryList {
+    grid-area: userHistoryList;
+    overflow: auto;
 }
 
 /*

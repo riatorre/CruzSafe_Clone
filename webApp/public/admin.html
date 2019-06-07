@@ -72,7 +72,9 @@
         <main class="withHeader">
             <div class="usersManagement">
                 <div class="userOptions">
-                    Here is where the buttons will go. 
+                    <div class="userOptionsTitle"><b>Administrative Options:</b></div>
+                    <div class="userOptionsUsers">User Options (add users, remove users)</div>
+                    <div class="userOptionsBan">Ban Users</div>
                 </div>
                 <div class="allUsers">
                     <div class="reportHeader">
@@ -101,7 +103,21 @@
                 </div>
             </div>
             <div class="userDetails">
-                <div class="userInfo">BLAH BLAH BLAH</div>
+                <div class="userSummaryTitle">User Summary: # <span id='webID'></span></div>
+                <div class="userInfo">
+                    <div class="userDetailsPanel">
+                        <div class = 'name'><div><b>Name:</b> <span id='userFullName' placeholder='FullName'></span></div></div>
+                        <div class = 'phone'><div><b>Title:</b> <span id='userTitle'></span></div></div>
+                        <div class = 'email'><div><b>Role:</b> <span id='userRole'></span></div></div>
+                        <div class = 'email'><div><b>Facility:</b> <span id='userFacility'></span></div></div>
+                    </div>
+                    <div class="userGraph"><div id="userGraph1Div"></div></div>
+                    <div class="latestActivity">latestActivity</div>
+                    <div class="userHistoryList">
+                        <div class="userHistoryTitle">User History:</div>
+                        <div id="userHistory"></div>
+                    </div>
+                </div>
             </div>
         </main>
         <div id="modalTarget"></div>
@@ -122,12 +138,11 @@
                 window.location.href = "./"; // Returns to homepage if no webID cookie is present.
             }
             setupModal("modalTarget", "reportModal", createReportModal);
-            setupModal("modalTargetUser", "userModal", createUserModal);
+            //setupModal("modalTargetUser", "userModal", createUserModal);
             document.addEventListener("DOMContentLoaded", function() {
                 // When DOM is loaded
                 setupUsersList();
-                //setupListReports();
-                //displayFacilitiesAdmin();
+                displayUser(webID);// on load, show your own personal ihistory.
             });
         </script>
     </body>

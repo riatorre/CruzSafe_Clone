@@ -7,21 +7,48 @@
 var standardOptions = {
     legend: {
         labels: {
-            fontColor: "black",
-            fontSize: 12
+            fontSize: 15,
+            fontColor: "white"
         }
+    },
+    labels: {
+        color: "white"
     },
     scales: {
         yAxes: [
             {
+                display: true,
+                gridLines: {
+                    display: false,
+                    color: "white"
+                },
                 ticks: {
+                    fontColor: "white",
                     beginAtZero: true
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: "# Reports",
+                    fontColor: "white"
+                }
+            }
+        ],
+        xAxes: [
+            {
+                display: true,
+                ticks: {
+                    fontColor: "white"
+                },
+                gridLines: {
+                    display: false,
+                    color: "white"
                 }
             }
         ]
     }
 };
 
+/*
 // Function used to create a Modal ready to display Single Report Data
 function createUserModal() {
     const user = document.createElement("DIV");
@@ -57,15 +84,6 @@ function createUserModal() {
     const userGraph1Div = document.createElement("DIV");
     userGraph1Div.setAttribute("class", "row leaf leftAlign");
     userGraph1Div.setAttribute("id", "userGraph1Div");
-    /*const userGraph2Div = document.createElement("DIV");
-    userGraph2Div.setAttribute("class", "row oneHalf leaf leftAlign");
-    userGraph2Div.setAttribute("id", "userGraph2Div");*/
-    /*const userGraph3Div = document.createElement("DIV");
-    userGraph3Div.setAttribute("class", "row oneFourth leaf leftAlign");
-    userGraph3Div.setAttribute("id", "userGraph3Div");
-    const userGraph4Div = document.createElement("DIV");
-    userGraph4Div.setAttribute("class", "row oneFourth leaf leftAlign");
-    userGraph4Div.setAttribute("id", "userGraph4Div");*/
 
     column2.appendChild(userGraph1Div);
     //column2.appendChild(userGraph2Div);
@@ -75,7 +93,7 @@ function createUserModal() {
     user.appendChild(column1);
     user.appendChild(column2);
     return user;
-}
+}*/
 
 /*
     Grabs a list of all users and populates userList div in admin page. 
@@ -143,6 +161,7 @@ function createUserButton(userList, user) {
 /*
     Function that populates the forwardDropdown from the database.
 */
+/*
 function displayFacilitiesAdmin() {
     var forwardDropdown = document.getElementById("forwardDropdownAdmin");
     while (forwardDropdown.firstChild) {
@@ -173,12 +192,13 @@ function displayFacilitiesAdmin() {
     request.open("POST", "https://cruzsafe.appspot.com/api/facilities");
     request.send();
 }
-
+*/
 function getLastWord(string) {
     var seperated = string.split(" ");
     return seperated[seperated.length - 1];
 }
 
+/*
 function refreshPage() {
     var forwardDropdownObj = document.getElementById("forwardDropdownAdmin");
     const facilityID =
@@ -196,6 +216,7 @@ function refreshPage() {
     request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     request.send(JSON.stringify({ facilityID: facilityID }));
 }
+*/
 
 function displayUser(webID) {
     // Gather information on user.
@@ -216,7 +237,6 @@ function displayUser(webID) {
             // Input User History (Todo.)
 
             displayUserHelper(webID);
-            openModal("userModal");
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/users/webUser");
