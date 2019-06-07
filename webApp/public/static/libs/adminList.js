@@ -233,6 +233,7 @@ function displayUser(webID) {
             document.getElementById("userTitle").innerHTML = "";
             document.getElementById("userRole").innerHTML = "";
             document.getElementById("userFacility").innerHTML = "";
+            document.getElementById("userLatestActivity").innerHTML = "";
 
             const userHistory = document.getElementById("userHistory");
             while (userHistory.firstChild) {
@@ -342,6 +343,16 @@ function displayUserHelper(webID) {
                     "bar",
                     standardOptions
                 );
+
+                // Latest activity
+                document.getElementById("userLatestActivity").innerHTML =
+                    "#" +
+                    userInfo[0]["reportID"] +
+                    ": " +
+                    userInfo[0]["content"] +
+                    " - " +
+                    userInfo[0]["ts"];
+
                 // Get a list of all of the reports they've worked on and populate userHistory.
                 userReports = [];
                 Array.from(userInfo).forEach(function(note) {
