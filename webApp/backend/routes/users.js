@@ -239,7 +239,7 @@ router.post("/webUserNotes", function(req, res) {
     const query =
         "SELECT * FROM webUsers, reportNotes, facilities, reports WHERE webUsers.webID = reportNotes.webID  AND webUsers.facilityID = facilities.facilityID AND reportNotes.reportID = reports.reportID AND webUsers.webID = " +
         req.body.webID +
-        " ORDER BY initialOpenTS IS NULL DESC, initialOpenTS IS NOT NULL AND completeTS IS NULL DESC, completeTS IS NOT NULL DESC, reportTS DESC"; // Ordering clause;
+        " ORDER BY reportNotes.ts DESC"; // Ordering clause;
     connectionPool.handleAPI(
         req.body.webID,
         null,
