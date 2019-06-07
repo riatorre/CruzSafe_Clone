@@ -374,6 +374,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
     /*
         Set up primary constants and primary query to insert data. 
     */
+    const f_id = 1;
     const attachment = req.file ? req.file.filename : null;
     const hasAttachment = attachment ? 1 : 0;
     const values = [
@@ -482,7 +483,87 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                         // Done.
                         res.json({
                             incidentID: val.insertId
-                        }); // Exit; all things went through fine, return incident ID.},
+                        });
+                        // Automatical assignment
+                        const query =
+                            "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
+                            val.insertId +
+                            "," +
+                            4 +
+                            "," +
+                            f_id +
+                            ")";
+                        connectionPool.handleAPI(
+                            [val.insertID, 4, f_id],
+                            null,
+                            3,
+                            3,
+                            query,
+                            val => {
+                                res.json(val);
+                                // Get emails
+                                const query =
+                                    "SELECT * FROM facilities WHERE facilityID = " +
+                                    f_id;
+                                connectionPool.handleAPI(
+                                    null,
+                                    null,
+                                    0,
+                                    0,
+                                    query,
+                                    val => {
+                                        res.json(val);
+                                        console.log(val);
+                                        var maillist = [];
+                                        for (var m = 0; m < val.length; m++) {
+                                            maillist.push(val[m].facilityEmail);
+                                        }
+                                        // Send email
+                                        var nodemailer = require("nodemailer");
+                                        var transporter = nodemailer.createTransport(
+                                            {
+                                                service: "gmail",
+                                                host: "smtp.gmail.com",
+                                                auth: {
+                                                    user:
+                                                        "ucsc.cruzsafe@gmail.com",
+                                                    pass: "CMPS_117"
+                                                }
+                                            }
+                                        );
+
+                                        var mailOptions = {
+                                            from: "ucsc.cruzsafe@gmail.com",
+                                            to: maillist,
+                                            subject: "New report assigned",
+                                            text: "HEEEEEEEEEEY"
+                                        };
+
+                                        transporter.sendMail(
+                                            mailOptions,
+                                            function(error, info) {
+                                                if (error) {
+                                                    console.log(error);
+                                                } else {
+                                                    console.log(
+                                                        "Email sent: " +
+                                                            info.response
+                                                    );
+                                                }
+                                            }
+                                        );
+                                    },
+                                    () => {
+                                        res.json({
+                                            message: "An Error has occurred"
+                                        });
+                                    }
+                                );
+                            },
+                            () => {
+                                res.json({ message: "An Error has Occurred." });
+                            }
+                        ); // Exit; all things went through fine, return incident ID.},
                     },
                     () => {
                         res.json({ message: "An Error has Occurred." });
