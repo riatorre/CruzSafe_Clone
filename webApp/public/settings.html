@@ -89,12 +89,34 @@
                             ></span
                         >
                     </div>
+                    <div>
+                        <b>Facility Intake Email:</b><input id = 'facilityEmail' placeholder = 'No facility Email...'/><a id="changeFacilityEmail" class="btn rounded navy"
+                        >Update</a
+                    >
+                    </div>
                 </div>
             </div>
         </main>
         <script src="./libs/navLib.js"></script>
         <script src="./libs/cookieLib.js"></script>
         <script src="./libs/send.js"></script>
+        <script>
+            function changeFacilityEmail(facilityID){
+                let email = "'" + document.getElementById("facilityEmail").value+"'";
+                const request = new XMLHttpRequest();
+                request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        alert("Facility email set to "+ email + "!");
+                    }
+                };
+                request.open("POST", "https://cruzsafe.appspot.com/api/facilities/setEmail");
+                request.setRequestHeader(
+                    "Content-Type",
+                    "application/json;charset=UTF-8"
+                );
+                request.send(JSON.stringify({ facilityEmail: email, facilityID: facilityID }));
+            }
+        </script>
         <script>
             /*** Cookie PLACEHOLDERS */
 
@@ -106,6 +128,7 @@
             /*** Cookie PLACEHOLDERS */
 
             document.addEventListener("DOMContentLoaded", function() {
+
                 // When DOM is loaded
                 // Placeholder code... Div will be replaced in the future.
                 const divs = document.getElementsByClassName(
@@ -125,6 +148,8 @@
                             response["lastName"];
                         divs[1].innerHTML +=
                             "CURRENT FACILITY: " + response["facilityName"];
+                        document.getElementById("facilityEmail").value = response["facilityEmail"];
+                        document.getElementById("changeFacilityEmail").setAttribute("onclick","changeFacilityEmail("+response["facilityID"]+")");
                     }
                 };
                 request.open("POST", "https://cruzsafe.appspot.com/api/users/");

@@ -44,6 +44,28 @@ router.post("/webIDs", function(req, res) {
     );
 });
 
+// Grabs all of the webIDs of the people that are part of a given facilityID.
+router.post("/setEmail", function(req, res) {
+    const query =
+        "UPDATE facilities SET facilityEmail = " +
+        req.body.facilityEmail +
+        " WHERE facilityID = " +
+        req.body.facilityID;
+    connectionPool.handleAPI(
+        req.body.facilityID,
+        req.body.facilityEmail,
+        1,
+        2,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred. Query = " + query });
+        }
+    );
+});
+
 // Send email notification when new report is assigned
 router.post("/emailNotification", function(req, res) {
     var nodemailer = require("nodemailer");

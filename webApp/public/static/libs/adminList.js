@@ -229,6 +229,7 @@ function displayUser(webID) {
                 Clear all pre-existing elements. 
             */
             document.getElementById("userFullName").innerHTML = "";
+            document.getElementById("userEmail").innerhTML = "";
             document.getElementById("webID").innerHTML = "";
             document.getElementById("userTitle").innerHTML = "";
             document.getElementById("userRole").innerHTML = "";
@@ -243,6 +244,7 @@ function displayUser(webID) {
             // Input user information in modal.
             document.getElementById("userFullName").innerHTML =
                 user["firstName"] + " " + user["lastName"];
+            document.getElementById("userEmail").innerHTML = user["email"];
             document.getElementById("webID").innerHTML = user["webID"];
             document.getElementById("userTitle").innerHTML = user["title"];
             document.getElementById("userRole").innerHTML = user["role"];
