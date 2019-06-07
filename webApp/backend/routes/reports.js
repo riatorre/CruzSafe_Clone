@@ -481,9 +481,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                     primaryQuery,
                     val => {
                         // Done.
-                        res.json({
-                            incidentID: val.insertId
-                        });
                         // Automatical assignment
                         const query =
                             "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
@@ -500,7 +497,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                             3,
                             query,
                             val => {
-                                res.json(val);
                                 // Get emails
                                 const query =
                                     "SELECT * FROM facilities WHERE facilityID = " +
@@ -512,8 +508,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                     0,
                                     query,
                                     val => {
-                                        res.json(val);
-                                        console.log(val);
                                         var maillist = [];
                                         for (var m = 0; m < val.length; m++) {
                                             maillist.push(val[m].facilityEmail);
@@ -552,6 +546,10 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                 }
                                             }
                                         );
+                                        res.json({
+                                            incidentID: val.insertId
+                                        });
+                                        res.json(val);
                                     },
                                     () => {
                                         res.json({
@@ -559,6 +557,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                         });
                                     }
                                 );
+                                res.json(val);
                             },
                             () => {
                                 res.json({ message: "An Error has Occurred." });
