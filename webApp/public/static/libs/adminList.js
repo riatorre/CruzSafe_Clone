@@ -225,6 +225,20 @@ function displayUser(webID) {
         if (this.readyState == 4 && this.status == 200) {
             user = JSON.parse(request.response)[0];
 
+            /*
+                Clear all pre-existing elements. 
+            */
+            document.getElementById("userFullName").innerHTML = "";
+            document.getElementById("webID").innerHTML = "";
+            document.getElementById("userTitle").innerHTML = "";
+            document.getElementById("userRole").innerHTML = "";
+            document.getElementById("userFacility").innerHTML = "";
+
+            const userHistory = document.getElementById("userHistory");
+            while (userHistory.firstChild) {
+                userHistory.removeChild(userHistory.firstChild);
+            }
+
             // Input user information in modal.
             document.getElementById("userFullName").innerHTML =
                 user["firstName"] + " " + user["lastName"];
@@ -244,6 +258,9 @@ function displayUser(webID) {
     request.send(JSON.stringify({ webID: webID }));
 }
 
+/*
+    Sets up the graph and populates history. 
+*/
 function displayUserHelper(webID) {
     // Gather information on user.
     const request = new XMLHttpRequest();
@@ -254,88 +271,89 @@ function displayUserHelper(webID) {
             // Create User graphs
             readyDivCanvas("userGraph1Div", "userGraph1");
             // Action summary graph
-            var dict = {};
-            var newData = {
-                label: "First Opened Report",
-                data: [0],
-                fillColor: ["rgba(255, 99, 132, 1)"]
-            };
-            dict[0] = newData;
-            var newData = {
-                label: "Viewed Report",
-                data: [0],
-                fillColor: ["rgba(54, 162, 235, 1)"]
-            };
-            dict[1] = newData;
-            var newData = {
-                label: "Forwarded Report",
-                data: [0],
-                fillColor: ["rgba(255, 206, 86, 1)"]
-            };
-            dict[2] = newData;
-            var newData = {
-                label: "Responded to Report",
-                data: [0],
-                fillColor: ["rgba(75, 192, 192, 1)"]
-            };
-            dict[3] = newData;
-            var newData = {
-                label: "Completed Report",
-                data: [0],
-                fillColor: ["rgba(153, 102, 255, 1)"]
-            };
-            dict[4] = newData;
-            var newData = {
-                label: "Other",
-                data: [0],
-                fillColor: ["rgba(255, 159, 64, 1)"]
-            };
-            dict[5] = newData;
+            if (userInfo.length != 0) {
+                var dict = {};
+                var newData = {
+                    label: "First Opened Report",
+                    data: [0],
+                    fillColor: ["rgba(255, 99, 132, 1)"]
+                };
+                dict[0] = newData;
+                var newData = {
+                    label: "Viewed Report",
+                    data: [0],
+                    fillColor: ["rgba(54, 162, 235, 1)"]
+                };
+                dict[1] = newData;
+                var newData = {
+                    label: "Forwarded Report",
+                    data: [0],
+                    fillColor: ["rgba(255, 206, 86, 1)"]
+                };
+                dict[2] = newData;
+                var newData = {
+                    label: "Responded to Report",
+                    data: [0],
+                    fillColor: ["rgba(75, 192, 192, 1)"]
+                };
+                dict[3] = newData;
+                var newData = {
+                    label: "Completed Report",
+                    data: [0],
+                    fillColor: ["rgba(153, 102, 255, 1)"]
+                };
+                dict[4] = newData;
+                var newData = {
+                    label: "Other",
+                    data: [0],
+                    fillColor: ["rgba(255, 159, 64, 1)"]
+                };
+                dict[5] = newData;
 
-            Array.from(userInfo).forEach(function(note) {
-                if (note["content"] == "{Report initially opened}") {
-                    dict[0].data[0]++;
-                } else if (note["content"] == "{Viewed report}") {
-                    dict[1].data[0]++;
-                } else if (
-                    note["content"].startsWith(
-                        "{Report has been successfully forwarded to"
-                    )
-                ) {
-                    dict[2].data[0]++;
-                } else if (
-                    note["content"].startsWith("{Sent pre-written response:")
-                ) {
-                    dict[3].data[0]++;
-                } else if (note["content"] == "{Report marked as complete}") {
-                    dict[4].data[0]++;
-                } else {
-                    dict[5].data[0]++;
-                }
-            });
-            renderChart(
-                "userGraph1",
-                dict,
-                [userInfo[0]["firstName"] + "'s Actions"],
-                "bar",
-                standardOptions
-            );
-
-            // Get a list of all of the reports they've worked on and populate userHistory.
-            const userHistory = document.getElementById("userHistory");
-            while (userHistory.firstChild) {
-                userHistory.removeChild(userHistory.firstChild);
+                Array.from(userInfo).forEach(function(note) {
+                    if (note["content"] == "{Report initially opened}") {
+                        dict[0].data[0]++;
+                    } else if (note["content"] == "{Viewed report}") {
+                        dict[1].data[0]++;
+                    } else if (
+                        note["content"].startsWith(
+                            "{Report has been successfully forwarded to"
+                        )
+                    ) {
+                        dict[2].data[0]++;
+                    } else if (
+                        note["content"].startsWith(
+                            "{Sent pre-written response:"
+                        )
+                    ) {
+                        dict[3].data[0]++;
+                    } else if (
+                        note["content"] == "{Report marked as complete}"
+                    ) {
+                        dict[4].data[0]++;
+                    } else {
+                        dict[5].data[0]++;
+                    }
+                });
+                renderChart(
+                    "userGraph1",
+                    dict,
+                    [userInfo[0]["firstName"] + "'s Actions"],
+                    "bar",
+                    standardOptions
+                );
+                // Get a list of all of the reports they've worked on and populate userHistory.
+                userReports = [];
+                Array.from(userInfo).forEach(function(note) {
+                    const reportID = note["reportID"];
+                    if (!userReports.includes(reportID)) {
+                        // add new reportID to reports.
+                        userReports.push(reportID);
+                        // Create a new button to go in the modal.
+                        createReportUserButton(note);
+                    }
+                });
             }
-            userReports = [];
-            Array.from(userInfo).forEach(function(note) {
-                const reportID = note["reportID"];
-                if (!userReports.includes(reportID)) {
-                    // add new reportID to reports.
-                    userReports.push(reportID);
-                    // Create a new button to go in the modal.
-                    createReportUserButton(note);
-                }
-            });
         }
     };
     request.open("POST", "https://cruzsafe.appspot.com/api/users/webUserNotes");
@@ -352,7 +370,7 @@ function createReportUserButton(report) {
     var button = document.createElement("BUTTON");
     const table = document.createElement("table");
     const tableRow = document.createElement("tr");
-    //button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
+    button.setAttribute("onclick", "displayReport(" + report["reportID"] + ")");
     button.setAttribute("id", "userHistoryButton");
 
     const reportIDText = document.createElement("td");
