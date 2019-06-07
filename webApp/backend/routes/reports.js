@@ -479,38 +479,48 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                     2,
                     6,
                     primaryQuery,
-                    val => {
+                    val1 => {
+                        //--------------------------------------------------------------------------------
                         // Done.
                         // Automatical assignment
-                        const query =
+                        const query1 =
                             "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
-                            val.insertId +
+                            val1.insertId +
                             "," +
                             4 +
                             "," +
                             f_id +
                             ")";
                         connectionPool.handleAPI(
-                            [val.insertID, 4, f_id],
+                            [val1.insertId, 4, f_id],
                             null,
                             3,
                             3,
-                            query,
-                            val => {
+                            query1,
+                            val2 => {
+                                /*
+                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                 // Get emails
-                                const query =
-                                    "SELECT * FROM facilities WHERE facilityID = " +
-                                    f_id;
+                                const query2 = "SELECT * FROM facilities";
                                 connectionPool.handleAPI(
                                     null,
                                     null,
                                     0,
                                     0,
-                                    query,
-                                    val => {
+                                    query2,
+                                    val3 => {
+                                        //******************************************************************
+                                        console.log(
+                                            "333333333333333333333333333333333333333"
+                                        );
+                                        console.log(val3);
+                                        console.log(val3[0]);
+                                        console.log(val3[0].facilityEmail);
                                         var maillist = [];
-                                        for (var m = 0; m < val.length; m++) {
-                                            maillist.push(val[m].facilityEmail);
+                                        for (var m = 0; m < val3.length; m++) {
+                                            maillist.push(
+                                                val3[m].facilityEmail
+                                            );
                                         }
                                         // Send email
                                         var nodemailer = require("nodemailer");
@@ -546,10 +556,8 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                 }
                                             }
                                         );
-                                        res.json({
-                                            incidentID: val.insertId
-                                        });
-                                        res.json(val);
+                                        //**************************************************************************
+                                        res.json(val3);
                                     },
                                     () => {
                                         res.json({
@@ -557,12 +565,18 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                         });
                                     }
                                 );
-                                res.json(val);
+                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                */
+                                res.json(val2);
                             },
                             () => {
                                 res.json({ message: "An Error has Occurred." });
                             }
                         ); // Exit; all things went through fine, return incident ID.},
+                        //-------------------------------------------------------------------------------------------
+                        res.json({
+                            incidentID: val1.insertId
+                        });
                     },
                     () => {
                         res.json({ message: "An Error has Occurred." });
