@@ -7,6 +7,8 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 const connectionPool = require("../DB/config");
+const connectionPool_1 = require("../DB/config");
+const connectionPool_2 = require("../DB/config");
 const multer = require("multer");
 const multerGoogleStorage = require("multer-google-storage");
 
@@ -491,18 +493,17 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                             "," +
                             f_id +
                             ")";
-                        connectionPool.handleAPI(
+                        connectionPool_1.handleAPI(
                             [val1.insertId, 4, f_id],
                             null,
                             3,
                             3,
                             query1,
                             val2 => {
-                                /*
                                 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                 // Get emails
                                 const query2 = "SELECT * FROM facilities";
-                                connectionPool.handleAPI(
+                                connectionPool_2.handleAPI(
                                     null,
                                     null,
                                     0,
@@ -566,7 +567,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                     }
                                 );
                                 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                                */
                                 res.json(val2);
                             },
                             () => {
