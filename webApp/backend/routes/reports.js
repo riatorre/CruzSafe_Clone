@@ -648,6 +648,7 @@ router.post("/prewrittenResponses", function(req, res) {
  */
 router.post("/timestamp", function(req, res) {
     let query = "";
+    let complete = false;
     if (req.body.initialOpenTS == 1) {
         query =
             "UPDATE reports SET initialOpenTS = current_timestamp(), initialOpenWebID = " +
@@ -660,6 +661,7 @@ router.post("/timestamp", function(req, res) {
             req.body.webID +
             " WHERE reportID = " +
             req.body.reportID;
+        complete = true;
     }
     connectionPool.handleAPI(
         [req.body.webID, req.body.reportID],
@@ -668,7 +670,30 @@ router.post("/timestamp", function(req, res) {
         2,
         query,
         () => {
-            res.json({ message: "Timestamp Update Successful" });
+            if (complete) {
+                query =
+                    "DELETE FROM assignments WHERE reportID = " +
+                    req.body.reportID +
+                    " AND assignmentID > -1";
+                connectionPool.handleAPI(
+                    req.body.reportID,
+                    null,
+                    1,
+                    1,
+                    query,
+                    val => {
+                        res.json({
+                            message:
+                                "Timestamp Update + Delete Assignments Successful"
+                        });
+                    },
+                    () => {
+                        res.json({ message: "An Error has Occurred." });
+                    }
+                );
+            } else {
+                res.json({ message: "Timestamp Update Successful" });
+            }
         },
         () => {
             res.json({ message: "An Error has Occurred." });
