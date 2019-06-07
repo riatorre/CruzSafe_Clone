@@ -233,6 +233,57 @@ router.post("/webUser", function(req, res) {
 });
 
 /*
+    Create a new user in the database.
+*/
+router.post("/newWebUser", function(req, res) {
+    // Interpret passed JSON string to dictionary
+    let values = {};
+    let dictionary = JSON.parse(req.body.dict);
+    let value = undefined;
+    for (let key in dictionary) {
+        if (dictionary.hasOwnProperty(key)) {
+            value = dictionary[key];
+            values[key] = value;
+        }
+    }
+    let query = "INSERT INTO webUsers(";
+    let firstItem = true;
+    for (key in values) {
+        if (!firstItem) {
+            query = query + ","; // If not first item, add a comma.
+        }
+        firstItem = false;
+        query = query + key;
+    }
+    query = query + ") VALUES(";
+    firstItem = true;
+    for (key in values) {
+        let value = "" + values[key];
+        if (!firstItem) {
+            query = query + ","; // If not first item, add a comma.
+        }
+        firstItem = false;
+        query = query + value;
+    }
+    query = query + ")";
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({
+                message: "An Error has Occured. Query = " + query + "."
+            });
+        }
+    );
+});
+
+/*
     Grab information about a single webID with notes.
 */
 router.post("/webUserNotes", function(req, res) {

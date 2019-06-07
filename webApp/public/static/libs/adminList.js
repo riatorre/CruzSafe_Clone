@@ -455,3 +455,73 @@ function readyDivCanvas(chartDivName, id) {
     newCanvas.setAttribute("id", id);
     chartDiv.appendChild(newCanvas);
 }
+
+/*
+    Function that checks the input fields and, if all is good, initiates a call to
+    create a new user. 
+*/
+const newUserFields = [
+    "newUserFirstName",
+    "newUserLastName",
+    "newUserEmail",
+    "newUserTitle",
+    "newUserRole",
+    "newUserFacilityID"
+];
+const newUserFieldsReadable = [
+    "First Name",
+    "Last Name",
+    "UCSC Email",
+    "Title",
+    "Role (numeric)",
+    "Facility (numeric)"
+];
+function createNewUser() {
+    let newUserInfo = {};
+    let missing = [];
+    for (i = 0; i < newUserFields.length; i++) {
+        // Populate newUserInfo
+        let keyName = newUserFields[i].replace("newUser", "");
+        keyName = keyName.charAt(0).toLowerCase() + keyName.slice(1);
+        let value = document.getElementById(newUserFields[i]).value;
+        if (!/\d/.test(value)) {
+            // If does not have number, add quotes.
+            value = addQuotes(value);
+        }
+        newUserInfo[keyName] = value;
+        // Type checking.
+        if (value === "") {
+            missing.push(newUserFieldsReadable[i]);
+        }
+    }
+    if (missing.length != 0) {
+        let errorString = missing[0];
+        for (i = 1; i < missing.length; i++) {
+            errorString = errorString + ", " + missing[i];
+        }
+        alert(
+            "ERROR - all fields must be filled out in order to create a new user!\n\nMissing: " +
+                errorString +
+                "."
+        );
+        return;
+    }
+    console.log(newUserInfo);
+    // We've guaranteed that the inputs are clean and not empty in newUserInfo. Let's call the API.
+    const request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            alert("User added successfully!");
+        }
+    };
+    request.open("POST", "https://cruzsafe.appspot.com/api/users/newWebUser");
+    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    request.send(JSON.stringify({ dict: JSON.stringify(newUserInfo) }));
+}
+
+/*
+ * Helper function that wraps a string in '' symbols for a SQL query.
+ */
+function addQuotes(string) {
+    return (string = '"' + string + '"');
+}

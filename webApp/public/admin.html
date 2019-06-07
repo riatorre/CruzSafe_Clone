@@ -73,7 +73,16 @@
             <div class="usersManagement">
                 <div class="userOptions">
                     <div class="userOptionsTitle"><b>Administrative Options:</b></div>
-                    <div class="userOptionsUsers">User Options (add users, remove users). Adding user options include the following: firstName, lastName, email, title, role (numeric), and facilityID. Also needs to deal with Shibboleth; something I have no idea how to do.</div>
+                    <div class="userOptionsUsers">
+                        <b>Add New User:</b>
+                        <input id="newUserFirstName" placeholder = 'First Name'/>
+                        <input id="newUserLastName" placeholder = 'Last Name'/>
+                        <input id="newUserEmail" placeholder = 'UCSC Email'/>
+                        <input id="newUserTitle" placeholder = 'Title'/>
+                        <input id="newUserRole" placeholder = '(TODO - dropdown ROLE)'/>
+                        <input id="newUserFacilityID" placeholder = '(TODO - dropdown FACILITY)'/>
+                        <a id='createUser' onclick='createNewUser()' class='btn rounded navy'>Add User</a>
+                    </div>
                     <div class="userOptionsBan">Ban Users</div>
                 </div>
                 <div class="allUsers">
