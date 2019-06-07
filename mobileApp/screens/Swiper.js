@@ -177,63 +177,6 @@ export default class Screen extends React.Component {
                         </View>
                     </View>
 
-                    {/* Used different containers to split the page and to add styling
-                    <View
-                        style={[styles.slideOuterContainer, styles.slideyellow]}
-                    >
-                        <View style={[styles.slideTextContainerTutorial]}>
-                            <Text style={styles.slideText4}>
-                                If you become aware of a completed crime or an
-                                urgent problem on campus that does not merit a
-                                call to emergency services, it is still NOT
-                                appropriate to report it through this app.
-                            </Text>
-                        </View>
-
-                        <View style={[styles.slideTextContainerTutorial]}>
-                            <Text style={styles.slideText4}>
-                                Responses to reports from this app can take 24
-                                hours or more and the reporting system is not
-                                designed to handle crimes.Instead, please press
-                                the yellow "urgent" button to call the UC Santa
-                                Cruz non-emergency dispatch at
-                            </Text>
-                        </View>
-
-                        <View style={[styles.slideTextContainerTutorial]}>
-                            <Text style={styles.slideText7}>
-                                (831) 459-2231.
-                            </Text>
-                        </View>
-
-                        <View style={[styles.slideImageContainer]}>
-                            <Image
-                                source={require("../assets/images/UrgentNew.png")}
-                                style={{
-                                    width: 250,
-                                    height: 250
-                                }}
-                            />
-                        </View>
-                        <View style={styles.slideOuterButton}>
-                            <TouchableOpacity
-                                style={styles.btn}
-                                onPress={() => {
-                                    this.swiper.scrollBy(1);
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 18,
-                                        color: "white"
-                                    }}
-                                >
-                                    Next
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
-
                     {/* Used different containers to split the page and to add styling */}
                     <View
                         style={[styles.slideOuterContainer, styles.slideyellow]}
@@ -244,7 +187,9 @@ export default class Screen extends React.Component {
                                 still call dispatch rather than using this app
                                 for an urgent or crime-related situations,
                             </Text>
-                            <Text> Some examples include:</Text>
+                            <Text styles={styles.slideText4}>
+                                Some examples include:
+                            </Text>
                             <Text />
                             <Text style={styles.slideText4}>
                                 Property crimes such as theft or vandalism where
