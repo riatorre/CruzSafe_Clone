@@ -558,7 +558,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                             }
                                         );
                                         //**************************************************************************
-                                        res.json(val3);
+                                        //res.json(val3);
                                     },
                                     () => {
                                         res.json({
@@ -567,7 +567,7 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                     }
                                 );
                                 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                                res.json(val2);
+                                //res.json(val2);
                             },
                             () => {
                                 res.json({ message: "An Error has Occurred." });
