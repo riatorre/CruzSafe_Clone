@@ -336,7 +336,17 @@ router.post("/reportsUsers", function(req, res) {
         0,
         query,
         val => {
-            res.json(val);
+            if (val.length > 0) {
+                for (i = 0; i < val.length; i++) {
+                    if (val[i].incidentID == null)
+                        val[i].incidentID = val[i].reportID;
+                }
+                res.json(val);
+            } else {
+                res.json({
+                    message: "No reports found"
+                });
+            }
         },
         () => {
             res.json({ message: "An Error has occurred" });
