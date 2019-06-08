@@ -242,7 +242,8 @@ class ReportScreen extends Component {
         isMapTipVisible: false,
         isSubmissionTipVisible: false,
         IncDescheight: 0,
-        LocDescheight: 0
+        LocDescheight: 0,
+        mapDisabled: false
     };
 
     runTutorial() {
@@ -510,6 +511,26 @@ class ReportScreen extends Component {
             }
         }
         return inside;
+    }
+
+    sendAlert() {
+        Alert.alert(
+            "Current Location",
+            "Are you at the location of the incident?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {}
+                },
+                {
+                    text: "No",
+                    onPress: () => {
+                        this.props.navigation.navigate("Location");
+                    }
+                }
+            ],
+            { cancelable: false }
+        );
     }
 
     // Stores unsubmitted report into AsyncStorage
@@ -1254,6 +1275,7 @@ class ReportScreen extends Component {
                                                     ) === "\n"
                                                 ) {
                                                     this.swiper.scrollBy(1);
+                                                    this.sendAlert();
                                                     Keyboard.dismiss();
                                                 } else {
                                                     var pre_report = this.state
