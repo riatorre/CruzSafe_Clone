@@ -366,32 +366,15 @@ router.post("/incidentID", function(req, res) {
 });
 
 /*
- *  Function that submits a single Report by given user
- *  Needs fixing to allow proper storage of BOTH image and report
- *  Image is already stored with a file name defined way above, but
- *  The name does not match the reportID. Unsure as to how to change the name,
- *  But it may be easier to just store the file name in the DB alongside the other Report elements.
- */
-router.post("/submitReport", upload.single("media"), function(req, res) {
-    /*
-        Set up primary constants and primary query to insert data. 
-    */
-    const attachment = req.file ? req.file.filename : null;
-    const hasAttachment = attachment ? 1 : 0;
-    const values = [
-        [
-            req.body.mobileID,
-            connectionPool.sanitizeString(req.body.incidentDesc),
-            connectionPool.sanitizeString(req.body.incidentLocationDesc),
-            req.body.incidentCategory,
-            req.body.incidentLatitude,
-            req.body.incidentLongitude,
-            req.body.incidentUnchangedLocation,
-            hasAttachment,
-            connectionPool.sanitizeString(attachment),
-            connectionPool.sanitizeString(req.body.token)
-        ]
-    ];
+    Given a lat and lng, find the building associated with the report and find the facilityID.
+    Once you have the facilityID, return all of the tags associated with said facility 
+    ID And tags that have the universalTag value set instead of null. 
+
+    Return all tags associalted with building and also buildingKey. 
+*/
+router.post("/selectTagsByBuilding", function(req, res) {
+    // We want to get the facilityID to send to.
+    let f_id;
 
     googleMapsClient.reverseGeocode(
         {
@@ -459,6 +442,154 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                     ")*" +
                     sf +
                     "))";
+                // SELECT buildingCategory, buildingOperations FROM buildings LEFT JOIN reports ON buildings.buldingKey = reports.buildingKey WHERE reports.reportID = ___
+                const query =
+                    "SELECT buildingCategory, buildingOperations FROM buildings WHERE buildingKey = (SELECT buildingKey FROM buildings WHERE " +
+                    buildingWhereClause1 +
+                    " OR " +
+                    buildingWhereClause2 +
+                    " LIMIT 1)";
+
+                connectionPool.handleAPI(
+                    val1.insertId,
+                    null,
+                    1,
+                    1,
+                    query,
+                    valBuilding => {
+                        if (f_id == null) {
+                            // Check buildingCategory as residential (if so, then CHES)
+                            if (
+                                valBuilding[0].buildingCategory ==
+                                "R - Residential"
+                            ) {
+                                f_id = 1; // SET TO CHES
+                            } else {
+                                // Check buildingOperations as state (if so, then PPC)
+                                if (
+                                    valBuilding[0].buildingOperations ==
+                                    "S - State Supported"
+                                ) {
+                                    f_id = 2; // SET TO PPC
+                                } else {
+                                    f_id = 1; // SET TO CHES
+                                }
+                            }
+                        }
+                        //--------------------------------------------------------------------------------
+                        // Now we finally have the facilityID. Return the tags.
+                    },
+                    () => {
+                        res.json({
+                            message: "An Error has Occurred."
+                        });
+                    }
+                );
+            } else {
+                res.json({ message: "An Error has Occurred" });
+            }
+        }
+    );
+});
+
+/*
+ *  Function that submits a single Report by given user
+ *  Needs fixing to allow proper storage of BOTH image and report
+ *  Image is already stored with a file name defined way above, but
+ *  The name does not match the reportID. Unsure as to how to change the name,
+ *  But it may be easier to just store the file name in the DB alongside the other Report elements.
+ */
+router.post("/submitReport", upload.single("media"), function(req, res) {
+    /*
+        Set up primary constants and primary query to insert data. 
+    */
+    const attachment = req.file ? req.file.filename : null;
+    const hasAttachment = attachment ? 1 : 0;
+    const values = [
+        [
+            req.body.mobileID,
+            connectionPool.sanitizeString(req.body.incidentDesc),
+            connectionPool.sanitizeString(req.body.incidentLocationDesc),
+            req.body.incidentCategory,
+            req.body.incidentLatitude,
+            req.body.incidentLongitude,
+            req.body.incidentUnchangedLocation,
+            hasAttachment,
+            connectionPool.sanitizeString(attachment),
+            connectionPool.sanitizeString(req.body.token)
+        ]
+    ];
+    // TODO: insert into will also require building key to be added via values.
+
+    // TODO: Remove geoocode code.
+    googleMapsClient.reverseGeocode(
+        {
+            latlng: [req.body.incidentLatitude, req.body.incidentLongitude]
+        },
+        function(err, response) {
+            if (!err) {
+                let googleResult = response.json.results;
+                let buildingStreet =
+                    googleResult[0]["address_components"][0]["long_name"] +
+                    " " +
+                    googleResult[0]["address_components"][1]["long_name"];
+                let buildingCity =
+                    googleResult[0]["address_components"][2]["long_name"];
+                let buildingState =
+                    googleResult[0]["address_components"][4]["short_name"];
+
+                const buildingWhereClause1 =
+                    "buildingStreet=" +
+                    connectionPool.sanitizeString(buildingStreet) +
+                    " AND buildingCity = " +
+                    connectionPool.sanitizeString(buildingCity) +
+                    " AND buildingState = " +
+                    connectionPool.sanitizeString(buildingState);
+
+                let lat = req.body.incidentLatitude;
+                let lng = req.body.incidentLongitude;
+                let sf = 3.14159 / 180; // scaling factor
+                let er = 6350; // earth radius in miles, approximate
+                let mr = 100; // max radius
+                const buildingWhereClause2 =
+                    mr +
+                    " >= " +
+                    er +
+                    " * ACOS(SIN(buildingLat*" +
+                    sf +
+                    ")*SIN(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ") + COS(buildingLat*" +
+                    sf +
+                    ")*COS(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ")*COS((buildingLng-" +
+                    lng +
+                    ")*" +
+                    sf +
+                    "))ORDER BY ACOS(SIN(buildingLat*" +
+                    sf +
+                    ")*SIN(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ") + COS(buildingLat*" +
+                    sf +
+                    ")*COS(" +
+                    lat +
+                    "*" +
+                    sf +
+                    ")*COS((buildingLng-" +
+                    lng +
+                    ")*" +
+                    sf +
+                    "))";
+
+                // Start here with the building key.
                 const primaryQuery =
                     "INSERT INTO reports (mobileID, body, location, tag, latitude, longitude, unchangedLocation, attachments, filename, token, expireTS, buildingKey) VALUES (" +
                     [values] +
@@ -538,6 +669,17 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                         }
                                         //--------------------------------------------------------------------------------
                                         // Now we finally have the facilityID.
+
+                                        /*
+                                            const query1 =
+                                            "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
+                                            val1.insertId +
+                                            "," +
+                                            4 +
+                                            "," +
+                                            (SELECT facilityID FROM tags LEFT JOIN reports ON tags.tagID = reports.tag WHERE reports.reportID = "+val1.insertId+") +
+                                            ")";
+                                        */
                                         const query1 =
                                             "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
                                             val1.insertId +
