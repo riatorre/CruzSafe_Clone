@@ -834,7 +834,7 @@ function sendReportEmailHelper(maillist, values) {
     var styliner = new Styliner(__dirname + "/html");
 
     var originalSource = require("fs").readFileSync(
-        __dirname + "/emailTemplateREMOVEME.html",
+        "./emailTemplateREMOVEME.html",
         "utf8"
     );
 
@@ -859,14 +859,6 @@ function sendReportEmailHelper(maillist, values) {
                 values["buildingCAAN"] +
                 " - " +
                 values["tagName"],
-            /*text:
-                "This is an automated email forwarding a submitted report that our system" +
-                "has determined to be applicable to your facility. If this is not the case," +
-                "please click here to route the request instead to the other facility.\n\n" +
-                "REPORT CONTENTS:\n\n" +
-                "Name: CruzSafe Report\nEmail: ucsc.cruzsafe@gmail.com\nPhone Number: 555-555-5555\n\n" +
-                "Information:" +
-                JSON.stringify(values),*/
             html: processedSource
         };
 
