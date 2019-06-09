@@ -376,7 +376,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
     /*
         Set up primary constants and primary query to insert data. 
     */
-    const f_id = 1;
     const attachment = req.file ? req.file.filename : null;
     const hasAttachment = attachment ? 1 : 0;
     const values = [
@@ -483,97 +482,185 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                     primaryQuery,
                     val1 => {
                         //--------------------------------------------------------------------------------
-                        // Done.
-                        // Automatical assignment
-                        const query1 =
-                            "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
-                            val1.insertId +
-                            "," +
-                            4 +
-                            "," +
-                            f_id +
-                            ")";
-                        connectionPool_1.handleAPI(
-                            [val1.insertId, 4, f_id],
+                        // Assignment of report to a facility
+
+                        // We want to get the facilityID to send to.
+                        let f_id;
+
+                        // Query: check whether the report category has an automatic facility ID.
+                        // SELECT facilityID FROM tags LEFT JOIN reports ON tags.tagID reports.tagID WHERE reports.reportID = ___
+                        const query =
+                            "SELECT mainFacilityID FROM tags LEFT JOIN reports ON tags.tagID = reports.tag WHERE reports.reportID = " +
+                            val1.insertId;
+                        connectionPool.handleAPI(
+                            val1.insertId,
                             null,
-                            3,
-                            3,
-                            query1,
-                            val2 => {
-                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                                // Get emails
-                                const query2 = "SELECT * FROM facilities";
-                                connectionPool_2.handleAPI(
-                                    null,
-                                    null,
-                                    0,
-                                    0,
-                                    query2,
-                                    val3 => {
-                                        //******************************************************************
-                                        console.log(
-                                            "333333333333333333333333333333333333333"
-                                        );
-                                        console.log(val3);
-                                        console.log(val3[0]);
-                                        console.log(val3[0].facilityEmail);
-                                        var maillist = [];
-                                        for (var m = 0; m < val3.length; m++) {
-                                            maillist.push(
-                                                val3[m].facilityEmail
-                                            );
-                                        }
-                                        // Send email
-                                        var nodemailer = require("nodemailer");
-                                        var transporter = nodemailer.createTransport(
-                                            {
-                                                service: "gmail",
-                                                host: "smtp.gmail.com",
-                                                auth: {
-                                                    user:
-                                                        "ucsc.cruzsafe@gmail.com",
-                                                    pass: "CMPS_117"
-                                                }
-                                            }
-                                        );
+                            1,
+                            1,
+                            query,
+                            valTagFacility => {
+                                // If facilityID is null, get data from building.
+                                if (valTagFacility[0].mainFacilityID != null) {
+                                    f_id = valTagFacility[0].mainFacilityID;
+                                }
+                                // SELECT buildingCategory, buildingOperations FROM buildings LEFT JOIN reports ON buildings.buldingKey = reports.buildingKey WHERE reports.reportID = ___
+                                const query =
+                                    "SELECT buildingCategory, buildingOperations FROM buildings LEFT JOIN reports ON buildings.buildingKey = reports.buildingKey WHERE reports.reportID = " +
+                                    val1.insertId;
 
-                                        var mailOptions = {
-                                            from: "ucsc.cruzsafe@gmail.com",
-                                            to: maillist,
-                                            subject: "New report assigned",
-                                            text: "HEEEEEEEEEEY"
-                                        };
-
-                                        transporter.sendMail(
-                                            mailOptions,
-                                            function(error, info) {
-                                                if (error) {
-                                                    console.log(error);
+                                connectionPool.handleAPI(
+                                    val1.insertId,
+                                    null,
+                                    1,
+                                    1,
+                                    query,
+                                    valBuilding => {
+                                        if (f_id == null) {
+                                            // Check buildingCategory as residential (if so, then CHES)
+                                            if (
+                                                valBuilding[0]
+                                                    .buildingCategory ==
+                                                "R - Residential"
+                                            ) {
+                                                f_id = 1; // SET TO CHES
+                                            } else {
+                                                // Check buildingOperations as state (if so, then PPC)
+                                                if (
+                                                    valBuilding[0]
+                                                        .buildingOperations ==
+                                                    "S - State Supported"
+                                                ) {
+                                                    f_id = 2; // SET TO PPC
                                                 } else {
-                                                    console.log(
-                                                        "Email sent: " +
-                                                            info.response
-                                                    );
+                                                    f_id = 1; // SET TO CHES
                                                 }
                                             }
-                                        );
-                                        //**************************************************************************
-                                        //res.json(val3);
+                                        }
+                                        //--------------------------------------------------------------------------------
+                                        // Now we finally have the facilityID.
+                                        const query1 =
+                                            "INSERT INTO assignments (reportID, senderWebID, recieverFacilityID) VALUES (" +
+                                            val1.insertId +
+                                            "," +
+                                            4 +
+                                            "," +
+                                            f_id +
+                                            ")";
+                                        connectionPool_1.handleAPI(
+                                            [val1.insertId, 4, f_id],
+                                            null,
+                                            3,
+                                            3,
+                                            query1,
+                                            val2 => {
+                                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                // Get emails
+                                                const query2 =
+                                                    "SELECT * FROM facilities";
+                                                connectionPool_2.handleAPI(
+                                                    null,
+                                                    null,
+                                                    0,
+                                                    0,
+                                                    query2,
+                                                    val3 => {
+                                                        //******************************************************************
+                                                        console.log(
+                                                            "333333333333333333333333333333333333333"
+                                                        );
+                                                        console.log(val3);
+                                                        console.log(val3[0]);
+                                                        console.log(
+                                                            val3[0]
+                                                                .facilityEmail
+                                                        );
+                                                        var maillist = [];
+                                                        for (
+                                                            var m = 0;
+                                                            m < val3.length;
+                                                            m++
+                                                        ) {
+                                                            maillist.push(
+                                                                val3[m]
+                                                                    .facilityEmail
+                                                            );
+                                                        }
+                                                        // Send email
+                                                        var nodemailer = require("nodemailer");
+                                                        var transporter = nodemailer.createTransport(
+                                                            {
+                                                                service:
+                                                                    "gmail",
+                                                                host:
+                                                                    "smtp.gmail.com",
+                                                                auth: {
+                                                                    user:
+                                                                        "ucsc.cruzsafe@gmail.com",
+                                                                    pass:
+                                                                        "CMPS_117"
+                                                                }
+                                                            }
+                                                        );
+
+                                                        var mailOptions = {
+                                                            from:
+                                                                "ucsc.cruzsafe@gmail.com",
+                                                            to: maillist,
+                                                            subject:
+                                                                "New report assigned",
+                                                            text: "HEEEEEEEEEEY"
+                                                        };
+
+                                                        transporter.sendMail(
+                                                            mailOptions,
+                                                            function(
+                                                                error,
+                                                                info
+                                                            ) {
+                                                                if (error) {
+                                                                    console.log(
+                                                                        error
+                                                                    );
+                                                                } else {
+                                                                    console.log(
+                                                                        "Email sent: " +
+                                                                            info.response
+                                                                    );
+                                                                }
+                                                            }
+                                                        );
+                                                        //**************************************************************************
+                                                        //res.json(val3);
+                                                    },
+                                                    () => {
+                                                        res.json({
+                                                            message:
+                                                                "An Error has occurred"
+                                                        });
+                                                    }
+                                                );
+                                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                //res.json(val2);
+                                            },
+                                            () => {
+                                                res.json({
+                                                    message:
+                                                        "An Error has Occurred."
+                                                });
+                                            }
+                                        ); // Exit; all things went through fine, return incident ID.},
                                     },
                                     () => {
                                         res.json({
-                                            message: "An Error has occurred"
+                                            message: "An Error has Occurred."
                                         });
                                     }
                                 );
-                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                                //res.json(val2);
                             },
                             () => {
                                 res.json({ message: "An Error has Occurred." });
                             }
-                        ); // Exit; all things went through fine, return incident ID.},
-                        //-------------------------------------------------------------------------------------------
+                        );
                         res.json({
                             incidentID: val1.insertId
                         });

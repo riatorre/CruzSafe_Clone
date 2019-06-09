@@ -30,7 +30,8 @@ const reportFields = [
     "buildingState",
     "buildingZip",
     "buildingCategory",
-    "buildingPrimaryUse"
+    "buildingPrimaryUse",
+    "buildingOperations"
 ];
 const imageTypes = ["png", "jpg", "jpeg", "gif"];
 const messageDefault = "---Send a notification to the reporter---";
@@ -100,6 +101,8 @@ function createReportModal() {
         "<div><b>Address: </b> <span id='buildingStreet'></span>, <span id='buildingCity'></span>, <span id='buildingState'></span> <span id='buildingZip'></span></div>\n";
     buildingInfo.innerHTML +=
         "<div><b>Category/Use:</b> <span id='buildingCategory'></span> | <span id='buildingPrimaryUse'></span></div>\n";
+    buildingInfo.innerHTML +=
+        "<div><b>Operations:</b> <span id='buildingOperations'></span></div>\n";
 
     const media = document.createElement("DIV");
     media.setAttribute("class", "reportVisuals");
@@ -437,6 +440,7 @@ function generateProductInfo(reportInfo, tags) {
     productInfo["buildingZip"] = reportInfo["buildingZip"];
     productInfo["buildingCategory"] = reportInfo["buildingCategory"];
     productInfo["buildingPrimaryUse"] = reportInfo["buildingPrimaryUse"];
+    productInfo["buildingOperations"] = reportInfo["buildingOperations"];
     // resolved/unresolved
     if (!!reportInfo["completeTS"]) {
         var resolvedUnresolved = "[Complete]"; // Completed; not null
