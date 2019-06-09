@@ -880,6 +880,11 @@ class ReportScreen extends Component {
                             ref={swiper => {
                                 this.swiper = swiper;
                             }}
+                            onIndexChanged={newPage => {
+                                if (newPage == 3) {
+                                    this.sendAlert();
+                                }
+                            }}
                         >
                             <View style={styles.container}>
                                 {/* REPORT STYLING: INCIDENT TYPE */}
