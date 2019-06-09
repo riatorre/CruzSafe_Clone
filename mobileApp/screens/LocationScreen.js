@@ -86,6 +86,27 @@ class LocationScreen extends Component {
         this.setState({
             pre_report: pre_report
         });
+        this.sendAlert();
+    }
+
+    sendAlert() {
+        Alert.alert(
+            "Current Location",
+            "Are you at the location of the incident?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        this.props.navigation.navigate("Report");
+                    }
+                },
+                {
+                    text: "No",
+                    onPress: () => {}
+                }
+            ],
+            { cancelable: false }
+        );
     }
 
     // Stores unsubmitted report into AsyncStorage
@@ -316,7 +337,9 @@ class LocationScreen extends Component {
                                                 this.setState({
                                                     pre_report: pre_report
                                                 });
-                                            goBack();
+                                            this.props.navigation.navigate(
+                                                "Report"
+                                            );
                                         } else {
                                             Alert.alert(
                                                 "Off Campus",

@@ -882,7 +882,11 @@ class ReportScreen extends Component {
                             }}
                             onIndexChanged={newPage => {
                                 if (newPage == 3) {
-                                    this.sendAlert();
+                                    loc = this.getLocation();
+                                    console.log(loc);
+                                    if (this.inGeofence(loc)) {
+                                        this.sendAlert();
+                                    }
                                 }
                             }}
                         >
