@@ -20,6 +20,8 @@ const googleMapsClient = require("@google/maps").createClient({
 
 const numDays = 90; // number of days before a report expires
 
+var styliner = require("styliner");
+
 // Define where multer will store the incoming files and how to name them
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -807,96 +809,52 @@ function sendReportEmail(maillist, insertId, f_id) {
 const logoAddress =
     "https://memeworld.funnyjunk.com/pictures/Tales_dc5bfc_6260051.jpg";
 function sendReportEmailHelper(maillist, values) {
-    var styliner = require("styliner");
+    var styliner = new Styliner(__dirname + "/html");
 
-    var nodemailer = require("nodemailer");
-    var transporter = nodemailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        auth: {
-            user: "ucsc.cruzsafe@gmail.com",
-            pass: "CMPS_117"
-        }
-    });
+    var originalSource = require("fs").readFileSync(
+        __dirname + "/emailTemplateREMOVEME.html",
+        "utf8"
+    );
 
-    var mailOptions = {
-        from: "ucsc.cruzsafe@gmail.com",
-        to: maillist,
-        subject:
-            "[CruzSafe] New Report - " +
-            values["buildingAbbrev"] +
-            " #" +
-            values["buildingCAAN"] +
-            " - " +
-            values["tagName"],
-        /*text:
-            "This is an automated email forwarding a submitted report that our system" +
-            "has determined to be applicable to your facility. If this is not the case," +
-            "please click here to route the request instead to the other facility.\n\n" +
-            "REPORT CONTENTS:\n\n" +
-            "Name: CruzSafe Report\nEmail: ucsc.cruzsafe@gmail.com\nPhone Number: 555-555-5555\n\n" +
-            "Information:" +
-            JSON.stringify(values),*/
-        html:
-            "<!--HTML template of email; encode and decode the string before working on it, please!-->" +
-            "" +
-            "<head>" +
-            '    <meta charset="utf-8" />' +
-            "    <!--Import Stylesheet-->" +
-            "    <link" +
-            '        href="./public/static/stylesheets/main.css"' +
-            '        type="text/css"' +
-            '        rel="stylesheet"' +
-            "    />" +
-            "    <link" +
-            '        href="./public/static/stylesheets/email.css"' +
-            '        type="text/css"' +
-            '        rel="stylesheet"' +
-            "    />" +
-            "    <!--Imports External Icon Font Library-->" +
-            "    <link" +
-            '        rel="stylesheet"' +
-            '        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"' +
-            "    />" +
-            "</head>" +
-            "<body>" +
-            '    <div class= "header">' +
-            "        <img" +
-            '            class="logoImage"' +
-            '            src="https://memeworld.funnyjunk.com/pictures/Tales_dc5bfc_6260051.jpg"' +
-            '        /><span class= "title top">New ' +
-            values["facilityName"] +
-            "               Report Notification</span>" +
-            "    </div>" +
-            '    <div class = "initialText">' +
-            "        <p>" +
-            "            This is an automated email forwarding a summitted report that our" +
-            "            system has determined to be applicable to your facility. If this is" +
-            "            not the case, please click here to route the request instead to the" +
-            "            other facility." +
-            "        </p>" +
-            "    </div>" +
-            '    <div class="reportContents">' +
-            '        <div><span class="header">Report Contents:</span></div>' +
-            "        <div><b>Name:</b><span> CruzSafe Report</span></div>" +
-            "        <div><b>Email:</b><span> ucsc.cruzsafe@gmail.com</span></div>" +
-            "        <div><b>Phone Number:</b><span> 555-555-5555</span></div>" +
-            "        </br>" +
-            "        <div>" +
-            "            <span>" +
-            JSON.stringify(values) +
-            "            </span>" +
-            "        </div>" +
-            "    </div>" +
-            "</body>"
-    };
+    styliner.processHTML(originalSource).then(function(processedSource) {
+        var nodemailer = require("nodemailer");
+        var transporter = nodemailer.createTransport({
+            service: "gmail",
+            host: "smtp.gmail.com",
+            auth: {
+                user: "ucsc.cruzsafe@gmail.com",
+                pass: "CMPS_117"
+            }
+        });
 
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log("Email sent: " + info.response);
-        }
+        var mailOptions = {
+            from: "ucsc.cruzsafe@gmail.com",
+            to: maillist,
+            subject:
+                "[CruzSafe] New Report - " +
+                values["buildingAbbrev"] +
+                " #" +
+                values["buildingCAAN"] +
+                " - " +
+                values["tagName"],
+            /*text:
+                "This is an automated email forwarding a submitted report that our system" +
+                "has determined to be applicable to your facility. If this is not the case," +
+                "please click here to route the request instead to the other facility.\n\n" +
+                "REPORT CONTENTS:\n\n" +
+                "Name: CruzSafe Report\nEmail: ucsc.cruzsafe@gmail.com\nPhone Number: 555-555-5555\n\n" +
+                "Information:" +
+                JSON.stringify(values),*/
+            html: processedSource
+        };
+
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log("Email sent: " + info.response);
+            }
+        });
     });
 }
 
