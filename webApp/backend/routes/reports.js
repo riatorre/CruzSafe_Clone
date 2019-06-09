@@ -698,7 +698,11 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                                                 // Get emails
                                                 const query2 =
-                                                    "SELECT * FROM facilities";
+                                                    "SELECT * FROM facilities WHERE facilityID = " +
+                                                    f_id;
+                                                /*const query2 =
+                                                    "SELECT facilityEmail FROM facilities WHERE facilitiesID = " +
+                                                    f_id;*/
                                                 connectionPool_2.handleAPI(
                                                     null,
                                                     null,
@@ -707,15 +711,6 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                     query2,
                                                     val3 => {
                                                         //******************************************************************
-                                                        console.log(
-                                                            "333333333333333333333333333333333333333"
-                                                        );
-                                                        console.log(val3);
-                                                        console.log(val3[0]);
-                                                        console.log(
-                                                            val3[0]
-                                                                .facilityEmail
-                                                        );
                                                         var maillist = [];
                                                         for (
                                                             var m = 0;
@@ -728,48 +723,10 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
                                                             );
                                                         }
                                                         // Send email
-                                                        var nodemailer = require("nodemailer");
-                                                        var transporter = nodemailer.createTransport(
-                                                            {
-                                                                service:
-                                                                    "gmail",
-                                                                host:
-                                                                    "smtp.gmail.com",
-                                                                auth: {
-                                                                    user:
-                                                                        "ucsc.cruzsafe@gmail.com",
-                                                                    pass:
-                                                                        "CMPS_117"
-                                                                }
-                                                            }
-                                                        );
-
-                                                        var mailOptions = {
-                                                            from:
-                                                                "ucsc.cruzsafe@gmail.com",
-                                                            to: maillist,
-                                                            subject:
-                                                                "New report assigned",
-                                                            text: "HEEEEEEEEEEY"
-                                                        };
-
-                                                        transporter.sendMail(
-                                                            mailOptions,
-                                                            function(
-                                                                error,
-                                                                info
-                                                            ) {
-                                                                if (error) {
-                                                                    console.log(
-                                                                        error
-                                                                    );
-                                                                } else {
-                                                                    console.log(
-                                                                        "Email sent: " +
-                                                                            info.response
-                                                                    );
-                                                                }
-                                                            }
+                                                        sendReportEmail(
+                                                            maillist,
+                                                            val1.insertId,
+                                                            f_id
                                                         );
                                                         //**************************************************************************
                                                         //res.json(val3);
@@ -817,6 +774,131 @@ router.post("/submitReport", upload.single("media"), function(req, res) {
         }
     );
 });
+
+/*
+    Grabs all of the information required in the actual email.
+*/
+function sendReportEmail(maillist, insertId, f_id) {
+    const query =
+        "SELECT * FROM reports, mobileUsers, buildings, tags, facilities WHERE reports.mobileID = mobileUsers.mobileID AND reports.buildingKey = buildings.buildingKey AND reports.tag = tags.tagID AND facilities.facilityID = " +
+        f_id +
+        " AND reportID = " +
+        insertId;
+    connectionPool.handleAPI(
+        null,
+        null,
+        0,
+        0,
+        query,
+        val => {
+            sendReportEmailHelper(maillist, val[0]);
+        },
+        () => {
+            res.json({ message: "An Error has occurred" });
+        }
+    );
+}
+
+/*
+    Function that, given a mailing list and report values,
+    writes all the necessary information needed to send the email,
+    including formulating the HTML. 
+*/
+const logoAddress =
+    "https://memeworld.funnyjunk.com/pictures/Tales_dc5bfc_6260051.jpg";
+function sendReportEmailHelper(maillist, values) {
+    var styliner = require("styliner");
+
+    var nodemailer = require("nodemailer");
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        auth: {
+            user: "ucsc.cruzsafe@gmail.com",
+            pass: "CMPS_117"
+        }
+    });
+
+    var mailOptions = {
+        from: "ucsc.cruzsafe@gmail.com",
+        to: maillist,
+        subject:
+            "[CruzSafe] New Report - " +
+            values["buildingAbbrev"] +
+            " #" +
+            values["buildingCAAN"] +
+            " - " +
+            values["tagName"],
+        /*text:
+            "This is an automated email forwarding a submitted report that our system" +
+            "has determined to be applicable to your facility. If this is not the case," +
+            "please click here to route the request instead to the other facility.\n\n" +
+            "REPORT CONTENTS:\n\n" +
+            "Name: CruzSafe Report\nEmail: ucsc.cruzsafe@gmail.com\nPhone Number: 555-555-5555\n\n" +
+            "Information:" +
+            JSON.stringify(values),*/
+        html:
+            "<!--HTML template of email; encode and decode the string before working on it, please!-->" +
+            "" +
+            "<head>" +
+            '    <meta charset="utf-8" />' +
+            "    <!--Import Stylesheet-->" +
+            "    <link" +
+            '        href="./public/static/stylesheets/main.css"' +
+            '        type="text/css"' +
+            '        rel="stylesheet"' +
+            "    />" +
+            "    <link" +
+            '        href="./public/static/stylesheets/email.css"' +
+            '        type="text/css"' +
+            '        rel="stylesheet"' +
+            "    />" +
+            "    <!--Imports External Icon Font Library-->" +
+            "    <link" +
+            '        rel="stylesheet"' +
+            '        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"' +
+            "    />" +
+            "</head>" +
+            "<body>" +
+            '    <div class= "header">' +
+            "        <img" +
+            '            class="logoImage"' +
+            '            src="https://memeworld.funnyjunk.com/pictures/Tales_dc5bfc_6260051.jpg"' +
+            '        /><span class= "title top">New ' +
+            values["facilityName"] +
+            "               Report Notification</span>" +
+            "    </div>" +
+            '    <div class = "initialText">' +
+            "        <p>" +
+            "            This is an automated email forwarding a summitted report that our" +
+            "            system has determined to be applicable to your facility. If this is" +
+            "            not the case, please click here to route the request instead to the" +
+            "            other facility." +
+            "        </p>" +
+            "    </div>" +
+            '    <div class="reportContents">' +
+            '        <div><span class="header">Report Contents:</span></div>' +
+            "        <div><b>Name:</b><span> CruzSafe Report</span></div>" +
+            "        <div><b>Email:</b><span> ucsc.cruzsafe@gmail.com</span></div>" +
+            "        <div><b>Phone Number:</b><span> 555-555-5555</span></div>" +
+            "        </br>" +
+            "        <div>" +
+            "            <span>" +
+            JSON.stringify(values) +
+            "            </span>" +
+            "        </div>" +
+            "    </div>" +
+            "</body>"
+    };
+
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
+    });
+}
 
 /*
  *  Function that grabs all reports made by given user
