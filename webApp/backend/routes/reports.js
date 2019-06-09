@@ -377,6 +377,7 @@ router.post("/incidentID", function(req, res) {
 router.post("/selectTagsByBuilding", function(req, res) {
     // We want to get the facilityID to send to.
     let f_id;
+    var results = {};
 
     googleMapsClient.reverseGeocode(
         {
@@ -446,20 +447,21 @@ router.post("/selectTagsByBuilding", function(req, res) {
                     "))";
                 // SELECT buildingCategory, buildingOperations FROM buildings LEFT JOIN reports ON buildings.buldingKey = reports.buildingKey WHERE reports.reportID = ___
                 const query =
-                    "SELECT buildingCategory, buildingOperations FROM buildings WHERE buildingKey = (SELECT buildingKey FROM buildings WHERE " +
+                    "SELECT buildingCategory, buildingOperations, buildingKey FROM buildings WHERE " +
                     buildingWhereClause1 +
                     " OR " +
                     buildingWhereClause2 +
-                    " LIMIT 1)";
+                    " LIMIT 1";
 
                 connectionPool.handleAPI(
-                    val1.insertId,
                     null,
-                    1,
-                    1,
+                    null,
+                    0,
+                    0,
                     query,
                     valBuilding => {
                         if (f_id == null) {
+                            results.buildingKey = valBuilding[0].buildingKey;
                             // Check buildingCategory as residential (if so, then CHES)
                             if (
                                 valBuilding[0].buildingCategory ==
@@ -478,8 +480,28 @@ router.post("/selectTagsByBuilding", function(req, res) {
                                 }
                             }
                         }
-                        //--------------------------------------------------------------------------------
-                        // Now we finally have the facilityID. Return the tags.
+                        const query2 =
+                            "SELECT * FROM tags WHERE facilityID = " +
+                            f_id +
+                            "OR universalTag = 1";
+                        connectionPool.handleAPI(
+                            null,
+                            null,
+                            0,
+                            0,
+                            query2,
+                            val => {
+                                //--------------------------------------------------------------------------------
+                                // Now we finally have the facilityID. Return the tags.
+                                results.tags = val;
+                                res.json(results);
+                            },
+                            () => {
+                                res.json({
+                                    message: "An Error has Occurred."
+                                });
+                            }
+                        );
                     },
                     () => {
                         res.json({
@@ -1305,7 +1327,8 @@ Date.prototype.toMysqlFormat = function() {
 };
 
 router.post("/submitFeedback", (req, res) => {
-    let query = "";
+    var query = "";
+    var error = false;
     if (req.body.mobileID != null) {
         query =
             "INSERT INTO feedback (mobileID, feedbackEntry) VALUES (" +
@@ -1322,20 +1345,23 @@ router.post("/submitFeedback", (req, res) => {
             ")";
     } else {
         res.json({ message: "An Error has Occurred." });
+        error = true;
     }
-    connectionPool.handleAPI(
-        null,
-        req.body.feedback,
-        0,
-        1,
-        query,
-        val => {
-            res.json(val);
-        },
-        () => {
-            res.json({ message: "An Error has Occurred." });
-        }
-    );
+    if (!error) {
+        connectionPool.handleAPI(
+            null,
+            req.body.feedback,
+            0,
+            1,
+            query,
+            val => {
+                res.json(val);
+            },
+            () => {
+                res.json({ message: "An Error has Occurred." });
+            }
+        );
+    }
 });
 
 module.exports = router;

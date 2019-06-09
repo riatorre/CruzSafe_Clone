@@ -31,6 +31,7 @@ class FeedbackScreen extends Component {
     }
 
     state = {
+        mobileID: null,
         feedbackText: "",
         height: 0 //initializing the content text height
     };
