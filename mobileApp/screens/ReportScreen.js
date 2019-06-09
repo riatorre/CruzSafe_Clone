@@ -239,7 +239,6 @@ class ReportScreen extends Component {
         isDescriptionTipVisible: false,
         isLocationTipVisible: false,
         isCameraTipVisible: false,
-        isMapTipVisible: false,
         isSubmissionTipVisible: false,
         IncDescheight: 0,
         LocDescheight: 0
@@ -510,6 +509,28 @@ class ReportScreen extends Component {
             }
         }
         return inside;
+    }
+
+    sendAlert() {
+        Alert.alert(
+            "Current Location",
+            "Are you at the location of the incident?",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {}
+                },
+                {
+                    text: "No",
+                    onPress: () => {
+                        this.props.navigation.navigate("Location", {
+                            callBack: this.returnFromLocation.bind(this)
+                        });
+                    }
+                }
+            ],
+            { cancelable: false }
+        );
     }
 
     // Stores unsubmitted report into AsyncStorage
@@ -1254,6 +1275,7 @@ class ReportScreen extends Component {
                                                     ) === "\n"
                                                 ) {
                                                     this.swiper.scrollBy(1);
+                                                    this.sendAlert();
                                                     Keyboard.dismiss();
                                                 } else {
                                                     var pre_report = this.state
@@ -1449,6 +1471,7 @@ class ReportScreen extends Component {
                                         {image ? (
                                             <TouchableOpacity
                                                 style={styles.reportBtnImg}
+                                                alert={this.sendAlert()}
                                                 onPress={() => {
                                                     this.Media();
                                                 }}
@@ -1511,7 +1534,7 @@ class ReportScreen extends Component {
                                                         this._isMounted &&
                                                             this.setState({
                                                                 isCameraTipVisible: false,
-                                                                isMapTipVisible: true
+                                                                isSubmissionTipVisible: true
                                                             });
                                                     }}
                                                 >
@@ -1585,7 +1608,7 @@ class ReportScreen extends Component {
                                                             this._isMounted &&
                                                                 this.setState({
                                                                     isCameraTipVisible: false,
-                                                                    isMapTipVisible: true
+                                                                    isSubmissionTipVisible: true
                                                                 });
                                                         }}
                                                     >
@@ -1648,7 +1671,7 @@ class ReportScreen extends Component {
                                                             this._isMounted &&
                                                                 this.setState({
                                                                     isCameraTipVisible: false,
-                                                                    isMapTipVisible: true
+                                                                    isSubmissionTipVisible: true
                                                                 });
                                                         }
                                                         this.props.navigation.navigate(
@@ -1690,7 +1713,7 @@ class ReportScreen extends Component {
                                                         this._isMounted &&
                                                             this.setState({
                                                                 isCameraTipVisible: false,
-                                                                isMapTipVisible: true
+                                                                isSubmissionTipVisible: true
                                                             });
                                                     }
                                                     this.pickImage();
@@ -1711,138 +1734,7 @@ class ReportScreen extends Component {
                                                 </Text>
                                             </TouchableOpacity>
                                         </View>
-                                        <View
-                                            animationType="fade"
-                                            transparent={true}
-                                            style={
-                                                this.isIOS &&
-                                                tutorialParams.reportOnboarding &&
-                                                tutorialParams.tips &&
-                                                this.state.isMapTipVisible &&
-                                                !(
-                                                    tutorialParams.thumbnailOnboarding &&
-                                                    image
-                                                )
-                                                    ? styles.mapLocationIOS
-                                                    : styles.locationHidden
-                                            }
-                                        >
-                                            <View
-                                                style={styles.tipBubbleSmallest}
-                                            >
-                                                <Text
-                                                    style={styles.mainTipText}
-                                                >
-                                                    To mark the location of the
-                                                    incident, press the “Mark
-                                                    location” button.
-                                                </Text>
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                        this._isMounted &&
-                                                            this.setState({
-                                                                isMapTipVisible: false,
-                                                                isSubmissionTipVisible: true
-                                                            });
-                                                    }}
-                                                >
-                                                    <Text
-                                                        style={styles.continue}
-                                                    >
-                                                        Continue
-                                                    </Text>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                        this._isMounted &&
-                                                            this.setState({
-                                                                isMapTipVisible: false
-                                                            });
-                                                        this.stopTips();
-                                                    }}
-                                                >
-                                                    <Text
-                                                        style={styles.stopTips}
-                                                    >
-                                                        Stop showing tips
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                            <View style={styles.mapTriangle} />
-                                        </View>
-                                        <View>
-                                            <View
-                                                animationType="fade"
-                                                transparent={true}
-                                                style={
-                                                    !this.isIOS &&
-                                                    tutorialParams.reportOnboarding &&
-                                                    tutorialParams.tips &&
-                                                    this.state
-                                                        .isMapTipVisible &&
-                                                    !(
-                                                        tutorialParams.thumbnailOnboarding &&
-                                                        image
-                                                    )
-                                                        ? styles.mapLocationAndroid
-                                                        : styles.locationHidden
-                                                }
-                                            >
-                                                <View
-                                                    style={
-                                                        styles.tipBubbleSmallest
-                                                    }
-                                                >
-                                                    <Text
-                                                        style={
-                                                            styles.mainTipText
-                                                        }
-                                                    >
-                                                        To mark the location of
-                                                        the incident, press the
-                                                        “Mark on Map” button.
-                                                    </Text>
-                                                    <TouchableOpacity
-                                                        onPress={() => {
-                                                            this._isMounted &&
-                                                                this.setState({
-                                                                    isMapTipVisible: false,
-                                                                    isSubmissionTipVisible: true
-                                                                });
-                                                        }}
-                                                    >
-                                                        <Text
-                                                            style={
-                                                                styles.continue
-                                                            }
-                                                        >
-                                                            Continue
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                    <TouchableOpacity
-                                                        onPress={() => {
-                                                            this._isMounted &&
-                                                                this.setState({
-                                                                    isMapTipVisible: false
-                                                                });
-                                                            this.stopTips();
-                                                        }}
-                                                    >
-                                                        <Text
-                                                            style={
-                                                                styles.stopTips
-                                                            }
-                                                        >
-                                                            Stop showing tips
-                                                        </Text>
-                                                    </TouchableOpacity>
-                                                </View>
-                                                <View
-                                                    style={styles.mapTriangle}
-                                                />
-                                            </View>
-                                        </View>
-                                        <TouchableOpacity
+                                        {/* <TouchableOpacity
                                             style={styles.reportBtnFull}
                                             onPress={() => {
                                                 if (
@@ -1880,7 +1772,7 @@ class ReportScreen extends Component {
                                             <Text style={styles.btnTextWhite}>
                                                 Mark on Map
                                             </Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
                                     </View>
                                     <View
                                         animationType="fade"
@@ -1909,7 +1801,7 @@ class ReportScreen extends Component {
                                                             .isCameraTipVisible
                                                     ) {
                                                         this.state.isCameraTipVisible = false;
-                                                        this.state.isMapTipVisible = true;
+                                                        this.state.isSubmissionTipVisible = true;
                                                     }
                                                     this.setTutorialParams();
                                                 }}
@@ -1967,7 +1859,7 @@ class ReportScreen extends Component {
                                                                 .isCameraTipVisible
                                                         ) {
                                                             this.state.isCameraTipVisible = false;
-                                                            this.state.isMapTipVisible = true;
+                                                            this.state.isSubmissionTipVisible = true;
                                                         }
                                                         this.setTutorialParams();
                                                     }}
