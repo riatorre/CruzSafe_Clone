@@ -86,7 +86,11 @@ class HomeScreen extends Component {
                             // If the user choose to continue editting previous report,
                             // reset all text states to previous one
                             console.log("WE ARE HERE!!!!!");
-                            this.props.navigation.navigate("Location");
+                            this.props.navigation.navigate("Location", {
+                                callBack: this.props.navigation.goBack.bind(
+                                    this
+                                )
+                            });
                         }
                     },
                     {
@@ -98,7 +102,11 @@ class HomeScreen extends Component {
                             console.log(newPre_report);
                             this.storeItem("unsub_report", newPre_report).then(
                                 () => {
-                                    this.props.navigation.navigate("Location");
+                                    this.props.navigation.navigate("Location", {
+                                        callBack: this.props.navigation.goBack.bind(
+                                            this
+                                        )
+                                    });
                                 }
                             );
                             AsyncStorage.getItem("unsub_report").then(
@@ -114,7 +122,9 @@ class HomeScreen extends Component {
                 { cancelable: false }
             );
         } else {
-            this.props.navigation.navigate("Location");
+            this.props.navigation.navigate("Location", {
+                callBack: this.props.navigation.goBack.bind(this)
+            });
         }
     }
 

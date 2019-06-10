@@ -83,13 +83,13 @@ class LocationScreen extends Component {
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
         this._isMounted = true;
-        this.setState({
+        await this.setState({
             pre_report: pre_report
         });
-        this.sendAlert();
+        await this.getLocationPermission();
     }
 
-    sendAlert() {
+    sendAlert(loc) {
         Alert.alert(
             "Current Location",
             "Are you at the location of the incident?",
@@ -97,7 +97,15 @@ class LocationScreen extends Component {
                 {
                     text: "Yes",
                     onPress: () => {
-                        this.props.navigation.navigate("Report");
+                        pre_report.incidentLatitude = loc.coords.latitude;
+                        pre_report.incidentLongitude = loc.coords.longitude;
+                        this._isMounted &&
+                            this.setState({
+                                pre_report: pre_report
+                            });
+                        this.storeUnsubReport(pre_report).then(() => {
+                            this.props.navigation.navigate("Report");
+                        });
                     }
                 },
                 {
@@ -107,6 +115,58 @@ class LocationScreen extends Component {
             ],
             { cancelable: false }
         );
+    }
+
+    async getLocationPermission() {
+        const { Location, Permissions } = Expo;
+        // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
+        const { status, permissions } = await Permissions.askAsync(
+            Permissions.LOCATION
+        );
+        if (status === "granted") {
+            this._isMounted &&
+                this.setState({
+                    hasLocationPermission: status === "granted"
+                });
+            this.getLocation();
+        } else {
+            alert("You need to enable location for this app");
+        }
+    }
+
+    async getLocation() {
+        try {
+            var pre_report = this.state.pre_report;
+            if (pre_report.unchangedLocation && !this.state.isLoading) {
+                const loc = await Location.getCurrentPositionAsync({
+                    enableHighAccuracy: true
+                });
+                // if (await this.inGeofence(loc)) {
+                // pre_report.incidentLatitude = loc.coords.latitude;
+                // pre_report.incidentLongitude = loc.coords.longitude;
+                // this._isMounted &&
+                //     this.setState({
+                //         pre_report: pre_report
+                //     });
+                // this.storeUnsubReport(pre_report);
+                if (
+                    this.inGeofence({
+                        lat: loc.coords.latitude,
+                        lng: loc.coords.longitude
+                    })
+                ) {
+                    this.sendAlert(loc);
+                } else {
+                    Toast.show({
+                        text:
+                            "Your current location is not on campus. Please mark the campus location of the incident you wish to report.",
+                        duration: 6000
+                    });
+                }
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     // Stores unsubmitted report into AsyncStorage
@@ -322,7 +382,7 @@ class LocationScreen extends Component {
                                     //     padding: 5
                                     // }}
                                     style={styles.locbtn}
-                                    onPress={() => {
+                                    onPress={async () => {
                                         var pre_report = this.state.pre_report;
                                         if (
                                             this.inGeofence({
@@ -330,6 +390,14 @@ class LocationScreen extends Component {
                                                 lng: this.state.region.longitude
                                             })
                                         ) {
+                                            console.log("In geofence");
+                                            console.log(this._isMounted);
+                                            console.log(
+                                                this.state.region.latitude
+                                            );
+                                            console.log(
+                                                this.state.region.longitude
+                                            );
                                             pre_report.incidentLatitude = this.state.region.latitude;
                                             pre_report.incidentLongitude = this.state.region.longitude;
                                             pre_report.unchangedLocation = false;
@@ -337,6 +405,9 @@ class LocationScreen extends Component {
                                                 this.setState({
                                                     pre_report: pre_report
                                                 });
+                                            await this.storeUnsubReport(
+                                                pre_report
+                                            );
                                             this.props.navigation.navigate(
                                                 "Report"
                                             );

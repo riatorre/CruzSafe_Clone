@@ -21,7 +21,6 @@ import {
 import {
     Container,
     Header,
-    Toast,
     Footer,
     Left,
     Right,
@@ -30,11 +29,7 @@ import {
     Root
 } from "native-base";
 import Swiper from "react-native-swiper";
-import { Permissions, Location, ImagePicker } from "expo";
-
-import SelectableListScene from "./SelectableListScene";
-
-import GeoFencing from "react-native-geo-fencing";
+import { Permissions, ImagePicker } from "expo";
 
 import styles from "../components/styles.js";
 import { textConstants } from "../components/styles.js";
@@ -351,6 +346,8 @@ class ReportScreen extends Component {
 
     async getUnsubReport() {
         var pre_report = JSON.parse(await AsyncStorage.getItem("unsub_report"));
+        console.log("getUnsubReport");
+        console.log(pre_report);
         if (pre_report == null) {
             pre_report = newPre_report;
             this.storeUnsubReport(pre_report);
@@ -413,7 +410,7 @@ class ReportScreen extends Component {
         if (status === "granted") {
             this._isMounted &&
                 this.setState({ hasRecordingPermission: status === "granted" });
-            this.getLocationPermission();
+            //            this.getLocationPermission();
         } else {
             Alert.alert(
                 "Permission denied",
@@ -422,70 +419,12 @@ class ReportScreen extends Component {
                     {
                         text: "OK",
                         onPress: () => {
-                            this.getLocationPermission();
+                            //                            this.getLocationPermission();
                         }
                     }
                 ],
                 { cancelable: false }
             );
-        }
-    }
-
-    async getLocationPermission() {
-        const { Location, Permissions } = Expo;
-        // permissions returns only for location permissions on iOS and under certain conditions, see Permissions.LOCATION
-        const { status, permissions } = await Permissions.askAsync(
-            Permissions.LOCATION
-        );
-        if (status === "granted") {
-            this._isMounted &&
-                this.setState({
-                    hasLocationPermission: status === "granted"
-                });
-            this.getLocation();
-        } else {
-            alert("You need to enable location for this app");
-        }
-    }
-
-    async getLocation() {
-        try {
-            var pre_report = this.state.pre_report;
-            if (pre_report.unchangedLocation && !this.state.isLoading) {
-                const loc = await Location.getCurrentPositionAsync({
-                    enableHighAccuracy: true
-                });
-                // if (await this.inGeofence(loc)) {
-                pre_report.incidentLatitude = loc.coords.latitude;
-                pre_report.incidentLongitude = loc.coords.longitude;
-                this._isMounted &&
-                    this.setState({
-                        pre_report: pre_report
-                    });
-                this.storeUnsubReport(pre_report);
-                /*if (
-                    this.inGeofence({
-                        lat: loc.coords.latitude,
-                        lng: loc.coords.longitude
-                    })
-                ) {
-                    pre_report.incidentLatitude = loc.coords.latitude;
-                    pre_report.incidentLongitude = loc.coords.longitude;
-                    this._isMounted &&
-                        this.setState({
-                            pre_report: pre_report
-                        });
-                    this.storeUnsubReport(pre_report);
-                } else {
-                    Toast.show({
-                        text:
-                            "Your current location is not on campus. Before submitting, please mark the campus location of the incident you wish to report.",
-                        duration: 6000
-                    });
-                }*/
-            }
-        } catch (error) {
-            console.log(error.message);
         }
     }
 
@@ -516,28 +455,6 @@ class ReportScreen extends Component {
             }
         }
         return inside;
-    }
-
-    sendAlert() {
-        Alert.alert(
-            "Current Location",
-            "Are you at the location of the incident?",
-            [
-                {
-                    text: "Yes",
-                    onPress: () => {}
-                },
-                {
-                    text: "No",
-                    onPress: () => {
-                        this.props.navigation.navigate("Location", {
-                            callBack: this.returnFromLocation.bind(this)
-                        });
-                    }
-                }
-            ],
-            { cancelable: false }
-        );
     }
 
     // Stores unsubmitted report into AsyncStorage
@@ -671,11 +588,16 @@ class ReportScreen extends Component {
                     // Successful Call to API
                     .then(response => response.json()) // Parse response into JSON
                     .then(async responseJSON => {
+                        console.log("Got JSON reponse");
+                        console.log(this._isMounted);
                         // Handle data
                         this._isMounted &&
                             this.setState({ submitting: false }, () => {
+                                console.log("Done setting state");
                                 setTimeout(() => {
+                                    console.log("timeout finished");
                                     if (responseJSON.message == null) {
+                                        console.log("No error from db");
                                         // No Errors from DB
                                         Alert.alert(
                                             pre_report.incidentCategory +
@@ -700,7 +622,9 @@ class ReportScreen extends Component {
                                                         this.storeUnsubReport(
                                                             newPre_report
                                                         );
-                                                        this.props.navigation.goBack();
+                                                        this.props.navigation.navigate(
+                                                            "Home"
+                                                        );
                                                     }
                                                 },
                                                 {
@@ -737,6 +661,7 @@ class ReportScreen extends Component {
                                             { cancelable: false }
                                         );
                                     } else {
+                                        console.log("Yes error from db");
                                         // Error from DB
                                         Alert.alert(
                                             "Error",
@@ -788,6 +713,8 @@ class ReportScreen extends Component {
                     pre_report: pre_report,
                     isLoading: false
                 });
+            console.log("ReportScreen.componentDidMount");
+            console.log(pre_report);
             this.getCameraPermission();
         });
         AppState.addEventListener("change", this._handleAppStateChange);
@@ -886,17 +813,6 @@ class ReportScreen extends Component {
                             showsButtons={true}
                             ref={swiper => {
                                 this.swiper = swiper;
-                            }}
-                            onIndexChanged={newPage => {
-                                if (newPage == 3) {
-                                    loc = this.getLocation();
-                                    console.log(loc);
-                                    // If the current location is inside the geofoence, ask.
-                                    if (this.inGeofence(loc)) {
-                                        this.sendAlert();
-                                    }
-                                    // Otherwise force them to select the location.
-                                }
                             }}
                         >
                             <View style={styles.container}>
@@ -1293,7 +1209,6 @@ class ReportScreen extends Component {
                                                     ) === "\n"
                                                 ) {
                                                     this.swiper.scrollBy(1);
-                                                    this.sendAlert();
                                                     Keyboard.dismiss();
                                                 } else {
                                                     var pre_report = this.state
@@ -1489,7 +1404,6 @@ class ReportScreen extends Component {
                                         {image ? (
                                             <TouchableOpacity
                                                 style={styles.reportBtnImg}
-                                                alert={this.sendAlert()}
                                                 onPress={() => {
                                                     this.Media();
                                                 }}
