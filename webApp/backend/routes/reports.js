@@ -20,8 +20,6 @@ const googleMapsClient = require("@google/maps").createClient({
 
 const numDays = 90; // number of days before a report expires
 
-var styliner = require("styliner");
-
 // Define where multer will store the incoming files and how to name them
 let storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -377,7 +375,6 @@ router.post("/incidentID", function(req, res) {
 router.post("/selectTagsByBuilding", function(req, res) {
     // We want to get the facilityID to send to.
     let f_id;
-    var results = {};
 
     googleMapsClient.reverseGeocode(
         {
@@ -447,21 +444,20 @@ router.post("/selectTagsByBuilding", function(req, res) {
                     "))";
                 // SELECT buildingCategory, buildingOperations FROM buildings LEFT JOIN reports ON buildings.buldingKey = reports.buildingKey WHERE reports.reportID = ___
                 const query =
-                    "SELECT buildingCategory, buildingOperations, buildingKey FROM buildings WHERE " +
+                    "SELECT buildingCategory, buildingOperations FROM buildings WHERE buildingKey = (SELECT buildingKey FROM buildings WHERE " +
                     buildingWhereClause1 +
                     " OR " +
                     buildingWhereClause2 +
-                    " LIMIT 1";
+                    " LIMIT 1)";
 
                 connectionPool.handleAPI(
+                    val1.insertId,
                     null,
-                    null,
-                    0,
-                    0,
+                    1,
+                    1,
                     query,
                     valBuilding => {
                         if (f_id == null) {
-                            results.buildingKey = valBuilding[0].buildingKey;
                             // Check buildingCategory as residential (if so, then CHES)
                             if (
                                 valBuilding[0].buildingCategory ==
@@ -480,28 +476,8 @@ router.post("/selectTagsByBuilding", function(req, res) {
                                 }
                             }
                         }
-                        const query2 =
-                            "SELECT * FROM tags WHERE facilityID = " +
-                            f_id +
-                            "OR universalTag = 1";
-                        connectionPool.handleAPI(
-                            null,
-                            null,
-                            0,
-                            0,
-                            query2,
-                            val => {
-                                //--------------------------------------------------------------------------------
-                                // Now we finally have the facilityID. Return the tags.
-                                results.tags = val;
-                                res.json(results);
-                            },
-                            () => {
-                                res.json({
-                                    message: "An Error has Occurred."
-                                });
-                            }
-                        );
+                        //--------------------------------------------------------------------------------
+                        // Now we finally have the facilityID. Return the tags.
                     },
                     () => {
                         res.json({
@@ -831,44 +807,222 @@ function sendReportEmail(maillist, insertId, f_id) {
 const logoAddress =
     "https://memeworld.funnyjunk.com/pictures/Tales_dc5bfc_6260051.jpg";
 function sendReportEmailHelper(maillist, values) {
-    var styliner = new Styliner(__dirname + "/html");
+    var nodemailer = require("nodemailer");
+    var transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.com",
+        auth: {
+            user: "ucsc.cruzsafe@gmail.com",
+            pass: "CMPS_117"
+        }
+    });
 
-    var originalSource = require("fs").readFileSync(
-        "./emailTemplateREMOVEME.html",
-        "utf8"
-    );
+    var mailOptions = {
+        from: "ucsc.cruzsafe@gmail.com",
+        to: maillist,
+        subject:
+            "[CruzSafe] " +
+            values["buildingAbbrev"] +
+            " #" +
+            values["buildingCAAN"] +
+            " - " +
+            values["tagName"],
+        /*text:
+            "This is an automated email forwarding a submitted report that our system" +
+            "has determined to be applicable to your facility. If this is not the case," +
+            "please click here to route the request instead to the other facility.\n\n" +
+            "REPORT CONTENTS:\n\n" +
+            "Name: CruzSafe Report\nEmail: ucsc.cruzsafe@gmail.com\nPhone Number: 555-555-5555\n\n" +
+            "Information:" +
+            JSON.stringify(values),*/
+        html:
+            "<!--HTML template of email; encode and decode the string before working on it, please!-->" +
+            "" +
+            "<head>" +
+            '    <meta charset="utf-8">' +
+            "    <!--Import Stylesheet-->" +
+            "    <!--" +
+            "    <link" +
+            '        href="./email REMOVE ME.css"' +
+            '        type="text/css"' +
+            '        rel="stylesheet"' +
+            "    />" +
+            "    -->" +
+            "    <style>" +
+            "        /*" +
+            "            email.css" +
+            "            Styling for the email" +
+            "            Copy and paste this code from the test email css thing" +
+            "        */" +
+            "        /*" +
+            "            NOTE: primary color: #145d99" +
+            "                  secondary color:  #eaeaea" +
+            "        */" +
+            "" +
+            "        body {" +
+            "            overflow: auto;" +
+            "            background-color: #eaeaea;" +
+            "            padding-top: 1.1em;" +
+            "            padding-bottom: 1.1em;" +
+            "            padding-left: 1.1em;" +
+            "            padding-right: 1.1em;" +
+            "        }" +
+            "        h1 {" +
+            "            color: #145d99;" +
+            "        }" +
+            "        .header {" +
+            "            align-content: center;" +
+            "            justify-content: center;" +
+            "        }" +
+            "        .logoImage {" +
+            "            height: 200px;" +
+            "            width: auto;" +
+            "        }" +
+            "        .initialText {" +
+            "            width: 100%;" +
+            "            border-radius: 0.7em;" +
+            "            grid-area: reportWrapper;" +
+            "            background-color: #145d99;" +
+            "            /*padding-left: 1.8em;" +
+            "            padding-right: 1.8em;*/" +
+            "            overflow: hidden;" +
+            "            color: #eaeaea;" +
+            "            padding: 0.7em;" +
+            "            margin-top: 0.7em;" +
+            "            margin-bottom: 0.7em;" +
+            "        }" +
+            "        .reportContents {" +
+            "            width: 100%;" +
+            "            border-radius: 0.7em;" +
+            "            grid-area: reportWrapper;" +
+            "            background-color: #145d99;" +
+            "            /*padding-left: 1.8em;" +
+            "            padding-right: 1.8em;*/" +
+            "            overflow: hidden;" +
+            "            color: #eaeaea;" +
+            "            padding: 0.7em;" +
+            "            margin-top: 0.7em;" +
+            "            margin-bottom: 0.7em;" +
+            "        }" +
+            "        .title {" +
+            "            font-size: 30px;" +
+            "            color: #145d99;" +
+            "            font-weight: bold;" +
+            "            padding-left: 0.3em;" +
+            "        }" +
+            "        .header {" +
+            "            font-size: 30px;" +
+            "            color: #eaeaea;" +
+            "            font-weight: bold;" +
+            "        }" +
+            "    </style>" +
+            "</head>" +
+            '<body style="overflow: auto;background-color: #eaeaea;padding-top: 1.1em;padding-bottom: 1.1em;padding-left: 1.1em;padding-right: 1.1em;">' +
+            '    <div class="header" style="align-content: center;justify-content: center;font-size: 30px;color: #eaeaea;font-weight: bold;">' +
+            '        <img class="logoImage" src="https://storage.googleapis.com/cruzsafe.appspot.com/CruzSafeMain.png" style="height: 75px;width: auto;"><span class="title top" style="font-size: 30px;color: #145d99;font-weight: bold;padding-left: 0.3em;">New ' +
+            values["facilityName"] +
+            " Report</span>" +
+            "    </div>" +
+            '    <div class="initialText" style="font-size: 15px;width: auto;border-radius: 0.7em;grid-area: reportWrapper;background-color: #145d99;overflow: hidden;color: #eaeaea;padding: 0.7em;margin-top: 0.7em;margin-bottom: 0.7em;">' +
+            "        <p>" +
+            "            This is an automated email forwarding a summitted report that our" +
+            "            system has determined to be applicable to your facility. If this is" +
+            "            not the case, please click here to route the request instead to the" +
+            "            other facility." +
+            "        </p>" +
+            "    </div>" +
+            '    <div class="reportContents" style="font-size: 15px;width: auto;border-radius: 0.7em;grid-area: reportWrapper;background-color: #145d99;overflow: hidden;color: #eaeaea;padding: 1.3em;margin-top: 0.7em;margin-bottom: 0.7em;">' +
+            '        <div><span class="header" style="align-content: center;justify-content: center;font-size: 30px;color: #eaeaea;font-weight: bold;">Report Contents:</span></div>' +
+            "        <br>" +
+            "        <div><b>Name:</b><span> CruzSafe Report</span></div>" +
+            "        <div><b>Email: </b><span style='background-color: #eaeaea !important;'>ucsc.cruzsafe@gmail.com</span></div>" +
+            "        <div><b>Phone Number:</b><span> 555-555-5555</span></div>" +
+            "        <br>" +
+            "        <div><b>Contact's Name:</b><span> " +
+            values["firstName"] +
+            " " +
+            values["lastName"] +
+            "</span></div>" +
+            "        <div><b>Contact's Email: </b><span style='background-color: #eaeaea !important;'>" +
+            values["email"] +
+            "</span></div>" +
+            "        <div><b>Contact's Phone Number:</b><span> " +
+            values["phone"] +
+            "</span></div>" +
+            "        <br>" +
+            "        <div><b>Interior vs Exterior:</b><span> " +
+            values["phone"] +
+            "</span></div>" +
+            "        <div><b>Building: </b><span id='buildingName'>" +
+            values["buildingName"] +
+            "</span> (<span id='buildingFDX'>" +
+            values["buildingFDX"] +
+            "</span>) - #<span id='buildingKey'>" +
+            values["buildingKey"] +
+            "</span></div>\n" +
+            "<div style='padding-left: 20px;'>" +
+            "<div><span id='buildingLocation'>" +
+            values["buildingLocation"] +
+            "</span>, <span id='buildingRegion'>" +
+            values["buildingRegion"] +
+            "</span></div>\n" +
+            "<div><span id='buildingStreet'>" +
+            values["buildingStreet"] +
+            "</span>, <span id='buildingCity'>" +
+            values["buildingCity"] +
+            "</span>, <span id='buildingState'>" +
+            values["buildingState"] +
+            "</span> <span id='buildingZip'>" +
+            values["buildingZip"] +
+            "</span></div>\n" +
+            "<div><span id='buildingCategory'>" +
+            values["buildingCategory"] +
+            "</span> | <span id='buildingPrimaryUse'>" +
+            values["buildingPrimaryUse"] +
+            "</span></div>\n" +
+            "<div><span id='buildingOperations'>" +
+            values["buildingOperations"] +
+            "</span></div>\n" +
+            "</div>" +
+            "        <div><b>Special Entry Requirements:</b><span> " +
+            values["phone"] +
+            "</span></div>" +
+            "        <br>" +
+            "        <div><b>Location Details:</b><span> " +
+            values["location"] +
+            "</span></div>" +
+            "        <br>" +
+            "        <div><b>Request Type:</b><span> " +
+            values["tagName"] +
+            "</span></div>" +
+            "        <div><b>Description of Work Requested:</b><span> " +
+            values["body"] +
+            "</span></div>" +
+            "</div>" +
+            '<div class="reportContents" style="font-size: 15px;width: auto;border-radius: 0.7em;grid-area: reportWrapper;background-color: #145d99;overflow: hidden;color: #eaeaea;padding: 1.3em;margin-top: 0.7em;margin-bottom: 0.7em;">' +
+            '        <div><span class="header" style="align-content: center;justify-content: center;font-size: 30px;color: #eaeaea;font-weight: bold;">System Data:</span></div>' +
+            "        <br>" +
+            "        <div><b>Report Time Stamp:</b><span> " +
+            values["reportTS"] +
+            "</span></div>" +
+            "        <br>" +
+            "        <div><span>Additional details and user statistics can be found in the CruzSafe web application: https://cruzsafe.appspot.com/reports.html. If you do not have access to the application, please request access here. If you have any questions regarding this email, please contact us.</span></div>" +
+            "       </div>" +
+            "        <div>" +
+            "           <b>Full System Data: </b>" +
+            "            <span>" +
+            JSON.stringify(values) +
+            "            </span>" +
+            "        </div>" +
+            "</body>"
+    };
 
-    styliner.processHTML(originalSource).then(function(processedSource) {
-        var nodemailer = require("nodemailer");
-        var transporter = nodemailer.createTransport({
-            service: "gmail",
-            host: "smtp.gmail.com",
-            auth: {
-                user: "ucsc.cruzsafe@gmail.com",
-                pass: "CMPS_117"
-            }
-        });
-
-        var mailOptions = {
-            from: "ucsc.cruzsafe@gmail.com",
-            to: maillist,
-            subject:
-                "[CruzSafe] New Report - " +
-                values["buildingAbbrev"] +
-                " #" +
-                values["buildingCAAN"] +
-                " - " +
-                values["tagName"],
-            html: processedSource
-        };
-
-        transporter.sendMail(mailOptions, function(error, info) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log("Email sent: " + info.response);
-            }
-        });
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("Email sent: " + info.response);
+        }
     });
 }
 
@@ -1319,8 +1473,7 @@ Date.prototype.toMysqlFormat = function() {
 };
 
 router.post("/submitFeedback", (req, res) => {
-    var query = "";
-    var error = false;
+    let query = "";
     if (req.body.mobileID != null) {
         query =
             "INSERT INTO feedback (mobileID, feedbackEntry) VALUES (" +
@@ -1337,23 +1490,20 @@ router.post("/submitFeedback", (req, res) => {
             ")";
     } else {
         res.json({ message: "An Error has Occurred." });
-        error = true;
     }
-    if (!error) {
-        connectionPool.handleAPI(
-            null,
-            req.body.feedback,
-            0,
-            1,
-            query,
-            val => {
-                res.json(val);
-            },
-            () => {
-                res.json({ message: "An Error has Occurred." });
-            }
-        );
-    }
+    connectionPool.handleAPI(
+        null,
+        req.body.feedback,
+        0,
+        1,
+        query,
+        val => {
+            res.json(val);
+        },
+        () => {
+            res.json({ message: "An Error has Occurred." });
+        }
+    );
 });
 
 module.exports = router;
