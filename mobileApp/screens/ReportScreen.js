@@ -456,7 +456,14 @@ class ReportScreen extends Component {
                     enableHighAccuracy: true
                 });
                 // if (await this.inGeofence(loc)) {
-                if (
+                pre_report.incidentLatitude = loc.coords.latitude;
+                pre_report.incidentLongitude = loc.coords.longitude;
+                this._isMounted &&
+                    this.setState({
+                        pre_report: pre_report
+                    });
+                this.storeUnsubReport(pre_report);
+                /*if (
                     this.inGeofence({
                         lat: loc.coords.latitude,
                         lng: loc.coords.longitude
@@ -475,7 +482,7 @@ class ReportScreen extends Component {
                             "Your current location is not on campus. Before submitting, please mark the campus location of the incident you wish to report.",
                         duration: 6000
                     });
-                }
+                }*/
             }
         } catch (error) {
             console.log(error.message);
@@ -884,9 +891,11 @@ class ReportScreen extends Component {
                                 if (newPage == 3) {
                                     loc = this.getLocation();
                                     console.log(loc);
+                                    // If the current location is inside the geofoence, ask.
                                     if (this.inGeofence(loc)) {
                                         this.sendAlert();
                                     }
+                                    // Otherwise force them to select the location.
                                 }
                             }}
                         >
