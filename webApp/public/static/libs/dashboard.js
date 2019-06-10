@@ -330,6 +330,7 @@ function renderReportsOverviewFacilities(reports) {
             var assignedReports = []; // Keeping track of what reports to skip over
             // Create a dictionary of key:value = facilityID:facilityObject
             assignments.forEach(function(assignment) {
+                assignedReports.push(assignment["reportID"]);
                 const facilityID = assignment["facilityID"];
                 if (!(facilityID in facilityDict)) {
                     var newFacility = {
