@@ -17,7 +17,7 @@
         "nodemailer": "^6.1.1",
         "nodemailer-smtp-transport": "^2.7.4",
         "passport": "^0.4.0",
-        "passport-saml": "^1.0.0",
+        "passport-saml": "^3.2.2",
         "styliner": "^1.0.4"
     },
     "devDependencies": {
